@@ -17,8 +17,8 @@ Generator.prototype.generateLayout = function( level ) {
 }
 
 Generator.prototype.addRoom = function( level ) {
-	var width = 5;
-	var height = 5;
+	var width = level.width;
+	var height = level.height;
 	for( var y = 0; y < height; y++ ) {
 		for( var x = 0; x < width; x++ ) {
 			level.tiles[y*level.width+x] = { type: Level.Types.Floor, image: level.tileset.getRandomFloor(), objects:[] };
