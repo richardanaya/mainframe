@@ -1,9 +1,8 @@
 var TestScene = function(game){
     this.game = game;
-    this.level = this.game.GetLevel(1000);
     this.player = new Player();
-    this.level.addObjectTo(0,0,this.player);
-    this.level.addObjectTo(5,5,new Robot());
+    this.currentHeight = 1000
+    this.loadLevel(this.currentHeight)
     this.mode = "play";
     this.infoText = [];
     this.time = 0;
@@ -12,6 +11,24 @@ var TestScene = function(game){
 };
 
 TestScene.prototype = Object.create(Scene.prototype);
+
+TestScene.prototype.loadLevel = function(height){
+    this.player.stopAutoMove();
+    this.level = this.game.GetLevel(height);
+    this.level.addObjectTo(5,5,new Robot());
+    var upElevator = new UpElevator();
+    this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),upElevator);
+    var downElevator = new DownElevator();
+    this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),downElevator);
+    if(height<=this.currentHeight){
+        this.level.addObjectTo(upElevator.x,upElevator.y,this.player);
+    }
+    else {
+        this.level.addObjectTo(downElevator.x,downElevator.y,this.player);
+    }
+    this.level.scene = this;
+    this.currentHeight = height;
+};
 
 TestScene.prototype.update = function(delta){
     this.time += delta;
@@ -24,6 +41,11 @@ TestScene.prototype.update = function(delta){
             }
         }
     }
+
+    this.ctx.font = "20px Arial";
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText(this.currentHeight,this.width-80, 30);
+
 
     if(this.mode == "dialog"){
 
@@ -38,7 +60,9 @@ TestScene.prototype.update = function(delta){
 TestScene.prototype.processAllMoves = function(){
     var moves = [];
     for(var i = 0 ; i < this.level.allObjects.length; i++){
-        moves = moves.concat(this.level.allObjects[i].think());
+        if(this.level.allObjects[i].thinks){
+            moves = moves.concat(this.level.allObjects[i].think());
+        }
     }
     var _this = this;
 
@@ -83,9 +107,11 @@ TestScene.prototype.onTouchDown = function(x,y){
     if(this.mode == "play"){
         var moveToX = x/this.size ;
         var moveToY = y/this.size ;
-        this.player.autoMoveTo(Math.floor(moveToX),Math.floor(moveToY));
-        this.player.autoMove();
-        this.processAllMoves();
+        if(this.level.isPointWithin(moveToX,moveToY)){
+            this.player.autoMoveTo(Math.floor(moveToX),Math.floor(moveToY));
+            this.player.autoMove();
+            this.processAllMoves();
+        }
     }
     else if(this.mode == "dialog"){
         this.mode = "play";
