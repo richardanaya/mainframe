@@ -8,9 +8,6 @@ var TestScene = function(game){
 TestScene.prototype = Object.create(Scene.prototype);
 
 TestScene.prototype.update = function(delta){
-    this.ctx.fillText(this.width+" "+this.height,50,50);
-    this.ctx.fillStyle = "red";
-    this.ctx.fillRect(this.width-50,this.height-50,50,50);
     for(var x = 0; x < this.level.width; x++){
         for(var y = 0; y < this.level.width; y++){
             var t = this.level.tiles[this.level.width*y+x];
