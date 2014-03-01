@@ -4,15 +4,12 @@ var Level = function() {
     this.width = 10;
     this.height = 10;
     this.allObjects = [];
-    for(var x = 0; x < this.width; x++){
-        for(var y = 0; y < this.height; y++){
-            this.tiles[y*this.width+x] = {type: Level.Types.Floor, image: Resources.images.grass, objects:[]};
-        }
-    }
 }
 
 Level.Types = {
-    Floor : 0
+    Floor : 0,
+	Wall : 1,
+	Connector: 2
 };
 
 Level.prototype.getTileAt = function(x,y) {

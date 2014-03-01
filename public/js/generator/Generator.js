@@ -7,27 +7,30 @@ Generator.prototype.generateLevel = function(width,height,tileset) {
 	result.width = width;
 	result.height = height;
 
-	var room = {
-		width: Utilities.randRangeInt( 4, 11 ),
-		height: Utilities.randRangeInt( 4, 11 ),
-		upperLeft: { x:10, y:10 }
-	}
-
+	// generate floors
+	var room = Room.createRoom( {x: Utilities.randRangeInt( 0, width), y: Utilities.randRangeInt( 0, height )}
+							   , Utilities.randRangeInt(3,10) // width
+							   , Utilities.randRangeInt(3,10) // height
+							   , Utilities.randRangeInt( 0, 4 ) // number of connectors
+							   , result
+							  );
 	this.addRoom( room, result );
 	
 	return result;
 }
 
 Generator.prototype.addRoom = function( room, level ) {
-	for( var y = 0; y < room.height; y++ ) {
-		for( var x = 0; x < room.width; x++ ) {
-			var index = (y+room.upperLeft.y)*level.width+(x+room.upperLeft.x);
-			if( y == 0 || y == room.height-1 || x == 0 || x == room.width-1 ) {
-				level.tiles[index] = { type: Level.Types.Wall, image: level.tileset.walls.encaps.north[0], objects:[] };
-			}
-			else {
-				level.tiles[index] = { type: Level.Types.Floor, image: level.tileset.getRandomFloor(), objects:[] };
-			}
+	for( var key = 0; key < room.tiles.length; ++key ) {
+		var tile = room.tiles[key];
+		if( tile != null && tile != undefined ) {
+			level.tiles[tile.index] = { type: tile.type, image: level.tileset.floors[0], objects: [] };
+		}
+	}
+
+	for( var key = 0; key < room.connectors.length; ++key ) {
+		var connector = room.connectors[key];
+		if( connector != null && connector != undefined ) {
+			level.tiles[connector.index] = { type: Level.Types.Connector, image: level.tileset.doors.north[0], objects: [] };
 		}
 	}
 }
