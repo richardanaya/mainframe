@@ -6,7 +6,7 @@ var Pickup = function(attacker,obj){
 Pickup.prototype = Object.create(Action.prototype);
 
 Pickup.prototype.process = function(complete){
-    if(!this.isObjectStillInPlay(this.obj)){ return; }
+    if(!this.isObjectStillInPlay(this.obj)){ complete();return; }
     this.obj.level.removeObject(this.obj);
     this.obj.level.scene.showInfoText("You picked up "+this.obj.name);
     complete();

@@ -87,8 +87,8 @@ TestScene.prototype.processAllMoves = function(){
     var process = function(i){
         if(i>= moves.length){
             //When done
-            _this.listOptions();
-            if(_this.player.autoMove()){
+            var options_changed = _this.listOptions();
+            if(_this.player.autoMove() && !options_changed){
                 setTimeout(function(){
                     _this.processAllMoves();
                 },100);
@@ -102,9 +102,11 @@ TestScene.prototype.processAllMoves = function(){
 
 
 TestScene.prototype.listOptions = function(){
+    var options_changed = false;
     var pickup_targets = this.level.getObjectsByTypeOnTile(this.player.x,this.player.y,"item");
     if(pickup_targets.length>0){
         this.showInfoText("You are standing on something");
+        if(this.pickup_target != pickup_targets[0]){ options_changed = true;}
         this.pickup_target = pickup_targets[0];
         this.showPickupButton();
     }
@@ -115,6 +117,7 @@ TestScene.prototype.listOptions = function(){
     var attack_targets = this.level.getNeighborObjectsByType(this.player.x,this.player.y,"monster");
     if(attack_targets.length>0){
         this.showInfoText("There's a monster nearby you can attack");
+        if(this.attack_target != attack_targets[0]){ options_changed = true;}
         this.attack_target = attack_targets[0];
         this.showAttackButton();
     }
@@ -122,6 +125,7 @@ TestScene.prototype.listOptions = function(){
         this.hideAttackButton();
         this.attack_target = null;
     }
+    return options_changed;
 }
 
 
