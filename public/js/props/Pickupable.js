@@ -21,6 +21,12 @@ Pickupable.Items = {
     }
 }
 
+Pickupable.prototype.onPickup = function(o){
+    if(this.read_on_pickup){
+        this.level.scene.showDialog(this.description);
+    }
+}
+
 Pickupable.load = function(name){
     var p = new Pickupable();
     p.name = Pickupable.Items[name].name;

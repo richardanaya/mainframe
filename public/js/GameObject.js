@@ -6,3 +6,7 @@ var GameObject = function() {
 GameObject.prototype.onObjectEnter = function(){
 
 }
+
+GameObject.prototype.onPickup = function(){
+
+}
