@@ -5,9 +5,10 @@ var Orientation = {
 	West: { pos: { x:-1, y:0 } }
 };
 
-var Connector = function() {
-	this.position = { x:0, y:0 };
-	this.orientation = Orientation.North;
+var Connector = function( pos, orient ) {
+	this.position = pos;
+	this.orientation = orient;
+	this.index = 0;
 }
 
 var Room = function() {
@@ -34,23 +35,23 @@ Room.createRoom = function( startPos, width, height, numConnectors, level ) {
 		}
 	}
 
-	var perimeter = width*2+height*2;
+	var perimeter = (width-1)*2+(height-1)*2;
 	for( var c = 0; c < numConnectors; ++c ) {
-		var selected = Utilities.randRange( 0, perimeter );
+		var selected = Utilities.randRangeInt( 0, perimeter );
 		if( selected < width ) { //top
-			result.connectors[c] = { x: selected, y:0 };
+			result.connectors[c] = new Connector( { x: selected+startPos.x, y:startPos.y }, Orientation.North );
 		}
 		else if( selected < width+height ) { //right side
-			result.connectors[c] = { x: width, y:selected-width };
+			result.connectors[c] = new Connector( { x: startPos.x+width-1, y:startPos.y+selected-width }, Orientation.East );
 		}
 		else if( selected < width*2+height ) { //bottom
-			result.connectors[c] = { x: (selected-height)%width, y: height-1 };
+			result.connectors[c] = new Connector( { x: (selected-height)%width+startPos.x, y: startPos.y+height-1 }, Orientation.South );
 		}
 		else { //left side
-			result.connectors[c] = { x: 0, y: selected%width }
+			result.connectors[c] = new Connector( { x: startPos.x, y: startPos.y+selected%width }, Orientation.West );
 		}
 
-		result.connectors[c].index = result.connectors[c].y*level.width+result.connectors[c].x;
+		result.connectors[c].index = (result.connectors[c].position.y)*level.width+(result.connectors[c].position.x)
 	}	
 
 	return result;
