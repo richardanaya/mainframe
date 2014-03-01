@@ -15,7 +15,11 @@ Mainframe.prototype.update = function(){
     this.currentScene.ctx = this.ctx;
     this.ctx.clearRect(0,0,this.currentWidth,this.currentHeight);
     this.ctx.save();
-    this.currentScene.update();
+
+    this.ctx.imageSmoothingEnabled = false;
+    this.ctx.webkitImageSmoothingEnabled = false;
+    this.ctx.mozImageSmoothingEnabled = false;
+    this.currentScene.update(1/60);
     this.ctx.restore();
 };
 
@@ -37,8 +41,8 @@ Mainframe.prototype.onMouseDown = function(e){
 
 
 Mainframe.prototype.start = function(){
-    Resources.addImage("grass","images/grass.png");
-    Resources.addImage("player","images/player.png");
+    Resources.addImage("grass","images/tst_tile.png");
+    Resources.addImage("player","images/street_samurai.png");
     Resources.addImage("robot","images/robot.png");
 
     var _this = this;

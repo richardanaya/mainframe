@@ -1,7 +1,7 @@
 var Level = function() {
     this.tiles = [];
-    this.width = 30;
-    this.height = 30;
+    this.width = 10;
+    this.height = 10;
     this.allObjects = [];
     for(var x = 0; x < this.width; x++){
         for(var y = 0; y < this.height; y++){
