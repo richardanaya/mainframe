@@ -15,6 +15,7 @@ TestScene.prototype = Object.create(Scene.prototype);
 TestScene.prototype.loadLevel = function(height){
     this.player.stopAutoMove();
     this.level = this.game.GetLevel(height);
+	/*
     this.level.addObjectTo(5,5,new Robot());
     var upElevator = new UpElevator();
     this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),upElevator);
@@ -26,6 +27,7 @@ TestScene.prototype.loadLevel = function(height){
     else {
         this.level.addObjectTo(downElevator.x,downElevator.y,this.player);
     }
+    */
     this.level.scene = this;
     this.currentHeight = height;
 };
