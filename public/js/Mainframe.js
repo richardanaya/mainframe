@@ -33,6 +33,7 @@ Mainframe.prototype.onKeyDown = function(key){
 Mainframe.prototype.start = function(){
     Resources.addImage("grass","images/grass.png");
     Resources.addImage("player","images/player.png");
+    Resources.addImage("robot","images/robot.png");
 
     var _this = this;
     this.ctx = $('#screen').get(0).getContext('2d');

@@ -3,6 +3,7 @@ var TestScene = function(game){
     this.level = this.game.GetLevel(1000);
     this.player = new Player();
     this.level.addObjectTo(0,0,this.player);
+    this.level.addObjectTo(20,20,new Robot());
 };
 
 TestScene.prototype = Object.create(Scene.prototype);
@@ -19,6 +20,16 @@ TestScene.prototype.update = function(delta){
     }
 };
 
+TestScene.prototype.processAllMoves = function(){
+    var moves = [];
+    for(var i = 0 ; i < this.level.allObjects.length; i++){
+        moves = moves.concat(this.level.allObjects[i].think());
+    }
+    for(var i = 0 ; i < moves.length ; i++){
+        moves[i].process();
+    }
+}
+
 TestScene.prototype.onKeyDown = function(key){
     if(key == 37){
         this.player.moveLeft();
@@ -32,4 +43,5 @@ TestScene.prototype.onKeyDown = function(key){
     else if(key == 40){
         this.player.moveDown();
     }
+    this.processAllMoves();
 };

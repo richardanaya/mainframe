@@ -2,6 +2,7 @@ var Level = function() {
     this.tiles = [];
     this.width = 30;
     this.height = 30;
+    this.allObjects = [];
     for(var x = 0; x < this.width; x++){
         for(var y = 0; y < this.height; y++){
             this.tiles[y*this.width+x] = {type: Level.Types.Floor, image: Resources.images.grass, objects:[]};
@@ -22,6 +23,7 @@ Level.prototype.addObjectTo = function(x,y,o) {
     o.level = this;
     o.x = x;
     o.y = y;
+    this.allObjects.push(o);
 };
 
 Level.prototype.isPointWithin = function(x,y) {
@@ -41,6 +43,16 @@ Level.prototype.removeFrom = function(x,y,o) {
 
     if (i > -1) {
         t.objects.splice(i, 1);
+    }
+    else {
+        console.log("trying to remove object that doesn't exist");
+    }
+
+
+    i = this.allObjects.indexOf(o);
+
+    if (i > -1) {
+        this.allObjects.splice(i, 1);
     }
     else {
         console.log("trying to remove object that doesn't exist");
