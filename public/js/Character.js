@@ -1,28 +1,27 @@
 var Character = function(){
     this.moves = [];
+    this.tags = [];
 }
 
 Character.prototype.moveLeft = function(){
-    if(this.level.isPointWithin(this.x-1,this.y)){
-        this.moves.push(new Move(this.x-1,this.y,this));
-    }
+    this.move(this.x-1,this.y);
 }
 
 Character.prototype.moveUp = function(){
-    if(this.level.isPointWithin(this.x,this.y-1)){
-        this.moves.push(new Move(this.x,this.y-1,this));
-    }
+    this.move(this.x,this.y-1);
 }
 
 Character.prototype.moveRight = function(){
-    if(this.level.isPointWithin(this.x+1,this.y)){
-        this.moves.push(new Move(this.x+1,this.y,this));
-    }
+    this.move(this.x+1,this.y);
 }
 
 Character.prototype.moveDown = function(){
-    if(this.level.isPointWithin(this.x,this.y+1)){
-        this.moves.push(new Move(this.x,this.y+1,this));
+    this.move(this.x,this.y+1);
+}
+
+Character.prototype.move = function(x,y){
+    if(this.level.isPointWithin(x,y)){
+        this.moves.push(new Move(x,y,this));
     }
 }
 

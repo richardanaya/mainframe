@@ -6,3 +6,15 @@ var Player = function(){
 };
 
 Player.prototype = Object.create(Character.prototype);
+
+Player.prototype.move = function(x,y){
+    if(this.level.isPointWithin(x,y)){
+        var monsters = this.level.getObjectsByTypeOnTile(x,y,"monster");
+        if(monsters.length > 0){
+            this.moves.push(new Attack(this,monsters[0]));
+        }
+        else {
+            this.moves.push(new Move(x,y,this));
+        }
+    }
+}

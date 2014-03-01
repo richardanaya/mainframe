@@ -3,6 +3,7 @@ var Robot = function(){
     this.x = 0;
     this.y = 0;
     this.image = Resources.images.robot;
+    this.tags = ["monster"];
 };
 
 Robot.prototype = Object.create(Character.prototype);
