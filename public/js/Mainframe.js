@@ -10,7 +10,6 @@ Mainframe.prototype.resize = function(){
 };
 
 Mainframe.prototype.update = function(){
-    console.log(this.currentWidth+" "+this.currentHeight);
     this.currentScene.width = this.currentWidth;
     this.currentScene.height = this.currentHeight;
     this.currentScene.ctx = this.ctx;
@@ -20,7 +19,21 @@ Mainframe.prototype.update = function(){
     this.ctx.restore();
 };
 
+Mainframe.prototype.GetLevel = function(height){
+    return new Level();
+};
+
+Mainframe.prototype.onKeyDown = function(key){
+    if(this.currentScene){
+        this.currentScene.onKeyDown(key);
+    }
+};
+
+
 Mainframe.prototype.start = function(){
+    Resources.addImage("grass","images/grass.png");
+    Resources.addImage("player","images/player.png");
+
     var _this = this;
     this.ctx = $('#screen').get(0).getContext('2d');
     $(window).resize(function(){_this.resize();});
@@ -34,10 +47,13 @@ Mainframe.prototype.start = function(){
             };
     })();
 
-    this.currentScene = new TestScene();
+    this.currentScene = new TestScene(this);
+    this.currentScene.game = this;
 
     (function animloop(){
         requestAnimFrame(animloop);
         _this.update();
     })();
+
+    $(document).keydown(function(e){_this.onKeyDown(e.keyCode);});
 };
