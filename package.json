@@ -1,0 +1,29 @@
+{
+<<<<<<< HEAD
+	"name":"mainframe",
+=======
+	"name":"cleanstack-nodejs",
+>>>>>>> 79c529568971bc307fa8f3d0ed7e034ebc08e505
+	"version":"0.0.1",
+	"dependencies":{
+		"express":"2.5.x"
+	},
+	"scripts":{
+		"start":"server.js"
+<<<<<<< HEAD
+	},
+    "name": "Psychotic Mainframe",
+    "main": "public/index.html",
+    "window": {
+    "title": "Psychotic Mainframe",
+    "toolbar": true,
+    "frame": true,
+    "width": 800,
+    "height": 600,
+    "position": "center",
+    "resizable": false
+    }
+=======
+	}
+>>>>>>> 79c529568971bc307fa8f3d0ed7e034ebc08e505
+}
