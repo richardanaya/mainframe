@@ -29,6 +29,12 @@ Mainframe.prototype.onKeyDown = function(key){
     }
 };
 
+Mainframe.prototype.onMouseDown = function(e){
+    if(this.currentScene){
+        this.currentScene.onTouchDown(e.offsetX, e.offsetY);
+    }
+};
+
 
 Mainframe.prototype.start = function(){
     Resources.addImage("grass","images/grass.png");
@@ -57,4 +63,5 @@ Mainframe.prototype.start = function(){
     })();
 
     $(document).keydown(function(e){_this.onKeyDown(e.keyCode);});
+    $('#screen').mousedown(function(e){_this.onMouseDown(e);});
 };

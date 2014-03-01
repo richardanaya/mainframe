@@ -28,6 +28,13 @@ TestScene.prototype.processAllMoves = function(){
     for(var i = 0 ; i < moves.length ; i++){
         moves[i].process();
     }
+    if(this.player.autoMove()){
+        var _this = this;
+        setTimeout(function(){
+            _this.processAllMoves();
+        },100);
+
+    }
 }
 
 TestScene.prototype.onKeyDown = function(key){
@@ -45,3 +52,12 @@ TestScene.prototype.onKeyDown = function(key){
     }
     this.processAllMoves();
 };
+
+
+TestScene.prototype.onTouchDown = function(x,y){
+    var moveToX = x/16;
+    var moveToY = y/16;
+    this.player.autoMoveTo(Math.floor(moveToX),Math.floor(moveToY));
+    this.player.autoMove();
+    this.processAllMoves();
+}
