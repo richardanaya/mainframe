@@ -1,31 +1,32 @@
-var Generator = function(){
+var Generator = function() {
 }
 
-Generator.prototype.randRange = function( min, max ) {
-	return Math.floor( Math.random() * ( max - min + 1 ) + min );
+Generator.prototype.generateLevel = function(width,height,tileset) {
+	var result = new Level();
+	result.tileset = tileset;
+	result.width = width;
+	result.height = height;
+
+	for( var y = 0; y < height; y++ ) {
+		for( var x = 0; x < width; x++ ) {
+			result.tiles[y*result.width+x] = { type: Level.Types.Floor, image: result.tileset.getRandomFloor(), objects:[] };
+		}
+	}
+
+	return result;
 }
 
-Generator.prototype.generateRoom = function( minx, maxx, miny, maxy ) {
-	var room = new Room();
-	switch( this.randRange( 0, 4 ) {
-		default:
-		case 0: { // box room
-			room = this.generateBoxRoom( this.randRange( minx, maxx ), this.randRange( miny, maxy ) );
+Generator.prototype.generateLayout = function( level ) {
+	this.addRoom( level );
+}
+
+Generator.prototype.addRoom = function( level ) {
+	var width = Utilities.randRangeInt( 5, 10 );
+	var height = Utilities.randRangeInt( 5, 10 );
+	for( var y = 0; y < height; y++ ) {
+		for( var x = 0; x < width; x++ ) {
 		}
-		break;
-		case 1: { // L shaped room
-			room = this.generateLRoom( this.randRange( minx, maxx ), this.randRange( miny, maxy ) );
-		}
-		break;
-		case 2: { // T shaped room
-			room = this.generateTRoom( this.randRange( minx, maxx ), this.randRange( miny, maxy ) );
-		}
-		break;
-		case 3: { // + Shaped room
-			room = this.generateCrossRoom( this.randRange( minx, maxx ), this.randRange( miny, maxy ) );
-		}
-		break;
 	}
 }
 
-
+var generator = new Generator();

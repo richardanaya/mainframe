@@ -24,7 +24,7 @@ Mainframe.prototype.update = function(){
 };
 
 Mainframe.prototype.GetLevel = function(height){
-    return new Level();
+    return generator.generateLevel( 25, 25, Tileset.createOfficeTileset() );
 };
 
 Mainframe.prototype.onKeyDown = function(key){

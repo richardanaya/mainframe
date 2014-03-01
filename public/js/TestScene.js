@@ -18,10 +18,14 @@ TestScene.prototype.update = function(delta){
     for(var x = 0; x < this.level.width; x++){
         for(var y = 0; y < this.level.width; y++){
             var t = this.level.tiles[this.level.width*y+x];
-            this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
-            for(var i = 0 ; i < t.objects.length; i++){
-                this.ctx.drawImage(t.objects[i].image,x*this.size ,y*this.size,this.size ,this.size  );
-            }
+			if( t != null && t != undefined ) {
+				if( t.image != null && t.image != undefined ) {
+            		this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
+				}
+				for(var i = 0 ; i < t.objects.length; i++){
+                	this.ctx.drawImage(t.objects[i].image,x*this.size ,y*this.size,this.size ,this.size  );
+            	}
+			}
         }
     }
 

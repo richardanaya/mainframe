@@ -1,4 +1,5 @@
 var Level = function() {
+	this.tileset = null;
     this.tiles = [];
     this.width = 10;
     this.height = 10;
