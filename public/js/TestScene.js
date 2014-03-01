@@ -44,6 +44,7 @@ TestScene.prototype.update = function(delta){
             var t = this.level.tiles[this.level.width*y+x];
             this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
             for(var i = 0 ; i < t.objects.length; i++){
+                t.objects[i].update(delta);
                 this.ctx.drawImage(t.objects[i].image,x*this.size ,y*this.size,this.size ,this.size  );
             }
         }

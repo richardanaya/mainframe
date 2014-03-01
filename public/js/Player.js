@@ -3,6 +3,9 @@ var Player = function(){
     this.x = 0;
     this.y = 0;
     this.image = Resources.images.player;
+    this.image_idle_0 = Resources.images.player_idle_0;
+    this.image_idle_1 = Resources.images.player_idle_1;
+    this.image = Resources.images.player;
     this.isAutoMoving = false;
     this.tags = ["solid","player"];
 };

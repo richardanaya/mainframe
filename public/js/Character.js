@@ -34,3 +34,17 @@ Character.prototype.think = function(){
     this.moves = [];
     return moves;
 }
+
+Character.prototype.update = function(delta){
+    this.time += delta;
+
+    if(this.image_idle_0 && this.image_idle_1){
+        var t = this.level.scene.time%1.5;
+        if(t < .75){
+            this.image = this.image_idle_0;
+        }
+        else {
+            this.image = this.image_idle_1;
+        }
+    }
+}

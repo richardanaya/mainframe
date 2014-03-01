@@ -10,3 +10,8 @@ GameObject.prototype.onObjectEnter = function(){
 GameObject.prototype.onPickup = function(){
 
 }
+
+GameObject.prototype.update = function(delta){
+
+}
+
