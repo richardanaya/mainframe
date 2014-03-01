@@ -8,5 +8,6 @@ Attack.prototype = Object.create(Action.prototype);
 Attack.prototype.process = function(complete){
     if(!this.isObjectStillInPlay(this.defender)){ return; }
     this.defender.level.removeObject(this.defender);
+    this.defender.level.scene.showInfoText("You killed "+this.defender.name);
     complete();
 };

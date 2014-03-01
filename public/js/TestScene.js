@@ -1,12 +1,13 @@
 var TestScene = function(game){
     this.game = game;
+    this.infoText = [];
+    this.time = 0;
     this.player = new Player();
     this.currentHeight = 1000
     this.loadLevel(this.currentHeight)
     this.mode = "play";
-    this.infoText = [];
-    this.time = 0;
-    //this.showDialog("There's a robot! quick, kill it!");
+    this.showDialog("There's a robot! quick, kill it!");
+    this.showInfoText("You awake");
     this.size = 64;
 };
 
@@ -22,9 +23,11 @@ TestScene.prototype.loadLevel = function(height){
     this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),downElevator);
     if(height<=this.currentHeight){
         this.level.addObjectTo(upElevator.x,upElevator.y,this.player);
+        this.showInfoText("You moved down")
     }
     else {
         this.level.addObjectTo(downElevator.x,downElevator.y,this.player);
+        this.showInfoText("You moved up")
     }
     this.level.scene = this;
     this.currentHeight = height;
@@ -46,14 +49,12 @@ TestScene.prototype.update = function(delta){
     this.ctx.fillStyle = "white";
     this.ctx.fillText(this.currentHeight,this.width-80, 30);
 
+    for(var i = 0 ; i < this.infoText.length ; i++){
+        this.ctx.fillText(this.infoText[i].text,10, this.height-30*i-15);
+    }
 
     if(this.mode == "dialog"){
-
-        this.ctx.fillStyle = "black";
-        this.ctx.fillRect(0,0,200,100);
-
-        this.ctx.fillStyle = "red";
-        this.ctx.fillText(this.dialogText,20,20);
+        this.dialog.render();
     }
 };
 
@@ -120,9 +121,14 @@ TestScene.prototype.onTouchDown = function(x,y){
 
 TestScene.prototype.showDialog = function(text){
     this.mode = "dialog";
-    this.dialogText = text;
+    this.dialog = new Dialog(text);
+    this.dialog.show();
+    this.dialog.scene = this;
 }
 
 TestScene.prototype.showInfoText = function(text){
     this.infoText.push({text:text,time:this.time});
+    if(this.infoText.length > 3){
+        this.infoText.splice(0,1);
+    }
 }

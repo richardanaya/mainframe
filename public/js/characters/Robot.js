@@ -4,6 +4,7 @@ var Robot = function(){
     this.y = 0;
     this.image = Resources.images.robot;
     this.tags = ["monster"];
+    this.name = "Robot";
 };
 
 Robot.prototype = Object.create(Character.prototype);
