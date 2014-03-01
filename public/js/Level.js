@@ -64,6 +64,10 @@ Level.prototype.removeFrom = function(x,y,o) {
     }
 };
 
+Level.prototype.getObjectsAt = function(x,y){
+    return this.getTileAt(x,y).objects;
+}
+
 Level.prototype.getObjectsByTypeOnTile = function(x,y,type){
     var t = this.getTileAt(x,y);
     var o = [];

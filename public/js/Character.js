@@ -1,7 +1,11 @@
 var Character = function(){
+    GameObject.call(this);
     this.moves = [];
     this.tags = [];
+    this.thinks = true;
 }
+
+Character.prototype = Object.create(GameObject.prototype);
 
 Character.prototype.moveLeft = function(){
     this.move(this.x-1,this.y);

@@ -20,6 +20,10 @@ Player.prototype.move = function(x,y){
     }
 }
 
+Player.prototype.stopAutoMove = function(){
+    this.isAutoMoving = false;
+}
+
 Player.prototype.autoMove = function(){
     if(this.isAutoMoving){
         var xOffset = (this.autoMoveX-this.x);
