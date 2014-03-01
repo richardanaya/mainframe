@@ -1,5 +1,23 @@
 <html>
+<head>
+    <script src = "lib/jquery.js"></script>
+    <script src = "js/Scene.js"></script>
+    <script src = "js/TestScene.js"></script>
+    <script src = "js/Mainframe.js"></script>
+    <style>
+        html, body {
+            margin: 0px;
+            padding: 0px;
+            background: #303030;
+            overflow: hidden;
+        }
+    </style>
+</head>
 <body>
-Mainframe Loves You!
+<canvas id="screen"></canvas>
 </body>
+<script>
+    var mainframe = new Mainframe();
+    mainframe.start();
+</script>
 </html>
