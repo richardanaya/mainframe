@@ -7,7 +7,7 @@ var TestScene = function(game){
     this.mode = "play";
     this.infoText = [];
     this.time = 0;
-    this.showDialog("There's a robot! quick, kill it!");
+    //this.showDialog("There's a robot! quick, kill it!");
     this.size = 64;
 };
 
@@ -40,16 +40,21 @@ TestScene.prototype.processAllMoves = function(){
     for(var i = 0 ; i < this.level.allObjects.length; i++){
         moves = moves.concat(this.level.allObjects[i].think());
     }
-    for(var i = 0 ; i < moves.length ; i++){
-        moves[i].process();
-    }
-    if(this.player.autoMove()){
-        var _this = this;
-        setTimeout(function(){
-            _this.processAllMoves();
-        },100);
+    var _this = this;
 
+    var i = 0;
+    var process = function(i){
+        if(i>= moves.length){
+            if(_this.player.autoMove()){
+                setTimeout(function(){
+                    _this.processAllMoves();
+                },100);
+            }
+            return;
+        }
+        moves[i].process(function(){process(i+1);});
     }
+    process(0);
 }
 
 TestScene.prototype.onKeyDown = function(key){

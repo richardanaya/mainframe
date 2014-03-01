@@ -28,12 +28,14 @@ Player.prototype.autoMove = function(){
         if(yOffset != 0){ yOffset /= Math.abs(this.autoMoveY-this.y);}
 
         if(xOffset==0&&yOffset==0){
+            this.isAutoMoving = false;
             return false;
         }
         this.move(this.x+xOffset,this.y+yOffset);
 
         return true;
     }
+    this.isAutoMoving = false;
     return false;
 };
 

@@ -5,7 +5,8 @@ var Attack = function(attacker,defender){
 
 Attack.prototype = Object.create(Action.prototype);
 
-Attack.prototype.process = function(){
+Attack.prototype.process = function(complete){
     if(!this.isObjectStillInPlay(this.defender)){ return; }
     this.defender.level.removeObject(this.defender);
+    complete();
 };

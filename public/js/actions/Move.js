@@ -6,7 +6,8 @@ var Move = function(x,y,obj){
 
 Move.prototype = Object.create(Action.prototype);
 
-Move.prototype.process = function(){
+Move.prototype.process = function(complete){
     if(!this.isObjectStillInPlay(this.obj)){ return; }
     this.obj.level.moveTo(this.x,this.y,this.obj);
+    complete();
 };
