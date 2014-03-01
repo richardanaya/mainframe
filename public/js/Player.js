@@ -4,6 +4,7 @@ var Player = function(){
     this.y = 0;
     this.image = Resources.images.player;
     this.isAutoMoving = false;
+    this.tags = ["solid","player"];
 };
 
 Player.prototype = Object.create(Character.prototype);
@@ -18,6 +19,14 @@ Player.prototype.move = function(x,y){
             this.moves.push(new Move(x,y,this));
         }
     }
+}
+
+Player.prototype.attack = function(o){
+    this.moves.push(new Attack(this,o));
+}
+
+Player.prototype.pickup = function(o){
+    this.moves.push(new Pickup(this,o));
 }
 
 Player.prototype.stopAutoMove = function(){

@@ -29,6 +29,10 @@ TestScene.prototype.loadLevel = function(height){
         this.level.addObjectTo(downElevator.x,downElevator.y,this.player);
         this.showInfoText("You moved up")
     }
+    if(height == 1000){
+        var item = Pickupable.load("lab_note")
+        this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),item);
+    }
     this.level.scene = this;
     this.currentHeight = height;
 };
@@ -43,6 +47,18 @@ TestScene.prototype.update = function(delta){
                 this.ctx.drawImage(t.objects[i].image,x*this.size ,y*this.size,this.size ,this.size  );
             }
         }
+    }
+
+    if(this.showPickup){
+        this.ctx.fillStyle = "black";
+        this.ctx.fillRect(this.width-50,100,50,50);
+        this.ctx.drawImage(this.pickup_target.image,this.width-50,100,50,50)
+    }
+
+    if(this.showAttack){
+        this.ctx.fillStyle = "red";
+        this.ctx.fillRect(this.width-50,160,50,50);
+        this.ctx.drawImage(this.attack_target.image,this.width-50,160,50,50)
     }
 
     this.ctx.font = "20px Arial";
@@ -70,6 +86,8 @@ TestScene.prototype.processAllMoves = function(){
     var i = 0;
     var process = function(i){
         if(i>= moves.length){
+            //When done
+            _this.listOptions();
             if(_this.player.autoMove()){
                 setTimeout(function(){
                     _this.processAllMoves();
@@ -80,6 +98,47 @@ TestScene.prototype.processAllMoves = function(){
         moves[i].process(function(){process(i+1);});
     }
     process(0);
+}
+
+
+TestScene.prototype.listOptions = function(){
+    var pickup_targets = this.level.getObjectsByTypeOnTile(this.player.x,this.player.y,"item");
+    if(pickup_targets.length>0){
+        this.showInfoText("You are standing on something");
+        this.pickup_target = pickup_targets[0];
+        this.showPickupButton();
+    }
+    else {
+        this.hidePickupButton();
+        this.pickup_target = null;
+    }
+    var attack_targets = this.level.getNeighborObjectsByType(this.player.x,this.player.y,"monster");
+    if(attack_targets.length>0){
+        this.showInfoText("There's a monster nearby you can attack");
+        this.attack_target = attack_targets[0];
+        this.showAttackButton();
+    }
+    else {
+        this.hideAttackButton();
+        this.attack_target = null;
+    }
+}
+
+
+TestScene.prototype.showPickupButton = function(){
+    this.showPickup = true;
+}
+
+TestScene.prototype.hidePickupButton = function(){
+    this.showPickup = false;
+}
+
+TestScene.prototype.showAttackButton = function(){
+    this.showAttack = true;
+}
+
+TestScene.prototype.hideAttackButton = function(){
+    this.showAttack = false;
 }
 
 TestScene.prototype.onKeyDown = function(key){
@@ -112,6 +171,22 @@ TestScene.prototype.onTouchDown = function(x,y){
             this.player.autoMoveTo(Math.floor(moveToX),Math.floor(moveToY));
             this.player.autoMove();
             this.processAllMoves();
+        }
+
+        if(this.showPickup){
+            if(x>=this.width-50&&x<this.width&&y>=100&&y<150){
+                this.player.pickup(this.pickup_target);
+                this.processAllMoves();
+                return;
+            }
+        }
+
+        if(this.showAttack){
+            if(x>=this.width-50&&x<this.width&&y>=160&&y<210){
+                this.player.attack(this.attack_target);
+                this.processAllMoves();
+                return;
+            }
         }
     }
     else if(this.mode == "dialog"){

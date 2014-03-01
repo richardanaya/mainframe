@@ -46,6 +46,7 @@ Mainframe.prototype.start = function(){
     Resources.addImage("robot","images/robot.png");
     Resources.addImage("elevator","images/elevator.png");
     Resources.addImage("up_elevator","images/up_elevator.png");
+    Resources.addImage("lab_note","images/lab_note.png");
 
     var _this = this;
     this.ctx = $('#screen').get(0).getContext('2d');
