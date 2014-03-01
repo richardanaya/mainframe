@@ -3,6 +3,7 @@ var Character = function(){
     this.moves = [];
     this.tags = [];
     this.thinks = true;
+    this.flipped = 0;
 }
 
 Character.prototype = Object.create(GameObject.prototype);
@@ -26,6 +27,12 @@ Character.prototype.moveDown = function(){
 Character.prototype.move = function(x,y){
     if(this.level.isPointWithin(x,y)){
         this.moves.push(new Move(x,y,this));
+        if(x<this.x){
+            this.flipped = true;
+        }
+        else {
+            this.flipped = false;
+        }
     }
 }
 

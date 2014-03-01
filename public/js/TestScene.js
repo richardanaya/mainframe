@@ -16,7 +16,7 @@ TestScene.prototype = Object.create(Scene.prototype);
 TestScene.prototype.loadLevel = function(height){
     this.player.stopAutoMove();
     this.level = this.game.GetLevel(height);
-    this.level.addObjectTo(5,5,new Robot());
+    this.level.addObjectTo(0,0,new Robot());
     var upElevator = new UpElevator();
     this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),upElevator);
     var downElevator = new DownElevator();
@@ -44,8 +44,19 @@ TestScene.prototype.update = function(delta){
             var t = this.level.tiles[this.level.width*y+x];
             this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
             for(var i = 0 ; i < t.objects.length; i++){
-                t.objects[i].update(delta);
-                this.ctx.drawImage(t.objects[i].image,x*this.size ,y*this.size,this.size ,this.size  );
+                var o = t.objects[i];
+                o.update(delta);
+                this.ctx.save();
+                if(o.flipped){
+                    this.ctx.translate(this.size* o.x+this.size,this.size* o.y);
+                    this.ctx.scale(-this.size,this.size);
+                }
+                else {
+                    this.ctx.translate(this.size* o.x,this.size* o.y);
+                    this.ctx.scale(this.size,this.size);
+                }
+                this.ctx.drawImage(o.image,0,0,1,1);
+                this.ctx.restore();
             }
         }
     }

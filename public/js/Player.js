@@ -21,6 +21,12 @@ Player.prototype.move = function(x,y){
         else {
             this.moves.push(new Move(x,y,this));
         }
+        if(x<this.x){
+            this.flipped = true;
+        }
+        else {
+            this.flipped = false;
+        }
     }
 }
 
