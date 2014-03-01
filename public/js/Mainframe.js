@@ -43,9 +43,12 @@ Mainframe.prototype.onMouseDown = function(e){
 Mainframe.prototype.start = function(){
     Resources.addImage("grass","images/tst_tile.png");
     Resources.addImage("player","images/street_samurai.png");
+    Resources.addImage("player_idle_0","images/street_samurai.png");
+    Resources.addImage("player_idle_1","images/street_samurai_2.png");
     Resources.addImage("robot","images/robot.png");
     Resources.addImage("elevator","images/elevator.png");
     Resources.addImage("up_elevator","images/up_elevator.png");
+    Resources.addImage("lab_note","images/lab_note.png");
 
     var _this = this;
     this.ctx = $('#screen').get(0).getContext('2d');

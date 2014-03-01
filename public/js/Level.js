@@ -16,6 +16,59 @@ Level.prototype.getTileAt = function(x,y) {
     return this.tiles[y*this.width+x];
 };
 
+Level.prototype.getNeighborTiles = function(x,y) {
+    var t = [];
+    if(this.isPointWithin(x-1,y-1)){
+        t.push(this.getTileAt(x-1,y-1));
+    }
+    if(this.isPointWithin(x,y-1)){
+        t.push(this.getTileAt(x,y-1));
+    }
+    if(this.isPointWithin(x+1,y-1)){
+        t.push(this.getTileAt(x+1,y-1));
+    }
+    if(this.isPointWithin(x+1,y)){
+        t.push(this.getTileAt(x+1,y));
+    }
+    if(this.isPointWithin(x+1,y+1)){
+        t.push(this.getTileAt(x+1,y+1));
+    }
+    if(this.isPointWithin(x,y+1)){
+        t.push(this.getTileAt(x,y+1));
+    }
+    if(this.isPointWithin(x-1,y+1)){
+        t.push(this.getTileAt(x-1,y+1));
+    }
+    if(this.isPointWithin(x-1,y)){
+        t.push(this.getTileAt(x-1,y));
+    }
+    return t;
+};
+
+Level.prototype.getNeighborTileObjects = function(x,y) {
+    var o = [];
+    var t = this.getNearbyTiles(x,y);
+    for(var i = 0 ; i < t.length; i++){
+        o = o.concat(t.objects);
+    }
+    return o;
+};
+
+Level.prototype.getNeighborObjectsByType = function(x,y,type){
+    var o = [];
+    var ts = this.getNeighborTiles(x,y);
+    for(var j = 0 ; j < ts.length; j++){
+        var t = ts[j];
+        for(var i = 0 ; i < t.objects.length; i++){
+            if(t.objects[i].tags.indexOf(type)!=-1){
+                o.push(t.objects[i]);
+            }
+        }
+    }
+
+    return o;
+}
+
 Level.prototype.addObjectTo = function(x,y,o) {
     this.getTileAt(x,y).objects.push(o);
     o.level = this;

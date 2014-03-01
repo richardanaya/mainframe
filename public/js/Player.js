@@ -3,7 +3,11 @@ var Player = function(){
     this.x = 0;
     this.y = 0;
     this.image = Resources.images.player;
+    this.image_idle_0 = Resources.images.player_idle_0;
+    this.image_idle_1 = Resources.images.player_idle_1;
+    this.image = Resources.images.player;
     this.isAutoMoving = false;
+    this.tags = ["solid","player"];
 };
 
 Player.prototype = Object.create(Character.prototype);
@@ -17,7 +21,21 @@ Player.prototype.move = function(x,y){
         else {
             this.moves.push(new Move(x,y,this));
         }
+        if(x<this.x){
+            this.flipped = true;
+        }
+        else {
+            this.flipped = false;
+        }
     }
+}
+
+Player.prototype.attack = function(o){
+    this.moves.push(new Attack(this,o));
+}
+
+Player.prototype.pickup = function(o){
+    this.moves.push(new Pickup(this,o));
 }
 
 Player.prototype.stopAutoMove = function(){

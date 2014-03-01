@@ -3,7 +3,6 @@ var UpElevator = function(){
     this.y = 0;
     this.image = Resources.images.up_elevator;
     this.tags = ["elevator"];
-    this.direction = "down";
 }
 
 
