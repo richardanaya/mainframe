@@ -55,9 +55,12 @@ Generator.prototype.generateNeighbors = function( room, level ) {
 			this.generateNeighbors( nextRoom, level );
 		}
 		else {
+			/*
 			level.tiles[connector.index] = { type: Level.Types.Floor, image: level.tileset.floors[1], objects: [] };
 			var nextTile = (connector.position.y+connector.orientation.pos.y)*level.width+(connector.position.x+connector.orientation.pos.x);
 			level.tiles[nextTile]= { type: Level.Types.Floor, image: level.tileset.floors[2], objects: [] };
+			*/
+			level.tiles[connector.index] = null;
 		}
 	}
 }

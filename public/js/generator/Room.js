@@ -30,6 +30,10 @@ Room.createRoom = function( startPos, width, height, from, numConnectors, level 
 		}
 	}
 
+	if( from != null ) {
+		console.log( startPos.x + "," + startPos.y + JSON.stringify( from )	);
+	}
+
 	for( var roomIndex = 0; roomIndex < numConnectors; ++roomIndex ) {
 		var randWidth = Utilities.randRangeInt(1,result.width-2); 
 		var randHeight = Utilities.randRangeInt(1,result.height-2);
