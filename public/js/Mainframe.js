@@ -46,6 +46,7 @@ Mainframe.prototype.GetLevel = function(height){
             level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(i));
 
         }
+        level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),new Robot());
 
 
 

@@ -22,6 +22,30 @@ InventoryDialog.prototype.show = function(){
         b.image = this.scene.player.inventory[i].image;
         this.buttons.push(b);
     }
+    this.mode = "normal";
+}
+
+InventoryDialog.prototype.select = function(type,onselect){
+    this.onselect = onselect;
+    this.selectType = type;
+    this.width = window.innerWidth*3/4;
+    this.height = window.innerHeight*3/4;
+    this.sx = (this.scene.width-this.width)/2;
+    this.sy = (this.scene.height-this.height)/2;
+    this.visible = true;
+    this.buttons = [];
+    for(var i = 0 ; i < this.scene.player.inventory.length; i++){
+        var w = 5;
+        var x = i%5;
+        var y = Math.floor(i/5);
+        var b = new Button(this.scene, this.sx+10+x*110, this.sy+10+y*110, "transparent");
+        if(this.scene.player.inventory[i].tags.indexOf(type)!=-1){
+            b.background = "yellow";
+        }
+        b.image = this.scene.player.inventory[i].image;
+        this.buttons.push(b);
+    }
+    this.mode = "select"
 }
 
 
@@ -106,8 +130,8 @@ InventoryDialog.prototype.onTap = function(x,y){
         for(var i = 0 ; i < this.actionButtons.length; i++){
             var b = this.actionButtons[i];
             if(b.isWithin(x,y)){
-                this.actingInventory.onAction(this.actions[i]);
                 this.mode = "normal"
+                this.actingInventory.onAction(this.actions[i]);
                 return;
             }
         }
@@ -126,6 +150,10 @@ InventoryDialog.prototype.onTap = function(x,y){
 }
 
 InventoryDialog.prototype.onInventoryTouch = function(i,but){
+    if(this.mode == "select"){
+        this.onselect(i);
+        return;
+    }
     this.actingInventory = i;
     this.actions = i.actions;
     this.actionButtons = [];

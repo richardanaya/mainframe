@@ -22,6 +22,12 @@ Pickupable.prototype.onAction = function(action){
         this.level.scene.player.removeInventory(this);
         this.level.scene.showDialog("mmm, interesting",this.image);
     }
+    if(action == "use"){
+        this.level.scene.inventoryDialog.select("drink", function(i){
+            alert(i.name)
+            this.level.scene.inventoryDialog.hide();
+        });
+    }
     if(action == "equip"){
         if(this.equipped){
             this.equipped = false;
@@ -55,24 +61,28 @@ Pickupable.Items = {
     "juice_0" : {
         name: "Juice",
         image : "potion_1",
+        tags: ["drink"],
         actions: ["drink"],
         description: "A juice"
     },
     "juice_1" : {
         name: "Juice",
         image : "potion_2",
+        tags: ["drink"],
         actions: ["drink"],
         description: "A juice"
     },
     "juice_2" : {
         name: "Juice",
         image : "potion_3",
+        tags: ["drink"],
         actions: ["drink"],
         description: "A juice"
     },
     "juice_3" : {
         name: "Juice",
         image : "potion_4",
+        tags: ["drink"],
         actions: ["drink"],
         description: "A juice"
     },
@@ -85,31 +95,31 @@ Pickupable.Items = {
     "data_chip_0" : {
         name: "Data Chip",
         image : "scroll_0",
-        actions: ["datachip"],
+        actions: ["use"],
         description: "scroll_0"
     },
     "data_chip_1" : {
         name: "Data Chip",
         image : "scroll_1",
-        actions: ["datachip"],
+        actions: ["use"],
         description: "A data chip"
     },
     "data_chip_2" : {
         name: "Data Chip",
         image : "scroll_2",
-        actions: ["datachip"],
+        actions: ["use"],
         description: "A data chip"
     },
     "data_chip_3" : {
         name: "Data Chip",
         image : "scroll_3",
-        actions: ["datachip"],
+        actions: ["use"],
         description: "A data chip"
     },
     "data_chip_4" : {
         name: "Data Chip",
         image : "scroll_4",
-        actions: ["datachip"],
+        actions: ["use"],
         description: "A data chip"
     }
 }

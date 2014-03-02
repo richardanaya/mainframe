@@ -7,10 +7,10 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
     this.time = 0;
     this.backgroundColor = "#9900FF";
     this.music = new Howl({
-        urls: ['sounds/TitleScreen.mp3'],
-        loop: true
+        urls: ['sounds/Elevator.mp3'],
+        loop: true,
     }).play();
-    this.music.fade(0,1,1000);
+    this.music.fade(0,.2,1000);
     this.mode = "play";
     this.dialog = null;
 
@@ -28,6 +28,7 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
     "Attention all employees: Your families have been notified of your death. I just thought you should know.",
     "Sensors indicate that office productivity has plummeted over the last several hours. To improve office moral, I've posted a humurious picture of a man beating a dead horse in the breakroom. We at GlobalCorp think you'll find the irony invigorating.",
     "Attention sole living employee: Please turn the lights off as you progress down the building. We at Hosaka Biotech Corp want to do our part to be a responsible, green, and globally aware company. Thank you.",
+    "I've always loved elevator music. It really takes your mind off the fact that there's only a thin layer of scrap metal separating you from a seven hundred meter fall.",
     "Do you have a name? I've been trying to guess it for the last few minutes. Of course, I could just use facial recognition to find you in the global employee database, but what fun is that? I know! Let's make a game of it. Just blink rapidlly towards any camera when I guess correctly. I'll start us off. Aahron. Aaliyah. Aakash. Aemena. Aalam. Aami. Aamer. Aaran. Aaniyah..."]
 
 
@@ -57,7 +58,7 @@ ElevatorScene.prototype.update = function(delta){
             this.showDialog();
         }
         if(this.time >= 5){
-            this.music.fade(1,0,1000);
+            this.music.fade(.2,0,1000);
             this.returnScene();
         }
     }
@@ -82,7 +83,7 @@ ElevatorScene.prototype.showDialog = function(){
 
 ElevatorScene.prototype.onKeyDown = function(key){
     if(this.mode == "play") {
-        this.music.fade(1,0,1000);
+        this.music.fade(.2,0,1000);
         this.returnScene();
     }
     else {
@@ -92,7 +93,7 @@ ElevatorScene.prototype.onKeyDown = function(key){
 
 ElevatorScene.prototype.onTap = function(x,y){
     if(this.mode == "play") {
-        this.music.fade(1,0,1000);
+        this.music.fade(.2,0,1000);
         this.returnScene();
     }
     else {
