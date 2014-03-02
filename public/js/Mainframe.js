@@ -63,7 +63,7 @@ Mainframe.prototype.start = function(){
             };
     })();
 
-    this.currentScene = new TestScene(this);
+    this.currentScene = new StartScene(this);
     this.currentScene.game = this;
 
     (function animloop(){
