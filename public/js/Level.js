@@ -9,7 +9,7 @@ var Level = function() {
 Level.Types = {
     Floor : 0,
 	Wall : 1,
-	Connector: 2,
+	Door: 2,
     Debug: 3
 };
 
@@ -48,6 +48,36 @@ Level.prototype.getNeighborTiles = function(x,y) {
 
 Level.prototype.getNeighborsByType = function(x,y,type) {
     var neighbors = this.getNeighborTiles(x,y);
+    var result = [];
+    for( var i = 0; i < neighbors.length; i++ ) {
+        var tile = neighbors[i];
+        if( tile != null && tile != undefined && tile.type == type ) {
+            result.push( tile );
+        }
+    }
+
+    return result;
+}
+
+Level.prototype.getCardinalNeighbors = function(x,y) {
+    var t = [];
+    if(this.isPointWithin(x,y-1)){
+        t.push(this.getTileAt(x,y-1));
+    }
+    if(this.isPointWithin(x+1,y)){
+        t.push(this.getTileAt(x+1,y));
+    }
+    if(this.isPointWithin(x,y+1)){
+        t.push(this.getTileAt(x,y+1));
+    }
+    if(this.isPointWithin(x-1,y)){
+        t.push(this.getTileAt(x-1,y));
+    }
+    return t;
+}
+
+Level.prototype.getCardinalNeighborsByType = function(x,y,type ) {
+    var neighbors = this.getCardinalNeighbors(x,y);
     var result = [];
     for( var i = 0; i < neighbors.length; i++ ) {
         var tile = neighbors[i];
