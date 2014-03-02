@@ -1,6 +1,8 @@
 var StartScene = function(game){
     this.game = game;
     this.time = 0;
+    this.backgroundColor = "#9900FF";
+
 
 };
 
@@ -13,8 +15,43 @@ StartScene.prototype.update = function(delta){
     //this.ctx
     //this.ctx.drawImage(Resources.images.lab_note)
 
-    this.ctx.fillStyle = "red";
-    this.ctx.fillRect(0,0,50,50);
+    //background
+    this.ctx.fillStyle = "#6600CC";
+    this.ctx.fillRect(0,0,this.width,this.height);
+
+    //upperleft triangle
+    this.ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    this.ctx.beginPath();
+    this.ctx.moveTo(0,0);
+    this.ctx.lineTo(0,this.height);
+    this.ctx.lineTo(this.width,0);
+    this.ctx.fill();
+
+    for (i=0;i<60;i++)
+    {
+       this.ctx.lineWidth = 1 - .05*i;
+       this.ctx.beginPath();
+       this.ctx.moveTo(0,0);
+       this.ctx.lineTo(i * (.1 * this.width) * ((this.time + 3)* .15),this.height);
+       this.ctx.stroke();
+    }
+
+    for (i=0;i<60;i++)
+    {
+       this.ctx.lineWidth = 1;
+       this.ctx.beginPath();
+       this.ctx.moveTo(0,this.height + (this.height * .25));
+       this.ctx.lineTo(i * (.1 * this.width) * ((this.time + 3)* .15), 0);
+       this.ctx.stroke();
+    }
+
+    //middle box
+    this.ctx.fillStyle = "#6699FF";
+    this.ctx.fillRect(this.width/4,this.height/4,this.width/2,this.height/2);
+
+    this.ctx.fillStyle = "black";
+    this.ctx.font = "bold 32px Gothic";
+    this.ctx.fillText("Mainframe <3s You", this.width/2 - (this.width * .2), this.height/2);
 
 };
 
