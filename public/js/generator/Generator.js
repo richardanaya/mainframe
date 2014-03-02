@@ -104,13 +104,17 @@ Generator.prototype.canPlaceRoom = function( room, level ) {
 Generator.prototype.buildWalls = function( level ) {
 	for( var y = 0; y < level.height; y++ ) {
 		for( var x = 0; x < level.width; x++ ) {
-			if( level.getTileAt( x, y ) == null ) {
+			var tile = level.getTileAt( x, y );
+			if( tile == null ) {
 				var isWall = false;
 				var floorNeighbors = level.getNeighborsByType(x,y,Level.Types.Floor);
 				isWall = floorNeighbors.length > 0;
 				if( isWall ) {
 					level.tiles[ Utilities.positionToIndex(x,y,level.width) ] = this.createTile( Level.Types.Wall, level.tileset.props[0], x, y );
 				}
+			}
+			else if( y == 0 || y == level.height-1 || x == 0 || x == level.width-1 ) {
+				tile.type = Level.Types.Wall;
 			}
 		}
 	}
