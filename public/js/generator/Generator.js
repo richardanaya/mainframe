@@ -152,7 +152,12 @@ Generator.prototype.processWall = function( tile, x, y, level ) {
 			tile.image = level.tileset.walls.straights.vertical[0];
 		}
 		else {
-			tile.image = level.tileset.walls.corners.northwest[0];
+			switch( Utilities.getCornerType( tile, adjWalls[0], adjWalls[1] ) ) {
+				case 'NorthEast': 		tile.image = level.tileset.walls.corners.northeast[0]; break;
+				case 'NorthWest': 		tile.image = level.tileset.walls.corners.northwest[0]; break;
+				case 'SouthEast': 		tile.image = level.tileset.walls.corners.southeast[0]; break;
+				case 'SouthWest': 		tile.image = level.tileset.walls.corners.southwest[0]; break;
+			}
 		}
 	}
 	else if( adjWalls.length == 3 ) {

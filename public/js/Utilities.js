@@ -53,3 +53,26 @@ Utilities.isHorizontal = function( from, to ) {
 Utilities.isVertical = function( from, to ) {
 	return ( from.x == to.x && from.y != to.y );
 }
+
+Utilities.getCornerType = function( center, first, second ) {
+	if( center.y < first.y || center.y < second.y ) {
+		//north!
+		if( center.x < first.x || center.x < second.x ) {
+			return "NorthWest";
+		}
+		else {
+			return "NorthEast";
+		}
+	}
+	else {
+		//south!
+		if( center.x < first.x || center.x < second.x ) {
+			return "SouthEast";
+		}
+		else {
+			return "SouthWest";
+		}
+	}
+
+	return "Unknown";
+}
