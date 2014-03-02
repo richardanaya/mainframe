@@ -26,6 +26,30 @@ this.ctx.restore();
 };
 
 Mainframe.prototype.GetLevel = function(height){
+    if(height == 1000){
+        var level = new Level();
+        var width = 10;
+        var height = 10;
+        level.width = width;
+        level.height = height;
+        level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
+        level.tileset = Tileset.createOfficeTileset();
+
+        for(var x = 1; x< width-1; x++ ){
+            for(var y = 1; y< height-1; y++ ){
+                level.tiles[ Utilities.positionToIndex(x,y,level.width) ] = generator.createTile( Level.Types.Floor, level.tileset.floors[0], x, y );
+            }
+        }
+
+        level.addObjectTo(8,1,new DownElevator());
+
+
+        generator.buildWalls( level );
+        generator.setupContextualTiles( level );
+
+        return level;
+    }
+
     return generator.generateLevel( 100, 100, Tileset.createOfficeTileset() );
 };
 
