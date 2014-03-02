@@ -46,12 +46,27 @@ Utilities.getDirection = function( from, to ) {
 	return Orientation.Center;
 }
 
+Utilities.getInverseDirection = function( from, to ) {
+	switch( this.getDirection( from, to ) ) {
+		case Orientation.North: return Orientation.South;
+		case Orientation.South: return Orientation.North;
+		case Orientation.East: return Orientation.West;
+		case Orientation.West: return Orientation.East;
+	}
+
+	return Orientation.Center;
+}
+
 Utilities.isHorizontal = function( from, to ) {
 	return ( from.x != to.x && from.y == to.y );
 }
 
 Utilities.isVertical = function( from, to ) {
 	return ( from.x == to.x && from.y != to.y );
+}
+
+Utilities.isStraight = function( from, to ) {
+	return this.isHorizontal( from, to ) || this.isVertical( from, to );
 }
 
 Utilities.getCornerType = function( center, first, second ) {
@@ -75,4 +90,18 @@ Utilities.getCornerType = function( center, first, second ) {
 	}
 
 	return "Unknown";
+}
+
+
+
+Utilities.getTJoinType = function( center, first, second, third ) {
+	if( this.isStraight( first, second ) ) {
+		return this.getDirection( center, third );
+	}
+	else if( this.isStraight( first, third ) ) {
+		return this.getDirection( center, second );
+	}
+	else if( this.isStraight( second, third ) ) {
+		return this.getDirection( center, first );
+	}
 }

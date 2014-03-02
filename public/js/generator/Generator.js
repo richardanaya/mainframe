@@ -161,8 +161,12 @@ Generator.prototype.processWall = function( tile, x, y, level ) {
 		}
 	}
 	else if( adjWalls.length == 3 ) {
-		// tjoin
-		tile.image = level.tileset.walls.tjoins.north[0];
+		switch( Utilities.getTJoinType( tile, adjWalls[0], adjWalls[1], adjWalls[2] ) ) {
+			case Orientation.North: 	tile.image = level.tileset.walls.tjoins.north[0]; break;
+			case Orientation.South: 	tile.image = level.tileset.walls.tjoins.south[0]; break;
+			case Orientation.East: 		tile.image = level.tileset.walls.tjoins.east[0]; break;
+			case Orientation.West: 		tile.image = level.tileset.walls.tjoins.west[0]; break;
+			}
 	}
 	else {
 		// cross
