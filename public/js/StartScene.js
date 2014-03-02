@@ -27,23 +27,25 @@ StartScene.prototype.update = function(delta){
     {
        this.ctx.lineWidth = 1;
        this.ctx.beginPath();
-       this.ctx.moveTo(this.width + (1.8 * this.width) - (100 * i), this.height);
-       this.ctx.lineTo((0.4 * this.width) - (125 * i), 0);
+       this.ctx.moveTo(this.width + (1.8 * this.width) - (300 * i), this.height);
+       this.ctx.lineTo((0.4 * this.width) - (300 * i), 0);
        this.ctx.stroke();
     }
 
-    this.ctx.lineWidth = 10;
+    
+    this.ctx.lineWidth = 20;
     this.ctx.globalAlpha = .2;
     this.ctx.strokeStyle = "#109486";
     for (i=0;i<55;i++)
     {
        this.ctx.beginPath();
-       this.ctx.moveTo(this.width + (1.8 * this.width) - (100 * i), this.height);
-       this.ctx.lineTo((0.4 * this.width) - (125 * i), 0);
+       this.ctx.moveTo(this.width + (1.8 * this.width) - (300 * i), this.height);
+       this.ctx.lineTo((0.4 * this.width) - (300 * i), 0);
        this.ctx.stroke();
     }
 
     this.ctx.globalAlpha = 1;
+    
     
 
 
@@ -52,23 +54,25 @@ StartScene.prototype.update = function(delta){
     {
        this.ctx.lineWidth = 1;
        this.ctx.beginPath();
-       this.ctx.moveTo((-0.5 * this.width) + (100 * i) - (this.time * 200), this.height);
-       this.ctx.lineTo((-0.2 * this.width) + (100 * i) - (this.time * 200), 0);
+       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - (this.time * 200), this.height);
+       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - (this.time * 200), 0);
        this.ctx.stroke();
     }
 
-    this.ctx.lineWidth = 10;
+    
+    this.ctx.lineWidth = 20;
     this.ctx.globalAlpha = .2;
     this.ctx.strokeStyle = "#109486";
     for (i=0;i<55;i++)
     {
        this.ctx.beginPath();
-       this.ctx.moveTo((-0.5 * this.width) + (100 * i) - (this.time * 200), this.height);
-       this.ctx.lineTo((-0.2 * this.width) + (100 * i) - (this.time * 200), 0);
+       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - (this.time * 200), this.height);
+       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - (this.time * 200), 0);
        this.ctx.stroke();
     }
 
     this.ctx.globalAlpha = 1;
+    
 
 
     var grd=this.ctx.createLinearGradient(0,0,0,170);
