@@ -8,20 +8,22 @@ Generator.prototype.generateLevel = function( width, height ) {
 	level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
 	level.tileset = Tileset.createOfficeTileset();
 
-	var room = this.createRoom( level.center, level, Utilities.randRangeInt( 1, 4 ) );
+	var halfWidth = Utilities.randRangeInt( 2, 5 );
+	var halfHeight = Utilities.randRangeInt( 2, 5 );
+	var room = this.createRoom( level.center.x-halfWidth, level.center.y-halfHeight, halfWidth, halfHeight, level, Utilities.randRangeInt( 1, 4 ) );
 	return level;
 }
 
-Generator.prototype.createRoom = function( center, level, numconnectors ) {
+Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, level, numconnectors ) {
 	var room = { 
-		halfWidth: Utilities.randRangeInt( 2, 5 ),
-		halfHeight: Utilities.randRangeInt( 2, 5 ),
+		halfWidth: halfWidth,
+		halfHeight: halfHeight,
+		width: halfWidth*2,
+		height: halfHeight*2,
+		x: left,
+		y: top,
+		center: { x: left+halfWidth, y: top+halfHeight }
 	};
-
-	room.x = center.x - room.halfWidth;
-	room.y = center.y - room.halfHeight;
-	room.width = room.halfWidth*2;
-	room.height = room.halfHeight*2;
 
 	if( this.canPlaceRoom( room, level ) )
 	{
@@ -51,7 +53,7 @@ Generator.prototype.createRoom = function( center, level, numconnectors ) {
 				level.tiles[ connector.doorPos.index ] = this.createTile( Level.Types.Floor, level.tileset.floors[1] );
 
 				// create adjoining room
-				//
+				
 			}
 		}
 	}
