@@ -46,6 +46,19 @@ Level.prototype.getNeighborTiles = function(x,y) {
     return t;
 };
 
+Level.prototype.getNeighborsByType = function(x,y,type) {
+    var neighbors = this.getNeighborTiles(x,y);
+    var result = [];
+    for( var i = 0; i < neighbors.length; i++ ) {
+        var tile = neighbors[i];
+        if( tile != null && tile != undefined && tile.type == type ) {
+            result.push( tile );
+        }
+    }
+
+    return result;
+}
+
 Level.prototype.getNeighborTileObjects = function(x,y) {
     var o = [];
     var t = this.getNearbyTiles(x,y);
