@@ -32,8 +32,6 @@ StartScene.prototype.update = function(delta){
        this.ctx.stroke();
     }
 
-    /*
-    //double thickerline shaddow
     this.ctx.lineWidth = 10;
     this.ctx.globalAlpha = .2;
     this.ctx.strokeStyle = "#109486";
@@ -46,7 +44,8 @@ StartScene.prototype.update = function(delta){
     }
 
     this.ctx.globalAlpha = 1;
-    */
+    
+
 
     this.ctx.strokeStyle = "#15dbc4";
     for (i=0;i<55;i++)
@@ -57,6 +56,19 @@ StartScene.prototype.update = function(delta){
        this.ctx.lineTo((-0.2 * this.width) + (100 * i) - (this.time * 200), 0);
        this.ctx.stroke();
     }
+
+    this.ctx.lineWidth = 10;
+    this.ctx.globalAlpha = .2;
+    this.ctx.strokeStyle = "#109486";
+    for (i=0;i<55;i++)
+    {
+       this.ctx.beginPath();
+       this.ctx.moveTo((-0.5 * this.width) + (100 * i) - (this.time * 200), this.height);
+       this.ctx.lineTo((-0.2 * this.width) + (100 * i) - (this.time * 200), 0);
+       this.ctx.stroke();
+    }
+
+    this.ctx.globalAlpha = 1;
 
 
     var grd=this.ctx.createLinearGradient(0,0,0,170);
