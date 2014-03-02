@@ -72,29 +72,7 @@ TestScene.prototype.loadLevel = function(height){
     this.level = this.game.GetLevel(height);
 
     this.level.addObjectTo( this.level.center.x, this.level.center.y, this.player );
-
-    /*
-    this.level.addObjectTo(level.center.x,level.center.y,new Robot());
-    this.level.addObjectTo(0,0,new Robot());
-    var upElevator = new UpElevator();
-    this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),upElevator);
-    var downElevator = new DownElevator();
-    this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),downElevator);
-    if(height<=this.currentHeight){
-        this.level.addObjectTo(upElevator.x,upElevator.y,this.player);
-        this.showInfoText("You moved down")
-    }
-    else {
-        this.level.addObjectTo(downElevator.x,downElevator.y,this.player);
-        this.showInfoText("You moved up")
-    }
-
-
-    for(var i in Pickupable.Items){
-        item = Pickupable.load(i)
-        this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),item);
-    }
-    */
+    this.player.explore();
 
     this.centerViewAroundPlayer();
     this.level.scene = this;
@@ -135,8 +113,11 @@ TestScene.prototype.update = function(delta){
     for(var x = 0; x < this.level.width; x++){
         for(var y = 0; y < this.level.width; y++){
             var t = this.level.tiles[this.level.width*y+x];
-			if( t != null && t != undefined && t.image != undefined && t.image != null ) {
+			if( t != null && t != undefined && t.image != undefined && t.image != null && t.explored ) {
             	this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
+                if( t.room != null && t.room != undefined && t.room != this.player.activeRoom ) {
+                    this.ctx.drawImage(Resources.getImage('fowoverlay'),x*this.size ,y*this.size,this.size ,this.size  );
+                }
             	for(var i = 0 ; i < t.objects.length; i++){
             	    var o = t.objects[i];
             	    o.update(delta);

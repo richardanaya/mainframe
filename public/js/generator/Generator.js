@@ -7,17 +7,21 @@ Generator.prototype.generateLevel = function( width, height ) {
 	level.height = height;
 	level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
 	level.tileset = Tileset.createOfficeTileset();
-	level.tjoins = [];
-
+	
 	var halfWidth = Utilities.randRangeInt( 2, 5 );
 	var halfHeight = Utilities.randRangeInt( 2, 5 );
 	this.createRoom( level.center.x-halfWidth, level.center.y-halfHeight, halfWidth, halfHeight, level );
 
+	this.postProcess( level );
+
+	return level;
+}
+
+Generator.prototype.postProcess = function( level ) {
 	this.buildWalls( level );
 	this.setupContextualTiles( level );
 	this.cleanupTJoins( level );
-
-	return level;
+	level.tileset.doPropPass( level );
 }
 
 Generator.prototype.tryCreateRoom = function( connector, level ) {
@@ -42,7 +46,7 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 		height: halfHeight*2,
 		x: left,
 		y: top,
-		center: { x: left+halfWidth, y: top+halfHeight }
+		center: { x: left+halfWidth, y: top+halfHeight },
 	};
 
 	var result = false;
@@ -50,7 +54,7 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 	{
 		for( var y = 0; y < room.height; y++ ) {
 			for( var x = 0; x < room.width; x++ ) {
-				level.tiles[ Utilities.positionToIndex(room.x+x,room.y+y,level.width) ] = this.createTile( Level.Types.Floor, level.tileset.floors[0], x+room.x, y+room.y );
+				level.tiles[ Utilities.positionToIndex(room.x+x,room.y+y,level.width) ] = this.createTile( Level.Types.Floor, level.tileset.floors[0], x+room.x, y+room.y, room );
 			}
 		}
 
@@ -69,16 +73,23 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 			if( connector != null ) {
 				connector.x += room.x;
 				connector.y += room.y;
+				connector.index = Utilities.positionToIndex( connector.x, connector.y, level.width );
 				connector.doorPos = { x: connector.x + connector.orientation.x, y: connector.y + connector.orientation.y };
 				connector.doorPos.index = Utilities.positionToIndex( connector.doorPos.x, connector.doorPos.y, level.width );
+				connector.welcomeMat = { x: connector.doorPos.x + connector.orientation.x, y: connector.doorPos.y + connector.orientation.y };
+				connector.welcomeMat.index = Utilities.positionToIndex( connector.welcomeMat.x, connector.welcomeMat.y, level.width );
 
 				if( this.tryCreateRoom( connector, level ) )
 				{
 					level.tiles[ connector.doorPos.index ] = this.createTile( Level.Types.Door, level.tileset.floors[1], connector.doorPos.x, connector.doorPos.y );
 					level.tiles[ connector.doorPos.index ].orientation = connector.orientation;
+					level.tiles[ connector.doorPos.index ].noblock = true;
+					level.tiles[ connector.index ].noblock = true;
+					level.tiles[ connector.welcomeMat.index ].noblock = true;	
 				}
 			}
 		}
+		level.rooms.push( room );
 		result = true;
 	}
 
@@ -278,6 +289,6 @@ Generator.prototype.cleanupTJoins = function( level ) {
 	}
 }
 
-Generator.prototype.createTile = function( type, img, x, y ) {
-	return { type: type, image: img, objects: [], x: x, y: y };
+Generator.prototype.createTile = function( type, img, x, y, room ) {
+	return { type: type, image: img, objects: [], x: x, y: y, noblock: false, explored: false, room: room };
 }

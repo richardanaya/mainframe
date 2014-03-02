@@ -16,13 +16,13 @@ Mainframe.prototype.update = function(){
     this.ctx.clearRect(0,0,this.currentWidth,this.currentHeight);
     this.ctx.fillStyle = "#0e0e0e";
     this.ctx.fillRect(0,0,this.currentWidth,this.currentHeight);
-this.ctx.save();
+    this.ctx.save();
 
-this.ctx.imageSmoothingEnabled = false;
-this.ctx.webkitImageSmoothingEnabled = false;
-this.ctx.mozImageSmoothingEnabled = false;
-this.currentScene.update(1/60);
-this.ctx.restore();
+    this.ctx.imageSmoothingEnabled = false;
+    this.ctx.webkitImageSmoothingEnabled = false;
+    this.ctx.mozImageSmoothingEnabled = false;
+    this.currentScene.update(1/60);
+    this.ctx.restore();
 };
 
 Mainframe.prototype.GetLevel = function(height){
@@ -47,8 +47,7 @@ Mainframe.prototype.GetLevel = function(height){
         }
 
 
-        generator.buildWalls( level );
-        generator.setupContextualTiles( level );
+        generator.postProcess( level );
 
         return level;
     }
@@ -86,19 +85,20 @@ Mainframe.prototype.start = function(){
     Resources.addImage("robot_idle_0","images/robot_1.png");
     Resources.addImage("robot_idle_1","images/robot_2.png");
     Resources.addImage("keycard","images/keycard.png");
+    Resources.addImage("fowoverlay","images/fogofwar.png");
 
-var _this = this;
-this.ctx = $('#screen').get(0).getContext('2d');
-$(window).resize(function(){_this.resize();});
-this.resize();
-window.requestAnimFrame = (function(){
-return  window.requestAnimationFrame       ||
-window.webkitRequestAnimationFrame ||
-window.mozRequestAnimationFrame    ||
-function( callback ){
-	window.setTimeout(callback, 1000 / 60);
-};
-})();
+    var _this = this;
+    this.ctx = $('#screen').get(0).getContext('2d');
+    $(window).resize(function(){_this.resize();});
+    this.resize();
+    window.requestAnimFrame = (function(){
+        return  window.requestAnimationFrame       ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame    ||
+        function( callback ){
+           window.setTimeout(callback, 1000 / 60);
+        };
+    })();
 
     this.currentScene = new StartScene(this);
     this.currentScene.game = this;
