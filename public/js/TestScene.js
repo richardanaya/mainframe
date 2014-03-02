@@ -70,8 +70,11 @@ TestScene.prototype = Object.create(Scene.prototype);
 TestScene.prototype.loadLevel = function(height){
     this.player.stopAutoMove();
     this.level = this.game.GetLevel(height);
-	/*
-    this.level.addObjectTo(5,5,new Robot());
+
+    this.level.addObjectTo( this.level.center.x, this.level.center.y, this.player );
+
+    /*
+    this.level.addObjectTo(level.center.x,level.center.y,new Robot());
     this.level.addObjectTo(0,0,new Robot());
     var upElevator = new UpElevator();
     this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),upElevator);
@@ -92,7 +95,6 @@ TestScene.prototype.loadLevel = function(height){
         this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),item);
     }
     */
-
 
     this.centerViewAroundPlayer();
     this.level.scene = this;
