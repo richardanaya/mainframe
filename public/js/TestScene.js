@@ -68,31 +68,44 @@ var TestScene = function(game){
 TestScene.prototype = Object.create(Scene.prototype);
 
 TestScene.prototype.loadLevel = function(height){
-    this.player.stopAutoMove();
-    this.level = this.game.GetLevel(height);
-
-    this.level.addObjectTo( this.level.center.x, this.level.center.y, this.player );
-    this.player.explore();
-
-    this.centerViewAroundPlayer();
-    this.level.scene = this;
-    this.currentHeight = height;
-
-    if(this.music){
-        this.music.fade(1,0,3000);
+    var _this = this;
+    if(_this.music){
+        _this.music.fade(1,0,3000);
     }
-    if(height == 1000){
-        this.music = new Howl({
-            urls: ['sounds/rain.mp3'],
-            loop: true
-        }).play();
-        this.music.fade(0,1,3000);
-        if(Flags.flag("intro")){
-            this.showDialog("You wake up to the sound of rain.  What happened? You feel a burning at the ache of your neck. You reach back and find blood at your neckport, but you cannot recall any memory how you arrived to the top of this building.",this.player.image_idle_0,this.player.image_idle_1)
+
+    var done = function(){
+        _this.game.changeScene(_this);
+        _this.player.stopAutoMove();
+        _this.level = _this.game.GetLevel(height);
+
+        _this.level.addObjectTo( _this.level.center.x, _this.level.center.y, _this.player );
+        _this.player.explore();
+
+        _this.centerViewAroundPlayer();
+        _this.level.scene = _this;
+        _this.currentHeight = height;
+
+
+        if(height == 1000){
+            _this.music = new Howl({
+                urls: ['sounds/rain.mp3'],
+                loop: true
+            }).play();
+            _this.music.fade(0,1,3000);
+            if(Flags.flag("intro")){
+                _this.showDialog("You wake up to the sound of rain.  What happened? You feel a burning at the ache of your neck. You reach back and find blood at your neckport, but you cannot recall any memory how you arrived to the top of _this building.",_this.player.image_idle_0,_this.player.image_idle_1)
+            }
+        }
+        else {
+            _this.music = null;
         }
     }
+
+    if(height == 1000){
+        done();
+    }
     else {
-        this.music = null;
+        this.game.changeScene(new ElevatorScene(this.game,done,this.currentHeight,height,this.player.image_idle_0))
     }
 };
 
