@@ -7,6 +7,7 @@ Generator.prototype.generateLevel = function( width, height ) {
 	level.height = height;
 	level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
 	level.tileset = Tileset.createOfficeTileset();
+	level.rooms = [];
 	level.tjoins = [];
 
 	var halfWidth = Utilities.randRangeInt( 2, 5 );
@@ -16,6 +17,7 @@ Generator.prototype.generateLevel = function( width, height ) {
 	this.buildWalls( level );
 	this.setupContextualTiles( level );
 	this.cleanupTJoins( level );
+	this.placeProps( level );
 
 	return level;
 }
@@ -79,6 +81,7 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 				}
 			}
 		}
+		level.rooms.push( room );
 		result = true;
 	}
 
@@ -273,6 +276,25 @@ Generator.prototype.cleanupTJoins = function( level ) {
 						break;
 					}
 				}
+			}
+		}
+	}
+}
+
+Generator.prototype.placeProps = function( level ) {
+	var clutterRatio = 3;
+
+	for( var roomIndex = 0; roomIndex < level.rooms.length; roomIndex++ ) {
+		var room = level.rooms[roomIndex];
+		var area = room.width * room.height;
+		if( area > 9 ) {
+			var itemCount = Math.floor( area * ( clutterRatio / 100 ) );
+			for( var itemIndex = 0; itemIndex < itemCount; ++itemIndex ) {
+				var x = Utilities.randRangeInt( 1, room.width-2 ) + room.x;
+				var y = Utilities.randRangeInt( 1, room.height-2 ) + room.y;
+				var tileIndex = Utilities.positionToIndex(x,y,level.width);
+				level.tiles[tileIndex].type = Level.Types.Prop;
+				level.tiles[tileIndex].image = level.tileset.props[ Math.round( Math.random()*100) % level.tileset.props.length ];
 			}
 		}
 	}
