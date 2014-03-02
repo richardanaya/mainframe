@@ -96,6 +96,8 @@ StartScene.prototype.update = function(delta){
     this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2-15, this.height/2-15);
     this.ctx.globalAlpha = 1;
     this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2, this.height/2);
+    this.ctx.font = "24px 'Press Start 2P'";
+    this.ctx.fillText("press any key to start", (this.width-this.ctx.measureText("press any key to start").width)/2, this.height/1.5);
 
 };
 
