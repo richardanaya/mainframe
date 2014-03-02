@@ -48,7 +48,12 @@ InventoryDialog.prototype.drawBox = function(x,y,width,height){
 
     for(var xx=0;xx<width/16;xx++){
         for(var yy=0;yy<height/16;yy++){
-            this.scene.ctx.drawImage(dialog_bg,x+xx*16,y+yy*16);
+            if(xx*16+16>width || yy*16+16>height){
+                this.scene.ctx.drawImage(dialog_bg,x+xx*16,y+yy*16,xx*16-width,yy*16-height,0,0,xx*16-width,yy*16-height);
+            }
+            else {
+                this.scene.ctx.drawImage(dialog_bg,x+xx*16,y+yy*16);
+            }
         }
     }
 

@@ -61,5 +61,5 @@ StartScene.prototype.onKeyDown = function(key){
 };
 
 StartScene.prototype.onTap = function(x,y){
-
+    this.game.changeScene(new TestScene(this.game));
 };
