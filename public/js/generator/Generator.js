@@ -136,7 +136,7 @@ Generator.prototype.processWall = function( tile, x, y, level ) {
 	else if( adjWalls.length == 1 ) {
 		// end caps
 		var adjWall = adjWalls[0];
-		var dir = Utilities.getDirection( { x:tile.x, y:tile.y }, { x:adjWall.x, y:adjWall.y } );
+		var dir = Utilities.getDirection( tile, adjWall );
 		switch( dir ) {
 			case Orientation.North: 	tile.image = level.tileset.walls.endcaps.north[0]; break;
 			case Orientation.South: 	tile.image = level.tileset.walls.endcaps.south[0]; break;
@@ -145,8 +145,15 @@ Generator.prototype.processWall = function( tile, x, y, level ) {
 		}
 	}
 	else if( adjWalls.length == 2 ) {
-		// corner or straight
-		tile.image = level.tileset.walls.straights.vertical[0];
+		if( Utilities.isHorizontal( adjWalls[0], adjWalls[1] ) ) {
+			tile.image = level.tileset.walls.straights.horizontal[0];
+		}
+		else if( Utilities.isVertical( adjWalls[0], adjWalls[1] ) ) {
+			tile.image = level.tileset.walls.straights.vertical[0];
+		}
+		else {
+			tile.image = level.tileset.walls.corners.northwest[0];
+		}
 	}
 	else if( adjWalls.length == 3 ) {
 		// tjoin

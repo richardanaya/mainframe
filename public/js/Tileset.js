@@ -22,7 +22,7 @@ Tileset.createOfficeTileset = function() {
 
 	result.walls = {
 		pillars: [ Utilities.createImage('images/grass.png') ],
-		crosses: [ Utilities.createImage('images/tst_tile.png') ],
+		crosses: [ Utilities.createImage('images/tilesets/office/walls/wall_cross.png') ],
 		endcaps: {
 			north: [Utilities.createImage('images/tilesets/office/walls/wall_cap_n.png')],
 			east: [Utilities.createImage('images/tilesets/office/walls/wall_cap_e.png')],
@@ -37,7 +37,7 @@ Tileset.createOfficeTileset = function() {
 		},
 		straights: {
 			vertical: [Utilities.createImage('images/tilesets/office/walls/wall_straight_ns.png')],
-			horizontal: [Utilities.createImage('images/tilesets/office/walls/wall_stright_ew.png')]
+			horizontal: [Utilities.createImage('images/tilesets/office/walls/wall_straight_ew01.png')]
 		},
 		tjoins: {
 			north: [Utilities.createImage('images/tilesets/office/walls/wall_tjoin_n.png')],
