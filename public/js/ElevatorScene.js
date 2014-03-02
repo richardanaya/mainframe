@@ -44,7 +44,12 @@ ElevatorScene.prototype.update = function(delta){
     this.ctx.drawImage(Resources.getImage("elevator"),(this.width-size)/2,0,size,this.height);
     size = 150;
     this.ctx.drawImage(this.playerImage,(this.width-size)/2,this.time/5*(this.height+200)-200,size,size);
-    this.ctx.drawImage(Resources.getImage("dialog_frame_bottom"),(this.width-size)/2,this.time/5*(this.height+200)-200+size,size,50);
+    if(this.fromLevel>this.toLevel){
+        this.ctx.drawImage(Resources.getImage("dialog_frame_bottom"),(this.width-size)/2,this.time/5*(this.height+200)-200+size,size,50);
+    }
+    else {
+        this.ctx.drawImage(Resources.getImage("dialog_frame_bottom"),(this.width-size)/2,(this.height+size)-this.time/5*(this.height+200)-200+size,size,50);
+    }
 
     if(this.mode == "play") {
         this.time += delta;
@@ -63,7 +68,12 @@ ElevatorScene.prototype.update = function(delta){
 
 ElevatorScene.prototype.showDialog = function(){
     this.mode = "dialog";
-    this.dialog = new Dialog(this,this.intro_text[Utilities.randRangeInt(0,2)]);
+    if(this.fromLevel == 1000 && Flags.flag("intro_text")){
+        this.dialog = new Dialog(this,this.intro_text[Utilities.randRangeInt(0,this.intro_text.length-1)]);
+    }
+    else {
+        this.dialog = new Dialog(this,this.text[Utilities.randRangeInt(0,this.text.length-1)]);
+    }
     this.dialog.image = this.playerImage;
     this.dialog.show();
     this.dialog.scene = this;
