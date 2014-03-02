@@ -38,14 +38,13 @@ Pickupable.prototype.onAction = function(action){
 }
 
 Pickupable.Items = {
-    "lab_note" : {
-        name: "Lab Note",
-        description: "Lab Note: Something has gone awry down in the labLab Note: Something has gone awry down in the labLab Note: Something has gone awry down in the labLab Note: Something has gone awry down in the lab",
+    "lab_note_0" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
         read_on_pickup: true,
-        actions: ["look at","equip"],
-        equip_slot: "hand",
-        tags: ["hand"],
-        image : "lab_note"
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
     },
     "keycard" : {
         name: "Keycard",

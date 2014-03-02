@@ -18,7 +18,7 @@ StartScene.prototype.update = function(delta){
     //this.ctx.drawImage(Resources.images.lab_note)
 
     //background
-    this.ctx.fillStyle = "#6600CC";
+    this.ctx.fillStyle = "black";
     this.ctx.fillRect(0,0,this.width,this.height);
 
     //upperleft triangle
@@ -29,12 +29,26 @@ StartScene.prototype.update = function(delta){
     this.ctx.lineTo(this.width,0);
     this.ctx.fill();
 
+    var grd=this.ctx.createLinearGradient(0,0,0,170);
+    grd.addColorStop(0,"#100839");
+    grd.addColorStop(.8,"#932f6b");
+    grd.addColorStop(1,"#932f6b");
+
+    this.ctx.fillStyle=grd;
+    this.ctx.beginPath();
+    this.ctx.moveTo(0,0);
+    this.ctx.lineTo(this.width,0);
+    this.ctx.lineTo(60 * (.1 * this.width) * ((this.time/5 + 3)* .15),this.height);
+
+    this.ctx.fill();
+
+    this.ctx.strokeStyle = "#15dbc4";
     for (i=0;i<60;i++)
     {
        this.ctx.lineWidth = 1 - .05*i;
        this.ctx.beginPath();
        this.ctx.moveTo(0,0);
-       this.ctx.lineTo(i * (.1 * this.width) * ((this.time + 3)* .15),this.height);
+       this.ctx.lineTo(i * (.1 * this.width) * ((this.time/5 + 3)* .15),this.height);
        this.ctx.stroke();
     }
 
@@ -43,17 +57,44 @@ StartScene.prototype.update = function(delta){
        this.ctx.lineWidth = 1;
        this.ctx.beginPath();
        this.ctx.moveTo(0,this.height + (this.height * .25));
-       this.ctx.lineTo(i * (.1 * this.width) * ((this.time + 3)* .15), 0);
+       this.ctx.lineTo(i * (.1 * this.width) * ((this.time/5 + 3)* .15), 0);
        this.ctx.stroke();
     }
 
-    //middle box
+
+    this.ctx.lineWidth = 20;
+    this.ctx.globalAlpha = .2;
+    this.ctx.strokeStyle = "#109486"
+    for (i=0;i<60;i++)
+    {
+        this.ctx.beginPath();
+        this.ctx.moveTo(0,0);
+        this.ctx.lineTo(i * (.1 * this.width) * ((this.time/5 + 3)* .15),this.height);
+        this.ctx.stroke();
+    }
+
+    for (i=0;i<60;i++)
+    {
+        this.ctx.beginPath();
+        this.ctx.moveTo(0,this.height + (this.height * .25));
+        this.ctx.lineTo(i * (.1 * this.width) * ((this.time/5 + 3)* .15), 0);
+        this.ctx.stroke();
+    }
+    this.ctx.globalAlpha = 1;
+
+
+
+
+    /*//middle box
     this.ctx.fillStyle = "#6699FF";
     this.ctx.fillRect(this.width/4,this.height/4,this.width/2,this.height/2);
-
-    this.ctx.fillStyle = "black";
-    this.ctx.font = "bold 32px Gothic";
-    this.ctx.fillText("Mainframe <3s You", this.width/2 - (this.width * .2), this.height/2);
+*/
+    this.ctx.font = "60px 'Press Start 2P'";
+    this.ctx.fillStyle = "white";
+    this.ctx.globalAlpha = .2;
+    this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2-15, this.height/2-15);
+    this.ctx.globalAlpha = 1;
+    this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2, this.height/2);
 
 };
 
