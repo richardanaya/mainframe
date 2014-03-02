@@ -1,8 +1,6 @@
 var Generator = function() {
 }
 
-
-
 Generator.prototype.generateLevel = function( width, height ) {
 	var level = new Level();
 	level.width = width;
@@ -27,26 +25,41 @@ Generator.prototype.createRoom = function( center, level, numconnectors ) {
 
 	if( this.canPlaceRoom( room, level ) )
 	{
-		for( var y = 0; y < room.halfHeight*2; y++ ) {
-			for( x = 0; x < room.halfWidth*2; x++ ) {
-				level.tiles[ Utilities.PositionToIndex(x,y,level.width) ] = this.createTile( Level.Types.Floor, level.tileset.floors[0] );
+		for( var y = 0; y < room.height; y++ ) {
+			for( var x = 0; x < room.width; x++ ) {
+				level.tiles[ Utilities.PositionToIndex(room.x+x,room.y+y,level.width) ] = this.createTile( Level.Types.Floor, level.tileset.floors[0] );
 			}
 		}
 
-		/*
 		for( var connectorIndex = 0; connectorIndex < numconnectors; connectorIndex++ ) {
-			var connector = {};
+			var connector = null;
+			var randomWidth = Utilities.randRangeInt( 1, room.width-2 );
+			var randomHeight = Utilities.randRangeInt( 1, room.height-2 );
 			switch( Utilities.randRangeInt( 0, 4 ) ) {
-				case 0: connector.x = Utilities.randRangeInt
+				default:
+				case 0: connector = { x:randomWidth, y:0, orientation: Orientation.North }; break;
+				case 1: connector = { x:room.width-1, y:randomHeight, orientation: Orientation.East }; break;
+				case 2: connector = { x:randomWidth, y:room.height-1, orientation: Orientation.South }; break;
+				case 3: connector = { x:0,y:randomHeight, orientation: Orientation.West }; break;
+			}
+
+			if( connector != null ) {
+				connector.x += room.x;
+				connector.y += room.y;
+				connector.doorPos = { x: connector.x + connector.orientation.x, y: connector.y + connector.orientation.y };
+				connector.doorPos.index = Utilities.PositionToIndex( connector.doorPos.x, connector.doorPos.y, level.width );
+				level.tiles[ connector.doorPos.index ] = this.createTile( Level.Types.Floor, level.tileset.floors[1] );
+
+				// create adjoining room
+				//
 			}
 		}
-		*/
 	}
 }
 
 Generator.prototype.canPlaceRoom = function( room, level ) {
-	for( var y = room.y; y < room.height; y++ ) {
-		for( var x = room.x; x < room.width; x++ ) {
+	for( var y = room.y; y < room.height+room.y; y++ ) {
+		for( var x = room.x; x < room.width+room.x; x++ ) {
 			if( y >= level.height || y < 0 ) return false;
 			if( x >= level.width || x < 0 ) return false;
 

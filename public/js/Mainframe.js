@@ -26,7 +26,7 @@ this.ctx.restore();
 };
 
 Mainframe.prototype.GetLevel = function(height){
-    return generator.generateLevel( 75, 30, Tileset.createOfficeTileset() );
+    return generator.generateLevel( 30, 30, Tileset.createOfficeTileset() );
 };
 
 Mainframe.prototype.onKeyDown = function(key){
