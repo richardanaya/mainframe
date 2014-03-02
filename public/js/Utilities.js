@@ -1,9 +1,9 @@
 var Orientation = {
-	North: { x: 0, y: -1 },
-	South: { x: 0, y: 1 },
-	East: { x: 1, y: 0 },
-	West: { x:-1, y: 0 },
-	Center: { x:0, y: 0}
+	North: { x: 0, y: -1, isVertical: true },
+	South: { x: 0, y: 1, isVertical: true },
+	East: { x: 1, y: 0, isVertical: false },
+	West: { x:-1, y: 0, isVertical: false },
+	Center: { x:0, y: 0, isVertical: false }
 }
 
 var Utilities = function() {

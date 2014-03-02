@@ -254,20 +254,24 @@ Generator.prototype.cleanupTJoins = function( level ) {
 			for( var coni = 0; coni < connectedTJoins.length; coni++ ) {
 				var tjoin = connectedTJoins[coni];
 				if( tile.orientation == Utilities.invertDirection( tjoin.orientation ) ) {
-					if( Utilities.isVertical( tile, tjoin ) ) {
-						tile.image = level.tileset.walls.straights.horizontal[0];
+					if( Utilities.isVertical( tile, tjoin ) && tile.orientation.isVertical ) {
+						//var img = level.tileset.props[i%level.tileset.props.length];
+						var img = level.tileset.walls.straights.horizontal[0];
+						tile.image = img;
 						tile.tileType = Level.WallTypes.Straight;
-						tjoin.image = level.tileset.walls.straights.horizontal[0];
+						tjoin.image = img;
 						tjoin.tileType = Level.WallTypes.Straight;
+						break;
 					}
-					else
-					{
-						tile.image = level.tileset.walls.straights.vertical[0];
+					else if( Utilities.isHorizontal( tile, tjoin ) && !tile.orientation.isVertical ) {
+						//var img = level.tileset.props[i%level.tileset.props.length];
+						var img = level.tileset.walls.straights.vertical[0];
+						tile.image = img;
 						tile.tileType = Level.WallTypes.Straight;
-						tjoin.image = level.tileset.walls.straights.vertical[0];
+						tjoin.image = img;
 						tjoin.tileType = Level.WallTypes.Straight;
+						break;
 					}
-					break;
 				}
 			}
 		}
