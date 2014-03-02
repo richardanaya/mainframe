@@ -8,7 +8,7 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
     this.backgroundColor = "#9900FF";
     this.music = new Howl({
         urls: ['sounds/Elevator.mp3'],
-        loop: true,
+        loop: true
     }).play();
     this.music.fade(0,.2,1000);
     this.mode = "play";
