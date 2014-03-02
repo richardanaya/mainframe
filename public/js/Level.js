@@ -90,6 +90,24 @@ Level.prototype.getCardinalNeighborsByType = function(x,y,type ) {
     return result;
 }
 
+Level.prototype.getGraph = function() {
+    var graph = [];
+    for(var y = 0; y < this.height; y++){
+        var row = [];
+        for(var x = 0; x < this.width; x++){
+            var t = this.getTileAt(x,y);
+            if(!t || t.type == Level.Types.Wall || t.type == Level.Types.Prop ){
+                row.push(0);
+            }
+            else {
+                row.push(1);
+            }
+        }
+        graph.push(row);
+    }
+    return new Graph(graph);
+};
+
 Level.prototype.getNeighborTileObjects = function(x,y) {
     var o = [];
     var t = this.getNearbyTiles(x,y);
