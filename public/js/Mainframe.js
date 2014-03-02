@@ -36,7 +36,11 @@ Mainframe.prototype.onKeyDown = function(key){
 Mainframe.prototype.onTap = function(e){
     if(this.currentScene){
         this.currentScene.onTap(e.gesture.touches[0].offsetX, e.gesture.touches[0].offsetY);
+
     }
+};
+Mainframe.prototype.changeScene = function(s){
+    this.currentScene = s;
 };
 
 
@@ -49,6 +53,7 @@ Mainframe.prototype.start = function(){
     Resources.addImage("elevator","images/elevator.png");
     Resources.addImage("up_elevator","images/up_elevator.png");
     Resources.addImage("lab_note","images/lab_note.png");
+    Resources.addImage("title","images/title.png");
 
     var _this = this;
     this.ctx = $('#screen').get(0).getContext('2d');
