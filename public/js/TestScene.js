@@ -83,14 +83,13 @@ TestScene.prototype.loadLevel = function(height){
         this.level.addObjectTo(downElevator.x,downElevator.y,this.player);
         this.showInfoText("You moved up")
     }
-    if(height == 1000){
-        var item = Pickupable.load("lab_note")
+
+
+    for(var i in Pickupable.Items){
+        item = Pickupable.load(i)
         this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),item);
     }
 
-
-    item = Pickupable.load("keycard")
-    this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),item);
 
     this.centerViewAroundPlayer();
 

@@ -3,6 +3,8 @@ var Pickupable = function(){
     this.y = 0;
     this.image = Resources.images.up_elevator;
     this.tags = ["item"];
+    this.id = "";
+    this.equipped = false;
 }
 
 
@@ -16,6 +18,23 @@ Pickupable.prototype.onAction = function(action){
     if(action == "look at"){
         this.level.scene.showDialog(this.description);
     }
+    if(action == "drink"){
+        this.level.scene.player.removeInventory(this);
+        this.level.scene.showDialog("mmm, interesting");
+    }
+    if(action == "equip"){
+        if(this.equipped){
+            this.equipped = false;
+            this.level.scene.inventoryDialog.show();
+            return;
+        }
+        var items = this.level.scene.player.getInventoryWithTag(Pickupable.Items[this.id].equip_slot);
+        for(var i = 0 ; i < items.length ; i++){
+            items[i].equipped = false;
+        }
+        this.equipped = true;
+        this.level.scene.inventoryDialog.show();
+    }
 }
 
 Pickupable.Items = {
@@ -23,7 +42,9 @@ Pickupable.Items = {
         name: "Lab Note",
         description: "Lab Note: Something has gone awry down in the labLab Note: Something has gone awry down in the labLab Note: Something has gone awry down in the labLab Note: Something has gone awry down in the lab",
         read_on_pickup: true,
-        actions: ["look at"],
+        actions: ["look at","equip"],
+        equip_slot: "hand",
+        tags: ["hand"],
         image : "lab_note"
     },
     "keycard" : {
@@ -31,6 +52,30 @@ Pickupable.Items = {
         image : "keycard",
         actions: ["look at"],
         description: "A keycard that looks like it can be used at corporate level"
+    },
+    "juice_0" : {
+        name: "Juice",
+        image : "potion_1",
+        actions: ["drink"],
+        description: "A juice"
+    },
+    "juice_1" : {
+        name: "Juice",
+        image : "potion_2",
+        actions: ["drink"],
+        description: "A juice"
+    },
+    "juice_2" : {
+        name: "Juice",
+        image : "potion_3",
+        actions: ["drink"],
+        description: "A juice"
+    },
+    "juice_3" : {
+        name: "Juice",
+        image : "potion_4",
+        actions: ["drink"],
+        description: "A juice"
     }
 }
 
@@ -43,10 +88,12 @@ Pickupable.prototype.onPickup = function(o){
 Pickupable.load = function(name){
     var pi = Pickupable.Items[name];
     var p = new Pickupable();
+    p.id = name;
     p.name = pi.name;
     p.description = pi.description;
     p.read_on_pickup = pi.read_on_pickup;
-    p.actions = pi.actions;
+    if(pi.tags){ p.tags = p.tags.concat(pi.tags); }
+    if(pi.actions){ p.actions = pi.actions; }
     p.image = Resources.getImage(pi.image);
     return p;
 }

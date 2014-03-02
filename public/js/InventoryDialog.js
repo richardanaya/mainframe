@@ -16,6 +16,9 @@ InventoryDialog.prototype.show = function(){
         var x = i%5;
         var y = Math.floor(i/5);
         var b = new Button(this.scene, this.sx+10+x*110, this.sy+10+y*110, "transparent");
+        if(this.scene.player.inventory[i].equipped){
+            b.background = "green";
+        }
         b.image = this.scene.player.inventory[i].image;
         this.buttons.push(b);
     }

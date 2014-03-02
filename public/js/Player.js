@@ -56,6 +56,17 @@ Player.prototype.move = function(x,y){
     }
 }
 
+
+Player.prototype.getInventoryWithTag = function(t){
+    var j = [];
+    for(var i = 0 ; i < this.inventory.length; i++){
+        if(this.inventory[i].tags.indexOf(t) != -1){
+            j.push(this.inventory[i]);
+        }
+    }
+    return j;
+}
+
 Player.prototype.attack = function(o){
     this.moves.push(new Attack(this,o));
 }
@@ -70,6 +81,13 @@ Player.prototype.stopAutoMove = function(){
 
 Player.prototype.addToInventory = function(i){
     this.inventory.push(i);
+}
+
+Player.prototype.removeInventory = function(i){
+    var i = this.inventory.indexOf(i);
+    if(i != -1){
+        this.inventory.slice(i,1);
+    }
 }
 
 Player.prototype.autoMove = function(){
