@@ -21,13 +21,43 @@ StartScene.prototype.update = function(delta){
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0,0,this.width,this.height);
 
-    //upperleft triangle
-    this.ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-    this.ctx.beginPath();
-    this.ctx.moveTo(0,0);
-    this.ctx.lineTo(0,this.height);
-    this.ctx.lineTo(this.width,0);
-    this.ctx.fill();
+
+    this.ctx.strokeStyle = "#15dbc4";
+    for (i=0;i<55;i++)
+    {
+       this.ctx.lineWidth = 1;
+       this.ctx.beginPath();
+       this.ctx.moveTo(this.width + (1.8 * this.width) - (100 * i), this.height);
+       this.ctx.lineTo((0.4 * this.width) - (125 * i), 0);
+       this.ctx.stroke();
+    }
+
+    /*
+    //double thickerline shaddow
+    this.ctx.lineWidth = 10;
+    this.ctx.globalAlpha = .2;
+    this.ctx.strokeStyle = "#109486";
+    for (i=0;i<55;i++)
+    {
+       this.ctx.beginPath();
+       this.ctx.moveTo(this.width + (1.8 * this.width) - (100 * i), this.height);
+       this.ctx.lineTo((0.4 * this.width) - (125 * i), 0);
+       this.ctx.stroke();
+    }
+
+    this.ctx.globalAlpha = 1;
+    */
+
+    this.ctx.strokeStyle = "#15dbc4";
+    for (i=0;i<55;i++)
+    {
+       this.ctx.lineWidth = 1;
+       this.ctx.beginPath();
+       this.ctx.moveTo((-0.5 * this.width) + (100 * i) - (this.time * 200), this.height);
+       this.ctx.lineTo((-0.2 * this.width) + (100 * i) - (this.time * 200), 0);
+       this.ctx.stroke();
+    }
+
 
     var grd=this.ctx.createLinearGradient(0,0,0,170);
     grd.addColorStop(0,"#100839");
@@ -36,59 +66,14 @@ StartScene.prototype.update = function(delta){
 
     this.ctx.fillStyle=grd;
     this.ctx.beginPath();
-    this.ctx.moveTo(0,0);
+    this.ctx.moveTo(.4 * this.width,0);
     this.ctx.lineTo(this.width,0);
-    this.ctx.lineTo(60 * (.1 * this.width) * ((this.time/5 + 3)* .15),this.height);
+    this.ctx.lineTo(this.width,.25 * this.height);
 
     this.ctx.fill();
 
-    this.ctx.strokeStyle = "#15dbc4";
-    for (i=0;i<60;i++)
-    {
-       this.ctx.lineWidth = 1 - .05*i;
-       this.ctx.beginPath();
-       this.ctx.moveTo(0,0);
-       this.ctx.lineTo(i * (.1 * this.width) * ((this.time/5 + 3)* .15),this.height);
-       this.ctx.stroke();
-    }
 
-    for (i=0;i<60;i++)
-    {
-       this.ctx.lineWidth = 1;
-       this.ctx.beginPath();
-       this.ctx.moveTo(0,this.height + (this.height * .25));
-       this.ctx.lineTo(i * (.1 * this.width) * ((this.time/5 + 3)* .15), 0);
-       this.ctx.stroke();
-    }
-
-
-    this.ctx.lineWidth = 20;
-    this.ctx.globalAlpha = .2;
-    this.ctx.strokeStyle = "#109486"
-    for (i=0;i<60;i++)
-    {
-        this.ctx.beginPath();
-        this.ctx.moveTo(0,0);
-        this.ctx.lineTo(i * (.1 * this.width) * ((this.time/5 + 3)* .15),this.height);
-        this.ctx.stroke();
-    }
-
-    for (i=0;i<60;i++)
-    {
-        this.ctx.beginPath();
-        this.ctx.moveTo(0,this.height + (this.height * .25));
-        this.ctx.lineTo(i * (.1 * this.width) * ((this.time/5 + 3)* .15), 0);
-        this.ctx.stroke();
-    }
-    this.ctx.globalAlpha = 1;
-
-
-
-
-    /*//middle box
-    this.ctx.fillStyle = "#6699FF";
-    this.ctx.fillRect(this.width/4,this.height/4,this.width/2,this.height/2);
-*/
+ 
     this.ctx.font = "60px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
     this.ctx.globalAlpha = .2;
