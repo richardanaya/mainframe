@@ -12,7 +12,7 @@ Level.Types = {
 	Wall : 2,
 	Door: 3,
     Debug: 4,
-    Prop: 5
+    Prop: 5,
 };
 
 Level.WallTypes = {

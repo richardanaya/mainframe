@@ -17,7 +17,7 @@ Generator.prototype.generateLevel = function( width, height ) {
 	this.buildWalls( level );
 	this.setupContextualTiles( level );
 	this.cleanupTJoins( level );
-	this.placeProps( level );
+	level.tileset.doPropPass( level );
 
 	return level;
 }
@@ -71,13 +71,19 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 			if( connector != null ) {
 				connector.x += room.x;
 				connector.y += room.y;
+				connector.index = Utilities.positionToIndex( connector.x, connector.y, level.width );
 				connector.doorPos = { x: connector.x + connector.orientation.x, y: connector.y + connector.orientation.y };
 				connector.doorPos.index = Utilities.positionToIndex( connector.doorPos.x, connector.doorPos.y, level.width );
+				connector.welcomeMat = { x: connector.doorPos.x + connector.orientation.x, y: connector.doorPos.y + connector.orientation.y };
+				connector.welcomeMat.index = Utilities.positionToIndex( connector.welcomeMat.x, connector.welcomeMat.y, level.width );
 
 				if( this.tryCreateRoom( connector, level ) )
 				{
 					level.tiles[ connector.doorPos.index ] = this.createTile( Level.Types.Door, level.tileset.floors[1], connector.doorPos.x, connector.doorPos.y );
 					level.tiles[ connector.doorPos.index ].orientation = connector.orientation;
+					level.tiles[ connector.doorPos.index ].noblock = true;
+					level.tiles[ connector.index ].noblock = true;
+					level.tiles[ connector.welcomeMat.index ].noblock = true;	
 				}
 			}
 		}
@@ -281,25 +287,6 @@ Generator.prototype.cleanupTJoins = function( level ) {
 	}
 }
 
-Generator.prototype.placeProps = function( level ) {
-	var clutterRatio = 3;
-
-	for( var roomIndex = 0; roomIndex < level.rooms.length; roomIndex++ ) {
-		var room = level.rooms[roomIndex];
-		var area = room.width * room.height;
-		if( area > 9 ) {
-			var itemCount = Math.floor( area * ( clutterRatio / 100 ) );
-			for( var itemIndex = 0; itemIndex < itemCount; ++itemIndex ) {
-				var x = Utilities.randRangeInt( 1, room.width-2 ) + room.x;
-				var y = Utilities.randRangeInt( 1, room.height-2 ) + room.y;
-				var tileIndex = Utilities.positionToIndex(x,y,level.width);
-				level.tiles[tileIndex].type = Level.Types.Prop;
-				level.tiles[tileIndex].image = level.tileset.props[ Math.round( Math.random()*100) % level.tileset.props.length ];
-			}
-		}
-	}
-}
-
 Generator.prototype.createTile = function( type, img, x, y ) {
-	return { type: type, image: img, objects: [], x: x, y: y };
+	return { type: type, image: img, objects: [], x: x, y: y, noblock: false };
 }
