@@ -2,7 +2,7 @@ var StartScene = function(game){
     this.game = game;
     this.time = 0;
     this.backgroundColor = "#9900FF";
-    var sound = new Howl({
+    this.music = new Howl({
         urls: ['sounds/TitleScreen.mp3'],
         loop: true
     }).play();
@@ -59,9 +59,11 @@ StartScene.prototype.update = function(delta){
 
 
 StartScene.prototype.onKeyDown = function(key){
+    this.music.fade(1,0,1000);
     this.game.changeScene(new TestScene(this.game));
 };
 
 StartScene.prototype.onTap = function(x,y){
+    this.music.fade(1,0,1000);
     this.game.changeScene(new TestScene(this.game));
 };
