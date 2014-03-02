@@ -37,6 +37,15 @@ InventoryDialog.prototype.render = function(){
         for(var i = 0 ; i < this.buttons.length ; i++){
             this.buttons[i].render();
         }
+
+        if(this.mode == "action"){
+            for(var i = 0 ; i < this.actionButtons.length; i++){
+                var b = this.actionButtons[i];
+                b.render();
+                this.scene.ctx.fillStyle = "white";
+                this.scene.ctx.fillText(this.actions[i], b.x+(b.width-this.scene.ctx.measureText(this.actions[i]).width)/2, b.y+30);
+            }
+        }
     }
 }
 
@@ -90,16 +99,38 @@ InventoryDialog.prototype.hide = function(){
 
 
 InventoryDialog.prototype.onTap = function(x,y){
-    for(var i = 0 ; i < this.buttons.length ; i++){
-        if(this.buttons[i].isWithin(x,y)){
-            this.onInventoryTouch(this.scene.player.inventory[i]);
-            return;
+    if(this.mode == "action"){
+        for(var i = 0 ; i < this.actionButtons.length; i++){
+            var b = this.actionButtons[i];
+            if(b.isWithin(x,y)){
+                this.actingInventory.onAction(this.actions[i]);
+                this.mode = "normal"
+                return;
+            }
         }
+        this.mode = "normal"
     }
-    this.hide();
-    this.scene.mode = "play";
+    else {
+        for(var i = 0 ; i < this.buttons.length ; i++){
+            if(this.buttons[i].isWithin(x,y)){
+                this.onInventoryTouch(this.scene.player.inventory[i],this.buttons[i]);
+                return;
+            }
+        }
+        this.hide();
+        this.scene.mode = "play";
+    }
 }
 
-InventoryDialog.prototype.onInventoryTouch = function(i){
-    alert(i.name);
+InventoryDialog.prototype.onInventoryTouch = function(i,but){
+    this.actingInventory = i;
+    this.actions = i.actions;
+    this.actionButtons = [];
+    for(var i = 0 ; i < this.actions.length; i++){
+        var b = new Button(this.scene, but.x+i*210, but.y+100);
+        b.height = 50;
+        b.width = 200;
+        this.actionButtons.push(b);
+    }
+    this.mode = "action";
 }
