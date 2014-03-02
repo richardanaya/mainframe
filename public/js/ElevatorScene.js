@@ -54,7 +54,7 @@ ElevatorScene.prototype.update = function(delta){
 
     if(this.mode == "play") {
         this.time += delta;
-        if(this.time >= 2 && this.dialog == null){
+        if(this.time >= 2.6 && this.dialog == null){
             this.showDialog();
         }
         if(this.time >= 5){

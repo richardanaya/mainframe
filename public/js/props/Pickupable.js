@@ -15,6 +15,7 @@ Pickupable.prototype.onObjectEnter = function(o){
 }
 
 Pickupable.prototype.onAction = function(action){
+    var _this = this;
     if(action == "look at"){
         this.level.scene.showDialog(this.description,this.image);
     }
@@ -25,7 +26,7 @@ Pickupable.prototype.onAction = function(action){
     if(action == "use"){
         this.level.scene.inventoryDialog.select("drink", function(i){
             alert(i.name)
-            this.level.scene.inventoryDialog.hide();
+            _this.level.scene.inventoryDialog.hide();
         });
     }
     if(action == "equip"){

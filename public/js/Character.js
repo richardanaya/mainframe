@@ -26,6 +26,10 @@ Character.prototype.moveDown = function(){
 
 Character.prototype.move = function(x,y){
     if(this.level.isPointWithin(x,y)){
+        var t = this.level.getTileAt(x,y);
+        if(t.type == Level.Types.Wall || t.type == Level.Types.Prop ){
+            return;
+        }
         this.moves.push(new Move(x,y,this));
         if(x<this.x){
             this.flipped = true;
