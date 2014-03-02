@@ -42,9 +42,11 @@ Mainframe.prototype.GetLevel = function(height){
         }
 
         level.addObjectTo(8,1,new DownElevator());
-        if(Flags.flag("lab_note_0")){
-            level.addObjectTo(3,3,Pickupable.load("lab_note_0"));
+        for(var i in Pickupable.Items){
+            level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(i));
+
         }
+
 
 
         generator.postProcess( level );

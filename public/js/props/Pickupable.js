@@ -75,6 +75,42 @@ Pickupable.Items = {
         image : "potion_4",
         actions: ["drink"],
         description: "A juice"
+    },
+    "data_chip_0" : {
+        name: "Juice",
+        image : "data_chip_0",
+        actions: ["data"],
+        description: "A data chip"
+    },
+    "data_chip_0" : {
+        name: "Data Chip",
+        image : "scroll_0",
+        actions: ["datachip"],
+        description: "scroll_0"
+    },
+    "data_chip_1" : {
+        name: "Data Chip",
+        image : "scroll_1",
+        actions: ["datachip"],
+        description: "A data chip"
+    },
+    "data_chip_2" : {
+        name: "Data Chip",
+        image : "scroll_2",
+        actions: ["datachip"],
+        description: "A data chip"
+    },
+    "data_chip_3" : {
+        name: "Data Chip",
+        image : "scroll_3",
+        actions: ["datachip"],
+        description: "A data chip"
+    },
+    "data_chip_4" : {
+        name: "Data Chip",
+        image : "scroll_4",
+        actions: ["datachip"],
+        description: "A data chip"
     }
 }
 

@@ -90,7 +90,7 @@ StartScene.prototype.update = function(delta){
 
 
  
-    this.ctx.font = "48px 'Press Start 2P'";
+    this.ctx.font = "36px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
     this.ctx.globalAlpha = .2;
     this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2-15, this.height/2-15);
