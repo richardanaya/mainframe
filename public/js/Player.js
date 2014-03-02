@@ -39,7 +39,12 @@ Player.prototype.setupSamurai = function(){
 }
 
 Player.prototype.move = function(x,y){
-    if(this.level.isPointWithin(x,y)){
+    if(this.level.isPointWithin(x,y) ){
+        var t = this.level.getTileAt(x,y);
+        if(t.type == Level.Types.Wall || t.type == Level.Types.Prop ){
+            return;
+        }
+
         var monsters = this.level.getObjectsByTypeOnTile(x,y,"monster");
         if(monsters.length > 0){
             this.moves.push(new Attack(this,monsters[0]));
@@ -92,16 +97,21 @@ Player.prototype.removeInventory = function(i){
 
 Player.prototype.autoMove = function(){
     if(this.isAutoMoving){
-        var xOffset = (this.autoMoveX-this.x);
+        var start = this.level.scene.graph.nodes[this.y][this.x];
+        var end = this.level.scene.graph.nodes[this.autoMoveY][this.autoMoveX];
+        var result = astar.search(this.level.scene.graph.nodes, start, end);
+        /*var xOffset = (this.autoMoveX-this.x);
         if(xOffset != 0){ xOffset /= Math.abs(this.autoMoveX-this.x);}
         var yOffset = (this.autoMoveY-this.y);
-        if(yOffset != 0){ yOffset /= Math.abs(this.autoMoveY-this.y);}
+        if(yOffset != 0){ yOffset /= Math.abs(this.autoMoveY-this.y);}*/
 
-        if(xOffset==0&&yOffset==0){
+        /*
+        */
+        if(result.length== 0){
             this.isAutoMoving = false;
             return false;
         }
-        this.move(this.x+xOffset,this.y+yOffset);
+        this.move(result[0].y,result[0].x);
 
         return true;
     }

@@ -10,7 +10,8 @@ Level.Types = {
     Floor : 0,
 	Wall : 1,
 	Door: 2,
-    Debug: 3
+    Debug: 3,
+    Prop: 4
 };
 
 Level.prototype.getTileAt = function(x,y) {
@@ -89,6 +90,24 @@ Level.prototype.getCardinalNeighborsByType = function(x,y,type ) {
     return result;
 }
 
+Level.prototype.getGraph = function() {
+    var graph = [];
+    for(var y = 0; y < this.height; y++){
+        var row = [];
+        for(var x = 0; x < this.width; x++){
+            var t = this.getTileAt(x,y);
+            if(!t || t.type == Level.Types.Wall || t.type == Level.Types.Prop ){
+                row.push(0);
+            }
+            else {
+                row.push(1);
+            }
+        }
+        graph.push(row);
+    }
+    return new Graph(graph);
+};
+
 Level.prototype.getNeighborTileObjects = function(x,y) {
     var o = [];
     var t = this.getNearbyTiles(x,y);
@@ -122,7 +141,16 @@ Level.prototype.addObjectTo = function(x,y,o) {
 };
 
 Level.prototype.isPointWithin = function(x,y) {
-    return (x>=0&&x<this.width&&y>=0&&y<this.height);
+    if(x>=0&&x<this.width&&y>=0&&y<this.height){
+    var t = this.getTileAt(x,y);
+        if(t){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 };
 
 Level.prototype.moveTo = function(x,y,o) {

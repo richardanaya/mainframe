@@ -184,6 +184,7 @@ TestScene.prototype.processAllMoves = function(){
             //When done
             _this.centerViewAroundPlayer();
             var options_changed = _this.listOptions();
+            this.graph = _this.level.getGraph();
             if(_this.player.autoMove() && !options_changed){
                 setTimeout(function(){
                     _this.processAllMoves();
@@ -229,6 +230,7 @@ TestScene.prototype.listOptions = function(){
 
 TestScene.prototype.onKeyDown = function(key){
     if(this.mode == "play"){
+        this.graph = this.level.getGraph();
         if(key == 37){
             this.player.moveLeft();
         }
@@ -251,6 +253,7 @@ TestScene.prototype.onKeyDown = function(key){
 
 TestScene.prototype.onTap = function(x,y){
     if(this.mode == "play"){
+        this.graph = this.level.getGraph();
         var moveToX = Math.floor((x-this.viewTranslateX)/this.viewScaleX/this.size);
         var moveToY = Math.floor((y-this.viewTranslateY)/this.viewScaleY/this.size);
 
