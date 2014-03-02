@@ -39,7 +39,12 @@ Player.prototype.setupSamurai = function(){
 }
 
 Player.prototype.move = function(x,y){
-    if(this.level.isPointWithin(x,y)){
+    if(this.level.isPointWithin(x,y) ){
+        var t = this.level.getTileAt(x,y);
+        if(t.type == Level.Types.Wall || t.type == Level.Types.Prop ){
+            return;
+        }
+
         var monsters = this.level.getObjectsByTypeOnTile(x,y,"monster");
         if(monsters.length > 0){
             this.moves.push(new Attack(this,monsters[0]));

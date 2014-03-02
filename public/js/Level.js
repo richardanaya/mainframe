@@ -10,7 +10,8 @@ Level.Types = {
     Floor : 0,
 	Wall : 1,
 	Door: 2,
-    Debug: 3
+    Debug: 3,
+    Prop: 4
 };
 
 Level.prototype.getTileAt = function(x,y) {
@@ -122,7 +123,16 @@ Level.prototype.addObjectTo = function(x,y,o) {
 };
 
 Level.prototype.isPointWithin = function(x,y) {
-    return (x>=0&&x<this.width&&y>=0&&y<this.height);
+    if(x>=0&&x<this.width&&y>=0&&y<this.height){
+    var t = this.getTileAt(x,y);
+        if(t){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 };
 
 Level.prototype.moveTo = function(x,y,o) {
