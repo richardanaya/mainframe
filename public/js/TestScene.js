@@ -110,7 +110,7 @@ TestScene.prototype.loadLevel = function(height){
         }).play();
         this.music.fade(0,1,3000);
         if(Flags.flag("intro")){
-            this.showDialog("You wake up to the sound of rain.  What happened? You feel a burning at the ache of your neck. You reach back and find blood at your neckport, but you cannot recall any memory how you arrived to the top of this building.")
+            this.showDialog("You wake up to the sound of rain.  What happened? You feel a burning at the ache of your neck. You reach back and find blood at your neckport, but you cannot recall any memory how you arrived to the top of this building.",this.player.image_idle_0,this.player.image_idle_1)
         }
     }
     else {
@@ -331,9 +331,11 @@ TestScene.prototype.onTap = function(x,y){
     }
 }
 
-TestScene.prototype.showDialog = function(text){
+TestScene.prototype.showDialog = function(text, img0, img1){
     this.mode = "dialog";
     this.dialog = new Dialog(this,text.toUpperCase());
+    this.dialog.image = img0;
+    this.dialog.imageAnim = img1;
     this.dialog.show();
     this.dialog.scene = this;
 }

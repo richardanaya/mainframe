@@ -16,11 +16,11 @@ Pickupable.prototype.onObjectEnter = function(o){
 
 Pickupable.prototype.onAction = function(action){
     if(action == "look at"){
-        this.level.scene.showDialog(this.description);
+        this.level.scene.showDialog(this.description,this.image);
     }
     if(action == "drink"){
         this.level.scene.player.removeInventory(this);
-        this.level.scene.showDialog("mmm, interesting");
+        this.level.scene.showDialog("mmm, interesting",this.image);
     }
     if(action == "equip"){
         if(this.equipped){
@@ -40,7 +40,7 @@ Pickupable.prototype.onAction = function(action){
 Pickupable.Items = {
     "lab_note_0" : {
         name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
@@ -80,7 +80,7 @@ Pickupable.Items = {
 
 Pickupable.prototype.onPickup = function(o){
     if(this.read_on_pickup){
-        this.level.scene.showDialog(this.description);
+        this.level.scene.showDialog(this.description,this.image);
     }
 }
 

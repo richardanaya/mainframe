@@ -2,6 +2,7 @@ var Dialog = function(scene,txt){
     this.scene = scene;
     this.txt = txt;
     this.visible = false;
+    this.time = 0;
 }
 
 Dialog.prototype.show = function(){
@@ -49,7 +50,23 @@ Dialog.prototype.render = function(){
             }
             context.fillText(line, x, y);
         }
-        wrapText(this.scene.ctx,this.txt,x+20, y+40, w-40,30)
+        if(this.image){
+            if(this.time%2<1){
+                this.scene.ctx.drawImage(this.image,(window.innerWidth-50)/2,y+30,80,80);
+            }
+            else {
+                if(this.imageAnim){
+                    this.scene.ctx.drawImage(this.imageAnim,(window.innerWidth-50)/2,y+30,80,80);
+                }
+                else {
+                    this.scene.ctx.drawImage(this.image,(window.innerWidth-50)/2,y+30,80,80);
+                }
+            }
+            wrapText(this.scene.ctx,this.txt,x+20, y+140, w-40,30)
+        }
+        else {
+            wrapText(this.scene.ctx,this.txt,x+20, y+40, w-40,30)
+        }
     }
 }
 
