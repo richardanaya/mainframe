@@ -35,7 +35,7 @@ Player.prototype.setupHacker = function(){
 
 Player.prototype.setupSamurai = function(){
     this.image_idle_0 = Resources.getImage("street_samurai");
-    this.image_idle_1 = Resources.getImage("street_samura_2");
+    this.image_idle_1 = Resources.getImage("street_samurai_2");
 }
 
 Player.prototype.move = function(x,y){
