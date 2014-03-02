@@ -23,7 +23,7 @@ StartScene.prototype.update = function(delta){
 
 
     this.ctx.strokeStyle = "#15dbc4";
-    for (i=0;i<55;i++)
+    for (i=0;i<20;i++)
     {
        this.ctx.lineWidth = 1;
        this.ctx.beginPath();
@@ -36,7 +36,7 @@ StartScene.prototype.update = function(delta){
     this.ctx.lineWidth = 20;
     this.ctx.globalAlpha = .2;
     this.ctx.strokeStyle = "#109486";
-    for (i=0;i<55;i++)
+    for (i=0;i<20;i++)
     {
        this.ctx.beginPath();
        this.ctx.moveTo(this.width + (1.8 * this.width) - (300 * i), this.height);
@@ -50,12 +50,12 @@ StartScene.prototype.update = function(delta){
 
 
     this.ctx.strokeStyle = "#15dbc4";
-    for (i=0;i<55;i++)
+    for (i=0;i<80;i++)
     {
        this.ctx.lineWidth = 1;
        this.ctx.beginPath();
-       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - ((this.time * 200) % (20 * 200)), this.height);
-       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - ((this.time * 200) % (20 * 200)), 0);
+       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - ((this.time * 200) % (40 * 200)), this.height);
+       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - ((this.time * 200) % (40 * 200)), 0);
        this.ctx.stroke();
     }
 
@@ -63,11 +63,11 @@ StartScene.prototype.update = function(delta){
     this.ctx.lineWidth = 20;
     this.ctx.globalAlpha = .2;
     this.ctx.strokeStyle = "#109486";
-    for (i=0;i<55;i++)
+    for (i=0;i<80;i++)
     {
        this.ctx.beginPath();
-       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - ((this.time * 200) % (20 * 200)), this.height);
-       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - ((this.time * 200) % (20 * 200)), 0);
+       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - ((this.time * 200) % (40 * 200)), this.height);
+       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - ((this.time * 200) % (40 * 200)), 0);
        this.ctx.stroke();
     }
 
@@ -82,9 +82,9 @@ StartScene.prototype.update = function(delta){
 
     this.ctx.fillStyle=grd;
     this.ctx.beginPath();
-    this.ctx.moveTo(.4 * this.width,0);
+    this.ctx.moveTo(.235 * this.width,0);
     this.ctx.lineTo(this.width,0);
-    this.ctx.lineTo(this.width,.25 * this.height);
+    this.ctx.lineTo(this.width,.32 * this.height);
 
     this.ctx.fill();
 
