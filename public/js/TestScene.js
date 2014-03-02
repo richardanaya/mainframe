@@ -5,7 +5,6 @@ var TestScene = function(game){
     this.player = new Player();
     this.currentHeight = 1000
     this.mode = "play";
-    this.showDialog("There's a robot! quick, kill it!");
     this.showInfoText("You awake");
     this.size = 64;
 
@@ -53,7 +52,15 @@ var TestScene = function(game){
     });
 
     this.pickupButton = new Button(this,0,100);
+    this.pickupButton.visible = false;
     this.attackButton = new Button(this,0,160,"red");
+    this.attackButton.visible = false;
+    this.inventoryButton = new Button(this,0,0);
+    this.inventoryButton.image = Resources.getImage("inventory");
+
+
+    this.inventoryDialog = new InventoryDialog(this);
+    this.inventoryDialog.scene = this;
 
     this.loadLevel(this.currentHeight)
 };
@@ -80,6 +87,10 @@ TestScene.prototype.loadLevel = function(height){
         var item = Pickupable.load("lab_note")
         this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),item);
     }
+
+
+    item = Pickupable.load("keycard")
+    this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),item);
 
     this.centerViewAroundPlayer();
 
@@ -130,19 +141,26 @@ TestScene.prototype.update = function(delta){
     this.attackButton.update(delta);
     this.attackButton.render();
     this.attackButton.x = this.width-50;
+    this.inventoryButton.x = this.width-50;
+    this.inventoryButton.y = this.height-100;
+    this.inventoryButton.render();
 
 
-    this.ctx.font = "20px Arial";
+    this.ctx.font = "8px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
-    this.ctx.fillText(this.currentHeight,this.width-80, 30);
 
     for(var i = 0 ; i < this.infoText.length ; i++){
-        this.ctx.fillText(this.infoText[i].text,10, this.height-30*i-15);
+        this.ctx.fillText(this.infoText[i].text,10, this.height-15*i-15);
     }
 
     if(this.mode == "dialog"){
         this.dialog.update(delta);
         this.dialog.render();
+    }
+
+    if(this.mode == "inventory"){
+        this.inventoryDialog.update(delta);
+        this.inventoryDialog.render();
     }
 };
 
@@ -230,11 +248,7 @@ TestScene.prototype.onTap = function(x,y){
     if(this.mode == "play"){
         var moveToX = Math.floor((x-this.viewTranslateX)/this.viewScaleX/this.size);
         var moveToY = Math.floor((y-this.viewTranslateY)/this.viewScaleY/this.size);
-        if(this.level.isPointWithin(moveToX,moveToY)){
-            this.player.autoMoveTo(Math.floor(moveToX),Math.floor(moveToY));
-            this.player.autoMove();
-            this.processAllMoves();
-        }
+
 
         if(this.pickup_target){
             if(this.pickupButton.isWithin(x,y)){
@@ -251,21 +265,51 @@ TestScene.prototype.onTap = function(x,y){
                 return;
             }
         }
+
+        if(this.inventoryButton.isWithin(x,y)){
+            if(this.inventoryDialog.visible){
+                this.inventoryDialog.hide();
+                this.mode = "play";
+                return;
+            }
+            else {
+                this.mode = "inventory";
+                this.inventoryDialog.show();
+                return;
+            }
+        }
+
+        if(this.level.isPointWithin(moveToX,moveToY)){
+            this.player.autoMoveTo(Math.floor(moveToX),Math.floor(moveToY));
+            this.player.autoMove();
+            this.processAllMoves();
+            return;
+        }
     }
     else if(this.mode == "dialog"){
         this.mode = "play";
+    }
+    else if(this.mode == "inventory"){
+        if(this.inventoryButton.isWithin(x,y)){
+            if(this.inventoryDialog.visible){
+                this.inventoryDialog.hide();
+                this.mode = "play";
+            }
+        }
+        this.inventoryDialog.onTap(x,y);
     }
 }
 
 TestScene.prototype.showDialog = function(text){
     this.mode = "dialog";
-    this.dialog = new Dialog(this,text);
+    this.dialog = new Dialog(this,text.toUpperCase());
     this.dialog.show();
     this.dialog.scene = this;
 }
 
+
 TestScene.prototype.showInfoText = function(text){
-    this.infoText.push({text:text,time:this.time});
+    this.infoText.push({text:text.toUpperCase(),time:this.time});
     if(this.infoText.length > 3){
         this.infoText.splice(0,1);
     }

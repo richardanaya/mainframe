@@ -8,6 +8,7 @@ var Player = function(){
     this.image = Resources.images.player;
     this.isAutoMoving = false;
     this.tags = ["solid","player"];
+    this.inventory = [];
 };
 
 Player.prototype = Object.create(Character.prototype);
@@ -40,6 +41,10 @@ Player.prototype.pickup = function(o){
 
 Player.prototype.stopAutoMove = function(){
     this.isAutoMoving = false;
+}
+
+Player.prototype.addToInventory = function(i){
+    this.inventory.push(i);
 }
 
 Player.prototype.autoMove = function(){

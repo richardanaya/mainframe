@@ -18,6 +18,10 @@ Pickupable.Items = {
         description: "Lab Note: Something has gone awry down in the lab",
         read_on_pickup: true,
         image : "lab_note"
+    },
+    "keycard" : {
+        name: "Keycard",
+        image : "keycard"
     }
 }
 

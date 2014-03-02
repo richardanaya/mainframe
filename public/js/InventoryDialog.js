@@ -1,43 +1,39 @@
-var Button = function(scene,x,y,background){
+var InventoryDialog = function(scene){
     this.scene = scene;
-    this.time = 0;
-    this.x = x;
-    this.y = y;
-    this.width = 50;
-    this.height = 50;
-    this.background = "black";
+    this.visible = false;
+    this.buttons = [];
+}
+
+InventoryDialog.prototype.show = function(){
+    this.sx = (this.scene.width-304)/2;
+    this.sy = (this.scene.height-304)/2;
     this.visible = true;
-    if(background){
-        this.background = background;
+    for(var i = 0 ; i < this.scene.player.inventory.length; i++){
+        var w = 5;
+        var x = i%5;
+        var y = Math.floor(i/5);
+        var b = new Button(this.scene, this.sx+10+x*60, this.sy+10+y*60, "transparent");
+        b.image = this.scene.player.inventory[i].image;
+        this.buttons.push(b);
     }
 }
 
-Button.prototype.show = function(){
-    this.visible = true;
-}
 
-Button.prototype.update = function(time){
+InventoryDialog.prototype.update = function(time){
     this.time += time;
 };
 
-Button.prototype.render = function(){
+
+InventoryDialog.prototype.render = function(){
     if(this.visible){
-        this.drawBox(this.x,this.y,50,50);
-        this.scene.ctx.globalAlpha = .4;
-        this.scene.ctx.fillStyle = this.background;
-        this.scene.ctx.fillRect(this.x+4,this.y+4,42,42);
-        this.scene.ctx.globalAlpha = 1;
-        if(this.image){
-            this.scene.ctx.drawImage(this.image,this.x,this.y,50,50)
+        this.drawBox(this.sx,this.sy,304,304);
+        for(var i = 0 ; i < this.buttons.length ; i++){
+            this.buttons[i].render();
         }
     }
 }
 
-Button.prototype.isWithin = function(x,y){
-    return (x>=this.x&&x<this.x+this.width&&y>=this.y&&y<this.y+this.height);
-}
-
-Button.prototype.drawBox = function(x,y,width,height){
+InventoryDialog.prototype.drawBox = function(x,y,width,height){
     dialog_bg = Resources.getImage("dialog_bg");
     dialog_frame_bottom = Resources.getImage("dialog_frame_bottom");
     dialog_frame_bottomleft = Resources.getImage("dialog_frame_bottomleft");
@@ -67,8 +63,19 @@ Button.prototype.drawBox = function(x,y,width,height){
     this.scene.ctx.drawImage(dialog_frame_bottom,x+4,y+height-4,width-8,4);
 }
 
-
-
-Button.prototype.hide = function(){
+InventoryDialog.prototype.hide = function(){
     this.visible = false;
+}
+
+
+InventoryDialog.prototype.onTap = function(x,y){
+    for(var i = 0 ; i < this.buttons.length ; i++){
+        if(this.buttons[i].isWithin(x,y)){
+            this.onInventoryTouch(this.scene.player.inventory[i]);
+        }
+    }
+}
+
+InventoryDialog.prototype.onInventoryTouch = function(i){
+    alert(i.name);
 }

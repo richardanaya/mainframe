@@ -3,6 +3,8 @@ var Robot = function(){
     this.x = 0;
     this.y = 0;
     this.image = Resources.images.robot;
+    this.image_idle_0 = Resources.images.robot_idle_0;
+    this.image_idle_1 = Resources.images.robot_idle_1;
     this.tags = ["solid","monster"];
     this.name = "Robot";
 };
