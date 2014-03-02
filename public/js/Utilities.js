@@ -46,7 +46,10 @@ Utilities.getDirection = function( from, to ) {
 	return Orientation.Center;
 }
 
-Utilities.isStraight = function( from, to ) {
-	if( from.x == to.x || from.y == to.y ) return true;
-	return false;
+Utilities.isHorizontal = function( from, to ) {
+	return ( from.x != to.x && from.y == to.y );
+}
+
+Utilities.isVertical = function( from, to ) {
+	return ( from.x == to.x && from.y != to.y );
 }
