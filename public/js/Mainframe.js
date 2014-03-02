@@ -33,9 +33,9 @@ Mainframe.prototype.onKeyDown = function(key){
     }
 };
 
-Mainframe.prototype.onMouseDown = function(e){
+Mainframe.prototype.onTap = function(e){
     if(this.currentScene){
-        this.currentScene.onTouchDown(e.offsetX, e.offsetY);
+        this.currentScene.onTap(e.gesture.touches[0].offsetX, e.gesture.touches[0].offsetY);
     }
 };
 
@@ -72,5 +72,7 @@ Mainframe.prototype.start = function(){
     })();
 
     $(document).keydown(function(e){_this.onKeyDown(e.keyCode);});
-    $('#screen').mousedown(function(e){_this.onMouseDown(e);});
+    Hammer(this.ctx.canvas).on("tap", function(e) {
+        _this.onTap(e);
+    });
 };
