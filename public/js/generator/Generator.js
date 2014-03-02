@@ -7,6 +7,7 @@ Generator.prototype.generateLevel = function( width, height ) {
 	level.height = height;
 	level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
 	level.tileset = Tileset.createOfficeTileset();
+	level.tjoins = [];
 
 	var halfWidth = Utilities.randRangeInt( 2, 5 );
 	var halfHeight = Utilities.randRangeInt( 2, 5 );
@@ -14,6 +15,7 @@ Generator.prototype.generateLevel = function( width, height ) {
 
 	this.buildWalls( level );
 	this.setupContextualTiles( level );
+	this.cleanupTJoins( level );
 
 	return level;
 }
@@ -48,7 +50,7 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 	{
 		for( var y = 0; y < room.height; y++ ) {
 			for( var x = 0; x < room.width; x++ ) {
-				level.tiles[ Utilities.positionToIndex(room.x+x,room.y+y,level.width) ] = this.createTile( Level.Types.Floor, level.tileset.floors[0], x, y );
+				level.tiles[ Utilities.positionToIndex(room.x+x,room.y+y,level.width) ] = this.createTile( Level.Types.Floor, level.tileset.floors[0], x+room.x, y+room.y );
 			}
 		}
 
@@ -102,13 +104,17 @@ Generator.prototype.canPlaceRoom = function( room, level ) {
 Generator.prototype.buildWalls = function( level ) {
 	for( var y = 0; y < level.height; y++ ) {
 		for( var x = 0; x < level.width; x++ ) {
-			if( level.getTileAt( x, y ) == null ) {
+			var tile = level.getTileAt( x, y );
+			if( tile == null ) {
 				var isWall = false;
 				var floorNeighbors = level.getNeighborsByType(x,y,Level.Types.Floor);
 				isWall = floorNeighbors.length > 0;
 				if( isWall ) {
 					level.tiles[ Utilities.positionToIndex(x,y,level.width) ] = this.createTile( Level.Types.Wall, level.tileset.props[0], x, y );
 				}
+			}
+			else if( y == 0 || y == level.height-1 || x == 0 || x == level.width-1 ) {
+				tile.type = Level.Types.Wall;
 			}
 		}
 	}
@@ -122,6 +128,7 @@ Generator.prototype.setupContextualTiles = function( level ) {
 				switch( tile.type ) {
 					case Level.Types.Wall: this.processWall( tile,x,y,level ); break;
 					case Level.Types.Door: this.processDoor( tile,x,y,level ); break;
+					case Level.Types.Floor: this.processFloor( tile,x,y,level ); break;
 				}
 			}
 		}
@@ -129,13 +136,13 @@ Generator.prototype.setupContextualTiles = function( level ) {
 }
 
 Generator.prototype.processWall = function( tile, x, y, level ) {
-	var adjWalls = level.getCardinalNeighborsByType( x, y, Level.Types.Wall );
+	var adjWalls = level.getOrdinalNeighborsByType( x, y, Level.Types.Wall );
 	if( adjWalls.length == 0 ) {
-		// pillars never happen
+		tile.wallType = Level.WallTypes.Pillar;
 		tile.image = level.tileset.props[2];
 	}
 	else if( adjWalls.length == 1 ) {
-		// end caps
+		tile.wallType = Level.WallTypes.EndCap;
 		var adjWall = adjWalls[0];
 		var dir = Utilities.getDirection( tile, adjWall );
 		switch( dir ) {
@@ -147,12 +154,15 @@ Generator.prototype.processWall = function( tile, x, y, level ) {
 	}
 	else if( adjWalls.length == 2 ) {
 		if( Utilities.isHorizontal( adjWalls[0], adjWalls[1] ) ) {
+			tile.wallType = Level.WallTypes.Straight;
 			tile.image = level.tileset.walls.straights.horizontal[0];
 		}
 		else if( Utilities.isVertical( adjWalls[0], adjWalls[1] ) ) {
+			tile.wallType = Level.WallTypes.Straight;
 			tile.image = level.tileset.walls.straights.vertical[0];
 		}
 		else {
+			tile.wallType = Level.WallTypes.Corner;
 			switch( Utilities.getCornerType( tile, adjWalls[0], adjWalls[1] ) ) {
 				case 'NorthEast': 		tile.image = level.tileset.walls.corners.northeast[0]; break;
 				case 'NorthWest': 		tile.image = level.tileset.walls.corners.northwest[0]; break;
@@ -162,15 +172,19 @@ Generator.prototype.processWall = function( tile, x, y, level ) {
 		}
 	}
 	else if( adjWalls.length == 3 ) {
-		switch( Utilities.getTJoinType( tile, adjWalls[0], adjWalls[1], adjWalls[2] ) ) {
+		tile.wallType = Level.WallTypes.TJoin;
+		tile.orientation = Utilities.getTJoinType( tile, adjWalls[0], adjWalls[1], adjWalls[2] )
+		switch( tile.orientation ) {
 			case Orientation.North: 	tile.image = level.tileset.walls.tjoins.north[0]; break;
 			case Orientation.South: 	tile.image = level.tileset.walls.tjoins.south[0]; break;
 			case Orientation.East: 		tile.image = level.tileset.walls.tjoins.east[0]; break;
 			case Orientation.West: 		tile.image = level.tileset.walls.tjoins.west[0]; break;
 			}
+		
+		level.tjoins.push( tile );
 	}
 	else {
-		// cross
+		tile.wallType = Level.WallTypes.Cross;
 		tile.image = level.tileset.walls.crosses[0];
 	}
 }
@@ -181,6 +195,86 @@ Generator.prototype.processDoor = function( tile, x, y, level ) {
 	}
 	else {
 		tile.image = level.tileset.doors.vertical[0];
+	}
+}
+
+Generator.prototype.processFloor = function( tile, x, y, level ) {
+	var walls = level.getOrdinalNeighborsByType( x,y, Level.Types.Wall );
+	switch( walls.length ) {
+		default:
+		case 0: return;
+		case 1: {
+			var wall = walls[0]
+			if( Utilities.isHorizontal( tile, wall ) ) {
+				if( tile.x > wall.x ) {
+					tile.image = level.tileset.edging.west[0];
+				}
+				else {
+					tile.image = level.tileset.edging.east[0];
+				}
+			}
+			else if( tile.y > wall.y ) {
+				tile.image = level.tileset.edging.north[0];
+			}
+			else if( tile.y < wall.y ) {
+				tile.image = level.tileset.edging.south[0];
+			}
+		}
+		break;
+		case 2: {
+			var wall1 = walls[0];
+			var wall2 = walls[1];
+			if( tile.x < wall1.x || tile.x < wall2.x ) {
+				//east
+				if( tile.y < wall1.y || tile.y < wall2.y ) {
+					tile.image = level.tileset.edging.southeast[0];
+				}
+				else {
+					tile.image = level.tileset.edging.northeast[0];
+				}
+			}
+			else if( tile.x > wall1.x || tile.x > wall2.x ) {
+				if( tile.y < wall1.y || tile.y < wall2.y ) {
+					tile.image = level.tileset.edging.southwest[0];
+				}
+				else {
+					tile.image = level.tileset.edging.northwest[0];
+				}
+			}
+		}
+		break;
+	}
+}
+
+Generator.prototype.cleanupTJoins = function( level ) {
+	for( var i = 0; i < level.tjoins.length; i++ ) {
+		var tile = level.tjoins[i];
+		var connectedTJoins = level.getOrdinalNeighborsByWallType( tile.x, tile.y, Level.WallTypes.TJoin );
+		if( connectedTJoins.length > 2 ) {
+			for( var coni = 0; coni < connectedTJoins.length; coni++ ) {
+				var tjoin = connectedTJoins[coni];
+				if( tile.orientation == Utilities.invertDirection( tjoin.orientation ) ) {
+					if( Utilities.isVertical( tile, tjoin ) && tile.orientation.isVertical ) {
+						//var img = level.tileset.props[i%level.tileset.props.length];
+						var img = level.tileset.walls.straights.horizontal[0];
+						tile.image = img;
+						tile.tileType = Level.WallTypes.Straight;
+						tjoin.image = img;
+						tjoin.tileType = Level.WallTypes.Straight;
+						break;
+					}
+					else if( Utilities.isHorizontal( tile, tjoin ) && !tile.orientation.isVertical ) {
+						//var img = level.tileset.props[i%level.tileset.props.length];
+						var img = level.tileset.walls.straights.vertical[0];
+						tile.image = img;
+						tile.tileType = Level.WallTypes.Straight;
+						tjoin.image = img;
+						tjoin.tileType = Level.WallTypes.Straight;
+						break;
+					}
+				}
+			}
+		}
 	}
 }
 

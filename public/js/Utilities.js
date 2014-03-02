@@ -1,9 +1,9 @@
 var Orientation = {
-	North: { x: 0, y: -1 },
-	South: { x: 0, y: 1 },
-	East: { x: 1, y: 0 },
-	West: { x:-1, y: 0 },
-	Center: { x:0, y: 0}
+	North: { x: 0, y: -1, isVertical: true },
+	South: { x: 0, y: 1, isVertical: true },
+	East: { x: 1, y: 0, isVertical: false },
+	West: { x:-1, y: 0, isVertical: false },
+	Center: { x:0, y: 0, isVertical: false }
 }
 
 var Utilities = function() {
@@ -46,8 +46,8 @@ Utilities.getDirection = function( from, to ) {
 	return Orientation.Center;
 }
 
-Utilities.getInverseDirection = function( from, to ) {
-	switch( this.getDirection( from, to ) ) {
+Utilities.invertDirection = function( dir ) {
+	switch( dir ) {
 		case Orientation.North: return Orientation.South;
 		case Orientation.South: return Orientation.North;
 		case Orientation.East: return Orientation.West;
@@ -55,6 +55,10 @@ Utilities.getInverseDirection = function( from, to ) {
 	}
 
 	return Orientation.Center;
+}
+
+Utilities.getInverseDirection = function( from, to ) {
+	return this.invertDirection( this.getDirection( from, to ) );
 }
 
 Utilities.isHorizontal = function( from, to ) {
@@ -67,6 +71,9 @@ Utilities.isVertical = function( from, to ) {
 
 Utilities.isStraight = function( from, to ) {
 	return this.isHorizontal( from, to ) || this.isVertical( from, to );
+}
+
+Utilities.inARow = function( tile, list ) {
 }
 
 Utilities.getCornerType = function( center, first, second ) {
@@ -91,8 +98,6 @@ Utilities.getCornerType = function( center, first, second ) {
 
 	return "Unknown";
 }
-
-
 
 Utilities.getTJoinType = function( center, first, second, third ) {
 	if( this.isStraight( first, second ) ) {

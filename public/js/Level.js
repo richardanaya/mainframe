@@ -7,11 +7,21 @@ var Level = function() {
 }
 
 Level.Types = {
-    Floor : 0,
-	Wall : 1,
-	Door: 2,
-    Debug: 3,
-    Prop: 4
+    None : 0,
+    Floor : 1,
+	Wall : 2,
+	Door: 3,
+    Debug: 4,
+    Prop: 5
+};
+
+Level.WallTypes = {
+    Pillar : 0,
+    EndCap: 1,
+    Straight : 2,
+    Corner : 3,
+    TJoin : 4,
+    Cross: 5
 };
 
 Level.prototype.getTileAt = function(x,y) {
@@ -60,7 +70,7 @@ Level.prototype.getNeighborsByType = function(x,y,type) {
     return result;
 }
 
-Level.prototype.getCardinalNeighbors = function(x,y) {
+Level.prototype.getOrdinalNeighbors = function(x,y) {
     var t = [];
     if(this.isPointWithin(x,y-1)){
         t.push(this.getTileAt(x,y-1));
@@ -77,12 +87,25 @@ Level.prototype.getCardinalNeighbors = function(x,y) {
     return t;
 }
 
-Level.prototype.getCardinalNeighborsByType = function(x,y,type ) {
-    var neighbors = this.getCardinalNeighbors(x,y);
+Level.prototype.getOrdinalNeighborsByType = function(x,y,type ) {
+    var neighbors = this.getOrdinalNeighbors(x,y);
     var result = [];
     for( var i = 0; i < neighbors.length; i++ ) {
         var tile = neighbors[i];
         if( tile != null && tile != undefined && tile.type == type ) {
+            result.push( tile );
+        }
+    }
+
+    return result;
+}
+
+Level.prototype.getOrdinalNeighborsByWallType = function(x,y,type ) {
+    var neighbors = this.getOrdinalNeighbors(x,y);
+    var result = [];
+    for( var i = 0; i < neighbors.length; i++ ) {
+        var tile = neighbors[i];
+        if( tile != null && tile != undefined && tile.type == Level.Types.Wall && tile.wallType == type ) {
             result.push( tile );
         }
     }
