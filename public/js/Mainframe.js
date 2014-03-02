@@ -14,6 +14,8 @@ Mainframe.prototype.update = function(){
     this.currentScene.height = this.currentHeight;
     this.currentScene.ctx = this.ctx;
     this.ctx.clearRect(0,0,this.currentWidth,this.currentHeight);
+    this.ctx.fillStyle = "#0e0e0e";
+    this.ctx.fillRect(0,0,this.currentWidth,this.currentHeight);
 this.ctx.save();
 
 this.ctx.imageSmoothingEnabled = false;

@@ -9,7 +9,8 @@ var Level = function() {
 Level.Types = {
     Floor : 0,
 	Wall : 1,
-	Connector: 2
+	Connector: 2,
+    Debug: 3
 };
 
 Level.prototype.getTileAt = function(x,y) {
@@ -121,6 +122,8 @@ Level.prototype.getObjectsAt = function(x,y){
 Level.prototype.getObjectsByTypeOnTile = function(x,y,type){
     var t = this.getTileAt(x,y);
     var o = [];
+	if( t == null || t == undefined ) return o;
+
     for(var i = 0 ; i < t.objects.length; i++){
         if(t.objects[i].tags.indexOf(type)!=-1){
             o.push(t.objects[i]);

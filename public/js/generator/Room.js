@@ -19,42 +19,32 @@ var Room = function() {
 	this.connectors = [];
 }
 
-Room.createRoom = function( startPos, width, height, numConnectors, level ) {
+Room.createRoom = function( startPos, width, height, from, numConnectors, level ) {
 	var result = new Room();
 	result.width = width;
 	result.height = height;
 	for( var y = 0; y < height; y++ ) {
 		for( var x = 0; x < width; x++ ) {
 			var index = (y+startPos.y)*level.width+(x+startPos.x);
-			if( y == 0 || y == height-1 || x == 0 || x == width-1 ) {
-				result.tiles.push( { index: index, type: Level.Types.Wall  } );
-			}
-			else {
-				result.tiles.push( { index: index, type: Level.Types.Floor } );
-			}
+			result.tiles.push( { index: index, type: Level.Types.Floor } );
 		}
 	}
 
-	var perimeter = (width-1)*2+(height-1)*2;
-	for( var c = 0; c < numConnectors; ++c ) {
-		var selected = Utilities.randRangeInt( 0, perimeter );
-		if( selected < width ) { //top
-			result.connectors[c] = new Connector( { x: selected+startPos.x, y:startPos.y }, Orientation.North );
-		}
-		else if( selected < width+height ) { //right side
-			result.connectors[c] = new Connector( { x: startPos.x+width-1, y:startPos.y+selected-width }, Orientation.East );
-		}
-		else if( selected < width*2+height ) { //bottom
-			result.connectors[c] = new Connector( { x: (selected-height)%width+startPos.x, y: startPos.y+height-1 }, Orientation.South );
-		}
-		else { //left side
-			result.connectors[c] = new Connector( { x: startPos.x, y: startPos.y+selected%width }, Orientation.West );
+	for( var roomIndex = 0; roomIndex < numConnectors; ++roomIndex ) {
+		var randWidth = Utilities.randRangeInt(1,result.width-2); 
+		var randHeight = Utilities.randRangeInt(1,result.height-2);
+		switch( Utilities.randRangeInt(0,4) ) {
+			default:
+			case 0: result.connectors[roomIndex] = new Connector( {x:randWidth+startPos.x,y:startPos.y}, Orientation.North ); break;
+			case 1: result.connectors[roomIndex] = new Connector( {x:startPos.x+width-1,y:startPos.y+randHeight}, Orientation.East ); break;
+			case 2: result.connectors[roomIndex] = new Connector( {x:startPos.x+randWidth,y:startPos.y+result.height-1}, Orientation.South ); break;
+			case 3: result.connectors[roomIndex] = new Connector( {x:startPos.x,y:startPos.y+randHeight}, Orientation.West ); break;
 		}
 
-		result.connectors[c].position.x += result.connectors[c].orientation.pos.x;
-		result.connectors[c].position.y += result.connectors[c].orientation.pos.y;
-		result.connectors[c].index = (result.connectors[c].position.y)*level.width+(result.connectors[c].position.x)
-	}	
+		result.connectors[roomIndex].position.x += result.connectors[roomIndex].orientation.pos.x;
+		result.connectors[roomIndex].position.y += result.connectors[roomIndex].orientation.pos.y;
+		result.connectors[roomIndex].index = (result.connectors[roomIndex].position.y)*level.width+(result.connectors[roomIndex].position.x);
+	}
 
 	return result;
 }
