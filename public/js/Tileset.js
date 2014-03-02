@@ -20,6 +20,17 @@ Tileset.createOfficeTileset = function() {
 		Utilities.createImage( 'images/tilesets/office/floors/floor04.png' )
 	];
 
+	result.edging = {
+		north: 			[Utilities.createImage( 'images/tilesets/office/floors/floor_shadow_top.png' )], 
+		northeast: 		[Utilities.createImage( 'images/tilesets/office/floors/floor_shadow_topright.png' )], 
+		east: 			[Utilities.createImage( 'images/tilesets/office/floors/floor_shadow_right.png' )], 
+		southeast: 		[Utilities.createImage( 'images/tilesets/office/floors/floor_shadow_bottomright.png' )], 
+		south: 			[Utilities.createImage( 'images/tilesets/office/floors/floor_shadow_bottom.png' )], 
+		southwest: 		[Utilities.createImage( 'images/tilesets/office/floors/floor_shadow_bottomleft.png' )], 
+		west: 			[Utilities.createImage( 'images/tilesets/office/floors/floor_shadow_left.png' )], 
+		northwest:	 	[Utilities.createImage( 'images/tilesets/office/floors/floor_shadow_topleft.png' )], 
+	};
+
 	result.walls = {
 		pillars: [ Utilities.createImage('images/grass.png') ],
 		crosses: [ Utilities.createImage('images/tilesets/office/walls/wall_cross.png') ],
