@@ -7,19 +7,21 @@ Generator.prototype.generateLevel = function( width, height ) {
 	level.height = height;
 	level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
 	level.tileset = Tileset.createOfficeTileset();
-	level.rooms = [];
-	level.tjoins = [];
-
+	
 	var halfWidth = Utilities.randRangeInt( 2, 5 );
 	var halfHeight = Utilities.randRangeInt( 2, 5 );
 	this.createRoom( level.center.x-halfWidth, level.center.y-halfHeight, halfWidth, halfHeight, level );
 
+	this.postProcess( level );
+
+	return level;
+}
+
+Generator.prototype.postProcess = function( level ) {
 	this.buildWalls( level );
 	this.setupContextualTiles( level );
 	this.cleanupTJoins( level );
 	level.tileset.doPropPass( level );
-
-	return level;
 }
 
 Generator.prototype.tryCreateRoom = function( connector, level ) {
@@ -288,5 +290,5 @@ Generator.prototype.cleanupTJoins = function( level ) {
 }
 
 Generator.prototype.createTile = function( type, img, x, y ) {
-	return { type: type, image: img, objects: [], x: x, y: y, noblock: false };
+	return { type: type, image: img, objects: [], x: x, y: y, noblock: false, explored: false };
 }

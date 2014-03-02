@@ -16,13 +16,13 @@ Mainframe.prototype.update = function(){
     this.ctx.clearRect(0,0,this.currentWidth,this.currentHeight);
     this.ctx.fillStyle = "#0e0e0e";
     this.ctx.fillRect(0,0,this.currentWidth,this.currentHeight);
-this.ctx.save();
+    this.ctx.save();
 
-this.ctx.imageSmoothingEnabled = false;
-this.ctx.webkitImageSmoothingEnabled = false;
-this.ctx.mozImageSmoothingEnabled = false;
-this.currentScene.update(1/60);
-this.ctx.restore();
+    this.ctx.imageSmoothingEnabled = false;
+    this.ctx.webkitImageSmoothingEnabled = false;
+    this.ctx.mozImageSmoothingEnabled = false;
+    this.currentScene.update(1/60);
+    this.ctx.restore();
 };
 
 Mainframe.prototype.GetLevel = function(height){
@@ -47,8 +47,7 @@ Mainframe.prototype.GetLevel = function(height){
         }
 
 
-        generator.buildWalls( level );
-        generator.setupContextualTiles( level );
+        generator.postProcess( level );
 
         return level;
     }
