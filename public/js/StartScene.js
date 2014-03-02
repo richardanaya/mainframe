@@ -54,8 +54,8 @@ StartScene.prototype.update = function(delta){
     {
        this.ctx.lineWidth = 1;
        this.ctx.beginPath();
-       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - ((this.time * 200) % (30 * 200)), this.height);
-       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - ((this.time * 200) % (30 * 200)), 0);
+       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - ((this.time * 100) % (30 * 200)), this.height);
+       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - ((this.time * 100) % (30 * 200)), 0);
        this.ctx.stroke();
     }
 
@@ -66,8 +66,8 @@ StartScene.prototype.update = function(delta){
     for (i=0;i<70;i++)
     {
        this.ctx.beginPath();
-       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - ((this.time * 200) % (30 * 200)), this.height);
-       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - ((this.time * 200) % (30 * 200)), 0);
+       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - ((this.time * 100) % (30 * 200)), this.height);
+       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - ((this.time * 100) % (30 * 200)), 0);
        this.ctx.stroke();
     }
 
