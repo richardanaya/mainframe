@@ -100,6 +100,19 @@ Level.prototype.getOrdinalNeighborsByType = function(x,y,type ) {
     return result;
 }
 
+Level.prototype.getOrdinalNeighborsByWallType = function(x,y,type ) {
+    var neighbors = this.getOrdinalNeighbors(x,y);
+    var result = [];
+    for( var i = 0; i < neighbors.length; i++ ) {
+        var tile = neighbors[i];
+        if( tile != null && tile != undefined && tile.type == Level.Types.Wall && tile.wallType == type ) {
+            result.push( tile );
+        }
+    }
+
+    return result;
+}
+
 Level.prototype.getGraph = function() {
     var graph = [];
     for(var x = 0; x < this.width; x++){

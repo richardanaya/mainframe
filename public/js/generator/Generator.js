@@ -15,7 +15,7 @@ Generator.prototype.generateLevel = function( width, height ) {
 
 	this.buildWalls( level );
 	this.setupContextualTiles( level );
-	//this.cleanupTJoins( level );
+	this.cleanupTJoins( level );
 
 	return level;
 }
@@ -169,12 +169,14 @@ Generator.prototype.processWall = function( tile, x, y, level ) {
 	}
 	else if( adjWalls.length == 3 ) {
 		tile.wallType = Level.WallTypes.TJoin;
-		switch( Utilities.getTJoinType( tile, adjWalls[0], adjWalls[1], adjWalls[2] ) ) {
+		tile.orientation = Utilities.getTJoinType( tile, adjWalls[0], adjWalls[1], adjWalls[2] )
+		switch( tile.orientation ) {
 			case Orientation.North: 	tile.image = level.tileset.walls.tjoins.north[0]; break;
 			case Orientation.South: 	tile.image = level.tileset.walls.tjoins.south[0]; break;
 			case Orientation.East: 		tile.image = level.tileset.walls.tjoins.east[0]; break;
 			case Orientation.West: 		tile.image = level.tileset.walls.tjoins.west[0]; break;
 			}
+		
 		level.tjoins.push( tile );
 	}
 	else {
@@ -243,18 +245,26 @@ Generator.prototype.processFloor = function( tile, x, y, level ) {
 Generator.prototype.cleanupTJoins = function( level ) {
 	for( var i = 0; i < level.tjoins.length; i++ ) {
 		var tile = level.tjoins[i];
-		var connectedWalls = level.getOrdinalNeighborsByType( tile.x, tile.y, Level.Types.Wall );
-		for( var coni = 0; coni < connectedWalls.length; coni++ ) {
-			var wall = connectedWalls[coni];
-			if( wall.wallType != Level.Types.TJoin ) {
-				if( Utilities.isVertical( tile, wall ) ) {
-					tile.image = level.tileset.walls.straights.vertical[0];
+		var connectedTJoins = level.getOrdinalNeighborsByWallType( tile.x, tile.y, Level.WallTypes.TJoin );
+		if( connectedTJoins.length > 2 ) {
+			for( var coni = 0; coni < connectedTJoins.length; coni++ ) {
+				var tjoin = connectedTJoins[coni];
+				if( tile.orientation == Utilities.invertDirection( tjoin.orientation ) ) {
+					if( Utilities.isVertical( tile, tjoin ) ) {
+						tile.image = level.tileset.walls.straights.horizontal[0];
+						tile.tileType = Level.WallTypes.Straight;
+						tjoin.image = level.tileset.walls.straights.horizontal[0];
+						tjoin.tileType = Level.WallTypes.Straight;
+					}
+					else
+					{
+						tile.image = level.tileset.walls.straights.vertical[0];
+						tile.tileType = Level.WallTypes.Straight;
+						tjoin.image = level.tileset.walls.straights.vertical[0];
+						tjoin.tileType = Level.WallTypes.Straight;
+					}
+					break;
 				}
-				else {
-					tile.image = level.tileset.walls.straights.horizontal[0];
-				}
-				tile.wallType = Level.WallTypes.Straight;
-				break;
 			}
 		}
 	}
