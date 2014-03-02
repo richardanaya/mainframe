@@ -19,6 +19,7 @@ var Player = function(){
     this.isAutoMoving = false;
     this.tags = ["solid","player"];
     this.inventory = [];
+    this.activeRoom = null;
 };
 
 Player.prototype = Object.create(Character.prototype);
@@ -84,6 +85,9 @@ Player.prototype.pickup = function(o){
 }
 
 Player.prototype.explore = function(){
+    var standingTile = this.level.getTileAt( this.x, this.y );
+    this.activeRoom = standingTile.room;
+
     for( var sightCheckY = this.y-this.sightRadius; sightCheckY < this.y+this.sightRadius; sightCheckY++ ) {
         for( var sightCheckX = this.x-this.sightRadius; sightCheckX < this.x+this.sightRadius; sightCheckX++ ) {
             var diff = { x: sightCheckX-this.x, y: sightCheckY-this.y };

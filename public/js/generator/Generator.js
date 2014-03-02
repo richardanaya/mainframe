@@ -46,7 +46,7 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 		height: halfHeight*2,
 		x: left,
 		y: top,
-		center: { x: left+halfWidth, y: top+halfHeight }
+		center: { x: left+halfWidth, y: top+halfHeight },
 	};
 
 	var result = false;
@@ -54,7 +54,7 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 	{
 		for( var y = 0; y < room.height; y++ ) {
 			for( var x = 0; x < room.width; x++ ) {
-				level.tiles[ Utilities.positionToIndex(room.x+x,room.y+y,level.width) ] = this.createTile( Level.Types.Floor, level.tileset.floors[0], x+room.x, y+room.y );
+				level.tiles[ Utilities.positionToIndex(room.x+x,room.y+y,level.width) ] = this.createTile( Level.Types.Floor, level.tileset.floors[0], x+room.x, y+room.y, room );
 			}
 		}
 
@@ -289,6 +289,6 @@ Generator.prototype.cleanupTJoins = function( level ) {
 	}
 }
 
-Generator.prototype.createTile = function( type, img, x, y ) {
-	return { type: type, image: img, objects: [], x: x, y: y, noblock: false, explored: false };
+Generator.prototype.createTile = function( type, img, x, y, room ) {
+	return { type: type, image: img, objects: [], x: x, y: y, noblock: false, explored: false, room: room };
 }

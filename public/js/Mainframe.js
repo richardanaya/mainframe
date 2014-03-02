@@ -85,6 +85,7 @@ Mainframe.prototype.start = function(){
     Resources.addImage("robot_idle_0","images/robot_1.png");
     Resources.addImage("robot_idle_1","images/robot_2.png");
     Resources.addImage("keycard","images/keycard.png");
+    Resources.addImage("fowoverlay","images/fogofwar.png");
 
     var _this = this;
     this.ctx = $('#screen').get(0).getContext('2d');
