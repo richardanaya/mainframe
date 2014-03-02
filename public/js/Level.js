@@ -131,3 +131,5 @@ Level.prototype.getObjectsByTypeOnTile = function(x,y,type){
     }
     return o;
 }
+
+var generator = new Generator();

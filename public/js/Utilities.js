@@ -14,3 +14,7 @@ Utilities.createImage = function( url ) {
 	result.src = url;
 	return result;
 }
+
+Utilities.PositionToIndex = function( x, y, width ) {
+	return y*width+x;
+}
