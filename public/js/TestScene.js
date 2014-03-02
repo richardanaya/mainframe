@@ -99,6 +99,23 @@ TestScene.prototype.loadLevel = function(height){
     this.centerViewAroundPlayer();
     this.level.scene = this;
     this.currentHeight = height;
+
+    if(this.music){
+        this.music.fade(1,0,1000);
+    }
+    if(height == 1000){
+        this.music = new Howl({
+            urls: ['sounds/rain.mp3'],
+            loop: true
+        }).play();
+        this.music.fade(0,1,1000);
+        if(Flags.flag("intro")){
+            this.showDialog("You wake up to the sound of rain.  What happened? You feel a burning at the ache of your neck. You reach back and find blood at your neckport, but you cannot recall any memory how you arrived to the top of this building.")
+        }
+    }
+    else {
+        this.music = null;
+    }
 };
 
 TestScene.prototype.centerViewAroundPlayer = function(){
