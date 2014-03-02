@@ -219,7 +219,13 @@ TestScene.prototype.listOptions = function(){
     var options_changed = false;
     var pickup_targets = this.level.getObjectsByTypeOnTile(this.player.x,this.player.y,"item");
     if(pickup_targets.length>0){
-        this.showInfoText("You are standing on something");
+        if(pickup_targets[0].id && Pickupable.Items[pickup_targets[0].id].floor_name){
+            this.showInfoText("You are standing by a "+Pickupable.Items[pickup_targets[0].id].floor_name);
+        }
+        else {
+            this.showInfoText("You are standing by something");
+        }
+
         if(this.pickup_target != pickup_targets[0]){ options_changed = true;}
         this.pickup_target = pickup_targets[0];
         this.pickupButton.image = this.pickup_target.image;
