@@ -137,11 +137,11 @@ TestScene.prototype.update = function(delta){
 
     this.pickupButton.update(delta);
     this.pickupButton.render();
-    this.pickupButton.x = this.width-this.attackButton.width;
+    this.pickupButton.x = this.width-this.attackButton.width-10;
     this.attackButton.update(delta);
     this.attackButton.render();
-    this.attackButton.x = this.width-this.attackButton.width;
-    this.inventoryButton.x = this.width-this.attackButton.width;
+    this.attackButton.x = this.width-this.attackButton.width-10;
+    this.inventoryButton.x = this.width-this.attackButton.width-10;
     this.inventoryButton.y = this.height-this.attackButton.height-50;
     this.inventoryButton.render();
 

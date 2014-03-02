@@ -10,6 +10,7 @@ InventoryDialog.prototype.show = function(){
     this.sx = (this.scene.width-this.width)/2;
     this.sy = (this.scene.height-this.height)/2;
     this.visible = true;
+    this.buttons = [];
     for(var i = 0 ; i < this.scene.player.inventory.length; i++){
         var w = 5;
         var x = i%5;

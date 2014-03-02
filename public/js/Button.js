@@ -52,29 +52,35 @@ Button.prototype.drawBox = function(x,y,width,height){
     dialog_frame_topleft = Resources.getImage("dialog_frame_topleft");
     dialog_frame_topright = Resources.getImage("dialog_frame_topright");
 
+    var context = this.scene.ctx;
 
+    context.save();
+    // Draw the path that is going to be clipped
+    context.beginPath();
+    context.rect(x,y,width,height);
+    context.clip();
 
+    context.beginPath();
     for(var xx=0;xx<width/32;xx++){
         for(var yy=0;yy<height/32;yy++){
-            if(xx*32+32>width || yy*32+32>height){
-                this.scene.ctx.drawImage(dialog_bg,x+xx*32,y+yy*32,xx*32-width,yy*32+32-height,0,0,xx*32+32-width,yy*32-height);
-            }
-            else {
-                this.scene.ctx.drawImage(dialog_bg,x+xx*32,y+yy*32);
-            }
+            this.scene.ctx.drawImage(dialog_bg,x+xx*32,y+yy*32,32,32);
         }
     }
 
 
-    this.scene.ctx.drawImage(dialog_frame_topleft,x,y);
-    this.scene.ctx.drawImage(dialog_frame_top,x+4,y,width-8,4);
-    this.scene.ctx.drawImage(dialog_frame_bottomleft,x,y+height-4);
-    this.scene.ctx.drawImage(dialog_frame_left,x,y+4,4,height-8);
-    this.scene.ctx.drawImage(dialog_frame_right,x+width-4,y+4,4,height-8);
-    this.scene.ctx.drawImage(dialog_frame_topright,x+width-4,y);
-    this.scene.ctx.drawImage(dialog_frame_bottomright,x+width-4,y+height-4);
-    this.scene.ctx.drawImage(dialog_frame_bottom,x+4,y+height-4,width-8,4);
+    context.restore();
+
+
+    this.scene.ctx.drawImage(dialog_frame_topleft,x,y,8,8);
+    this.scene.ctx.drawImage(dialog_frame_top,x+8,y,width-16,8);
+    this.scene.ctx.drawImage(dialog_frame_bottomleft,x,y+height-8,8,8);
+    this.scene.ctx.drawImage(dialog_frame_left,x,y+8,8,height-16);
+    this.scene.ctx.drawImage(dialog_frame_right,x+width-8,y+8,8,height-16);
+    this.scene.ctx.drawImage(dialog_frame_topright,x+width-8,y,8,8);
+    this.scene.ctx.drawImage(dialog_frame_bottomright,x+width-8,y+height-8,8,8);
+    this.scene.ctx.drawImage(dialog_frame_bottom,x+8,y+height-8,width-16,8);
 }
+
 
 
 Button.prototype.hide = function(){
