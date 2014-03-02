@@ -92,9 +92,9 @@ Level.prototype.getCardinalNeighborsByType = function(x,y,type ) {
 
 Level.prototype.getGraph = function() {
     var graph = [];
-    for(var y = 0; y < this.height; y++){
+    for(var x = 0; x < this.width; x++){
         var row = [];
-        for(var x = 0; x < this.width; x++){
+        for(var y = 0; y < this.height; y++){
             var t = this.getTileAt(x,y);
             if(!t || t.type == Level.Types.Wall || t.type == Level.Types.Prop ){
                 row.push(0);

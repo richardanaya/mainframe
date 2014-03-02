@@ -97,8 +97,8 @@ Player.prototype.removeInventory = function(i){
 
 Player.prototype.autoMove = function(){
     if(this.isAutoMoving){
-        var start = this.level.scene.graph.nodes[this.y][this.x];
-        var end = this.level.scene.graph.nodes[this.autoMoveY][this.autoMoveX];
+        var start = this.level.scene.graph.nodes[this.x][this.y];
+        var end = this.level.scene.graph.nodes[this.autoMoveX][this.autoMoveY];
         var result = astar.search(this.level.scene.graph.nodes, start, end);
         /*var xOffset = (this.autoMoveX-this.x);
         if(xOffset != 0){ xOffset /= Math.abs(this.autoMoveX-this.x);}
@@ -111,7 +111,7 @@ Player.prototype.autoMove = function(){
             this.isAutoMoving = false;
             return false;
         }
-        this.move(result[0].y,result[0].x);
+        this.move(result[0].x,result[0].y);
 
         return true;
     }
