@@ -21,7 +21,9 @@ var TestScene = function(game){
     });
 
     $('#screen').on('mousewheel', function(event) {
-
+        var scaleStep = 1.5;
+        var x = event.offsetX;
+        var y = event.offsetY;
         //var moveToX = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX/_this.size);
         //var moveToY = Math.floor((event.offsetY-_this.viewTranslateY)/_this.viewScaleY/_this.size);
         if(event.deltaY>0){
@@ -31,8 +33,15 @@ var TestScene = function(game){
             var myafter = Math.floor((event.offsetY-_this.viewTranslateY)/(_this.viewScaleY +.1));
             _this.viewTranslateX += (mxafter-mx)/2;
             _this.viewTranslateY += (myafter-my)/2;*/
-            _this.viewScaleX +=.1;
-            _this.viewScaleY +=.1;
+            var mx = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
+            var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
+            _this.viewScaleX *= scaleStep;
+            _this.viewScaleY *= scaleStep;
+            var mxpost = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
+            var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
+            _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
+            _this.viewTranslateY -= (my-mypost)*_this.viewScaleY;
+            console.log(mx+" "+mxpost);
         }
         else {
             /*var mx = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX);
@@ -43,10 +52,19 @@ var TestScene = function(game){
             _this.viewTranslateY -= myafter-my;*/
             /*_this.viewTranslateX += (_this.viewTranslateX-mx)/2*.1
             _this.viewTranslateY += (_this.viewTranslateY-my)/2*.1*/
-            _this.viewScaleX -=.1;
-            _this.viewScaleY -=.1;
+            //_this.viewScaleX -=.1;
+            //_this.viewScaleY -=.1;
+            var mx = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
+            var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
+            _this.viewScaleX /=scaleStep;
+            _this.viewScaleY /=scaleStep;
+            var mxpost = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
+            var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
+            _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
+            _this.viewTranslateY -= (my-mypost)*_this.viewScaleY;
+            console.log(mx+" "+mxpost);
         }
-        _this.centerViewAroundPlayer();//moveToX,moveToY);
+        //_this.centerViewAroundPlayer();//moveToX,moveToY);
     });
 
     Hammer($('#screen').get(0)).on("drag", function(e) {
