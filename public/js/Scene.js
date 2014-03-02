@@ -5,6 +5,7 @@ var Scene = function(){
 };
 
 Scene.prototype.update = function(delta){
+
 }
 
 Scene.prototype.onTouchDown = function(x,y){

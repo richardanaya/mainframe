@@ -3,14 +3,40 @@ var Player = function(){
     this.x = 0;
     this.y = 0;
     this.image = Resources.images.player;
-    this.image_idle_0 = Resources.images.player_idle_0;
-    this.image_idle_1 = Resources.images.player_idle_1;
+    var r = Math.random();
+    if(r<.33){
+        this.setupScientist();
+    }
+    else if(r<.66){
+        this.setupHacker();
+    }
+    else {
+        this.setupSamurai();
+    }
+
     this.image = Resources.images.player;
     this.isAutoMoving = false;
     this.tags = ["solid","player"];
+    this.inventory = [];
 };
 
 Player.prototype = Object.create(Character.prototype);
+
+Player.prototype.setupScientist = function(){
+
+    this.image_idle_0 = Resources.getImage("scientist_1");
+    this.image_idle_1 = Resources.getImage("scientist_1");
+}
+
+Player.prototype.setupHacker = function(){
+    this.image_idle_0 = Resources.getImage("hacker_1");
+    this.image_idle_1 = Resources.getImage("hacker_2");
+}
+
+Player.prototype.setupSamurai = function(){
+    this.image_idle_0 = Resources.getImage("street_samurai");
+    this.image_idle_1 = Resources.getImage("street_samurai_2");
+}
 
 Player.prototype.move = function(x,y){
     if(this.level.isPointWithin(x,y)){
@@ -30,6 +56,17 @@ Player.prototype.move = function(x,y){
     }
 }
 
+
+Player.prototype.getInventoryWithTag = function(t){
+    var j = [];
+    for(var i = 0 ; i < this.inventory.length; i++){
+        if(this.inventory[i].tags.indexOf(t) != -1){
+            j.push(this.inventory[i]);
+        }
+    }
+    return j;
+}
+
 Player.prototype.attack = function(o){
     this.moves.push(new Attack(this,o));
 }
@@ -40,6 +77,17 @@ Player.prototype.pickup = function(o){
 
 Player.prototype.stopAutoMove = function(){
     this.isAutoMoving = false;
+}
+
+Player.prototype.addToInventory = function(i){
+    this.inventory.push(i);
+}
+
+Player.prototype.removeInventory = function(i){
+    var i = this.inventory.indexOf(i);
+    if(i != -1){
+        this.inventory.slice(i,1);
+    }
 }
 
 Player.prototype.autoMove = function(){

@@ -5,7 +5,6 @@ var TestScene = function(game){
     this.player = new Player();
     this.currentHeight = 1000
     this.mode = "play";
-    this.showDialog("There's a robot! quick, kill it!");
     this.showInfoText("You awake");
     this.size = 64;
 
@@ -24,15 +23,8 @@ var TestScene = function(game){
         var scaleStep = 1.5;
         var x = event.offsetX;
         var y = event.offsetY;
-        //var moveToX = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX/_this.size);
-        //var moveToY = Math.floor((event.offsetY-_this.viewTranslateY)/_this.viewScaleY/_this.size);
         if(event.deltaY>0){
-            /*var mx = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX);
-            var my = Math.floor((event.offsetY-_this.viewTranslateY)/_this.viewScaleY);
-            var mxafter = Math.floor((event.offsetX-_this.viewTranslateX)/(_this.viewScaleX +.1));
-            var myafter = Math.floor((event.offsetY-_this.viewTranslateY)/(_this.viewScaleY +.1));
-            _this.viewTranslateX += (mxafter-mx)/2;
-            _this.viewTranslateY += (myafter-my)/2;*/
+
             var mx = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
             var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewScaleX *= scaleStep;
@@ -41,19 +33,8 @@ var TestScene = function(game){
             var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
             _this.viewTranslateY -= (my-mypost)*_this.viewScaleY;
-            console.log(mx+" "+mxpost);
         }
         else {
-            /*var mx = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX);
-            var my = Math.floor((event.offsetY-_this.viewTranslateY)/_this.viewScaleY);
-            var mxafter = Math.floor((event.offsetX-_this.viewTranslateX)/(_this.viewScaleX -.1));
-            var myafter = Math.floor((event.offsetY-_this.viewTranslateY)/(_this.viewScaleY -.1));
-            _this.viewTranslateX -= mxafter-mx;
-            _this.viewTranslateY -= myafter-my;*/
-            /*_this.viewTranslateX += (_this.viewTranslateX-mx)/2*.1
-            _this.viewTranslateY += (_this.viewTranslateY-my)/2*.1*/
-            //_this.viewScaleX -=.1;
-            //_this.viewScaleY -=.1;
             var mx = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
             var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewScaleX /=scaleStep;
@@ -62,16 +43,24 @@ var TestScene = function(game){
             var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
             _this.viewTranslateY -= (my-mypost)*_this.viewScaleY;
-            console.log(mx+" "+mxpost);
         }
-        //_this.centerViewAroundPlayer();//moveToX,moveToY);
     });
 
     Hammer($('#screen').get(0)).on("drag", function(e) {
         _this.viewTranslateX = _this.viewTranslateStartX+e.gesture.deltaX;
         _this.viewTranslateY = _this.viewTranslateStartY+e.gesture.deltaY;
-        //this.viewTranslateX += e.gesture.touches[0].offsetX;
     });
+
+    this.pickupButton = new Button(this,0,100);
+    this.pickupButton.visible = false;
+    this.attackButton = new Button(this,0,220,"red");
+    this.attackButton.visible = false;
+    this.inventoryButton = new Button(this,0,0);
+    this.inventoryButton.image = Resources.getImage("inventory");
+
+
+    this.inventoryDialog = new InventoryDialog(this);
+    this.inventoryDialog.scene = this;
 
     this.loadLevel(this.currentHeight)
 };
@@ -96,11 +85,14 @@ TestScene.prototype.loadLevel = function(height){
         this.level.addObjectTo(downElevator.x,downElevator.y,this.player);
         this.showInfoText("You moved up")
     }
-    if(height == 1000){
-        var item = Pickupable.load("lab_note")
+
+
+    for(var i in Pickupable.Items){
+        item = Pickupable.load(i)
         this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),item);
     }
     */
+
 
     this.centerViewAroundPlayer();
     this.level.scene = this;
@@ -146,28 +138,32 @@ TestScene.prototype.update = function(delta){
     }
     this.ctx.restore();
 
-    if(this.showPickup){
-        this.ctx.fillStyle = "black";
-        this.ctx.fillRect(this.width-50,100,50,50);
-        this.ctx.drawImage(this.pickup_target.image,this.width-50,100,50,50)
-    }
+    this.pickupButton.update(delta);
+    this.pickupButton.render();
+    this.pickupButton.x = this.width-this.attackButton.width-10;
+    this.attackButton.update(delta);
+    this.attackButton.render();
+    this.attackButton.x = this.width-this.attackButton.width-10;
+    this.inventoryButton.x = this.width-this.attackButton.width-10;
+    this.inventoryButton.y = this.height-this.attackButton.height-50;
+    this.inventoryButton.render();
 
-    if(this.showAttack){
-        this.ctx.fillStyle = "red";
-        this.ctx.fillRect(this.width-50,160,50,50);
-        this.ctx.drawImage(this.attack_target.image,this.width-50,160,50,50)
-    }
 
-    this.ctx.font = "20px Arial";
+    this.ctx.font = "16px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
-    this.ctx.fillText(this.currentHeight,this.width-80, 30);
 
     for(var i = 0 ; i < this.infoText.length ; i++){
-        this.ctx.fillText(this.infoText[i].text,10, this.height-30*i-15);
+        this.ctx.fillText(this.infoText[i].text,10, this.height-20*i-15);
     }
 
     if(this.mode == "dialog"){
+        this.dialog.update(delta);
         this.dialog.render();
+    }
+
+    if(this.mode == "inventory"){
+        this.inventoryDialog.update(delta);
+        this.inventoryDialog.render();
     }
 };
 
@@ -206,10 +202,11 @@ TestScene.prototype.listOptions = function(){
         this.showInfoText("You are standing on something");
         if(this.pickup_target != pickup_targets[0]){ options_changed = true;}
         this.pickup_target = pickup_targets[0];
-        this.showPickupButton();
+        this.pickupButton.image = this.pickup_target.image;
+        this.pickupButton.show();
     }
     else {
-        this.hidePickupButton();
+        this.pickupButton.hide();
         this.pickup_target = null;
     }
     var attack_targets = this.level.getNeighborObjectsByType(this.player.x,this.player.y,"monster");
@@ -217,31 +214,16 @@ TestScene.prototype.listOptions = function(){
         this.showInfoText("There's a monster nearby you can attack");
         if(this.attack_target != attack_targets[0]){ options_changed = true;}
         this.attack_target = attack_targets[0];
-        this.showAttackButton();
+        this.attackButton.image = this.attack_target.image;
+        this.attackButton.show();
     }
     else {
-        this.hideAttackButton();
+        this.attackButton.hide();
         this.attack_target = null;
     }
     return options_changed;
 }
 
-
-TestScene.prototype.showPickupButton = function(){
-    this.showPickup = true;
-}
-
-TestScene.prototype.hidePickupButton = function(){
-    this.showPickup = false;
-}
-
-TestScene.prototype.showAttackButton = function(){
-    this.showAttack = true;
-}
-
-TestScene.prototype.hideAttackButton = function(){
-    this.showAttack = false;
-}
 
 TestScene.prototype.onKeyDown = function(key){
     if(this.mode == "play"){
@@ -269,42 +251,68 @@ TestScene.prototype.onTap = function(x,y){
     if(this.mode == "play"){
         var moveToX = Math.floor((x-this.viewTranslateX)/this.viewScaleX/this.size);
         var moveToY = Math.floor((y-this.viewTranslateY)/this.viewScaleY/this.size);
-        if(this.level.isPointWithin(moveToX,moveToY)){
-            this.player.autoMoveTo(Math.floor(moveToX),Math.floor(moveToY));
-            this.player.autoMove();
-            this.processAllMoves();
-        }
 
-        if(this.showPickup){
-            if(x>=this.width-50&&x<this.width&&y>=100&&y<150){
+
+        if(this.pickup_target){
+            if(this.pickupButton.isWithin(x,y)){
                 this.player.pickup(this.pickup_target);
                 this.processAllMoves();
                 return;
             }
         }
 
-        if(this.showAttack){
-            if(x>=this.width-50&&x<this.width&&y>=160&&y<210){
+        if(this.attack_target){
+            if(this.attackButton.isWithin(x,y)){
                 this.player.attack(this.attack_target);
                 this.processAllMoves();
                 return;
             }
         }
+
+        if(this.inventoryButton.isWithin(x,y)){
+            if(this.inventoryDialog.visible){
+                this.inventoryDialog.hide();
+                this.mode = "play";
+                return;
+            }
+            else {
+                this.mode = "inventory";
+                this.inventoryDialog.show();
+                return;
+            }
+        }
+
+        if(this.level.isPointWithin(moveToX,moveToY)){
+            this.player.autoMoveTo(Math.floor(moveToX),Math.floor(moveToY));
+            this.player.autoMove();
+            this.processAllMoves();
+            return;
+        }
     }
     else if(this.mode == "dialog"){
         this.mode = "play";
+    }
+    else if(this.mode == "inventory"){
+        if(this.inventoryButton.isWithin(x,y)){
+            if(this.inventoryDialog.visible){
+                this.inventoryDialog.hide();
+                this.mode = "play";
+            }
+        }
+        this.inventoryDialog.onTap(x,y);
     }
 }
 
 TestScene.prototype.showDialog = function(text){
     this.mode = "dialog";
-    this.dialog = new Dialog(text);
+    this.dialog = new Dialog(this,text.toUpperCase());
     this.dialog.show();
     this.dialog.scene = this;
 }
 
+
 TestScene.prototype.showInfoText = function(text){
-    this.infoText.push({text:text,time:this.time});
+    this.infoText.push({text:text.toUpperCase(),time:this.time});
     if(this.infoText.length > 3){
         this.infoText.splice(0,1);
     }

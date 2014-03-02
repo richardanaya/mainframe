@@ -9,5 +9,6 @@ var UpElevator = function(){
 UpElevator.prototype = Object.create(GameObject.prototype);
 
 UpElevator.prototype.onObjectEnter = function(o){
+    if(o.tags.indexOf('player') == -1){ return; }
     this.level.scene.loadLevel(this.level.scene.currentHeight+100);
 }
