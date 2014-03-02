@@ -86,18 +86,18 @@ Mainframe.prototype.start = function(){
     Resources.addImage("robot_idle_1","images/robot_2.png");
     Resources.addImage("keycard","images/keycard.png");
 
-var _this = this;
-this.ctx = $('#screen').get(0).getContext('2d');
-$(window).resize(function(){_this.resize();});
-this.resize();
-window.requestAnimFrame = (function(){
-return  window.requestAnimationFrame       ||
-window.webkitRequestAnimationFrame ||
-window.mozRequestAnimationFrame    ||
-function( callback ){
-	window.setTimeout(callback, 1000 / 60);
-};
-})();
+    var _this = this;
+    this.ctx = $('#screen').get(0).getContext('2d');
+    $(window).resize(function(){_this.resize();});
+    this.resize();
+    window.requestAnimFrame = (function(){
+        return  window.requestAnimationFrame       ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame    ||
+        function( callback ){
+           window.setTimeout(callback, 1000 / 60);
+        };
+    })();
 
     this.currentScene = new StartScene(this);
     this.currentScene.game = this;

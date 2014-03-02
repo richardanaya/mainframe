@@ -72,6 +72,7 @@ TestScene.prototype.loadLevel = function(height){
     this.level = this.game.GetLevel(height);
 
     this.level.addObjectTo( this.level.center.x, this.level.center.y, this.player );
+    this.player.explore();
 
     /*
     this.level.addObjectTo(level.center.x,level.center.y,new Robot());
@@ -135,7 +136,7 @@ TestScene.prototype.update = function(delta){
     for(var x = 0; x < this.level.width; x++){
         for(var y = 0; y < this.level.width; y++){
             var t = this.level.tiles[this.level.width*y+x];
-			if( t != null && t != undefined && t.image != undefined && t.image != null ) {
+			if( t != null && t != undefined && t.image != undefined && t.image != null && t.explored ) {
             	this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
             	for(var i = 0 ; i < t.objects.length; i++){
             	    var o = t.objects[i];

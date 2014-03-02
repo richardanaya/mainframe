@@ -2,6 +2,7 @@ var Player = function(){
     Character.call(this);
     this.x = 0;
     this.y = 0;
+    this.sightRadius = 5;
     this.image = Resources.images.player;
     var r = Math.random();
     if(r<.33){
@@ -58,6 +59,8 @@ Player.prototype.move = function(x,y){
         else {
             this.flipped = false;
         }
+
+        this.explore();
     }
 }
 
@@ -78,6 +81,21 @@ Player.prototype.attack = function(o){
 
 Player.prototype.pickup = function(o){
     this.moves.push(new Pickup(this,o));
+}
+
+Player.prototype.explore = function(){
+    for( var sightCheckY = this.y-this.sightRadius; sightCheckY < this.y+this.sightRadius; sightCheckY++ ) {
+        for( var sightCheckX = this.x-this.sightRadius; sightCheckX < this.x+this.sightRadius; sightCheckX++ ) {
+            var diff = { x: sightCheckX-this.x, y: sightCheckY-this.y };
+            var dist2 = diff.x*diff.x+diff.y*diff.y;
+            if( dist2 < this.sightRadius*this.sightRadius ) {
+                var seeTile = this.level.getTileAt(sightCheckX,sightCheckY);
+                if( seeTile != null && seeTile != undefined ) {
+                    seeTile.explored = true;
+                }
+            }
+        }
+    }
 }
 
 Player.prototype.stopAutoMove = function(){
