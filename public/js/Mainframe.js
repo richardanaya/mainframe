@@ -47,16 +47,6 @@ Mainframe.prototype.changeScene = function(s){
 
 
 Mainframe.prototype.start = function(){
-<<<<<<< HEAD
-Resources.addImage("grass","images/tst_tile.png");
-Resources.addImage("player","images/street_samurai.png");
-Resources.addImage("player_idle_0","images/street_samurai.png");
-Resources.addImage("player_idle_1","images/street_samurai_2.png");
-Resources.addImage("robot","images/robot.png");
-Resources.addImage("elevator","images/elevator.png");
-Resources.addImage("up_elevator","images/up_elevator.png");
-Resources.addImage("lab_note","images/lab_note.png");
-=======
     Resources.addImage("grass","images/tst_tile.png");
     Resources.addImage("player","images/street_samurai.png");
     Resources.addImage("player_idle_0","images/street_samurai.png");
@@ -69,7 +59,6 @@ Resources.addImage("lab_note","images/lab_note.png");
     Resources.addImage("robot_idle_0","images/robot_1.png");
     Resources.addImage("robot_idle_1","images/robot_2.png");
     Resources.addImage("keycard","images/keycard.png");
->>>>>>> 8fe8b0d8ccdab1948f23dee41890bd4ae8e84851
 
 var _this = this;
 this.ctx = $('#screen').get(0).getContext('2d');
@@ -84,13 +73,8 @@ function( callback ){
 };
 })();
 
-<<<<<<< HEAD
-this.currentScene = new TestScene(this);
-this.currentScene.game = this;
-=======
     this.currentScene = new StartScene(this);
     this.currentScene.game = this;
->>>>>>> 8fe8b0d8ccdab1948f23dee41890bd4ae8e84851
 
 (function animloop(){
 requestAnimFrame(animloop);
