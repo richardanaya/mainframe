@@ -24,15 +24,8 @@ var TestScene = function(game){
         var scaleStep = 1.5;
         var x = event.offsetX;
         var y = event.offsetY;
-        //var moveToX = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX/_this.size);
-        //var moveToY = Math.floor((event.offsetY-_this.viewTranslateY)/_this.viewScaleY/_this.size);
         if(event.deltaY>0){
-            /*var mx = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX);
-            var my = Math.floor((event.offsetY-_this.viewTranslateY)/_this.viewScaleY);
-            var mxafter = Math.floor((event.offsetX-_this.viewTranslateX)/(_this.viewScaleX +.1));
-            var myafter = Math.floor((event.offsetY-_this.viewTranslateY)/(_this.viewScaleY +.1));
-            _this.viewTranslateX += (mxafter-mx)/2;
-            _this.viewTranslateY += (myafter-my)/2;*/
+
             var mx = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
             var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewScaleX *= scaleStep;
@@ -41,19 +34,8 @@ var TestScene = function(game){
             var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
             _this.viewTranslateY -= (my-mypost)*_this.viewScaleY;
-            console.log(mx+" "+mxpost);
         }
         else {
-            /*var mx = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX);
-            var my = Math.floor((event.offsetY-_this.viewTranslateY)/_this.viewScaleY);
-            var mxafter = Math.floor((event.offsetX-_this.viewTranslateX)/(_this.viewScaleX -.1));
-            var myafter = Math.floor((event.offsetY-_this.viewTranslateY)/(_this.viewScaleY -.1));
-            _this.viewTranslateX -= mxafter-mx;
-            _this.viewTranslateY -= myafter-my;*/
-            /*_this.viewTranslateX += (_this.viewTranslateX-mx)/2*.1
-            _this.viewTranslateY += (_this.viewTranslateY-my)/2*.1*/
-            //_this.viewScaleX -=.1;
-            //_this.viewScaleY -=.1;
             var mx = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
             var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewScaleX /=scaleStep;
@@ -62,15 +44,12 @@ var TestScene = function(game){
             var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
             _this.viewTranslateY -= (my-mypost)*_this.viewScaleY;
-            console.log(mx+" "+mxpost);
         }
-        //_this.centerViewAroundPlayer();//moveToX,moveToY);
     });
 
     Hammer($('#screen').get(0)).on("drag", function(e) {
         _this.viewTranslateX = _this.viewTranslateStartX+e.gesture.deltaX;
         _this.viewTranslateY = _this.viewTranslateStartY+e.gesture.deltaY;
-        //this.viewTranslateX += e.gesture.touches[0].offsetX;
     });
 
     this.loadLevel(this.currentHeight)
