@@ -1,4 +1,5 @@
-var Dialog = function(txt){
+var Dialog = function(scene,txt){
+    this.scene = scene;
     this.txt = txt;
     this.visible = false;
 }
@@ -6,6 +7,12 @@ var Dialog = function(txt){
 Dialog.prototype.show = function(){
     this.visible = true;
 }
+
+
+Dialog.prototype.update = function(time){
+    this.time += time;
+};
+
 
 Dialog.prototype.render = function(){
     if(this.visible){

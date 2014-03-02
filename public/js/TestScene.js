@@ -52,6 +52,9 @@ var TestScene = function(game){
         _this.viewTranslateY = _this.viewTranslateStartY+e.gesture.deltaY;
     });
 
+    this.pickupButton = new Button(this,0,100);
+    this.attackButton = new Button(this,0,160,"red");
+
     this.loadLevel(this.currentHeight)
 };
 
@@ -121,17 +124,13 @@ TestScene.prototype.update = function(delta){
     }
     this.ctx.restore();
 
-    if(this.showPickup){
-        this.ctx.fillStyle = "black";
-        this.ctx.fillRect(this.width-50,100,50,50);
-        this.ctx.drawImage(this.pickup_target.image,this.width-50,100,50,50)
-    }
+    this.pickupButton.update(delta);
+    this.pickupButton.render();
+    this.pickupButton.x = this.width-50;
+    this.attackButton.update(delta);
+    this.attackButton.render();
+    this.attackButton.x = this.width-50;
 
-    if(this.showAttack){
-        this.ctx.fillStyle = "red";
-        this.ctx.fillRect(this.width-50,160,50,50);
-        this.ctx.drawImage(this.attack_target.image,this.width-50,160,50,50)
-    }
 
     this.ctx.font = "20px Arial";
     this.ctx.fillStyle = "white";
@@ -142,6 +141,7 @@ TestScene.prototype.update = function(delta){
     }
 
     if(this.mode == "dialog"){
+        this.dialog.update(delta);
         this.dialog.render();
     }
 };
@@ -181,10 +181,11 @@ TestScene.prototype.listOptions = function(){
         this.showInfoText("You are standing on something");
         if(this.pickup_target != pickup_targets[0]){ options_changed = true;}
         this.pickup_target = pickup_targets[0];
-        this.showPickupButton();
+        this.pickupButton.image = this.pickup_target.image;
+        this.pickupButton.show();
     }
     else {
-        this.hidePickupButton();
+        this.pickupButton.hide();
         this.pickup_target = null;
     }
     var attack_targets = this.level.getNeighborObjectsByType(this.player.x,this.player.y,"monster");
@@ -192,31 +193,16 @@ TestScene.prototype.listOptions = function(){
         this.showInfoText("There's a monster nearby you can attack");
         if(this.attack_target != attack_targets[0]){ options_changed = true;}
         this.attack_target = attack_targets[0];
-        this.showAttackButton();
+        this.attackButton.image = this.attack_target.image;
+        this.attackButton.show();
     }
     else {
-        this.hideAttackButton();
+        this.attackButton.hide();
         this.attack_target = null;
     }
     return options_changed;
 }
 
-
-TestScene.prototype.showPickupButton = function(){
-    this.showPickup = true;
-}
-
-TestScene.prototype.hidePickupButton = function(){
-    this.showPickup = false;
-}
-
-TestScene.prototype.showAttackButton = function(){
-    this.showAttack = true;
-}
-
-TestScene.prototype.hideAttackButton = function(){
-    this.showAttack = false;
-}
 
 TestScene.prototype.onKeyDown = function(key){
     if(this.mode == "play"){
@@ -250,16 +236,16 @@ TestScene.prototype.onTap = function(x,y){
             this.processAllMoves();
         }
 
-        if(this.showPickup){
-            if(x>=this.width-50&&x<this.width&&y>=100&&y<150){
+        if(this.pickup_target){
+            if(this.pickupButton.isWithin(x,y)){
                 this.player.pickup(this.pickup_target);
                 this.processAllMoves();
                 return;
             }
         }
 
-        if(this.showAttack){
-            if(x>=this.width-50&&x<this.width&&y>=160&&y<210){
+        if(this.attack_target){
+            if(this.attackButton.isWithin(x,y)){
                 this.player.attack(this.attack_target);
                 this.processAllMoves();
                 return;
@@ -273,7 +259,7 @@ TestScene.prototype.onTap = function(x,y){
 
 TestScene.prototype.showDialog = function(text){
     this.mode = "dialog";
-    this.dialog = new Dialog(text);
+    this.dialog = new Dialog(this,text);
     this.dialog.show();
     this.dialog.scene = this;
 }
