@@ -4,11 +4,76 @@ var TestScene = function(game){
     this.time = 0;
     this.player = new Player();
     this.currentHeight = 1000
-    this.loadLevel(this.currentHeight)
     this.mode = "play";
     this.showDialog("There's a robot! quick, kill it!");
     this.showInfoText("You awake");
     this.size = 64;
+
+    this.viewTranslateX = 0;
+    this.viewTranslateY = 0;
+    this.viewScaleX = 1;
+    this.viewScaleY = 1;
+
+    var _this = this;
+    Hammer($('#screen').get(0)).on("dragstart", function(e) {
+        _this.viewTranslateStartX = _this.viewTranslateX;
+        _this.viewTranslateStartY = _this.viewTranslateY;
+    });
+
+    $('#screen').on('mousewheel', function(event) {
+        var scaleStep = 1.5;
+        var x = event.offsetX;
+        var y = event.offsetY;
+        //var moveToX = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX/_this.size);
+        //var moveToY = Math.floor((event.offsetY-_this.viewTranslateY)/_this.viewScaleY/_this.size);
+        if(event.deltaY>0){
+            /*var mx = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX);
+            var my = Math.floor((event.offsetY-_this.viewTranslateY)/_this.viewScaleY);
+            var mxafter = Math.floor((event.offsetX-_this.viewTranslateX)/(_this.viewScaleX +.1));
+            var myafter = Math.floor((event.offsetY-_this.viewTranslateY)/(_this.viewScaleY +.1));
+            _this.viewTranslateX += (mxafter-mx)/2;
+            _this.viewTranslateY += (myafter-my)/2;*/
+            var mx = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
+            var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
+            _this.viewScaleX *= scaleStep;
+            _this.viewScaleY *= scaleStep;
+            var mxpost = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
+            var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
+            _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
+            _this.viewTranslateY -= (my-mypost)*_this.viewScaleY;
+            console.log(mx+" "+mxpost);
+        }
+        else {
+            /*var mx = Math.floor((event.offsetX-_this.viewTranslateX)/_this.viewScaleX);
+            var my = Math.floor((event.offsetY-_this.viewTranslateY)/_this.viewScaleY);
+            var mxafter = Math.floor((event.offsetX-_this.viewTranslateX)/(_this.viewScaleX -.1));
+            var myafter = Math.floor((event.offsetY-_this.viewTranslateY)/(_this.viewScaleY -.1));
+            _this.viewTranslateX -= mxafter-mx;
+            _this.viewTranslateY -= myafter-my;*/
+            /*_this.viewTranslateX += (_this.viewTranslateX-mx)/2*.1
+            _this.viewTranslateY += (_this.viewTranslateY-my)/2*.1*/
+            //_this.viewScaleX -=.1;
+            //_this.viewScaleY -=.1;
+            var mx = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
+            var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
+            _this.viewScaleX /=scaleStep;
+            _this.viewScaleY /=scaleStep;
+            var mxpost = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
+            var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
+            _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
+            _this.viewTranslateY -= (my-mypost)*_this.viewScaleY;
+            console.log(mx+" "+mxpost);
+        }
+        //_this.centerViewAroundPlayer();//moveToX,moveToY);
+    });
+
+    Hammer($('#screen').get(0)).on("drag", function(e) {
+        _this.viewTranslateX = _this.viewTranslateStartX+e.gesture.deltaX;
+        _this.viewTranslateY = _this.viewTranslateStartY+e.gesture.deltaY;
+        //this.viewTranslateX += e.gesture.touches[0].offsetX;
+    });
+
+    this.loadLevel(this.currentHeight)
 };
 
 TestScene.prototype = Object.create(Scene.prototype);
@@ -36,12 +101,26 @@ TestScene.prototype.loadLevel = function(height){
         this.level.addObjectTo(Math.floor(Math.random()*9), Math.floor(Math.random()*9),item);
     }
     */
+
+    this.centerViewAroundPlayer();
     this.level.scene = this;
     this.currentHeight = height;
 };
 
+TestScene.prototype.centerViewAroundPlayer = function(){
+    this.centerViewAroundSquare(this.player.x,this.player.y);
+}
+
+TestScene.prototype.centerViewAroundSquare = function(x,y){
+    this.viewTranslateX = (-x*this.size-this.size/2)*this.viewScaleX+window.innerWidth/2;
+    this.viewTranslateY = (-y*this.size-this.size/2)*this.viewScaleY+window.innerHeight/2;
+}
+
 TestScene.prototype.update = function(delta){
     this.time += delta;
+    this.ctx.save();
+    this.ctx.translate(this.viewTranslateX,this.viewTranslateY);
+    this.ctx.scale(this.viewScaleX,this.viewScaleY);
     for(var x = 0; x < this.level.width; x++){
         for(var y = 0; y < this.level.width; y++){
             var t = this.level.tiles[this.level.width*y+x];
@@ -65,6 +144,7 @@ TestScene.prototype.update = function(delta){
             }
         }
     }
+    this.ctx.restore();
 
     if(this.showPickup){
         this.ctx.fillStyle = "black";
@@ -104,6 +184,7 @@ TestScene.prototype.processAllMoves = function(){
     var process = function(i){
         if(i>= moves.length){
             //When done
+            _this.centerViewAroundPlayer();
             var options_changed = _this.listOptions();
             if(_this.player.autoMove() && !options_changed){
                 setTimeout(function(){
@@ -184,10 +265,10 @@ TestScene.prototype.onKeyDown = function(key){
 };
 
 
-TestScene.prototype.onTouchDown = function(x,y){
+TestScene.prototype.onTap = function(x,y){
     if(this.mode == "play"){
-        var moveToX = x/this.size ;
-        var moveToY = y/this.size ;
+        var moveToX = Math.floor((x-this.viewTranslateX)/this.viewScaleX/this.size);
+        var moveToY = Math.floor((y-this.viewTranslateY)/this.viewScaleY/this.size);
         if(this.level.isPointWithin(moveToX,moveToY)){
             this.player.autoMoveTo(Math.floor(moveToX),Math.floor(moveToY));
             this.player.autoMove();

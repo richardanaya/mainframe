@@ -51,6 +51,8 @@ Room.createRoom = function( startPos, width, height, numConnectors, level ) {
 			result.connectors[c] = new Connector( { x: startPos.x, y: startPos.y+selected%width }, Orientation.West );
 		}
 
+		result.connectors[c].position.x += result.connectors[c].orientation.pos.x;
+		result.connectors[c].position.y += result.connectors[c].orientation.pos.y;
 		result.connectors[c].index = (result.connectors[c].position.y)*level.width+(result.connectors[c].position.x)
 	}	
 
