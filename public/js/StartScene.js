@@ -2,8 +2,10 @@ var StartScene = function(game){
     this.game = game;
     this.time = 0;
     this.backgroundColor = "#9900FF";
-
-
+    var sound = new Howl({
+        urls: ['sounds/TitleScreen.mp3'],
+        loop: true
+    }).play();
 };
 
 StartScene.prototype = Object.create(Scene.prototype);
