@@ -15,7 +15,7 @@ Pickupable.prototype.onObjectEnter = function(o){
 Pickupable.Items = {
     "lab_note" : {
         name: "Lab Note",
-        description: "Lab Note: Something has gone awry down in the lab",
+        description: "Lab Note: Something has gone awry down in the labLab Note: Something has gone awry down in the labLab Note: Something has gone awry down in the labLab Note: Something has gone awry down in the lab",
         read_on_pickup: true,
         image : "lab_note"
     },

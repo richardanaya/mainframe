@@ -53,7 +53,7 @@ var TestScene = function(game){
 
     this.pickupButton = new Button(this,0,100);
     this.pickupButton.visible = false;
-    this.attackButton = new Button(this,0,160,"red");
+    this.attackButton = new Button(this,0,220,"red");
     this.attackButton.visible = false;
     this.inventoryButton = new Button(this,0,0);
     this.inventoryButton.image = Resources.getImage("inventory");
@@ -137,20 +137,20 @@ TestScene.prototype.update = function(delta){
 
     this.pickupButton.update(delta);
     this.pickupButton.render();
-    this.pickupButton.x = this.width-50;
+    this.pickupButton.x = this.width-this.attackButton.width;
     this.attackButton.update(delta);
     this.attackButton.render();
-    this.attackButton.x = this.width-50;
-    this.inventoryButton.x = this.width-50;
-    this.inventoryButton.y = this.height-100;
+    this.attackButton.x = this.width-this.attackButton.width;
+    this.inventoryButton.x = this.width-this.attackButton.width;
+    this.inventoryButton.y = this.height-this.attackButton.height-50;
     this.inventoryButton.render();
 
 
-    this.ctx.font = "8px 'Press Start 2P'";
+    this.ctx.font = "16px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
 
     for(var i = 0 ; i < this.infoText.length ; i++){
-        this.ctx.fillText(this.infoText[i].text,10, this.height-15*i-15);
+        this.ctx.fillText(this.infoText[i].text,10, this.height-20*i-15);
     }
 
     if(this.mode == "dialog"){

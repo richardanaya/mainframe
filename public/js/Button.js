@@ -3,8 +3,8 @@ var Button = function(scene,x,y,background){
     this.time = 0;
     this.x = x;
     this.y = y;
-    this.width = 50;
-    this.height = 50;
+    this.width = 100;
+    this.height = 100;
     this.background = "black";
     this.visible = true;
     if(background){
@@ -22,13 +22,13 @@ Button.prototype.update = function(time){
 
 Button.prototype.render = function(){
     if(this.visible){
-        this.drawBox(this.x,this.y,50,50);
+        this.drawBox(this.x,this.y,this.width,this.height);
         this.scene.ctx.globalAlpha = .4;
         this.scene.ctx.fillStyle = this.background;
-        this.scene.ctx.fillRect(this.x+4,this.y+4,42,42);
+        this.scene.ctx.fillRect(this.x+4,this.y+4,this.width-8,this.height-8);
         this.scene.ctx.globalAlpha = 1;
         if(this.image){
-            this.scene.ctx.drawImage(this.image,this.x,this.y,50,50)
+            this.scene.ctx.drawImage(this.image,this.x+4,this.y+4,this.width-8,this.height-8)
         }
     }
 }
@@ -38,6 +38,10 @@ Button.prototype.isWithin = function(x,y){
 }
 
 Button.prototype.drawBox = function(x,y,width,height){
+    x = Math.floor(x);
+    y = Math.floor(y);
+    width = Math.floor(width);
+    height = Math.floor(height);
     dialog_bg = Resources.getImage("dialog_bg");
     dialog_frame_bottom = Resources.getImage("dialog_frame_bottom");
     dialog_frame_bottomleft = Resources.getImage("dialog_frame_bottomleft");
@@ -50,13 +54,13 @@ Button.prototype.drawBox = function(x,y,width,height){
 
 
 
-    for(var xx=0;xx<width/16;xx++){
-        for(var yy=0;yy<height/16;yy++){
-            if(xx*16+16>width || yy*16+16>height){
-                this.scene.ctx.drawImage(dialog_bg,x+xx*16,y+yy*16,xx*16-width,yy*16-height,0,0,xx*16-width,yy*16-height);
+    for(var xx=0;xx<width/32;xx++){
+        for(var yy=0;yy<height/32;yy++){
+            if(xx*32+32>width || yy*32+32>height){
+                this.scene.ctx.drawImage(dialog_bg,x+xx*32,y+yy*32,xx*32-width,yy*32+32-height,0,0,xx*32+32-width,yy*32-height);
             }
             else {
-                this.scene.ctx.drawImage(dialog_bg,x+xx*16,y+yy*16);
+                this.scene.ctx.drawImage(dialog_bg,x+xx*32,y+yy*32);
             }
         }
     }
@@ -71,7 +75,6 @@ Button.prototype.drawBox = function(x,y,width,height){
     this.scene.ctx.drawImage(dialog_frame_bottomright,x+width-4,y+height-4);
     this.scene.ctx.drawImage(dialog_frame_bottom,x+4,y+height-4,width-8,4);
 }
-
 
 
 Button.prototype.hide = function(){
