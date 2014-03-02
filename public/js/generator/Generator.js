@@ -31,7 +31,7 @@ Generator.prototype.tryCreateRoom = function( connector, level ) {
 }
 
 Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, level, numconnectors ) {
-	if( numconnectors == undefined ) numconnectors = Utilities.randRangeInt( 1,4 );
+	if( numconnectors == undefined ) numconnectors = Utilities.randRangeInt( 2,4 );
 
 	var room = { 
 		halfWidth: halfWidth,
@@ -73,6 +73,7 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 				if( this.tryCreateRoom( connector, level ) )
 				{
 					level.tiles[ connector.doorPos.index ] = this.createTile( Level.Types.Door, level.tileset.floors[1], connector.doorPos.x, connector.doorPos.y );
+					level.tiles[ connector.doorPos.index ].orientation = connector.orientation;
 				}
 			}
 		}
@@ -175,7 +176,12 @@ Generator.prototype.processWall = function( tile, x, y, level ) {
 }
 
 Generator.prototype.processDoor = function( tile, x, y, level ) {
-	tile.image = level.tileset.doors.horizontal[0];
+	if( tile.orientation.x > 0 || tile.orientation.x < 0 ) {
+		tile.image = level.tileset.doors.horizontal[0];	
+	}
+	else {
+		tile.image = level.tileset.doors.vertical[0];
+	}
 }
 
 Generator.prototype.createTile = function( type, img, x, y ) {
