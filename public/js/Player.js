@@ -5,6 +5,17 @@ var Player = function(){
     this.sightRadius = 5;
     this.image = Resources.images.player;
     var r = Math.random();
+
+    this.inventory = [];
+    this.strength = 10;
+    this.accuracy = 10;
+    this.mind = 10;
+
+    this.image = Resources.images.player;
+    this.isAutoMoving = false;
+    this.tags = ["solid","player"];
+    this.activeRoom = null;
+    this.rangedWeapon = null;
     if(r<.33){
         this.setupScientist();
     }
@@ -14,15 +25,6 @@ var Player = function(){
     else {
         this.setupSamurai();
     }
-
-    this.image = Resources.images.player;
-    this.isAutoMoving = false;
-    this.tags = ["solid","player"];
-    this.inventory = [];
-    this.activeRoom = null;
-    this.strength = 10;
-    this.accuracy = 10;
-    this.mind = 10;
 };
 
 Player.prototype = Object.create(Character.prototype);
@@ -36,6 +38,10 @@ Player.prototype.setupScientist = function(){
 Player.prototype.setupHacker = function(){
     this.image_idle_0 = Resources.getImage("hacker_1");
     this.image_idle_1 = Resources.getImage("hacker_2");
+    var g = Pickupable.load("gun");
+    g.equipped = true;
+    this.addToInventory(g);
+    this.useRanged(g);
     this.accuracy = 11;
     this.mind = 11;
 }
@@ -43,8 +49,19 @@ Player.prototype.setupHacker = function(){
 Player.prototype.setupSamurai = function(){
     this.image_idle_0 = Resources.getImage("street_samurai");
     this.image_idle_1 = Resources.getImage("street_samurai_2");
+    var g = Pickupable.load("gun");
+    g.equipped = true;
+    this.addToInventory(g);
+    this.useRanged(g);
     this.strength = 11;
     this.accuracy = 11;
+}
+
+Player.prototype.useRanged = function(w){
+    this.rangedWeapon = w;
+    if(this.level){
+        this.level.scene.rangedButton.image = w.image;
+    }
 }
 
 Player.prototype.move = function(x,y){
@@ -113,6 +130,7 @@ Player.prototype.stopAutoMove = function(){
 
 Player.prototype.addToInventory = function(i){
     this.inventory.push(i);
+    i.player = this;
 }
 
 Player.prototype.removeInventory = function(inv){
@@ -123,7 +141,9 @@ Player.prototype.removeInventory = function(inv){
 }
 
 Player.prototype.rangeAttackTarget = function(x,y,obj){
-    console.log("attacking ranged");
+    var monst = this.level.getObjectsByTypeOnTile(x,y,"monster");
+    this.attack(monst[monst.length-1]);
+    this.level.scene.processAllMoves();
 }
 
 Player.prototype.autoMove = function(){

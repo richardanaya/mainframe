@@ -38,19 +38,30 @@ Pickupable.prototype.onAction = function(action){
     if(action == "equip"){
         if(this.equipped){
             this.equipped = false;
-            this.level.scene.inventoryDialog.show();
+            this.player.level.scene.inventoryDialog.show();
             return;
         }
-        var items = this.level.scene.player.getInventoryWithTag(Pickupable.Items[this.id].equip_slot);
+        var items = this.player.getInventoryWithTag(Pickupable.Items[this.id].equip_slot);
         for(var i = 0 ; i < items.length ; i++){
             items[i].equipped = false;
         }
         this.equipped = true;
-        this.level.scene.inventoryDialog.show();
+        if(Pickupable.Items[this.id].equip_slot == "ranged"){
+            this.player.useRanged(this);
+        }
+        this.player.level.scene.inventoryDialog.show();
     }
 }
 
 Pickupable.Items = {
+    "gun" : {
+        name: "Gun",
+        description: "A trusty gun",
+        read_on_pickup: true,
+        actions: ["equip"],
+        equip_slot: "ranged",
+        image : "gun"
+    },
     "lab_note_0" : {
         name: "Lab Note: Sys Admin",
         description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",

@@ -58,8 +58,8 @@ var TestScene = function(game){
     this.inventoryButton = new Button(this,0,0);
     this.inventoryButton.image = Resources.getImage("inventory");
     this.rangedButton = new Button(this,0,0);
-    if(this.player.rangedItem){
-        this.rangedButton.image = this.player.rangedItem.image;
+    if(this.player.rangedWeapon){
+        this.rangedButton.image = this.player.rangedWeapon.image;
     }
     this.cancelButton = new Button(this,0,0);
     this.cancelButton.image = Resources.getImage("cancel");
@@ -321,9 +321,12 @@ TestScene.prototype.onTap = function(x,y){
 
         var _this = this;
         if(this.rangedButton.isWithin(x,y)){
-            this.select(function(x,y,obj){
-                _this.player.rangeAttackTarget(x,y,obj);
-            });
+            if(this.player.rangedWeapon){
+                this.select(function(x,y,obj){
+                    _this.player.rangeAttackTarget(x,y,obj);
+                });
+            }
+            return;
         }
 
         if(this.level.isPointWithin(moveToX,moveToY)){
