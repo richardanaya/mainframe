@@ -14,5 +14,10 @@ Move.prototype.process = function(complete){
     for(var i = 0 ; i < objs.length; i++){
         objs[i].onObjectEnter(this.obj);
     }
+
+    if( this.obj.tags.indexOf( "player" ) != -1 ) {
+        this.obj.explore();
+    }
+
     complete();
 };
