@@ -9,13 +9,13 @@ var Light = function( id, x, y, strength, falloff ) {
 }
 
 Light.prototype.refresh = function( level ) {
-    if( this.room == null || this.room == level.activeRoom ) {
+    //if( this.room == null || this.room == level.activeRoom ) {
     	var neighbors = level.getNeighborTiles( this.x, this.y );
         for( var i = 0; i < neighbors.length; i++ ) {
             var tile = neighbors[i];
             this.calculateBrightness( tile, level );
         }
-    }
+    //}
 }
 
 Light.prototype.calculateBrightness = function( tile, level ) {
@@ -37,10 +37,12 @@ Light.prototype.calculateBrightness = function( tile, level ) {
 			this.onTileLit( tile, tile.brightness );
 		}
 
-        var neighbors = level.getNeighborTiles( tile.x, tile.y );
-        for( var i = 0; i < neighbors.length; i++ ) {
-            var nextTile = neighbors[i];
-            this.calculateBrightness( nextTile, level );
-        }      
+        if( tile.type == Level.Types.Floor ) {
+            var neighbors = level.getNeighborTiles( tile.x, tile.y );
+            for( var i = 0; i < neighbors.length; i++ ) {
+                var nextTile = neighbors[i];
+                this.calculateBrightness( nextTile, level );
+            }      
+        }
     }
 }
