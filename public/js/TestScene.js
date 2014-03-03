@@ -181,6 +181,9 @@ TestScene.prototype.update = function(delta){
     }
 
 
+    this.ctx.fillStyle = "red";
+    this.ctx.fillRect(this.width-this.attackButton.width-10, this.height-30, 100*this.player.health/this.player.maxHealth, 20);
+
     this.ctx.font = "16px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
 
@@ -326,6 +329,7 @@ TestScene.prototype.onTap = function(x,y){
         var _this = this;
         if(this.rangedButton.isWithin(x,y)){
             if(this.player.rangedWeapon){
+                this.showInfoText("Tap on what you would like to shoot.")
                 this.select(function(x,y,obj){
                     _this.player.rangeAttackTarget(x,y,obj);
                 });
