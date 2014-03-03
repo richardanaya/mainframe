@@ -326,6 +326,7 @@ TestScene.prototype.onTap = function(x,y){
                     _this.player.rangeAttackTarget(x,y,obj);
                 });
             }
+            return;
         }
 
         if(this.level.isPointWithin(moveToX,moveToY)){
