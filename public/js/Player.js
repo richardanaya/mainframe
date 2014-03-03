@@ -84,8 +84,6 @@ Player.prototype.move = function(x,y){
         else {
             this.flipped = false;
         }
-
-        this.explore();
     }
 }
 
