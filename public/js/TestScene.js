@@ -182,11 +182,23 @@ TestScene.prototype.update = function(delta){
     }
 
 
-    this.ctx.fillStyle = "red";
-    this.ctx.fillRect(this.width-this.attackButton.width-10, this.height-30, 100*this.player.health/this.player.maxHealth, 20);
 
     this.ctx.font = "16px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
+
+    this.ctx.fillText("HP",25,40)
+    var hp = Resources.getImage("hp");
+    var hp_frame_left = Resources.getImage("hp_frame_left");
+    var hp_frame_middle = Resources.getImage("hp_frame_middle");
+    var hp_frame_right = Resources.getImage("hp_frame_right");
+    var hx = 65;
+    var hy = 10;
+    this.ctx.drawImage(hp_frame_left, hx,hy,14,40);
+    this.ctx.drawImage(hp_frame_middle, hx+14,hy,200,40);
+    this.ctx.drawImage(hp_frame_right, hx+14+200,hy,14,40);
+    this.ctx.drawImage(hp, hx+14,hy+12,200*this.player.health/this.player.maxHealth,14);
+
+
 
     for(var i = 0 ; i < this.infoText.length ; i++){
         this.ctx.fillText(this.infoText[i].text,10, this.height-20*i-15);
