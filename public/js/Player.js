@@ -20,24 +20,31 @@ var Player = function(){
     this.tags = ["solid","player"];
     this.inventory = [];
     this.activeRoom = null;
+    this.strength = 10;
+    this.accuracy = 10;
+    this.mind = 10;
 };
 
 Player.prototype = Object.create(Character.prototype);
 
 Player.prototype.setupScientist = function(){
-
     this.image_idle_0 = Resources.getImage("scientist_1");
     this.image_idle_1 = Resources.getImage("scientist_2");
+    this.mind = 12;
 }
 
 Player.prototype.setupHacker = function(){
     this.image_idle_0 = Resources.getImage("hacker_1");
     this.image_idle_1 = Resources.getImage("hacker_2");
+    this.accuracy = 11;
+    this.mind = 11;
 }
 
 Player.prototype.setupSamurai = function(){
     this.image_idle_0 = Resources.getImage("street_samurai");
     this.image_idle_1 = Resources.getImage("street_samurai_2");
+    this.strength = 11;
+    this.accuracy = 11;
 }
 
 Player.prototype.move = function(x,y){
@@ -108,11 +115,15 @@ Player.prototype.addToInventory = function(i){
     this.inventory.push(i);
 }
 
-Player.prototype.removeInventory = function(i){
-    var i = this.inventory.indexOf(i);
+Player.prototype.removeInventory = function(inv){
+    var i = this.inventory.indexOf(inv);
     if(i != -1){
-        this.inventory.slice(i,1);
+        this.inventory.splice(i,1);
     }
+}
+
+Player.prototype.rangeAttackTarget = function(x,y,obj){
+    console.log("attacking ranged");
 }
 
 Player.prototype.autoMove = function(){
