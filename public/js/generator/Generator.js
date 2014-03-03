@@ -202,10 +202,10 @@ Generator.prototype.processWall = function( tile, x, y, level ) {
 
 Generator.prototype.processDoor = function( tile, x, y, level ) {
 	if( tile.orientation.x > 0 || tile.orientation.x < 0 ) {
-		tile.image = level.tileset.doors.horizontal[0];	
+		tile.image = level.tileset.doors.vertical[0];	
 	}
 	else {
-		tile.image = level.tileset.doors.vertical[0];
+		tile.image = level.tileset.doors.horizontal[0];
 	}
 }
 
