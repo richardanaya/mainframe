@@ -76,8 +76,8 @@ StartScene.prototype.update = function(delta){
 
     
     var grd=this.ctx.createLinearGradient(0,0,0,170);
-    grd.addColorStop(0,"#100839");
-    grd.addColorStop(.8,"#932f6b");
+    grd.addColorStop(.3,"#100839");
+    grd.addColorStop(1,"#932f6b");
     grd.addColorStop(1,"#932f6b");
 
     this.ctx.fillStyle=grd;
