@@ -5,6 +5,7 @@ var Level = function() {
     this.height = 10;
     this.allObjects = [];
     this.center = { x: Math.floor( this.width/2), y: Math.floor( this.height/2 ) };
+    this.activeRoom = null;
     this.rooms = [];
     this.tjoins = [];
     this.lights = [];

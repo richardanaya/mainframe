@@ -18,9 +18,8 @@ var Player = function(){
     this.isAutoMoving = false;
     this.tags = ["solid","player"];
     this.inventory = [];
-    this.activeRoom = null;
 
-    this.light = new Light( "playerlight" );
+    this.light = new Light( "playerlight", this.x, this.y, 1.5, 0.2 );
     this.light.onTileLit = function( tile, brightness ) { tile.explored = true; };
     var _this = this;
 };
@@ -92,7 +91,7 @@ Player.prototype.explore = function(){
     }
 
     var standingTile = this.level.getTileAt( this.x, this.y );
-    this.activeRoom = standingTile.room;
+    this.level.activeRoom = standingTile.room;
     this.level.forEachTile( function(tile) { 
                                 tile.brightness = 0; 
                                 tile.visited = false; 

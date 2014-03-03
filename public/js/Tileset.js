@@ -104,7 +104,12 @@ Tileset.createOfficeTileset = function() {
 								var propImg = level.tileset.props[1];
 					
 								var propRnd = Math.random();
-								if( propRnd > 0.9 ) propImg = level.tileset.props[2]
+								if( propRnd > 0.9 )  {
+									propImg = level.tileset.props[2]
+									var light = new Light( '['+x+','+y+']',x,y,1,0.2);
+									light.room = room;
+									level.lights.push( light );
+								}
 								else if( propRnd > 0.4 ) propImg = level.tileset.props[0]
 								
 								level.tiles[index].image = propImg;
@@ -119,6 +124,10 @@ Tileset.createOfficeTileset = function() {
 					if( Math.random() > 0.8 ) {
 						var index = Math.max(0,(room.y-1))*level.width+x;
 						if( level.tiles[index].type == Level.Types.Wall && level.tiles[index].wallType == Level.WallTypes.Straight ) {
+							var light = new Light( '['+x+','+room.y+']',x,room.y,1,0.2);
+							light.room = room;
+							level.lights.push( light );
+
 							level.tiles[index].image = level.tileset.walls.straights.horizontal[1];
 							index = Math.max(1,(room.y))*level.width+x;
 							level.tiles[index].image = level.tileset.floors[4];

@@ -1,18 +1,20 @@
-var Light = function( id ) {
-    this.strength = 2;
-    this.falloff = 0.25;
-    this.x = 0;
-    this.y = 0;
+var Light = function( id, x, y, strength, falloff ) {
+    this.strength = strength;
+    this.falloff = falloff;
+    this.x = x;
+    this.y = y;
 	this.id = id;
-	this.active = true;
+	this.room = null;
 	this.onTileLit = null;
 }
 
 Light.prototype.refresh = function( level ) {
-	var neighbors = level.getNeighborTiles( this.x, this.y );
-    for( var i = 0; i < neighbors.length; i++ ) {
-        var tile = neighbors[i];
-        this.calculateBrightness( tile, level );
+    if( this.room == null || this.room == level.activeRoom ) {
+    	var neighbors = level.getNeighborTiles( this.x, this.y );
+        for( var i = 0; i < neighbors.length; i++ ) {
+            var tile = neighbors[i];
+            this.calculateBrightness( tile, level );
+        }
     }
 }
 
@@ -27,7 +29,8 @@ Light.prototype.calculateBrightness = function( tile, level ) {
 
     var dist= Math.sqrt( distx*distx+disty*disty );
 
-    tile.brightness += Math.min( this.strength - ( this.falloff * dist ), 1 );
+    tile.brightness += Math.max( this.strength - ( this.falloff * dist ), 0 );
+    tile.brightness = Math.min( tile.brightness, 1 );
 
     if( tile.brightness > 0 ) {
 		if( this.onTileLit != null ) {
