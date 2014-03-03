@@ -58,6 +58,7 @@ Pickupable.Items = {
         name: "Gun",
         description: "A trusty gun",
         read_on_pickup: true,
+        tags: ["ranged","weapon"],
         actions: ["equip"],
         equip_slot: "ranged",
         image : "gun"

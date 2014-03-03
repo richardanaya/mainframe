@@ -263,16 +263,16 @@ TestScene.prototype.listOptions = function(){
 TestScene.prototype.onKeyDown = function(key){
     if(this.mode == "play"){
         this.graph = this.level.getGraph();
-        if(key == 37){
+        if(key == 37 || key == 65){
             this.player.moveLeft();
         }
-        else if(key == 38){
+        else if(key == 38 || key == 87){
             this.player.moveUp();
         }
-        else if(key == 39){
+        else if(key == 39 || key == 68){
             this.player.moveRight();
         }
-        else if(key == 40){
+        else if(key == 40 || key == 83){
             this.player.moveDown();
         }
         this.processAllMoves();
