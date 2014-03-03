@@ -20,8 +20,14 @@ Pickupable.prototype.onAction = function(action){
         this.level.scene.showDialog(this.description,this.image);
     }
     if(action == "drink"){
-        this.level.scene.player.removeInventory(this);
         this.level.scene.showDialog("mmm, interesting",this.image);
+        this.level.scene.player.removeInventory(this);
+    }
+    if(action == "throw"){
+        this.level.scene.showInfoText("What do you want to throw at?");
+        this.level.scene.select(function(x,y,obj){
+            alert("okay "+x+" "+y);;
+        })
     }
     if(action == "use"){
         this.level.scene.inventoryDialog.select("drink", function(i){
@@ -32,19 +38,31 @@ Pickupable.prototype.onAction = function(action){
     if(action == "equip"){
         if(this.equipped){
             this.equipped = false;
-            this.level.scene.inventoryDialog.show();
+            this.player.level.scene.inventoryDialog.show();
             return;
         }
-        var items = this.level.scene.player.getInventoryWithTag(Pickupable.Items[this.id].equip_slot);
+        var items = this.player.getInventoryWithTag(Pickupable.Items[this.id].equip_slot);
         for(var i = 0 ; i < items.length ; i++){
             items[i].equipped = false;
         }
         this.equipped = true;
-        this.level.scene.inventoryDialog.show();
+        if(Pickupable.Items[this.id].equip_slot == "ranged"){
+            this.player.useRanged(this);
+        }
+        this.player.level.scene.inventoryDialog.show();
     }
 }
 
 Pickupable.Items = {
+    "gun" : {
+        name: "Gun",
+        description: "A trusty gun",
+        read_on_pickup: true,
+        tags: ["ranged","weapon"],
+        actions: ["equip"],
+        equip_slot: "ranged",
+        image : "gun"
+    },
     "lab_note_0" : {
         name: "Lab Note: Sys Admin",
         description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
@@ -63,28 +81,28 @@ Pickupable.Items = {
         name: "Juice",
         image : "potion_1",
         tags: ["drink"],
-        actions: ["drink"],
+        actions: ["drink","throw"],
         description: "A juice"
     },
     "juice_1" : {
         name: "Juice",
         image : "potion_2",
         tags: ["drink"],
-        actions: ["drink"],
+        actions: ["drink","throw"],
         description: "A juice"
     },
     "juice_2" : {
         name: "Juice",
         image : "potion_3",
         tags: ["drink"],
-        actions: ["drink"],
+        actions: ["drink","throw"],
         description: "A juice"
     },
     "juice_3" : {
         name: "Juice",
         image : "potion_4",
         tags: ["drink"],
-        actions: ["drink"],
+        actions: ["drink","throw"],
         description: "A juice"
     },
     "data_chip_0" : {

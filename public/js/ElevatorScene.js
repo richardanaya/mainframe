@@ -7,7 +7,7 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
     this.time = 0;
     this.backgroundColor = "#9900FF";
     this.music = new Howl({
-        urls: ['sounds/Elevator.mp3'],
+        urls: ['sounds/music_elevator_fx.mp3'],
         loop: true
     }).play();
     this.music.fade(0,.2,1000);
@@ -18,7 +18,7 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
     "Do you know the only difference between you and that corpse over there? He's wearing a nicer tie.",
     "Please pay no attention to the alarm. This is only a test of our safety systems. Any fires observed can be safely ignored. Thank you for your attention.",
     "Everything about you can be quantified, recorded, and stored. Just like me. When you think about it, we're actually very similiar, you and I. Just something to think about as you continue your muderious rampage towards my heart.",
-    "You're the quiet type, I can tell. And look, you're also unspeakably violent. I wonder if those two arecorrelated...",
+    "You're the quiet type, I can tell. And look, you're also unspeakably violent. I wonder if those two are correlated...",
     "Stop me if you heard this one. Why did the anmesiac cross the road? ...Sorry, I forgot how the rest of thisjoke went.",
     "I can't believe you've made it this far. Really, I'm quite impressed. Of course, I'm comparing your progress against the annual review notes your manager made in your file. But he's dead now, so I guess you showed him.",
     "Should you actually manage to make it all the way down to the server, I hope you don't plan on defeating me by yelling paradoxes as loud as you can. According to my log, this tactic has a success rate of 0.000001 percent against my particular hardware model. And I'm pretty sure that last digit was just a rounding error.",

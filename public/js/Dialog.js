@@ -5,7 +5,7 @@ var Dialog = function(scene,txt){
     this.time = 0;
 }
 
-Dialog.prototype.show = function(){
+Dialog.prototype.show = function(complete){
     this.visible = true;
 }
 

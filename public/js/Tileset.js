@@ -78,41 +78,32 @@ Tileset.createOfficeTileset = function() {
 		for( var roomIndex = 0; roomIndex < level.rooms.length; roomIndex++ ) {
 			var room = level.rooms[roomIndex];
 			var rand = Math.random();
-			if( rand < 0.4 ) {
-				// empty room
-			}
-			else if( rand < 0.65 && room.height > 4 ) {
-				// server room
-				for( var y = room.y+1; y < room.y+room.height-1; y+=2 ) {
-					for( var x = room.x+1; x < room.x+room.width-1; x++ ) {
-						var index = Utilities.positionToIndex(x,y,level.width);
-						if( level.tiles[index].type == Level.Types.Wall && level.tiles[index].noblock == false ) {
-							level.tiles[index].type = Level.Types.Prop;
-							level.tiles[index].image = level.tileset.props[3];
+			if( rand < 0.7 ) {
+				var area = room.width * room.height;
+				var numClutterChances = Math.round( area * 0.1 );
+				for( var i = 0; i < 10; i++ ) {
+					if( Math.random() < 1 ) {
+						var x = Utilities.randRangeInt( room.x+1, room.x+room.width-1 );
+						var y = Utilities.randRangeInt( room.y+1, room.y+room.height-1 );
+
+						var choice = Math.random();
+						var propType = 0;
+						if( choice < 0.05 ) {
+							propType = 2;
 						}
-					}
-				}
-			}
-			else if( rand < 0.8 ) {
-				// lab
-				for( var y = room.y; y < room.y+room.height; y++ ) {
-					for( var x = Math.max(1,room.x); x < room.x+room.width; x++ ) {
-						if( y == Math.max(1,room.y) || y == room.y+room.height-1 || x == room.x || x == room.x+room.width-1 ) {
-							var index = Utilities.positionToIndex(x,y,level.width);
-							if( level.tiles[index].type == Level.Types.Floor && level.tiles[index].noblock == false && Math.random() > 0.75) {
-								level.tiles[index].type = Level.Types.Prop;
-								var propImg = level.tileset.props[1];
-					
-								var propRnd = Math.random();
-								if( propRnd > 0.9 )  {
-									propImg = level.tileset.props[2]
-									var light = new Light( '['+x+','+y+']',x,y,1,0.2);
-									light.room = room;
-									level.lights.push( light );
-								}
-								else if( propRnd > 0.4 ) propImg = level.tileset.props[0]
-								
-								level.tiles[index].image = propImg;
+						else if( choice < 0.45 ) {
+							propType = 1
+						}
+						
+						var index = Utilities.positionToIndex(x,y,level.width);
+						if( level.tiles[index].type != Level.Types.Wall && level.tiles[index].noblock == false ) {
+							level.tiles[index].type = Level.Types.Prop;
+							level.tiles[index].image = level.tileset.props[propType];
+
+							if( propType == 2 ) { //lamp
+								var light = new Light( '['+x+','+y+']',x,y,1,0.2);
+								light.room = room;
+								level.lights.push( light );
 							}
 						}
 					}

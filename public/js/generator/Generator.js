@@ -1,6 +1,6 @@
 var Generator = function() {
 	this.minHalfRoomSize = 3;
-	this.maxHalfRoomSize = 10;
+	this.maxHalfRoomSize = 8;
 }
 
 Generator.prototype.generateLevel = function( width, height ) {

@@ -57,7 +57,12 @@ var TestScene = function(game){
     this.attackButton.visible = false;
     this.inventoryButton = new Button(this,0,0);
     this.inventoryButton.image = Resources.getImage("inventory");
-
+    this.rangedButton = new Button(this,0,0);
+    if(this.player.rangedWeapon){
+        this.rangedButton.image = this.player.rangedWeapon.image;
+    }
+    this.cancelButton = new Button(this,0,0);
+    this.cancelButton.image = Resources.getImage("cancel");
 
     this.inventoryDialog = new InventoryDialog(this);
     this.inventoryDialog.scene = this;
@@ -131,7 +136,6 @@ TestScene.prototype.update = function(delta){
             var t = this.level.tiles[this.level.width*y+x];
 			if( t != null && t != undefined && t.image != undefined && t.image != null && t.explored ) {
             	this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
-
                 this.ctx.globalAlpha = Math.max( 0.7-t.brightness, 0.3 );
                 this.ctx.drawImage(Resources.getImage('fowoverlay'),x*this.size ,y*this.size,this.size ,this.size  );
                 this.ctx.globalAlpha = 1;
@@ -165,6 +169,16 @@ TestScene.prototype.update = function(delta){
     this.inventoryButton.x = this.width-this.attackButton.width-10;
     this.inventoryButton.y = this.height-this.attackButton.height-50;
     this.inventoryButton.render();
+
+    this.rangedButton.x = this.width-this.attackButton.width-10;
+    this.rangedButton.y = this.height-this.attackButton.height-160;
+    this.rangedButton.render();
+
+    if(this.mode == "select"){
+        this.cancelButton.x = this.width-this.attackButton.width-10;
+        this.cancelButton.y = this.height-this.attackButton.height-270;
+        this.cancelButton.render();
+    }
 
 
     this.ctx.font = "16px 'Press Start 2P'";
@@ -226,7 +240,7 @@ TestScene.prototype.listOptions = function(){
         }
 
         if(this.pickup_target != pickup_targets[0]){ options_changed = true;}
-        this.pickup_target = pickup_targets[0];
+        this.pickup_target = pickup_targets[pickup_targets.length-1];
         this.pickupButton.image = this.pickup_target.image;
         this.pickupButton.show();
     }
@@ -253,16 +267,16 @@ TestScene.prototype.listOptions = function(){
 TestScene.prototype.onKeyDown = function(key){
     if(this.mode == "play"){
         this.graph = this.level.getGraph();
-        if(key == 37){
+        if(key == 37 || key == 65){
             this.player.moveLeft();
         }
-        else if(key == 38){
+        else if(key == 38 || key == 87){
             this.player.moveUp();
         }
-        else if(key == 39){
+        else if(key == 39 || key == 68){
             this.player.moveRight();
         }
-        else if(key == 40){
+        else if(key == 40 || key == 83){
             this.player.moveDown();
         }
         this.processAllMoves();
@@ -309,6 +323,16 @@ TestScene.prototype.onTap = function(x,y){
             }
         }
 
+        var _this = this;
+        if(this.rangedButton.isWithin(x,y)){
+            if(this.player.rangedWeapon){
+                this.select(function(x,y,obj){
+                    _this.player.rangeAttackTarget(x,y,obj);
+                });
+            }
+            return;
+        }
+
         if(this.level.isPointWithin(moveToX,moveToY)){
             this.player.autoMoveTo(Math.floor(moveToX),Math.floor(moveToY));
             this.player.autoMove();
@@ -318,6 +342,9 @@ TestScene.prototype.onTap = function(x,y){
     }
     else if(this.mode == "dialog"){
         this.mode = "play";
+        if(this.dialogComplete){
+            this.dialogComplete();
+        }
     }
     else if(this.mode == "inventory"){
         if(this.inventoryButton.isWithin(x,y)){
@@ -328,15 +355,35 @@ TestScene.prototype.onTap = function(x,y){
         }
         this.inventoryDialog.onTap(x,y);
     }
+    else if(this.mode == "select"){
+        if(this.cancelButton.isWithin(x,y)){
+            this.mode = "play";
+            return;
+        }
+
+        var tileX = Math.floor((x-this.viewTranslateX)/this.viewScaleX/this.size);
+        var tileY = Math.floor((y-this.viewTranslateY)/this.viewScaleY/this.size);
+        var objs = this.level.getTileAt(tileX,tileY);
+        this.onselect(tileX,tileY,objs);
+        this.mode = "play";
+        return;
+    }
 }
 
-TestScene.prototype.showDialog = function(text, img0, img1){
+
+TestScene.prototype.select = function(onselect){
+    this.onselect = onselect;
+    this.mode = "select";
+}
+
+TestScene.prototype.showDialog = function(text, img0, img1, onComplete){
     this.mode = "dialog";
     this.dialog = new Dialog(this,text.toUpperCase());
     this.dialog.image = img0;
     this.dialog.imageAnim = img1;
     this.dialog.show();
     this.dialog.scene = this;
+    this.dialogComplete = onComplete;
 }
 
 
