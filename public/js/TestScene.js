@@ -325,6 +325,7 @@ TestScene.prototype.onTap = function(x,y){
         var _this = this;
         if(this.rangedButton.isWithin(x,y)){
             if(this.player.rangedWeapon){
+                this.showInfoText("Tap on what you would like to shoot.")
                 this.select(function(x,y,obj){
                     _this.player.rangeAttackTarget(x,y,obj);
                 });
