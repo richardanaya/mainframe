@@ -236,7 +236,7 @@ TestScene.prototype.listOptions = function(){
         }
 
         if(this.pickup_target != pickup_targets[0]){ options_changed = true;}
-        this.pickup_target = pickup_targets[0];
+        this.pickup_target = pickup_targets[pickup_targets.length-1];
         this.pickupButton.image = this.pickup_target.image;
         this.pickupButton.show();
     }
