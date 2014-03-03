@@ -1,13 +1,7 @@
-var Light = function() {
-    this.strengh = 10;
-    this.falloff = 0.05;
-}
-
 var Player = function(){
     Character.call(this);
     this.x = 0;
     this.y = 0;
-    this.light = new Light();
     this.image = Resources.images.player;
     var r = Math.random();
     if(r<.33){
@@ -25,6 +19,10 @@ var Player = function(){
     this.tags = ["solid","player"];
     this.inventory = [];
     this.activeRoom = null;
+
+    this.light = new Light( "playerlight" );
+    this.light.onTileLit = function( tile, brightness ) { tile.explored = true; };
+    var _this = this;
 };
 
 Player.prototype = Object.create(Character.prototype);
@@ -88,6 +86,11 @@ Player.prototype.pickup = function(o){
 }
 
 Player.prototype.explore = function(){
+    if( this.lightRegistered == false ) {
+        this.lightRegistered = true;
+        this.level.lights.push( this.light );
+    }
+
     var standingTile = this.level.getTileAt( this.x, this.y );
     this.activeRoom = standingTile.room;
     this.level.forEachTile( function(tile) { 
@@ -99,33 +102,8 @@ Player.prototype.explore = function(){
     standingTile.visited = true;
     standingTile.explored = true;
 
-    var neighbors = this.level.getNeighborTiles( this.x, this.y );
-    for( var i = 0; i < neighbors.length; i++ ) {
-        var tile = neighbors[i];
-        this.calcOpacity( tile, 0 );
-    }
-}
-
-Player.prototype.calcOpacity = function( tile, depth ) {
-    if( tile.visited ) return;
-    tile.visited = true;
-    var distx = tile.x - this.x;
-    var disty = tile.y - this.y;
-    var dirx = ( this.x == tile.x ) ? 0 : (( this.x < tile.x ) ? -1 : 1 );
-    var diry = ( this.y == tile.y ) ? 0 : (( this.y < tile.y ) ? -1 : 1 );
-
-    var dist= Math.sqrt( distx*distx+disty*disty );
-
-    tile.brightness = 1 - ( this.light.falloff * dist )
-
-    if( tile.brightness > 0 ) {
-        tile.explored = true; 
-        var neighbors = this.level.getNeighborTiles( tile.x, tile.y );
-        for( var i = 0; i < neighbors.length; i++ ) {
-            var nextTile = neighbors[i];
-            this.calcOpacity( nextTile, depth+1 );
-        }      
-    }
+    this.light.x = this.x;
+    this.light.y = this.y;
 }
 
 Player.prototype.stopAutoMove = function(){

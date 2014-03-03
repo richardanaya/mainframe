@@ -80,6 +80,7 @@ TestScene.prototype.loadLevel = function(height){
 
         _this.level.addObjectTo( _this.level.center.x, _this.level.center.y, _this.player );
         _this.player.explore();
+        _this.level.refreshLights( [_this.player.light] );
 
         _this.centerViewAroundPlayer();
         _this.level.scene = _this;
@@ -119,6 +120,8 @@ TestScene.prototype.centerViewAroundSquare = function(x,y){
 }
 
 TestScene.prototype.update = function(delta){
+    this.level.update();
+
     this.time += delta;
     this.ctx.save();
     this.ctx.translate(this.viewTranslateX,this.viewTranslateY);

@@ -302,3 +302,5 @@ Generator.prototype.createTile = function( type, img, x, y, room ) {
 		, brightness: 0
 	};
 }
+
+var generator = new Generator();
