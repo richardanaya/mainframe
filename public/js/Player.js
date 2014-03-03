@@ -1,6 +1,6 @@
 var Light = function() {
-    this.strengh = 1;
-    this.falloff = 0.1;
+    this.strengh = 10;
+    this.falloff = 0.05;
 }
 
 var Player = function(){
@@ -90,22 +90,6 @@ Player.prototype.pickup = function(o){
 Player.prototype.explore = function(){
     var standingTile = this.level.getTileAt( this.x, this.y );
     this.activeRoom = standingTile.room;
-
-    /*
-    for( var sightCheckY = this.y-this.sightRadius; sightCheckY < this.y+this.sightRadius; sightCheckY++ ) {
-        for( var sightCheckX = this.x-this.sightRadius; sightCheckX < this.x+this.sightRadius; sightCheckX++ ) {
-            var diff = { x: sightCheckX-this.x, y: sightCheckY-this.y };
-            var dist2 = diff.x*diff.x+diff.y*diff.y;
-            if( dist2 < this.sightRadius*this.sightRadius ) {
-                var seeTile = this.level.getTileAt(sightCheckX,sightCheckY);
-                if( seeTile != null && seeTile != undefined ) {
-                    seeTile.explored = true;
-                }
-            }
-        }
-    }
-    */
-
     this.level.forEachTile( function(tile) { 
                                 tile.brightness = 0; 
                                 tile.visited = false; 
@@ -130,35 +114,16 @@ Player.prototype.calcOpacity = function( tile, depth ) {
     var dirx = ( this.x == tile.x ) ? 0 : (( this.x < tile.x ) ? -1 : 1 );
     var diry = ( this.y == tile.y ) ? 0 : (( this.y < tile.y ) ? -1 : 1 );
 
-    var dist2 = distx*distx+disty*disty;    
-    // for adjacent tiles, full brightness
-    if( Math.abs(distx)+Math.abs(disty) <= 1 ) {
-        tile.brightness = this.light.strength;
-        this.explored = true;
-    }
-    else {
-        // check neighbor brightness
-        var avgNeighborBrightness = 0;
-        var horzNeigh = this.level.getTileAt( tile.x+dirx, tile.y );
-        if( horzNeigh != null && horzNeigh != undefined ) {
-            avgNeighborBrightness += horzNeigh.brightness;
-        }
+    var dist= Math.sqrt( distx*distx+disty*disty );
 
-        var vertNeigh = this.level.getTileAt( tile.x, tile.y+diry );
-        if( vertNeigh != null && vertNeigh != undefined ) {
-            avgNeighborBrightness += vertNeigh.brightness;
-        }
+    tile.brightness = 1 - ( this.light.falloff * dist )
 
-        avgNeighborBrightness = avgNeighborBrightness / 2;
-        this.brightness = avgNeighborBrightness - ( this.light.falloff * dist2 );
-    }
-
-    if( this.brightness > 0 ) {
-        this.explored = true; 
-        var neighbors = this.level.getNeighborTiles( this.x, this.y );
+    if( tile.brightness > 0 ) {
+        tile.explored = true; 
+        var neighbors = this.level.getNeighborTiles( tile.x, tile.y );
         for( var i = 0; i < neighbors.length; i++ ) {
-            var tile = neighbors[i];
-            this.calcOpacity( tile, depth+1 );
+            var nextTile = neighbors[i];
+            this.calcOpacity( nextTile, depth+1 );
         }      
     }
 }
