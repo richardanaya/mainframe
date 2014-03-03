@@ -49,11 +49,23 @@ Pickupable.prototype.onAction = function(action){
         if(Pickupable.Items[this.id].equip_slot == "ranged"){
             this.player.useRanged(this);
         }
+        if(Pickupable.Items[this.id].equip_slot == "melee"){
+            this.player.useMelee(this);
+        }
         this.player.level.scene.inventoryDialog.show();
     }
 }
 
 Pickupable.Items = {
+    "bat" : {
+        name: "Bat",
+        description: "A long bat that looks ready to give a beating",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        image : "bat"
+    },
     "gun" : {
         name: "Gun",
         description: "A trusty gun",

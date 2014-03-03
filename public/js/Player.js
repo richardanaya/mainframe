@@ -16,6 +16,7 @@ var Player = function(){
     this.tags = ["solid","player"];
     this.activeRoom = null;
     this.rangedWeapon = null;
+    this.meleeWeapon = null;
     if(r<.33){
         this.setupScientist();
     }
@@ -56,8 +57,16 @@ Player.prototype.setupSamurai = function(){
     g.equipped = true;
     this.addToInventory(g);
     this.useRanged(g);
+    var g = Pickupable.load("bat");
+    g.equipped = true;
+    this.addToInventory(g);
+    this.useMelee(g);
     this.strength = 11;
     this.accuracy = 11;
+}
+
+Player.prototype.useMelee = function(w){
+    this.meleeWeapon = w;
 }
 
 Player.prototype.useRanged = function(w){
@@ -76,7 +85,7 @@ Player.prototype.move = function(x,y){
 
         var monsters = this.level.getObjectsByTypeOnTile(x,y,"monster");
         if(monsters.length > 0){
-            this.moves.push(new Attack(this,monsters[0]));
+            this.moves.push(new Attack(this,monsters[0],this.meleeWeapon));
         }
         else {
             this.moves.push(new Move(x,y,this));
