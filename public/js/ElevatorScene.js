@@ -42,7 +42,7 @@ ElevatorScene.prototype = Object.create(Scene.prototype);
 
 ElevatorScene.prototype.update = function(delta){
     var size = 225;
-    this.ctx.drawImage(Resources.getImage("elevator"),(this.width-size)/2,0,size,this.height);
+    this.ctx.drawImage(Resources.getImage("shaft"),(this.width-size)/2,0,size,this.height);
     size = 150;
     this.ctx.drawImage(this.playerImage,(this.width-size)/2,this.time/5*(this.height+200)-200,size,size);
     if(this.fromLevel>this.toLevel){
