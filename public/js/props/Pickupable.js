@@ -20,8 +20,14 @@ Pickupable.prototype.onAction = function(action){
         this.level.scene.showDialog(this.description,this.image);
     }
     if(action == "drink"){
-        this.level.scene.player.removeInventory(this);
         this.level.scene.showDialog("mmm, interesting",this.image);
+        this.level.scene.player.removeInventory(this);
+    }
+    if(action == "throw"){
+        this.level.scene.showInfoText("What do you want to throw at?");
+        this.level.scene.select(function(x,y,obj){
+            alert("okay "+x+" "+y);;
+        })
     }
     if(action == "use"){
         this.level.scene.inventoryDialog.select("drink", function(i){
@@ -63,28 +69,28 @@ Pickupable.Items = {
         name: "Juice",
         image : "potion_1",
         tags: ["drink"],
-        actions: ["drink"],
+        actions: ["drink","throw"],
         description: "A juice"
     },
     "juice_1" : {
         name: "Juice",
         image : "potion_2",
         tags: ["drink"],
-        actions: ["drink"],
+        actions: ["drink","throw"],
         description: "A juice"
     },
     "juice_2" : {
         name: "Juice",
         image : "potion_3",
         tags: ["drink"],
-        actions: ["drink"],
+        actions: ["drink","throw"],
         description: "A juice"
     },
     "juice_3" : {
         name: "Juice",
         image : "potion_4",
         tags: ["drink"],
-        actions: ["drink"],
+        actions: ["drink","throw"],
         description: "A juice"
     },
     "data_chip_0" : {

@@ -110,11 +110,15 @@ Player.prototype.addToInventory = function(i){
     this.inventory.push(i);
 }
 
-Player.prototype.removeInventory = function(i){
-    var i = this.inventory.indexOf(i);
+Player.prototype.removeInventory = function(inv){
+    var i = this.inventory.indexOf(inv);
     if(i != -1){
-        this.inventory.slice(i,1);
+        this.inventory.splice(i,1);
     }
+}
+
+Player.prototype.rangeAttackTarget = function(x,y,obj){
+    console.log("attacking ranged");
 }
 
 Player.prototype.autoMove = function(){
