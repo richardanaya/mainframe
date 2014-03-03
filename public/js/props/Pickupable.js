@@ -90,11 +90,11 @@ Pickupable.Items = {
         description: "A keycard that looks like it can be used at corporate level"
     },
     "juice_0" : {
-        name: "Juice",
+        name: "Roids",
         image : "potion_1",
         tags: ["drink"],
         actions: ["drink","throw"],
-        description: "A juice"
+        description: "This potion is a devastating cocktail of muscle fiber inducing nanites."
     },
     "juice_1" : {
         name: "Juice",
@@ -130,10 +130,10 @@ Pickupable.Items = {
         description: "scroll_0"
     },
     "data_chip_1" : {
-        name: "Data Chip",
+        name: "Information Overload",
         image : "scroll_1",
         actions: ["use"],
-        description: "A data chip"
+        description: "This data chip contains a library of data directly compatible with your nueral systems."
     },
     "data_chip_2" : {
         name: "Data Chip",
@@ -152,6 +152,12 @@ Pickupable.Items = {
         image : "scroll_4",
         actions: ["use"],
         description: "A data chip"
+    },
+    "ecig" : {
+        name: "Electric Cigarette",
+        image : "ecig",
+        actions: ["use"],
+        description: "An electric cigarette. A smoke break would be nice right now."
     }
 }
 
