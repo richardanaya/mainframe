@@ -27,6 +27,14 @@ Level.WallTypes = {
     Cross: 5
 };
 
+Level.prototype.forEachTile = function( func ) {
+    for( var i = 0; i < this.tiles.length; i++ ) {
+        if( this.tiles[i] != null && this.tiles[i] != undefined ) {
+            func( this.tiles[i] );
+        }
+    }
+}
+
 Level.prototype.getTileAt = function(x,y) {
     return this.tiles[y*this.width+x];
 };

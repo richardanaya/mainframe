@@ -290,5 +290,15 @@ Generator.prototype.cleanupTJoins = function( level ) {
 }
 
 Generator.prototype.createTile = function( type, img, x, y, room ) {
-	return { type: type, image: img, objects: [], x: x, y: y, noblock: false, explored: false, room: room };
+	return { 
+		type: type
+		, image: img
+		, objects: []
+		, x: x
+		, y: y
+		, noblock: false
+		, explored: false
+		, room: room 
+		, brightness: 0
+	};
 }

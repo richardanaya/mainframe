@@ -1,8 +1,13 @@
+var Light = function() {
+    this.strengh = 1;
+    this.falloff = 0.1;
+}
+
 var Player = function(){
     Character.call(this);
     this.x = 0;
     this.y = 0;
-    this.sightRadius = 5;
+    this.light = new Light();
     this.image = Resources.images.player;
     var r = Math.random();
     if(r<.33){
@@ -60,8 +65,6 @@ Player.prototype.move = function(x,y){
         else {
             this.flipped = false;
         }
-
-        this.explore();
     }
 }
 
@@ -88,6 +91,7 @@ Player.prototype.explore = function(){
     var standingTile = this.level.getTileAt( this.x, this.y );
     this.activeRoom = standingTile.room;
 
+    /*
     for( var sightCheckY = this.y-this.sightRadius; sightCheckY < this.y+this.sightRadius; sightCheckY++ ) {
         for( var sightCheckX = this.x-this.sightRadius; sightCheckX < this.x+this.sightRadius; sightCheckX++ ) {
             var diff = { x: sightCheckX-this.x, y: sightCheckY-this.y };
@@ -99,6 +103,63 @@ Player.prototype.explore = function(){
                 }
             }
         }
+    }
+    */
+
+    this.level.forEachTile( function(tile) { 
+                                tile.brightness = 0; 
+                                tile.visited = false; 
+                            });
+
+    standingTile.brightness = 1;
+    standingTile.visited = true;
+    standingTile.explored = true;
+
+    var neighbors = this.level.getNeighborTiles( this.x, this.y );
+    for( var i = 0; i < neighbors.length; i++ ) {
+        var tile = neighbors[i];
+        this.calcOpacity( tile, 0 );
+    }
+}
+
+Player.prototype.calcOpacity = function( tile, depth ) {
+    if( tile.visited ) return;
+    tile.visited = true;
+    var distx = tile.x - this.x;
+    var disty = tile.y - this.y;
+    var dirx = ( this.x == tile.x ) ? 0 : (( this.x < tile.x ) ? -1 : 1 );
+    var diry = ( this.y == tile.y ) ? 0 : (( this.y < tile.y ) ? -1 : 1 );
+
+    var dist2 = distx*distx+disty*disty;    
+    // for adjacent tiles, full brightness
+    if( Math.abs(distx)+Math.abs(disty) <= 1 ) {
+        tile.brightness = this.light.strength;
+        this.explored = true;
+    }
+    else {
+        // check neighbor brightness
+        var avgNeighborBrightness = 0;
+        var horzNeigh = this.level.getTileAt( tile.x+dirx, tile.y );
+        if( horzNeigh != null && horzNeigh != undefined ) {
+            avgNeighborBrightness += horzNeigh.brightness;
+        }
+
+        var vertNeigh = this.level.getTileAt( tile.x, tile.y+diry );
+        if( vertNeigh != null && vertNeigh != undefined ) {
+            avgNeighborBrightness += vertNeigh.brightness;
+        }
+
+        avgNeighborBrightness = avgNeighborBrightness / 2;
+        this.brightness = avgNeighborBrightness - ( this.light.falloff * dist2 );
+    }
+
+    if( this.brightness > 0 ) {
+        this.explored = true; 
+        var neighbors = this.level.getNeighborTiles( this.x, this.y );
+        for( var i = 0; i < neighbors.length; i++ ) {
+            var tile = neighbors[i];
+            this.calcOpacity( tile, depth+1 );
+        }      
     }
 }
 
