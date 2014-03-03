@@ -25,6 +25,9 @@ var Player = function(){
     else {
         this.setupSamurai();
     }
+
+    this.maxHealth = 15;
+    this.health = 15;
 };
 
 Player.prototype = Object.create(Character.prototype);
@@ -98,8 +101,8 @@ Player.prototype.getInventoryWithTag = function(t){
     return j;
 }
 
-Player.prototype.attack = function(o){
-    this.moves.push(new Attack(this,o));
+Player.prototype.attack = function(o,w){
+    this.moves.push(new Attack(this,o,w));
 }
 
 Player.prototype.pickup = function(o){
@@ -142,7 +145,7 @@ Player.prototype.removeInventory = function(inv){
 
 Player.prototype.rangeAttackTarget = function(x,y,obj){
     var monst = this.level.getObjectsByTypeOnTile(x,y,"monster");
-    this.attack(monst[monst.length-1]);
+    this.attack(monst[monst.length-1],this.rangedWeapon);
     this.level.scene.processAllMoves();
 }
 

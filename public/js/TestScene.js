@@ -177,6 +177,9 @@ TestScene.prototype.update = function(delta){
     }
 
 
+    this.ctx.fillStyle = "red";
+    this.ctx.fillRect(this.width-this.attackButton.width-10, this.height-30, 100*this.player.health/this.player.maxHealth, 20);
+
     this.ctx.font = "16px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
 
