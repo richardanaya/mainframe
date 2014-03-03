@@ -28,8 +28,32 @@ Light.prototype.calculateBrightness = function( tile, level ) {
     var diry = ( this.y == tile.y ) ? 0 : (( this.y < tile.y ) ? -1 : 1 );
 
     var dist= Math.sqrt( distx*distx+disty*disty );
+    if( dist < 2 )
+    {
+        tile.brightness += Math.min( this.strength, 1 );
+    }
+    else
+    {
+        var compBright = 0; //Math.max( 1-(dist*this.falloff), 0 );
+        var avg = 0;
+        var tileh = level.getTileAt( tile.x+dirx );
+        var tilev = level.getTileAt( tile.y+diry );
+        if( tilev != null && tilev != undefined && tilev.type != Level.Types.Wall && tilev.type != Level.Types.Prop ) {
+            compBright += tilev.brightness;
+            avg++;
+        }
+        if( tileh != null && tileh != undefined && tileh.type != Level.Types.Wall && tileh.type != Level.Types.Prop ) {
+            compBright += tileh.brightness;
+            avg++;
+        }
 
-    tile.brightness += Math.max( this.strength - ( this.falloff * dist ), 0 );
+        if( compBright > 0 && avg > 0 ) {
+            compBright = compBright / avg;
+        }
+
+        tile.brightness += Math.min( compBright, 1 );
+    }
+
     tile.brightness = Math.min( tile.brightness, 1 );
 
     if( tile.brightness > 0 ) {
