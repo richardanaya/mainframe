@@ -102,6 +102,11 @@ TestScene.prototype.loadLevel = function(height){
             }
         }
         else {
+            _this.music = new Howl({
+                urls: ['sounds/Corporate1.mp3'],
+                loop: true
+            }).play();
+            _this.music.fade(0,1,3000);
             _this.music = null;
         }
     }
