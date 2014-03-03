@@ -20,24 +20,31 @@ var Player = function(){
     this.tags = ["solid","player"];
     this.inventory = [];
     this.activeRoom = null;
+    this.strength = 10;
+    this.accuracy = 10;
+    this.mind = 10;
 };
 
 Player.prototype = Object.create(Character.prototype);
 
 Player.prototype.setupScientist = function(){
-
     this.image_idle_0 = Resources.getImage("scientist_1");
     this.image_idle_1 = Resources.getImage("scientist_2");
+    this.mind = 12;
 }
 
 Player.prototype.setupHacker = function(){
     this.image_idle_0 = Resources.getImage("hacker_1");
     this.image_idle_1 = Resources.getImage("hacker_2");
+    this.accuracy = 11;
+    this.mind = 11;
 }
 
 Player.prototype.setupSamurai = function(){
     this.image_idle_0 = Resources.getImage("street_samurai");
     this.image_idle_1 = Resources.getImage("street_samurai_2");
+    this.strength = 11;
+    this.accuracy = 11;
 }
 
 Player.prototype.move = function(x,y){
