@@ -27,7 +27,7 @@ Player.prototype = Object.create(Character.prototype);
 Player.prototype.setupScientist = function(){
 
     this.image_idle_0 = Resources.getImage("scientist_1");
-    this.image_idle_1 = Resources.getImage("scientist_1");
+    this.image_idle_1 = Resources.getImage("scientist_2");
 }
 
 Player.prototype.setupHacker = function(){
