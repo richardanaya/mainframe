@@ -132,7 +132,7 @@ TestScene.prototype.update = function(delta){
 			if( t != null && t != undefined && t.image != undefined && t.image != null && t.explored ) {
             	this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
 
-                this.ctx.globalAlpha = 1-t.brightness;
+                this.ctx.globalAlpha = Math.max( 0.7-t.brightness, 0.3 );
                 this.ctx.drawImage(Resources.getImage('fowoverlay'),x*this.size ,y*this.size,this.size ,this.size  );
                 this.ctx.globalAlpha = 1;
 
