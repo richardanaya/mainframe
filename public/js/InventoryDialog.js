@@ -15,7 +15,7 @@ InventoryDialog.prototype.show = function(){
         var w = 5;
         var x = i%5;
         var y = Math.floor(i/5);
-        var b = new Button(this.scene, this.sx+10+x*110, this.sy+10+y*110, "transparent");
+        var b = new Button(this.scene, this.sx+16+x*110, this.sy+16+y*110, "transparent");
         if(this.scene.player.inventory[i].equipped){
             b.background = "green";
         }
@@ -38,7 +38,7 @@ InventoryDialog.prototype.select = function(type,onselect){
         var w = 5;
         var x = i%5;
         var y = Math.floor(i/5);
-        var b = new Button(this.scene, this.sx+10+x*110, this.sy+10+y*110, "transparent");
+        var b = new Button(this.scene, this.sx+16+x*110, this.sy+16+y*110, "transparent");
         if(this.scene.player.inventory[i].tags.indexOf(type)!=-1){
             b.background = "yellow";
         }
@@ -96,7 +96,7 @@ InventoryDialog.prototype.drawBox = function(x,y,width,height){
     context.save();
     // Draw the path that is going to be clipped
     context.beginPath();
-    context.rect(x,y,width,height);
+    context.rect(x+4,y+4,width-8,height-8);
     context.clip();
 
     context.beginPath();
@@ -110,15 +110,17 @@ InventoryDialog.prototype.drawBox = function(x,y,width,height){
     context.restore();
 
 
-    this.scene.ctx.drawImage(dialog_frame_topleft,x,y,8,8);
-    this.scene.ctx.drawImage(dialog_frame_top,x+8,y,width-16,8);
-    this.scene.ctx.drawImage(dialog_frame_bottomleft,x,y+height-8,8,8);
-    this.scene.ctx.drawImage(dialog_frame_left,x,y+8,8,height-16);
-    this.scene.ctx.drawImage(dialog_frame_right,x+width-8,y+8,8,height-16);
-    this.scene.ctx.drawImage(dialog_frame_topright,x+width-8,y,8,8);
-    this.scene.ctx.drawImage(dialog_frame_bottomright,x+width-8,y+height-8,8,8);
-    this.scene.ctx.drawImage(dialog_frame_bottom,x+8,y+height-8,width-16,8);
+    this.scene.ctx.drawImage(dialog_frame_topleft,x,y,12,12);
+    this.scene.ctx.drawImage(dialog_frame_top,x+12,y,width-24,12);
+    this.scene.ctx.drawImage(dialog_frame_bottomleft,x,y+height-12,12,12);
+    this.scene.ctx.drawImage(dialog_frame_left,x,y+12,12,height-24);
+    this.scene.ctx.drawImage(dialog_frame_right,x+width-12,y+12,12,height-24);
+    this.scene.ctx.drawImage(dialog_frame_topright,x+width-12,y,12,12);
+    this.scene.ctx.drawImage(dialog_frame_bottomright,x+width-12,y+height-12,12,12);
+    this.scene.ctx.drawImage(dialog_frame_bottom,x+12,y+height-12,width-24,12);
 }
+
+
 
 InventoryDialog.prototype.hide = function(){
     this.visible = false;

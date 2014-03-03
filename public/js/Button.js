@@ -57,7 +57,7 @@ Button.prototype.drawBox = function(x,y,width,height){
     context.save();
     // Draw the path that is going to be clipped
     context.beginPath();
-    context.rect(x,y,width,height);
+    context.rect(x+4,y+4,width-8,height-8);
     context.clip();
 
     context.beginPath();
