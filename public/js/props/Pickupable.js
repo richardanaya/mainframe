@@ -19,10 +19,6 @@ Pickupable.prototype.onAction = function(action){
     if(action == "look at"){
         this.level.scene.showDialog(this.description,this.image);
     }
-    if(action == "drink"){
-        this.level.scene.showDialog("mmm, interesting",this.image);
-        this.level.scene.player.removeInventory(this);
-    }
     if(action == "throw"){
         this.level.scene.showInfoText("What do you want to throw at?");
         this.level.scene.select(function(x,y,obj){
@@ -30,10 +26,23 @@ Pickupable.prototype.onAction = function(action){
         })
     }
     if(action == "use"){
-        this.level.scene.inventoryDialog.select("drink", function(i){
-            alert(i.name)
-            _this.level.scene.inventoryDialog.hide();
-        });
+        if(this.id == "juice_0"){
+            this.level.scene.showDialog("You gulp down the nanite infused liquid and feel stronger.",this.image);
+            this.player.strength += 1;
+            this.level.scene.showInfoText("Your strength is now "+this.player.strength)
+        }
+        else if(this.id == "ecig"){
+            this.level.scene.showDialog("You pause a moment to take a smoke break and feel a bit sharper.",this.image);
+            this.player.accuracy += 1;
+            this.level.scene.showInfoText("Your accuracy is now "+this.player.accuracy);
+        }
+        else if(this.id == "data_chip_0"){
+            this.level.scene.showDialog("You plug the data chip into your neckport and feel a rush of new knowledge.",this.image);
+            this.player.mind += 1;
+            this.level.scene.showInfoText("Your mind is now "+this.player.mind);
+        }
+        this.player.level.scene.processAllMoves();
+        this.level.scene.player.removeInventory(this);
     }
     if(action == "equip"){
         if(this.equipped){
@@ -90,31 +99,27 @@ Pickupable.Items = {
         description: "A keycard that looks like it can be used at corporate level"
     },
     "juice_0" : {
-        name: "Roids",
+        name: "MuscleBoost",
         image : "potion_1",
-        tags: ["drink"],
-        actions: ["drink","throw"],
-        description: "This potion is a devastating cocktail of muscle fiber inducing nanites."
+        actions: ["use","throw"],
+        description: "This potion is a devastating steroid cocktail of muscle fiber inducing nanites."
     },
     "juice_1" : {
         name: "Juice",
         image : "potion_2",
-        tags: ["drink"],
-        actions: ["drink","throw"],
+        actions: ["use","throw"],
         description: "A juice"
     },
     "juice_2" : {
         name: "Juice",
         image : "potion_3",
-        tags: ["drink"],
-        actions: ["drink","throw"],
+        actions: ["use","throw"],
         description: "A juice"
     },
     "juice_3" : {
         name: "Juice",
         image : "potion_4",
-        tags: ["drink"],
-        actions: ["drink","throw"],
+        actions: ["use","throw"],
         description: "A juice"
     },
     "data_chip_0" : {
