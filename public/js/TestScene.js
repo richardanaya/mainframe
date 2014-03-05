@@ -266,7 +266,6 @@ TestScene.prototype.listOptions = function(){
     }
     var attack_targets = this.level.getNeighborObjectsByType(this.player.x,this.player.y,"monster");
     if(attack_targets.length>0){
-        this.showInfoText("There's a monster nearby you can attack");
         if(this.attack_target != attack_targets[0]){ options_changed = true;}
         this.attack_target = attack_targets[0];
         this.attackButton.image = this.attack_target.image;
@@ -295,6 +294,14 @@ TestScene.prototype.onKeyDown = function(key){
         else if(key == 40 || key == 83){
             this.player.moveDown();
         }
+        else if(key == 32){
+            if (this.attack_target){
+                this.attackNearestTarget();
+            }
+            else if(this.pickup_target){
+                this.pickupNearestTarget();
+            }
+        }
         this.processAllMoves();
     }
     else if(this.mode == "dialog"){
@@ -320,8 +327,7 @@ TestScene.prototype.onTap = function(x,y){
 
         if(this.attack_target){
             if(this.attackButton.isWithin(x,y)){
-                this.player.attack(this.attack_target);
-                this.processAllMoves();
+                this.attackNearestTarget();
                 return;
             }
         }
@@ -387,10 +393,29 @@ TestScene.prototype.onTap = function(x,y){
     }
 }
 
+TestScene.prototype.attackNearestTarget = function(){
+    if(this.attack_target){
+        this.player.attack(this.attack_target);
+        this.processAllMoves();
+    }
+}
+
+TestScene.prototype.pickupNearestTarget = function(){
+    this.player.pickup(this.pickup_target);
+    this.processAllMoves();
+    return;
+}
 
 TestScene.prototype.select = function(onselect){
     this.onselect = onselect;
     this.mode = "select";
+}
+
+TestScene.prototype.onDie = function(){
+    this.showInfoText("You Died");
+    this.game.changeScene(new StartScene(this.game));
+    this.mode = "dead";
+    this.music.fadeOut(1,0,3000);
 }
 
 TestScene.prototype.showDialog = function(text, img0, img1, onComplete){

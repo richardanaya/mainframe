@@ -4,6 +4,8 @@ var Character = function(){
     this.tags = [];
     this.thinks = true;
     this.flipped = 0;
+    this.maxHealth = 15;
+    this.health = 15;
 }
 
 Character.prototype = Object.create(GameObject.prototype);
@@ -23,6 +25,22 @@ Character.prototype.moveRight = function(){
 Character.prototype.moveDown = function(){
     this.move(this.x,this.y+1);
 }
+
+Character.prototype.onDamage = function(d){
+    if(this.god){
+        return;
+    }
+    this.level.scene.showInfoText(this.name+" took "+d+" damage.");
+    this.health -= d;
+    if(this.health<=0){
+        this.onDie();
+    }
+}
+
+Character.prototype.onDie = function(){
+    this.level.scene.showInfoText(this.name+" died.");
+    this.level.removeObject(this);
+};
 
 Character.prototype.move = function(x,y){
     if(this.level.isPointWithin(x,y)){

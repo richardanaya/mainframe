@@ -5,16 +5,16 @@ var InventoryDialog = function(scene){
 }
 
 InventoryDialog.prototype.show = function(){
-    this.width = window.innerWidth*3/4;
+    this.width = window.innerWidth*3/4-50;
     this.height = window.innerHeight*3/4;
     this.sx = (this.scene.width-this.width)/2;
     this.sy = (this.scene.height-this.height)/2;
     this.visible = true;
     this.buttons = [];
     for(var i = 0 ; i < this.scene.player.inventory.length; i++){
-        var w = 5;
-        var x = i%5;
-        var y = Math.floor(i/5);
+        var w = 7;
+        var x = i%7;
+        var y = Math.floor(i/7);
         var b = new Button(this.scene, this.sx+16+x*110, this.sy+16+y*110, "transparent");
         if(this.scene.player.inventory[i].equipped){
             b.background = "green";

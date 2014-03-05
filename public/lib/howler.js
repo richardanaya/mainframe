@@ -1117,8 +1117,9 @@
                         obj.load();
                     }
                 };
+                xhr.send();
                 try {
-                    xhr.send();
+
                 } catch (e) {
                     xhr.onerror();
                 }

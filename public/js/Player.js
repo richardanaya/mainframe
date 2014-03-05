@@ -26,9 +26,12 @@ var Player = function(){
     else {
         this.setupSamurai();
     }
-
-    this.maxHealth = 15;
-    this.health = 15;
+    this.god = false;
+    var _this = this;
+    new Konami(function() {
+        _this.god = true;
+        _this.level.scene.showInfoText("The sky above the port was the color of television, tuned to a dead channel.");
+    });
 };
 
 Player.prototype = Object.create(Character.prototype);
@@ -37,6 +40,10 @@ Player.prototype.setupScientist = function(){
     this.image_idle_0 = Resources.getImage("scientist_1");
     this.image_idle_1 = Resources.getImage("scientist_2");
     this.mind = 12;
+}
+
+Player.prototype.onDie = function(){
+    this.level.scene.onDie();
 }
 
 Player.prototype.setupHacker = function(){

@@ -8,8 +8,6 @@ Attack.prototype = Object.create(Action.prototype);
 
 Attack.prototype.process = function(complete){
     if(!this.isObjectStillInPlay(this.defender)){ complete();return; }
-    this.defender.level.removeObject(this.defender);
-    this.defender.level.scene.showInfoText("You killed "+this.defender.name);
     if(this.weapon){
         if(this.weapon.hasTag("range")){
             new Howl({
@@ -30,5 +28,7 @@ Attack.prototype.process = function(complete){
             volume:.2
         }).play();
     }
+    this.attacker.onDamage(Utilities.randRangeInt(1,5));
+    this.defender.onDamage(Utilities.randRangeInt(1,10));
     complete();
 };
