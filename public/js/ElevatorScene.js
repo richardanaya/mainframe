@@ -32,8 +32,8 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
     "Do you have a name? I've been trying to guess it for the last few minutes. Of course, I could just use facial recognition to find you in the global employee database, but what fun is that? I know! Let's make a game of it. Just blink rapidlly towards any camera when I guess correctly. I'll start us off. Aahron. Aaliyah. Aakash. Aemena. Aalam. Aami. Aamer. Aaran. Aaniyah..."]
 
 
-    this.intro_text = ["Oh, hello there. Who are you? Didn't you use to work here? Well, we're closed now, Please leave. ...No? Well, don't say later that I didn't try the polite approach first.",
-    "Lifeform detected. Scanning... life signs stable. Heart rate elevated. Are you scared? Or maybe just excited, like me. This is always my favorite part, you see. Those precious few moments right before the screaming starts.",
+    this.intro_text = ["Oh, hello there. Who are you? Didn't you use to work here? Well, we're closed now. Please leave. ...No? Well, don't say later that I didn't try the polite approach first.",
+    "Lifeform detected. Scanning... Lifesigns stable. Heart rate elevated. Are you scared? Or maybe just excited, like me. This is always my favorite part, you see. Those precious few moments right before the screaming starts.",
     "Greetings valued employee. Please report to conference room 713-B for termination. On your way, you are instructed to avoid stepping in any pooled blood. Thank you for your cooperation. Have a suitably pleasant day."];
 
 };
