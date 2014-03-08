@@ -240,11 +240,11 @@ TestScene.prototype.update = function(delta){
     var hp_frame_middle = Resources.getImage("hp_frame_middle");
     var hp_frame_right = Resources.getImage("hp_frame_right");
     var hx = 65;
-    var hy = 10;
-    this.ctx.drawImage(hp_frame_left, hx,hy,14,40);
-    this.ctx.drawImage(hp_frame_middle, hx+14,hy,200,40);
-    this.ctx.drawImage(hp_frame_right, hx+14+200,hy,14,40);
-    this.ctx.drawImage(hp, hx+14,hy+12,200*this.player.health/this.player.maxHealth,14);
+    var hy = 22;
+    this.ctx.drawImage(hp_frame_left, hx,hy,6,16);
+    this.ctx.drawImage(hp_frame_middle, hx+6,hy,200,16);
+    this.ctx.drawImage(hp_frame_right, hx+6+200,hy,6,16);
+    this.ctx.drawImage(hp, hx+6,hy+6,200*this.player.health/this.player.maxHealth,6);
 
 
 
