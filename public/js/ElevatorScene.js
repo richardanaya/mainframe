@@ -60,7 +60,7 @@ ElevatorScene.prototype.update = function(delta){
         //this.ctx.drawImage(this.playerImage,(this.width-64)/2,this.time/5*(this.height+200)-200,64,64);
     }
     else {
-        this.ctx.drawImage(Resources.getImage("elevator"+(this.curFrame+1)),(this.width-128)/2,(this.height+160)-this.time/5*(this.height)-200+160,128,160);
+        this.ctx.drawImage(Resources.getImage("elevator"+((29-this.curFrame)+1)),(this.width-128)/2,(this.height+160)-this.time/5*(this.height)-200+160,128,160);
         this.ctx.drawImage(this.playerImage,(this.width-64)/2,(this.height+160)-this.time/5*(this.height)-200+240,64,64);
         //this.ctx.drawImage(Resources.getImage("elevator"+(this.curFrame+1)),(this.width-64)/2,(this.height+160)-this.time/5*(this.height)-200+64,64,64);
     }
