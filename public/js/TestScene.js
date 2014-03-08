@@ -74,6 +74,7 @@ TestScene.prototype = Object.create(Scene.prototype);
 
 TestScene.prototype.loadLevel = function(height){
     this.effects = [];
+    var oldHeight = this.currentHeight;
     var _this = this;
     if(_this.music){
         _this.music.fade(1,0,3000);
@@ -93,7 +94,7 @@ TestScene.prototype.loadLevel = function(height){
         _this.currentHeight = height;
 
 
-        if(height == 1000){
+        if(height == 1000 && oldHeight >= height){
             _this.music = new Howl({
                 urls: ['sounds/rain.mp3'],
                 loop: true
@@ -113,11 +114,11 @@ TestScene.prototype.loadLevel = function(height){
         }
     }
 
-    if(height == 1000){
+    if(height == 1000 && oldHeight>=height){
         done();
     }
     else {
-        this.game.changeScene(new ElevatorScene(this.game,done,this.currentHeight,height,this.player.image_idle_0))
+        this.game.changeScene(new ElevatorScene(this.game,done,oldHeight,height,this.player.image_idle_0))
     }
 };
 

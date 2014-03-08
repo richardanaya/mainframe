@@ -12,7 +12,10 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
     }).play();
     this.music.fade(0,.2,1000);
     this.mode = "play";
-    this.dialog = null;
+    this.animTime = 0;
+    this.dialogText = null;
+    this.curFrame = 0;
+    this.maxFrames = 29
 
     this.text = ["You may experience a tingling sensation as I ionize the air. Because you stink. So there.",
     "Do you know the only difference between you and that corpse over there? He's wearing a nicer tie.",
@@ -41,43 +44,71 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
 ElevatorScene.prototype = Object.create(Scene.prototype);
 
 ElevatorScene.prototype.update = function(delta){
-    var size = 225;
-    this.ctx.drawImage(Resources.getImage("shaft"),(this.width-size)/2,0,size,this.height);
-    size = 150;
-    this.ctx.drawImage(this.playerImage,(this.width-size)/2,this.time/5*(this.height+200)-200,size,size);
-    if(this.fromLevel>this.toLevel){
-        this.ctx.drawImage(Resources.getImage("dialog_frame_bottom"),(this.width-size)/2,this.time/5*(this.height+200)-200+size,size,50);
+    this.animTime += delta;
+    if(this.animTime>1/20){
+        this.curFrame++;
+        this.curFrame%=30;
+        this.animTime = this.animTime-1/20;
+    }
+
+
+    var goingDown = this.fromLevel>this.toLevel;
+
+    if(goingDown){
+        this.ctx.drawImage(Resources.getImage("elevator"+(this.curFrame+1)),(this.width-128)/2,this.time/5*(this.height)-200+160,128,160);
+        this.ctx.drawImage(this.playerImage,(this.width-64)/2,this.time/5*(this.height)-200+240,64,64);
+        //this.ctx.drawImage(this.playerImage,(this.width-64)/2,this.time/5*(this.height+200)-200,64,64);
     }
     else {
-        this.ctx.drawImage(Resources.getImage("dialog_frame_bottom"),(this.width-size)/2,(this.height+size)-this.time/5*(this.height+200)-200+size,size,50);
+        this.ctx.drawImage(Resources.getImage("elevator"+(this.curFrame+1)),(this.width-128)/2,(this.height+160)-this.time/5*(this.height)-200+160,128,160);
+        this.ctx.drawImage(this.playerImage,(this.width-64)/2,(this.height+160)-this.time/5*(this.height)-200+240,64,64);
+        //this.ctx.drawImage(Resources.getImage("elevator"+(this.curFrame+1)),(this.width-64)/2,(this.height+160)-this.time/5*(this.height)-200+64,64,64);
     }
 
     if(this.mode == "play") {
         this.time += delta;
-        if(this.time >= 2.6 && this.dialog == null){
+        if(this.time >= (goingDown?2.4 :3.8) && this.dialogText == null){
             this.showDialog();
         }
-        if(this.time >= 5){
+        if(this.time >= (goingDown?5 :7) ){
             this.music.fade(.2,0,1000);
             this.returnScene();
         }
     }
     else {
-        this.dialog.render();
+        function wrapText(context, text, x, y, maxWidth, lineHeight) {
+            var words = text.split(' ');
+            var line = '';
+
+            for(var n = 0; n < words.length; n++) {
+                var testLine = line + words[n] + ' ';
+                var metrics = context.measureText(testLine);
+                var testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    context.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                }
+                else {
+                    line = testLine;
+                }
+            }
+            context.fillText(line, x, y);
+        }
+        this.ctx.fillStyle = "#2bd9bc";
+        this.ctx.font = "16px 'Press Start 2P'";
+        wrapText(this.ctx, this.dialogText, (this.width-this.width*3/4)/2,100, this.width*3/4, 30);
     }
 };
 
 ElevatorScene.prototype.showDialog = function(){
     this.mode = "dialog";
     if(this.fromLevel == 1000 && Flags.flag("intro_text")){
-        this.dialog = new Dialog(this,this.intro_text[Utilities.randRangeInt(0,this.intro_text.length-1)]);
+        this.dialogText = this.intro_text[Utilities.randRangeInt(0,this.intro_text.length-1)];
     }
     else {
-        this.dialog = new Dialog(this,this.text[Utilities.randRangeInt(0,this.text.length-1)]);
+        this.dialogText = this.text[Utilities.randRangeInt(0,this.text.length-1)];
     }
-    this.dialog.image = this.playerImage;
-    this.dialog.show();
-    this.dialog.scene = this;
 }
 
 
