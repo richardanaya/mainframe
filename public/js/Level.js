@@ -262,3 +262,71 @@ Level.prototype.refreshLights = function( dynamicLights ) {
         }
     }
 }
+
+Level.prototype.designRooms = function(height) {
+    var startRoom = this.getRoomByDepth(0);
+    var upElevatorPos = this.getRandomWall(startRoom);
+    this.addObjectTo(upElevatorPos.x,upElevatorPos.y,new UpElevator());
+    this.getTileAt(upElevatorPos.x,upElevatorPos.y).type = Level.Types.Floor;
+    var endRoom = this.getRoomByDepth(this.maxRoomDepth);
+    var downElevatorPos = this.getRandomWall(endRoom);
+    this.addObjectTo(downElevatorPos.x,downElevatorPos.y,new DownElevator());
+    this.getTileAt(downElevatorPos.x,downElevatorPos.y).type = Level.Types.Floor;
+}
+
+Level.prototype.getRoomByDepth = function(depth) {
+    for(var i = 0 ; i < this.rooms.length; i++){
+        if(this.rooms[i].depth == depth){
+            return this.rooms[i];
+        }
+    }
+    return null;
+}
+
+Level.prototype.getRandomFreeTile = function(room) {
+    var x = Utilities.randRangeInt( room.x+1, room.x+room.width-1 );
+    var y = Utilities.randRangeInt( room.y+1, room.y+room.height-1 );
+    while(!this.isFreeTile(x,y)){
+        x = Utilities.randRangeInt( room.x+1, room.x+room.width-1 );
+        y = Utilities.randRangeInt( room.y+1, room.y+room.height-1 );
+    }
+    return {x:x,y:y};
+};
+
+Level.prototype.getRandomWall = function(room) {
+     var f = function(){
+        if(Math.random()<.5){
+            if(Math.random()<.5){
+                return {x:room.x-1, y:Utilities.randRangeInt( room.y, room.y+room.height )};
+            }
+            else {
+                return {x:room.x+room.width, y:Utilities.randRangeInt( room.y, room.y+room.height )};
+            }
+        }
+        else {
+        if(Math.random()<.5){
+            return {x:Utilities.randRangeInt( room.x-1, room.x+room.width ), y:room.y-1};
+        }
+        else {
+            return {x:Utilities.randRangeInt( room.x-1, room.x+room.width ), y:room.y+room.height};
+        }
+        }
+    }
+    var p = f();
+    while(this.getNeighborsByType(p.x, p.y,Level.Types.Floor)==0){
+        p = f();
+    }
+    return p;
+};
+
+Level.prototype.isWithinRoom = function(room,x,y) {
+    if(x>=room.x && x<room.x+room.width&&x>=room.y && y<room.y+room.height){
+        return true;
+    }
+    return false;
+};
+
+Level.prototype.isFreeTile = function(x,y) {
+    var t = this.getTileAt(x,y);
+    return (t.type != Level.Types.Prop && t.type != Level.Types.Wall);
+}
