@@ -12,7 +12,7 @@ Generator.prototype.generateLevel = function( width, height ) {
 	
 	var halfWidth = Utilities.randRangeInt( this.minHalfRoomSize, this.maxHalfRoomSize );
 	var halfHeight = Utilities.randRangeInt( this.minHalfRoomSize, this.maxHalfRoomSize );
-	this.createRoom( level.center.x-halfWidth, level.center.y-halfHeight, halfWidth, halfHeight, level );
+	this.createRoom( level.center.x-halfWidth, level.center.y-halfHeight, halfWidth, halfHeight, level, null, 0);
 
 	this.postProcess( level );
 
@@ -23,23 +23,24 @@ Generator.prototype.postProcess = function( level ) {
 	this.buildWalls( level );
 	this.setupContextualTiles( level );
 	this.cleanupTJoins( level );
+    console.log("this room is "+level.maxRoomDepth+" rooms deep.");
 	level.tileset.doPropPass( level );
 }
 
-Generator.prototype.tryCreateRoom = function( connector, level ) {
+Generator.prototype.tryCreateRoom = function( connector, level, depth ) {
 	var halfWidth = Utilities.randRangeInt( this.minHalfRoomSize, this.maxHalfRoomSize );
 	var halfHeight = Utilities.randRangeInt( this.minHalfRoomSize, this.maxHalfRoomSize );
 
 	switch( connector.orientation ) {
-		case Orientation.North: 	return this.createRoom( connector.doorPos.x - halfWidth, 	connector.doorPos.y - halfHeight*2, halfWidth, halfHeight, level );
-		case Orientation.East: 		return this.createRoom( connector.doorPos.x + 1, 			connector.doorPos.y - halfHeight, 	halfWidth, halfHeight, level );
-		case Orientation.South: 	return this.createRoom( connector.doorPos.x - halfWidth, 	connector.doorPos.y + 1, 			halfWidth, halfHeight, level );
-		case Orientation.West: 		return this.createRoom( connector.doorPos.x - halfWidth*2, 	connector.doorPos.y - halfHeight, 	halfWidth, halfHeight, level );
+		case Orientation.North: 	return this.createRoom( connector.doorPos.x - halfWidth, 	connector.doorPos.y - halfHeight*2, halfWidth, halfHeight, level, null, depth );
+		case Orientation.East: 		return this.createRoom( connector.doorPos.x + 1, 			connector.doorPos.y - halfHeight, 	halfWidth, halfHeight, level, null, depth );
+		case Orientation.South: 	return this.createRoom( connector.doorPos.x - halfWidth, 	connector.doorPos.y + 1, 			halfWidth, halfHeight, level, null, depth );
+		case Orientation.West: 		return this.createRoom( connector.doorPos.x - halfWidth*2, 	connector.doorPos.y - halfHeight, 	halfWidth, halfHeight, level, null, depth );
 	}
 }
 
-Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, level, numconnectors ) {
-	if( numconnectors == undefined ) numconnectors = Utilities.randRangeInt( 2,4 );
+Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, level, numconnectors, depth ) {
+	if( !numconnectors ) numconnectors = Utilities.randRangeInt( 2,4 );
 
 	var room = { 
 		halfWidth: halfWidth,
@@ -81,7 +82,7 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 				connector.welcomeMat = { x: connector.doorPos.x + connector.orientation.x, y: connector.doorPos.y + connector.orientation.y };
 				connector.welcomeMat.index = Utilities.positionToIndex( connector.welcomeMat.x, connector.welcomeMat.y, level.width );
 
-				if( this.tryCreateRoom( connector, level ) )
+				if( this.tryCreateRoom( connector, level, depth+1) )
 				{
 					level.tiles[ connector.doorPos.index ] = this.createTile( Level.Types.Door, level.tileset.floors[1], connector.doorPos.x, connector.doorPos.y );
 					level.tiles[ connector.doorPos.index ].orientation = connector.orientation;
@@ -91,6 +92,10 @@ Generator.prototype.createRoom = function( left, top, halfWidth, halfHeight, lev
 				}
 			}
 		}
+        room.depth = depth;
+        if(depth > level.maxRoomDepth){
+            level.maxRoomDepth = depth;
+        }
 		level.rooms.push( room );
 		result = true;
 	}

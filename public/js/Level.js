@@ -9,6 +9,7 @@ var Level = function() {
     this.rooms = [];
     this.tjoins = [];
     this.lights = [];
+    this.maxRoomDepth = 0;
 }
 
 Level.Types = {
