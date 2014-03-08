@@ -141,6 +141,12 @@ TestScene.prototype.update = function(delta){
     this.level.update();
 
     this.time += delta;
+
+    if(this.currentHeight == 1000){
+        var bg = Resources.getImage("CityScapebg");
+        this.ctx.drawImage(bg,0,0,window.innerWidth,window.innerHeight);
+    }
+
     this.ctx.save();
     this.ctx.translate(this.viewTranslateX,this.viewTranslateY);
     this.ctx.scale(this.viewScaleX,this.viewScaleY);
@@ -172,6 +178,32 @@ TestScene.prototype.update = function(delta){
         }
     }
     this.ctx.restore();
+
+    if(this.currentHeight == 1000){
+
+        var r0 = Resources.getImage("rain_0");
+        var r1 = Resources.getImage("rain_1");
+        var r2 = Resources.getImage("rain_2");
+
+        this.ctx.globalAlpha = .2;
+        var r = this.time*2-Math.floor(this.time*2);
+        for(var x = 0; x < Math.ceil(window.innerWidth/256);x++){
+            for(var y = 0; y < Math.ceil(window.innerHeight/256);y++){
+
+                if(r<.33){
+                    this.ctx.drawImage(r0,x*256,y*256,256,256);
+                }
+                else if(r<.66){
+                    this.ctx.drawImage(r1,x*256,y*256,256,256);
+                }
+                else {
+                    this.ctx.drawImage(r2,x*256,y*256,256,256);
+                }
+            }
+        }
+
+    }
+    this.ctx.globalAlpha = 1;
 
     for(var i = 0 ; i < this.effects.length; i++){
         this.effects[i].update(delta);

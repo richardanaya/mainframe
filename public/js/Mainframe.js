@@ -41,6 +41,8 @@ Mainframe.prototype.GetLevel = function(height){
             }
         }
 
+
+
         level.addObjectTo(8,1,new DownElevator());
         for(var i in Pickupable.Items){
             level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(i));
@@ -48,9 +50,15 @@ Mainframe.prototype.GetLevel = function(height){
         }
         level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),new Robot());
 
-
-
         generator.postProcess( level );
+
+        for(var x = 0; x< width; x++ ){
+            for(var y = 0; y< height; y++ ){
+                if(level.tiles[ Utilities.positionToIndex(x,y,level.width) ]){
+                    level.tiles[ Utilities.positionToIndex(x,y,level.width) ].explored = true;
+                }
+            }
+        }
 
         return level;
     }
