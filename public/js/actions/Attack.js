@@ -30,5 +30,5 @@ Attack.prototype.process = function(complete){
     }
     this.attacker.onDamage(Utilities.randRangeInt(1,5));
     this.defender.onDamage(Utilities.randRangeInt(1,10));
-    complete();
+    window.setTimeout(complete,3000)
 };

@@ -6,6 +6,7 @@ var Character = function(){
     this.flipped = 0;
     this.maxHealth = 15;
     this.health = 15;
+    this.effects = [];
 }
 
 Character.prototype = Object.create(GameObject.prototype);
@@ -30,7 +31,8 @@ Character.prototype.onDamage = function(d){
     if(this.god){
         return;
     }
-    this.level.scene.showInfoText(this.name+" took "+d+" damage.");
+    this.level.scene.effects.push(new DamageEffect(this.level.scene,this.x,this.y,d+""));
+
     this.health -= d;
     if(this.health<=0){
         this.onDie();

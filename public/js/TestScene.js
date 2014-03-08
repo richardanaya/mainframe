@@ -66,13 +66,14 @@ var TestScene = function(game){
 
     this.inventoryDialog = new InventoryDialog(this);
     this.inventoryDialog.scene = this;
-
+    this.effects = [];
     this.loadLevel(this.currentHeight)
 };
 
 TestScene.prototype = Object.create(Scene.prototype);
 
 TestScene.prototype.loadLevel = function(height){
+    this.effects = [];
     var _this = this;
     if(_this.music){
         _this.music.fade(1,0,3000);
@@ -128,6 +129,13 @@ TestScene.prototype.centerViewAroundSquare = function(x,y){
     this.viewTranslateY = (-y*this.size-this.size/2)*this.viewScaleY+window.innerHeight/2;
 }
 
+TestScene.prototype.getTileToScreen = function(tileX,tileY){
+    return {
+        x: tileX*this.size*this.viewScaleX+this.viewTranslateX,
+        y: tileY*this.size*this.viewScaleY+this.viewTranslateY
+    };
+}
+
 TestScene.prototype.update = function(delta){
     this.time += delta;
     this.ctx.save();
@@ -160,6 +168,10 @@ TestScene.prototype.update = function(delta){
         }
     }
     this.ctx.restore();
+
+    for(var i = 0 ; i < this.effects.length; i++){
+        this.effects[i].update(delta);
+    }
 
     this.pickupButton.update(delta);
     this.pickupButton.render();
@@ -307,6 +319,14 @@ TestScene.prototype.onKeyDown = function(key){
     else if(this.mode == "dialog"){
         this.mode = "play";
     }
+    else if(this.mode == "inventory"){
+        this.mode = "play";
+    }
+    else if(this.mode == "select"){
+        this.onselect(-1,-1,null);
+        this.mode = "play";
+        return;
+    }
 };
 
 
@@ -350,7 +370,9 @@ TestScene.prototype.onTap = function(x,y){
             if(this.player.rangedWeapon){
                 this.showInfoText("Tap on what you would like to shoot.")
                 this.select(function(x,y,obj){
-                    _this.player.rangeAttackTarget(x,y,obj);
+                    if(x!=-1&&y!=-1){
+                        _this.player.rangeAttackTarget(x,y,obj);
+                    }
                 });
             }
             return;
