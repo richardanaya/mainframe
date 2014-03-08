@@ -43,7 +43,9 @@ Mainframe.prototype.GetLevel = function(height){
 
 
 
-        level.addObjectTo(8,1,new DownElevator());
+        var de = new DownElevator();
+        level.addObjectTo(8,1,de);
+        de.image = Resources.getImage("stairs");
         for(var i in Pickupable.Items){
             level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(i));
 
