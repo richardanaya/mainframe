@@ -2,7 +2,6 @@ var Player = function(){
     Character.call(this);
     this.x = 0;
     this.y = 0;
-    this.sightRadius = 5;
     this.image = Resources.images.player;
     var r = Math.random();
 
@@ -26,12 +25,14 @@ var Player = function(){
     else {
         this.setupSamurai();
     }
+
     this.god = false;
     var _this = this;
     new Konami(function() {
         _this.god = true;
         _this.level.scene.showInfoText("The sky above the port was the color of television, tuned to a dead channel.");
     });
+    this.light = new Light( "playerlight", this.x, this.y, 1.5, 0.2 );
 };
 
 Player.prototype = Object.create(Character.prototype);
@@ -126,21 +127,24 @@ Player.prototype.pickup = function(o){
 }
 
 Player.prototype.explore = function(){
-    var standingTile = this.level.getTileAt( this.x, this.y );
-    this.activeRoom = standingTile.room;
-
-    for( var sightCheckY = this.y-this.sightRadius; sightCheckY < this.y+this.sightRadius; sightCheckY++ ) {
-        for( var sightCheckX = this.x-this.sightRadius; sightCheckX < this.x+this.sightRadius; sightCheckX++ ) {
-            var diff = { x: sightCheckX-this.x, y: sightCheckY-this.y };
-            var dist2 = diff.x*diff.x+diff.y*diff.y;
-            if( dist2 < this.sightRadius*this.sightRadius ) {
-                var seeTile = this.level.getTileAt(sightCheckX,sightCheckY);
-                if( seeTile != null && seeTile != undefined ) {
-                    seeTile.explored = true;
-                }
-            }
-        }
+    if( this.lightRegistered == false ) {
+        this.lightRegistered = true;
+        this.level.lights.push( this.light );
     }
+
+    var standingTile = this.level.getTileAt( this.x, this.y );
+    this.level.activeRoom = standingTile.room;
+    this.level.forEachTile( function(tile) { 
+                                tile.brightness = 0; 
+                                tile.visited = false; 
+                            });
+
+    standingTile.brightness = 1;
+    standingTile.visited = true;
+    standingTile.explored = true;
+
+    this.light.x = this.x;
+    this.light.y = this.y;
 }
 
 Player.prototype.stopAutoMove = function(){

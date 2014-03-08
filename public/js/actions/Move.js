@@ -17,6 +17,7 @@ Move.prototype.process = function(complete){
 
     if( this.obj.tags.indexOf( "player" ) != -1 ) {
         this.obj.explore();
+        this.obj.level.refreshLights( [this.obj.light] );
     }
 
     complete();

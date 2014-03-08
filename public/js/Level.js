@@ -5,8 +5,10 @@ var Level = function() {
     this.height = 10;
     this.allObjects = [];
     this.center = { x: Math.floor( this.width/2), y: Math.floor( this.height/2 ) };
+    this.activeRoom = null;
     this.rooms = [];
     this.tjoins = [];
+    this.lights = [];
 }
 
 Level.Types = {
@@ -26,6 +28,14 @@ Level.WallTypes = {
     TJoin : 4,
     Cross: 5
 };
+
+Level.prototype.forEachTile = function( func ) {
+    for( var i = 0; i < this.tiles.length; i++ ) {
+        if( this.tiles[i] != null && this.tiles[i] != undefined ) {
+            func( this.tiles[i] );
+        }
+    }
+}
 
 Level.prototype.getTileAt = function(x,y) {
     return this.tiles[y*this.width+x];
@@ -161,6 +171,9 @@ Level.prototype.getNeighborObjectsByType = function(x,y,type){
 Level.prototype.addObjectTo = function(x,y,o) {
     this.getTileAt(x,y).objects.push(o);
     o.level = this;
+    if( o.onLevelSet != null && o.onLevelSet != undefined ) {
+        o.onLevelSet( this );
+    }
     o.x = x;
     o.y = y;
     this.allObjects.push(o);
@@ -229,4 +242,22 @@ Level.prototype.getObjectsByTypeOnTile = function(x,y,type){
     return o;
 }
 
-var generator = new Generator();
+Level.prototype.update = function() {
+}
+
+Level.prototype.refreshLights = function( dynamicLights ) {
+    this.forEachTile( function( tile ) {
+            tile.visited = null;
+            tile.brightness = 0;
+        });
+
+    for( var i = 0; i < this.lights.length; i++ ) {
+        this.lights[i].refresh( this );
+    }
+
+    if( dynamicLights != null && dynamicLights != undefined && dynamicLights.length > 0 ) {
+        for( var i = 0; i < dynamicLights.length; i++ ) {
+            dynamicLights[i].refresh( this );
+        }
+    }
+}

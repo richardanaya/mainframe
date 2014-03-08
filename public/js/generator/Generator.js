@@ -1,4 +1,6 @@
 var Generator = function() {
+	this.minHalfRoomSize = 3;
+	this.maxHalfRoomSize = 8;
 }
 
 Generator.prototype.generateLevel = function( width, height ) {
@@ -8,8 +10,8 @@ Generator.prototype.generateLevel = function( width, height ) {
 	level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
 	level.tileset = Tileset.createOfficeTileset();
 	
-	var halfWidth = Utilities.randRangeInt( 2, 5 );
-	var halfHeight = Utilities.randRangeInt( 2, 5 );
+	var halfWidth = Utilities.randRangeInt( this.minHalfRoomSize, this.maxHalfRoomSize );
+	var halfHeight = Utilities.randRangeInt( this.minHalfRoomSize, this.maxHalfRoomSize );
 	this.createRoom( level.center.x-halfWidth, level.center.y-halfHeight, halfWidth, halfHeight, level );
 
 	this.postProcess( level );
@@ -25,8 +27,8 @@ Generator.prototype.postProcess = function( level ) {
 }
 
 Generator.prototype.tryCreateRoom = function( connector, level ) {
-	var halfWidth = Utilities.randRangeInt( 2, 5 );
-	var halfHeight = Utilities.randRangeInt( 2 ,5 );
+	var halfWidth = Utilities.randRangeInt( this.minHalfRoomSize, this.maxHalfRoomSize );
+	var halfHeight = Utilities.randRangeInt( this.minHalfRoomSize, this.maxHalfRoomSize );
 
 	switch( connector.orientation ) {
 		case Orientation.North: 	return this.createRoom( connector.doorPos.x - halfWidth, 	connector.doorPos.y - halfHeight*2, halfWidth, halfHeight, level );
@@ -290,5 +292,17 @@ Generator.prototype.cleanupTJoins = function( level ) {
 }
 
 Generator.prototype.createTile = function( type, img, x, y, room ) {
-	return { type: type, image: img, objects: [], x: x, y: y, noblock: false, explored: false, room: room };
+	return { 
+		type: type
+		, image: img
+		, objects: []
+		, x: x
+		, y: y
+		, noblock: false
+		, explored: false
+		, room: room 
+		, brightness: 0
+	};
 }
+
+var generator = new Generator();
