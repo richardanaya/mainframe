@@ -34,7 +34,7 @@ Light.prototype.calculateBrightness = function( tile, level ) {
     }
     else
     {
-        var compBright = 0; //Math.max( 1-(dist*this.falloff), 0 );
+        var compBright = Math.max( 1-(dist*this.falloff), 0 );
         var avg = 0;
         var tileh = level.getTileAt( tile.x+dirx );
         var tilev = level.getTileAt( tile.y+diry );
