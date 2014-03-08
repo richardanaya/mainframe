@@ -65,7 +65,7 @@ Mainframe.prototype.GetLevel = function(height){
         return level;
     }
 
-    return generator.generateLevel( 100, 100, Tileset.createOfficeTileset() );
+    return generator.generateLevel( 80, 80, Tileset.createOfficeTileset() );
 };
 
 Mainframe.prototype.onKeyDown = function(key){

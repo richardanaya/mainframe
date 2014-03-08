@@ -153,10 +153,12 @@ TestScene.prototype.update = function(delta){
     for(var x = 0; x < this.level.width; x++){
         for(var y = 0; y < this.level.width; y++){
             var t = this.level.tiles[this.level.width*y+x];
-			if( t != null && t != undefined && t.image != undefined && t.image != null && t.explored ) {
+			if( t != null && t != undefined && t.image != undefined && t.image != null && (t.explored||this.player.god) ) {
             	this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
                 this.ctx.globalAlpha = Math.max( 0.7-t.brightness, 0.3 );
-                this.ctx.drawImage(Resources.getImage('fowoverlay'),x*this.size ,y*this.size,this.size ,this.size  );
+                if(!this.player.god){
+                    this.ctx.drawImage(Resources.getImage('fowoverlay'),x*this.size ,y*this.size,this.size ,this.size  );
+                }
                 this.ctx.globalAlpha = 1;
 
             	for(var i = 0 ; i < t.objects.length; i++){
