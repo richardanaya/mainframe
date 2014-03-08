@@ -22,6 +22,9 @@ var HackScene = function(game, returnScene, playerImage){
     this.playerGridPosX = 0,
     this.playerGridPosY = 0;
 
+    this.goalGridPosX = 9;
+    this.goalGridPosY = 7;
+
     this.minGridX = 0;
     this.minGridY = 0;
     this.maxGridX = 9;
@@ -31,6 +34,10 @@ var HackScene = function(game, returnScene, playerImage){
 
     this.playerActionThrottle = 0.1;
     this.timeSinceTurn = 0.0;
+
+    this.difficulty = 1;
+
+    this.enemies = [];
 };
 
 HackScene.prototype = Object.create(Scene.prototype);
@@ -141,6 +148,12 @@ HackScene.prototype.update = function(delta){
             this.ctx.lineTo(10 * this.squareSize + this.upLeftGridCornerX, i * this.squareSize + this.upLeftGridCornerY);
             this.ctx.stroke();
         }
+
+
+        this.ctx.fillStyle = "yellow";
+        this.ctx.fillRect(this.upLeftGridCornerX + (this.goalGridPosX * this.squareSize) + this.gridObjectPadding,
+                                            this.upLeftGridCornerY + (this.goalGridPosY * this.squareSize) + this.gridObjectPadding,
+                                            this.gridObjectSize,this.gridObjectSize);
 
         this.ctx.drawImage(this.playerImage,this.upLeftGridCornerX + (this.playerGridPosX * this.squareSize) + this.gridObjectPadding,
                                             this.upLeftGridCornerY + (this.playerGridPosY * this.squareSize) + this.gridObjectPadding,
