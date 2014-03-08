@@ -132,7 +132,7 @@ Level.prototype.getGraph = function() {
         var row = [];
         for(var y = 0; y < this.height; y++){
             var t = this.getTileAt(x,y);
-            if(!t || t.type == Level.Types.Wall || t.type == Level.Types.Prop ){
+            if(!t || t.type == Level.Types.Wall || t.type == Level.Types.Prop || t.explored == false ){
                 row.push(0);
             }
             else {

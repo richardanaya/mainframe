@@ -41,21 +41,31 @@ Mainframe.prototype.GetLevel = function(height){
             }
         }
 
-        level.addObjectTo(8,1,new DownElevator());
+
+
+        var de = new DownElevator();
+        level.addObjectTo(8,1,de);
+        de.image = Resources.getImage("stairs");
         for(var i in Pickupable.Items){
             level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(i));
 
         }
         level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),new Robot());
 
-
-
         generator.postProcess( level );
+
+        for(var x = 0; x< width; x++ ){
+            for(var y = 0; y< height; y++ ){
+                if(level.tiles[ Utilities.positionToIndex(x,y,level.width) ]){
+                    level.tiles[ Utilities.positionToIndex(x,y,level.width) ].explored = true;
+                }
+            }
+        }
 
         return level;
     }
 
-    return generator.generateLevel( 100, 100, Tileset.createOfficeTileset() );
+    return generator.generateLevel( 80, 80, Tileset.createOfficeTileset() );
 };
 
 Mainframe.prototype.onKeyDown = function(key){

@@ -141,16 +141,24 @@ TestScene.prototype.update = function(delta){
     this.level.update();
 
     this.time += delta;
+
+    if(this.currentHeight == 1000){
+        var bg = Resources.getImage("CityScapebg");
+        this.ctx.drawImage(bg,0,0,window.innerWidth,window.innerHeight);
+    }
+
     this.ctx.save();
     this.ctx.translate(this.viewTranslateX,this.viewTranslateY);
     this.ctx.scale(this.viewScaleX,this.viewScaleY);
     for(var x = 0; x < this.level.width; x++){
         for(var y = 0; y < this.level.width; y++){
             var t = this.level.tiles[this.level.width*y+x];
-			if( t != null && t != undefined && t.image != undefined && t.image != null && t.explored ) {
+			if( t != null && t != undefined && t.image != undefined && t.image != null && (t.explored||this.player.god) ) {
             	this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
                 this.ctx.globalAlpha = Math.max( 0.7-t.brightness, 0.3 );
-                this.ctx.drawImage(Resources.getImage('fowoverlay'),x*this.size ,y*this.size,this.size ,this.size  );
+                if(!this.player.god){
+                    this.ctx.drawImage(Resources.getImage('fowoverlay'),x*this.size ,y*this.size,this.size ,this.size  );
+                }
                 this.ctx.globalAlpha = 1;
 
             	for(var i = 0 ; i < t.objects.length; i++){
@@ -172,6 +180,32 @@ TestScene.prototype.update = function(delta){
         }
     }
     this.ctx.restore();
+
+    if(this.currentHeight == 1000){
+
+        var r0 = Resources.getImage("rain_0");
+        var r1 = Resources.getImage("rain_1");
+        var r2 = Resources.getImage("rain_2");
+
+        this.ctx.globalAlpha = .2;
+        var r = this.time*2-Math.floor(this.time*2);
+        for(var x = 0; x < Math.ceil(window.innerWidth/256);x++){
+            for(var y = 0; y < Math.ceil(window.innerHeight/256);y++){
+
+                if(r<.33){
+                    this.ctx.drawImage(r0,x*256,y*256,256,256);
+                }
+                else if(r<.66){
+                    this.ctx.drawImage(r1,x*256,y*256,256,256);
+                }
+                else {
+                    this.ctx.drawImage(r2,x*256,y*256,256,256);
+                }
+            }
+        }
+
+    }
+    this.ctx.globalAlpha = 1;
 
     for(var i = 0 ; i < this.effects.length; i++){
         this.effects[i].update(delta);
@@ -208,11 +242,11 @@ TestScene.prototype.update = function(delta){
     var hp_frame_middle = Resources.getImage("hp_frame_middle");
     var hp_frame_right = Resources.getImage("hp_frame_right");
     var hx = 65;
-    var hy = 10;
-    this.ctx.drawImage(hp_frame_left, hx,hy,14,40);
-    this.ctx.drawImage(hp_frame_middle, hx+14,hy,200,40);
-    this.ctx.drawImage(hp_frame_right, hx+14+200,hy,14,40);
-    this.ctx.drawImage(hp, hx+14,hy+12,200*this.player.health/this.player.maxHealth,14);
+    var hy = 22;
+    this.ctx.drawImage(hp_frame_left, hx,hy,6,16);
+    this.ctx.drawImage(hp_frame_middle, hx+6,hy,200,16);
+    this.ctx.drawImage(hp_frame_right, hx+6+200,hy,6,16);
+    this.ctx.drawImage(hp, hx+6,hy+6,200*this.player.health/this.player.maxHealth,6);
 
 
 
