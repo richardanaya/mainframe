@@ -298,7 +298,11 @@ TestScene.prototype.listOptions = function(){
 TestScene.prototype.onKeyDown = function(key){
     if(this.mode == "play"){
         this.graph = this.level.getGraph();
-        if(key == 37 || key == 65){
+        if(key == 72){
+            this.game.changeScene(new HackScene(this.game, this.scene, this.player.image_idle_0));
+        }
+
+        else if(key == 37 || key == 65){
             this.player.moveLeft();
         }
         else if(key == 38 || key == 87){
@@ -332,7 +336,6 @@ TestScene.prototype.onKeyDown = function(key){
         return;
     }
 };
-
 
 TestScene.prototype.onTap = function(x,y){
     if(this.mode == "play"){
