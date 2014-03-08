@@ -38,6 +38,7 @@ Mainframe.prototype.GetLevel = function(height){
         for(var x = 1; x< width-1; x++ ){
             for(var y = 1; y< height-1; y++ ){
                 level.tiles[ Utilities.positionToIndex(x,y,level.width) ] = generator.createTile( Level.Types.Floor, level.tileset.floors[0], x, y );
+                level.tiles[ Utilities.positionToIndex(x,y,level.width) ].image = Resources.getImage("Floor3Purple");
             }
         }
 
