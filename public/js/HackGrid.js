@@ -36,19 +36,19 @@ var HackGrid = function(desiredXSize, desiredYSize, scene)
 
 };
 
+HackGrid.prototype.hackingSimulationUpdate = function(delta)
+{
+	for (i=0; i<this.nodeCount;i++)
+	{
+		this.nodes[i].hackingSimulationUpdate(delta);
+	}
+};
+
 HackGrid.prototype.update = function(delta)
 {
 	for (i=0; i<this.nodeCount;i++)
 	{
 		this.nodes[i].update(delta);
-	}
-}
-
-HackGrid.prototype.updateNodeConnectionLines = function(delta)
-{
-	for (i=0; i<this.nodeCount;i++)
-	{
-		this.nodes[i].drawConnectorLines(delta);
 	}
 };
 
@@ -57,6 +57,14 @@ HackGrid.prototype.updateBacktraceHighlights = function(delta)
 	for (i=0; i<this.nodeCount;i++)
 	{
 		this.nodes[i].drawBacktraceHighlights(delta);
+	}
+};
+
+HackGrid.prototype.updateNodeConnectionLines = function(delta)
+{
+	for (i=0; i<this.nodeCount;i++)
+	{
+		this.nodes[i].drawConnectorLines(delta);
 	}
 };
 

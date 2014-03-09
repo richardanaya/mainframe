@@ -7,6 +7,12 @@ var Character = function(){
     this.maxHealth = 15;
     this.health = 15;
     this.effects = [];
+    this.strength = 0;
+    this.accuracy = 0;
+    this.defence = 0;
+    this.mind = 0;
+    this.armor = 0;
+    this.damage = 0;
 }
 
 Character.prototype = Object.create(GameObject.prototype);
@@ -79,3 +85,19 @@ Character.prototype.update = function(delta){
         }
     }
 }
+
+Character.prototype.getOffense = function(){
+    return this.strength;
+};
+
+Character.prototype.getDefence = function(){
+    return this.defence - this.getArmor();
+};
+
+Character.prototype.getDamage = function(){
+    return this.damage;
+};
+
+Character.prototype.getArmor = function(){
+    return this.armor;
+};

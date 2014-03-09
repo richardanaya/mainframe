@@ -6,9 +6,13 @@ var Player = function(){
     var r = Math.random();
 
     this.inventory = [];
+    this.name = "Robot";
     this.strength = 10;
     this.accuracy = 10;
     this.mind = 10;
+    this.defence = 10;
+    this.armor = 0;
+    this.damage = 2;
 
     this.image = Resources.images.player;
     this.isAutoMoving = false;
@@ -190,4 +194,8 @@ Player.prototype.autoMoveTo = function(x,y){
     this.autoMoveX = x;
     this.autoMoveY = y;
 };
+
+Player.prototype.getDamage = function(){
+    return 3;
+}
 

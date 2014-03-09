@@ -9,12 +9,12 @@
 	},
     "main": "public/index.html",
     "window": {
-    "title": "Psychotic Mainframe",
+    "title": "Mainframe Loves You",
     "toolbar": true,
     "frame": true,
-    "width": 800,
+    "width": 1000,
     "height": 600,
     "position": "center",
-    "resizable": false
+    "resizable": true
     }
 }

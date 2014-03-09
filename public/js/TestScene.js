@@ -460,14 +460,11 @@ TestScene.prototype.onTap = function(x,y){
 TestScene.prototype.attackNearestTarget = function(){
     if(this.attack_target){
         this.player.attack(this.attack_target);
-        this.processAllMoves();
     }
 }
 
 TestScene.prototype.pickupNearestTarget = function(){
     this.player.pickup(this.pickup_target);
-    this.processAllMoves();
-    return;
 }
 
 TestScene.prototype.select = function(onselect){
