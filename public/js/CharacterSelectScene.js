@@ -129,7 +129,7 @@ CharacterSelectScene.prototype.drawBox = function(x,y,width,height){
 
 CharacterSelectScene.prototype.onTap = function(x,y){
     var cx = (window.innerWidth-480)/2;
-    var cy = 100;
+    var cy = 30;
     if(Utilities.isPointInRectangle(x,y,cx+20+10,cy+20+10,100,100)){
         this.character = 0;
     }
