@@ -24,12 +24,12 @@ HackNode.prototype.drawBacktraceHighlights = function(delta)
 	
 		for (var i = 0; i < this.connectedTo.length; i++)
 		{
-			/*
+			
 			this.hackingScene.drawBacktraceLines(this.gridXPos,
 														this.gridYPos,
 														this.connectedTo[0].gridXPos,
 														this.connectedTo[0].gridYPos);
-			*/
+			
 		}
 	}
 
