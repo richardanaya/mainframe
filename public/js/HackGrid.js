@@ -73,4 +73,12 @@ HackGrid.prototype.createNewNode = function(x, y, type)
 	this.grid[x][y] = new HackNode(x, y, type, this.scene);
 	this.nodes.push(this.grid[x][y]);
 	this.nodeCount++;
+};
+
+HackGrid.prototype.hackNode = function(x, y)
+{
+	node = this.grid[x][y]
+	node.activelyBeingHacked = true;
+	this.scene.playerActivelyHacking = true;
+
 }
