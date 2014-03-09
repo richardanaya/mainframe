@@ -20,6 +20,12 @@ var HackGrid = function(desiredXSize, desiredYSize, scene)
 
     this.xGridLineCount = this.maxGridX + 2;
     this.yGridLineCount = this.maxGridY + 2;
+
+    this.playerGridPosX = 0,
+    this.playerGridPosY = 0;
+
+    this.goalGridPosX = 0;
+    this.goalGridPosY = 0;
   
     for (i = 0; i < desiredXSize; i++)
     {
@@ -70,7 +76,30 @@ HackGrid.prototype.updateNodeConnectionLines = function(delta)
 
 HackGrid.prototype.createNewNode = function(x, y, type)
 {
-	this.grid[x][y] = new HackNode(x, y, type, this.scene);
-	this.nodes.push(this.grid[x][y]);
-	this.nodeCount++;
+    var result = new HackNode( x, y, type, this.scene );
+	this.grid[x][y] = result;
+	this.nodes.push(result);
+	this.nodeCount++; 
+
+    return result;
+}
+
+HackGrid.prototype.getUniqueConnections = function()
+{
+    var result = {};
+    this.nodes.forEach( function( node ) {
+        node.connectedTo.forEach( function( con ) {
+            if( result[node] == undefined && result[con] == undefined ) {
+                result[node] = [con];
+            }
+            else if( result[node] != undefined && result[node].contains(con) == false ) {
+                result[node].push( con );
+            }
+            else if( result[con] != undefined && result[con].contains(node) == false ) {
+                result[con].push( node );
+            }
+        });
+    });
+
+    return result;
 }

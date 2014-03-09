@@ -19,56 +19,14 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.gridObjectSize = 0;
     this.gridObjectPadding = 1;
 
-    this.playerGridPosX = 1,
-    this.playerGridPosY = 1;
-
-    this.goalGridPosX = 9;
-    this.goalGridPosY = 7;
-
     this.difficulty = difficulty;
 
-    this.grid;
-
-    if (this.difficulty == 1)
-    {
-        this.grid = new HackGrid(10,10,this);
-    }
+    this.grid = HackGridGenerator.generate( 10, 10, this, this.difficulty );
 
     this.whoseTurn = "player";
 
     this.playerActionThrottle = 0.1;
     this.timeSinceTurn = 0.0;
-
-    this.grid.createNewNode(0,1,"player");
- 
-    this.grid.createNewNode(1,1,"neutral");
-    this.grid.createNewNode(2,3,"neutral");
-    this.grid.createNewNode(4,6,"neutral");
-    this.grid.createNewNode(6,3,"neutral");
-    this.grid.createNewNode(6,1,"neutral");
-    this.grid.createNewNode(6,8,"neutral");
-    this.grid.createNewNode(0,6,"neutral");
-
-    this.grid.createNewNode(9,6,"goal");
-    this.grid.createNewNode(0,8,"goal");
-    this.grid.createNewNode(7,9,"goal");
-    this.grid.createNewNode(9,0,"goal");
-
-    this.grid.createNewNode(9,3,"mainframe");
-
-
-    this.grid.grid[0][1].addConnection(this.grid.grid[1][1]);
-    this.grid.grid[1][1].addConnection(this.grid.grid[2][3]);
-    this.grid.grid[2][3].addConnection(this.grid.grid[4][6]);
-    this.grid.grid[2][3].addConnection(this.grid.grid[6][3]);
-    this.grid.grid[4][6].addConnection(this.grid.grid[0][6]);
-    this.grid.grid[4][6].addConnection(this.grid.grid[9][6]);
-    this.grid.grid[4][6].addConnection(this.grid.grid[6][8]);
-    this.grid.grid[0][6].addConnection(this.grid.grid[0][8]);
-    this.grid.grid[6][8].addConnection(this.grid.grid[7][9]);
-    this.grid.grid[6][3].addConnection(this.grid.grid[6][1]);
-    this.grid.grid[6][3].addConnection(this.grid.grid[9][3]);
-    this.grid.grid[6][1].addConnection(this.grid.grid[9][0]);
 };
 
 HackScene.prototype = Object.create(Scene.prototype);

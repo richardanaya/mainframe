@@ -1,3 +1,10 @@
+var HackNodeType = {
+	Mainframe : "mainframe",
+	Neutral: "neutral",
+	Player: "player",
+	Goal: "goal"
+}
+
 var HackNode = function(gridXPos, gridYPos, type, scene)
 {
 	this.gridXPos = gridXPos;
