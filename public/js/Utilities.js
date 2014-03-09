@@ -110,3 +110,7 @@ Utilities.getTJoinType = function( center, first, second, third ) {
 		return this.getDirection( center, first );
 	}
 }
+
+Utilities.isPointInRectangle = function(x,y,rx,ry,w,h){
+    return (x>=rx && x< rx+w && y>= ry && y <ry+h);
+}

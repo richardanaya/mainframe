@@ -16,15 +16,7 @@ var Player = function(){
     this.activeRoom = null;
     this.rangedWeapon = null;
     this.meleeWeapon = null;
-    if(r<.33){
-        this.setupScientist();
-    }
-    else if(r<.66){
-        this.setupHacker();
-    }
-    else {
-        this.setupSamurai();
-    }
+
 
     this.god = false;
     var _this = this;

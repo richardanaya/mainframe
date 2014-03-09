@@ -1,8 +1,8 @@
-var TestScene = function(game){
+var TestScene = function(game,player){
     this.game = game;
     this.infoText = [];
     this.time = 0;
-    this.player = new Player();
+    this.player = player;
     this.currentHeight = 1000
     this.mode = "play";
     this.showInfoText("You awake");

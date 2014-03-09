@@ -103,11 +103,11 @@ StartScene.prototype.update = function(delta){
 
 
 StartScene.prototype.onKeyDown = function(key){
-    this.music.fade(1,0,1000);
-    this.game.changeScene(new TestScene(this.game));
+    //this.music.fade(1,0,1000);
+    this.game.changeScene(new CharacterSelectScene(this.game,this.music));
 };
 
 StartScene.prototype.onTap = function(x,y){
-    this.music.fade(1,0,1000);
-    this.game.changeScene(new TestScene(this.game));
+    //this.music.fade(1,0,1000);
+    this.game.changeScene(new CharacterSelectScene(this.game,this.music));
 };
