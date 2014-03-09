@@ -89,12 +89,12 @@ CreditsScene.prototype.update = function(delta){
     this.ctx.fill();
 
 
-    if(this.time > 53){
+    if(this.time > 54){
         this.ctx.font = "36px 'Press Start 2P'";
         this.ctx.fillStyle = "white";
-        this.ctx.globalAlpha = Math.min((this.time-53)/2,.2);
+        this.ctx.globalAlpha = Math.min((this.time-54)/2,.2);
         this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2-15, this.height/2-15);
-        this.ctx.globalAlpha = Math.min((this.time-53)/2,1);
+        this.ctx.globalAlpha = Math.min((this.time-54)/2,1);
         this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2, this.height/2);
 
     }
