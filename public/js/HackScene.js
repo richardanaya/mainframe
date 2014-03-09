@@ -39,11 +39,15 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.timeSinceTurn = 0.0;
 
     this.grid.createNewNode(1,1,"player");
-
     this.grid.createNewNode(8,8,"goal");
-
     this.grid.createNewNode(5,2,"neutral");
     this.grid.createNewNode(0,9,"neutral");
+    this.grid.createNewNode(2,7,"mainframe");
+
+
+    this.grid.grid[1][1].addConnection(this.grid.grid[5][2]);
+
+    this.grid.grid[2][7].addConnection(this.grid.grid[8][8]);
 
 
 };
@@ -95,7 +99,7 @@ HackScene.prototype.update = function(delta){
         this.ctx.strokeStyle = "#15dbc4";
         this.ctx.lineWidth = 1;
         //draw lines from top to bottom
-        for (i=0; i<this.grid.xGridLineCount; i++)
+        for (var i=0; i<this.grid.xGridLineCount; i++)
         {
             this.ctx.beginPath();
             this.ctx.moveTo(this.upLeftGridCornerX + (i * this.squareSize), 0);
@@ -104,7 +108,7 @@ HackScene.prototype.update = function(delta){
         }
 
         //draw lines from bottom to top
-        for (i=0; i<this.grid.xGridLineCount; i++)
+        for (var i=0; i<this.grid.xGridLineCount; i++)
         {
             this.ctx.beginPath();
             this.ctx.moveTo(this.upLeftGridCornerX + (i * this.squareSize), this.height);
@@ -113,7 +117,7 @@ HackScene.prototype.update = function(delta){
         }
         
         //draw lines from left to right
-        for (i=0; i<this.grid.yGridLineCount; i++)
+        for (var i=0; i<this.grid.yGridLineCount; i++)
         {
             this.ctx.beginPath();
             this.ctx.moveTo(0, this.upLeftGridCornerY + (i * this.squareSize));
@@ -122,7 +126,7 @@ HackScene.prototype.update = function(delta){
         }
 
         //draw lines from right to left
-        for (i=0; i<this.grid.yGridLineCount; i++)
+        for (var i=0; i<this.grid.yGridLineCount; i++)
         {
             this.ctx.beginPath();
             this.ctx.moveTo(this.width, i * this.squareSize + this.upLeftGridCornerY);
@@ -136,17 +140,24 @@ HackScene.prototype.update = function(delta){
     {
         this.failTimer -= delta;
 
+        /*
         this.ctx.font = "12px 'Press Start 2P'";
         this.ctx.fillStyle = "white";
         this.ctx.globalAlpha = 1;
         this.ctx.fillText("Intrusion detected in:", 10, 25);
         this.ctx.fillText(Math.ceil(this.failTimer).toString() + " seconds", 10, 50);
+        */
+
+        this.ctx.font = "14px 'Press Start 2P'";
+        this.ctx.fillStyle = "blue";
+        this.ctx.globalAlpha = 1;
+        this.ctx.fillText("Currently Undetected", 10, 40);
 
         this.ctx.strokeStyle = "#15dbc4";
         this.ctx.lineWidth = 1;
 
         //draw lines from top to bottom
-        for (i=0; i<this.grid.xGridLineCount; i++)
+        for (var i=0; i<this.grid.xGridLineCount; i++)
         {
             
             this.ctx.beginPath();
@@ -156,7 +167,7 @@ HackScene.prototype.update = function(delta){
         }
     
         //draw lines from left to right
-        for (i=0; i<this.grid.yGridLineCount; i++)
+        for (var i=0; i<this.grid.yGridLineCount; i++)
         {
             this.ctx.beginPath();
             this.ctx.moveTo(this.upLeftGridCornerX, i * this.squareSize + this.upLeftGridCornerY);
@@ -227,11 +238,14 @@ HackScene.prototype.drawCircleAtGridPos = function(x,y,type)
         color = "yellow";
     else if (type == "neutral")
         color = "blue";
+    else if (type == "mainframe")
+        color = "red";
 
+    this.ctx.lineWidth = 1;
     this.ctx.beginPath();
     this.ctx.arc(this.upLeftGridCornerX + (x * this.squareSize) + (0.5 * this.squareSize), 
                  this.upLeftGridCornerY + (y * this.squareSize) + (0.5 * this.squareSize), 
-                 this.squareSize * 0.5, 
+                 this.squareSize * 0.4, 
                  0, 
                  2 * Math.PI, false);
     this.ctx.fillStyle = color;
@@ -243,16 +257,15 @@ HackScene.prototype.drawCircleAtGridPos = function(x,y,type)
 
 HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)
 {
-    this.ctx.strokeStyle = "#15dbc4";
-    this.ctx.lineWidth = 1;
     
-    for (i=0; i<this.grid.xGridLineCount; i++)
-    {
-            this.ctx.beginPath();
-            this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
-                            this.upLeftGridCornerX + (y1 * this.squareSize) + (0.5 * this.squareSize));
-            this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
-                            this.upLeftGridCornerX + (y2 * this.squareSize) + (0.5 * this.squareSize));
-            this.ctx.stroke();
-    }
+    this.ctx.strokeStyle = "red";
+    this.ctx.lineWidth = 2;
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
+                            this.upLeftGridCornerY + (y1 * this.squareSize) + (0.5 * this.squareSize));
+    this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
+                            this.upLeftGridCornerY + (y2 * this.squareSize) + (0.5 * this.squareSize));
+    this.ctx.stroke();
+
 }
