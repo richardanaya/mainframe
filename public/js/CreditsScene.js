@@ -100,19 +100,30 @@ CreditsScene.prototype.update = function(delta){
     }
 
 
-    this.ctx.font = "16px 'Press Start 2P'";
-    this.ctx.fillStyle = "white";
+
     var speed = 50;
     this.ctx.drawImage(Resources.getImage("heart"),(window.innerWidth-200)/2,(window.innerHeight-200)/2-t*speed,200,200);
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+500-t*speed,Resources.getImage("richard"),"Daedius/Richard Anaya", "Neon Origami", "Lead Programmer/Organizer","Above the earth, beneath the sky");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+700-t*speed,Resources.getImage("richard"),"Cooper", "", "Lead Art","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+900-t*speed,Resources.getImage("richard"),"Emil", "", "Lead Music","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1100-t*speed,Resources.getImage("richard"),"Howard", "", "Programmer","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1300-t*speed,Resources.getImage("richard"),"Jack", "", "Programmer","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1500-t*speed,Resources.getImage("richard"),"Carpe", "", "Music","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1700-t*speed,Resources.getImage("richard"),"Sieg", "", "Music","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1900-t*speed,Resources.getImage("richard"),"Jonathan", "", "Sound","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+2100-t*speed,Resources.getImage("richard"),"Brian", "", "Art","");
+
+
+    this.ctx.font = "36px 'Press Start 2P'";
+    this.ctx.fillStyle = "white";
+    this.ctx.globalAlpha = .2;
+    this.ctx.fillText("TEAM PANTHER MODERNS", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2-15, (window.innerHeight-200)/2+600-t*speed-15);
+    this.ctx.globalAlpha = 1;
+    this.ctx.fillText("TEAM PANTHER MODERNS", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2, (window.innerHeight-200)/2+600-t*speed);
+
+
+    this.ctx.font = "16px 'Press Start 2P'";
+    this.ctx.fillStyle = "white";
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+700-t*speed,Resources.getImage("richard"),"Daedius/Richard Anaya", "Neon Origami", "Lead Programmer/Organizer","Above the earth, beneath the sky");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+900-t*speed,Resources.getImage("richard"),"Cooper", "", "Lead Art","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1100-t*speed,Resources.getImage("richard"),"Emil", "", "Lead Music","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1300-t*speed,Resources.getImage("richard"),"Howard", "", "Programmer","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1500-t*speed,Resources.getImage("richard"),"Jack", "", "Programmer","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1700-t*speed,Resources.getImage("richard"),"Carpe", "", "Music","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1900-t*speed,Resources.getImage("richard"),"Sieg", "", "Music","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+2100-t*speed,Resources.getImage("richard"),"Jonathan", "", "Sound","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+2300-t*speed,Resources.getImage("richard"),"Brian", "", "Art","");
 };
 
 CreditsScene.prototype.drawPerson = function(x,y,icon,name, group, role, saying){

@@ -1,5 +1,6 @@
-var HelpScene = function(game){
+var HelpScene = function(game,music){
     this.game = game;
+    this.music = music;
     this.time = 0;
 };
 
@@ -38,9 +39,11 @@ HelpScene.prototype.update = function(delta){
 };
 
 HelpScene.prototype.onKeyDown = function(key){
+    this.music.fade(1,0,1000);
     this.game.changeScene(new StartScene(this.game));
 };
 
 HelpScene.prototype.onTap = function(x,y){
+    this.music.fade(1,0,1000);
     this.game.changeScene(new StartScene(this.game));
 };

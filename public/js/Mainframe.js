@@ -91,13 +91,12 @@ Mainframe.prototype.changeScene = function(s){
 Mainframe.prototype.start = function(){
     Resources.addImage("grass","images/tst_tile.png");
     Resources.addImage("player","images/street_samurai.png");
-    Resources.addImage("player_idle_0","images/street_samurai.png");
+    Resources.addImage("player_idle_0","images/street_samurai_1.png");
     Resources.addImage("player_idle_1","images/street_samurai_2.png");
     Resources.addImage("robot","images/robot.png");
     Resources.addImage("elevator","images/elevator.png");
     Resources.addImage("up_elevator","images/up_elevator.png");
     Resources.addImage("lab_note","images/lab_note.png");
-    Resources.addImage("title","images/title.png");
     Resources.addImage("robot_idle_0","images/robot_1.png");
     Resources.addImage("robot_idle_1","images/robot_2.png");
     Resources.addImage("keycard","images/keycard.png");
