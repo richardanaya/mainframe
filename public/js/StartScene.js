@@ -2,7 +2,7 @@ var StartScene = function(game){
     this.game = game;
     this.time = 0;
     this.music = new Howl({
-        urls: ['sounds/Menu.ogg'],
+        urls: ['sounds/Menu.mp3'],
         loop: true
     }).play();
 };

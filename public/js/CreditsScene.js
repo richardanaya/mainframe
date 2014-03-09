@@ -2,7 +2,7 @@ var CreditsScene = function(game,music){
     this.game = game;
     this.time = 0;
     this.music = new Howl({
-        urls: ['sounds/Credits.ogg'],
+        urls: ['sounds/Credits.ogg','sounds/Credits.mp3'],
         loop: true
     }).play();
 };

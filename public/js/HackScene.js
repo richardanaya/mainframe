@@ -7,7 +7,7 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.time = 0;
     this.failTimer = 60.0;
     this.music = new Howl({
-        urls: ['sounds/sfx_general/sfx_computer_on.ogg'],
+        urls: ['sounds/sfx_general/sfx_computer_on.mp3'],
         loop: false
         }).play();
     this.phasingIn = true;
