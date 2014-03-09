@@ -334,7 +334,7 @@ TestScene.prototype.onKeyDown = function(key){
     if(this.mode == "play"){
         this.graph = this.level.getGraph();
         if(key == 72){
-            this.game.changeScene(new HackScene(this.game, this.scene, this.player.image_idle_0));
+            this.game.changeScene(new HackScene(this.game, this.scene, this.player.image_idle_0, 1));
         }
 
         else if(key == 37 || key == 65){
