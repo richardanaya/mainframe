@@ -1,7 +1,6 @@
 var StartScene = function(game){
     this.game = game;
     this.time = 0;
-    this.backgroundColor = "#9900FF";
     this.music = new Howl({
         urls: ['sounds/TitleScreen.mp3'],
         loop: true
@@ -12,93 +11,19 @@ StartScene.prototype = Object.create(Scene.prototype);
 
 StartScene.prototype.update = function(delta){
     this.time += delta;
-    //this.width;
-    //this.height
-    //this.ctx
-    //this.ctx.drawImage(Resources.images.lab_note)
-
-    //background
-    this.ctx.fillStyle = "black";
-    this.ctx.fillRect(0,0,this.width,this.height);
-
-    
-    this.ctx.strokeStyle = "#15dbc4";
-    for (i=0;i<20;i++)
-    {
-       this.ctx.lineWidth = 1;
-       this.ctx.beginPath();
-       this.ctx.moveTo(this.width + (1.8 * this.width) - (300 * i) + 30 , this.height + 30);
-       this.ctx.lineTo((0.4 * this.width) - (300 * i) - 30, - 30);
-       this.ctx.stroke();
+    this.ctx.fillColor = "#0e0e0f";
+    this.ctx.fillRect(0,0,window.innerWidth,window.innerHeight);
+    this.ctx.drawImage(Resources.getImage("windows_bg"),0,(window.innerHeight-49*2)/2-70,480*2,49*2);
+    this.ctx.drawImage(Resources.getImage("windows_bg"),480*2,(window.innerHeight-49*2)/2-70,480*2,49*2);
+    this.ctx.drawImage(Resources.getImage("windows_bg"),480*2+480*2,(window.innerHeight-49*2)/2-70,480*2,49*2);
+    this.ctx.drawImage(Resources.getImage("computer"),(window.innerWidth-128*2)/2,(window.innerHeight-49*2)/2,128*2,49*2);
+    this.ctx.drawImage(Resources.getImage("press_start_txt"),(window.innerWidth-122*2)/2,(window.innerHeight-9*2)/2+125,122*2,9*2);
+    if( (this.time%(1/12*2))/(1/12*2)< .5){
+        this.ctx.drawImage(Resources.getImage("cursor_1"),(window.innerWidth-7*2)/2+130,(window.innerHeight-9*2)/2+125,7*2,9*2);
     }
-
-    
-    this.ctx.lineWidth = 20;
-    this.ctx.globalAlpha = .2;
-    this.ctx.strokeStyle = "#109486";
-    for (i=0;i<20;i++)
     {
-       this.ctx.beginPath();
-       this.ctx.moveTo(this.width + (1.8 * this.width) - (300 * i) +30 , this.height + 30);
-       this.ctx.lineTo((0.4 * this.width) - (300 * i) -30, -30);
-       this.ctx.stroke();
+        this.ctx.drawImage(Resources.getImage("cursor_2"),(window.innerWidth-7*2)/2+130,(window.innerHeight-9*2)/2+125,7*2,9*2);
     }
-
-    this.ctx.globalAlpha = 1;
-    
-
-
-    
-    this.ctx.strokeStyle = "#15dbc4";
-    for (i=0;i<25;i++)
-    {
-       this.ctx.lineWidth = 1;
-       this.ctx.beginPath();
-       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - ((this.time % 2.8) * 100), this.height + 30);
-       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - ((this.time % 2.8) * 100), 0);
-       this.ctx.stroke();
-    }
-
-    
-    this.ctx.lineWidth = 20;
-    this.ctx.globalAlpha = .2;
-    this.ctx.strokeStyle = "#109486";
-    for (i=0;i<25;i++)
-    {
-       this.ctx.beginPath();
-       this.ctx.moveTo((-0.5 * this.width) + (140 * i) - ((this.time % 2.8) * 100), this.height + 30);
-       this.ctx.lineTo((-0.2 * this.width) + (140 * i) - ((this.time % 2.8) * 100), 0);
-       this.ctx.stroke();
-    }
-
-    this.ctx.globalAlpha = 1;
-    
-
-    
-    var grd=this.ctx.createLinearGradient(0,0,0,170);
-    grd.addColorStop(.3,"#100839");
-    grd.addColorStop(1,"#932f6b");
-    grd.addColorStop(1,"#932f6b");
-
-    this.ctx.fillStyle=grd;
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.width + (1.8 * this.width) - 570 , this.height + 30);
-    this.ctx.lineTo((0.4 * this.width) - 630, -30);
-    this.ctx.lineTo(this.width, 0);
-
-    this.ctx.fill();
-    
-
- 
-    this.ctx.font = "36px 'Press Start 2P'";
-    this.ctx.fillStyle = "white";
-    this.ctx.globalAlpha = .2;
-    this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2-15, this.height/2-15);
-    this.ctx.globalAlpha = 1;
-    this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2, this.height/2);
-    this.ctx.font = "24px 'Press Start 2P'";
-    this.ctx.fillText("press any key to start", (this.width-this.ctx.measureText("press any key to start").width)/2, this.height/1.5);
-
 };
 
 

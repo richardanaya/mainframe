@@ -159,7 +159,7 @@ CharacterSelectScene.prototype.onTap = function(x,y){
         this.game.changeScene(new CreditsScene(this.game));
     }
     if(Utilities.isPointInRectangle(x,y,cx+260,cy+410,220,60)){
-        this.music.fade(1,0,1000);
-        this.game.changeScene(new HelpScene(this.game));
+
+        this.game.changeScene(new HelpScene(this.game,this.music));
     }
 };
