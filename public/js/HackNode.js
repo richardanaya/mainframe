@@ -126,8 +126,8 @@ HackNode.prototype.drawConnectorLines = function(delta)
 	{
 		this.hackingScene.lineConnectTwoGridObjects(this.gridXPos,
 													this.gridYPos,
-													this.connectedTo[0].gridXPos,
-													this.connectedTo[0].gridYPos);
+													this.connectedTo[i].gridXPos,
+													this.connectedTo[i].gridYPos);
 	}
 
 };
