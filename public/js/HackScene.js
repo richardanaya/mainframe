@@ -3,6 +3,7 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.returnScene = returnScene;
     this.playerImage = playerImage;
     this.mode = "play";
+    this.mainframeEnmity = 5.0;
     this.time = 0;
     this.failTimer = 60.0;
     this.music = new Howl({
@@ -184,6 +185,7 @@ HackScene.prototype.update = function(delta){
                            this.gridObjectSize, 
                            this.gridObjectSize);
 
+        this.grid.updateBacktraceHighlights(delta);
         this.grid.updateNodeConnectionLines(delta);
         this.grid.update(delta);
 
@@ -284,6 +286,28 @@ HackScene.prototype.drawCircleAtGridPos = function(x,y,type)
     this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = '#003300';
     this.ctx.stroke();
+};
+
+HackScene.prototype.drawBacktraceCircleAtGridPos = function(x,y)
+{   
+    var color = "red";
+
+    this.ctx.globalAlpha = 0.4;
+    this.ctx.lineWidth = 1;
+    this.ctx.beginPath();
+    this.ctx.arc(this.upLeftGridCornerX + (x * this.squareSize) + (0.5 * this.squareSize), 
+                 this.upLeftGridCornerY + (y * this.squareSize) + (0.5 * this.squareSize), 
+                 this.squareSize * 0.7, 
+                 0, 
+                 2 * Math.PI, false);
+    this.ctx.fillStyle = color;
+    this.ctx.fill();
+    this.ctx.lineWidth = 1;
+    this.ctx.strokeStyle = '#003300';
+    this.ctx.stroke();
+    this.ctx.globalAlpha = 1;
+
+    console.log("test");
 };
 
 HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)

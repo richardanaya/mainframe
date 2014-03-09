@@ -52,6 +52,14 @@ HackGrid.prototype.updateNodeConnectionLines = function(delta)
 	}
 };
 
+HackGrid.prototype.updateBacktraceHighlights = function(delta)
+{
+	for (i=0; i<this.nodeCount;i++)
+	{
+		this.nodes[i].drawBacktraceHighlights(delta);
+	}
+};
+
 HackGrid.prototype.createNewNode = function(x, y, type)
 {
 	this.grid[x][y] = new HackNode(x, y, type, this.scene);
