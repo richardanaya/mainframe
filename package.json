@@ -10,7 +10,7 @@
     "main": "public/index.html",
     "window": {
     "title": "Mainframe Loves You",
-    "toolbar": true,
+    "toolbar": false,
     "frame": true,
     "width": 1000,
     "height": 600,
