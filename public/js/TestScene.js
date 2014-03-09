@@ -96,7 +96,7 @@ TestScene.prototype.loadLevel = function(height){
 
         if(height == 1000 && oldHeight >= height){
             _this.music = new Howl({
-                urls: ['sounds/Rooftop.mp3'],
+                urls: ['sounds/Rooftop.ogg','sounds/Rooftop.mp3'],
                 loop: true
             }).play();
             _this.music.fade(0,1,3000);
@@ -106,7 +106,7 @@ TestScene.prototype.loadLevel = function(height){
         }
         else {
             _this.music = new Howl({
-                urls: ['sounds/Corporate.mp3'],
+                urls: ['sounds/Corporate.ogg','sounds/Corporate.mp3'],
                 loop: true
             }).play();
             _this.music.fade(0,1,3000);
@@ -460,14 +460,11 @@ TestScene.prototype.onTap = function(x,y){
 TestScene.prototype.attackNearestTarget = function(){
     if(this.attack_target){
         this.player.attack(this.attack_target);
-        this.processAllMoves();
     }
 }
 
 TestScene.prototype.pickupNearestTarget = function(){
     this.player.pickup(this.pickup_target);
-    this.processAllMoves();
-    return;
 }
 
 TestScene.prototype.select = function(onselect){

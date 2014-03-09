@@ -127,6 +127,23 @@ CharacterSelectScene.prototype.drawBox = function(x,y,width,height){
     this.ctx.drawImage(dialog_frame_bottom,x+8,y+height-8,width-16,8);
 }
 
+CharacterSelectScene.prototype.onKeyDown = function(k){
+    if(k == 32){
+        this.music.fade(1,0,1000);
+        var p = new Player();
+        if(this.character == 0){
+            p.setupSamurai();
+        }
+        if(this.character == 1){
+            p.setupHacker();
+        }
+        if(this.character == 2){
+            p.setupScientist();
+        }
+        this.game.changeScene(new TestScene(this.game,p));
+    }
+}
+
 CharacterSelectScene.prototype.onTap = function(x,y){
     var cx = (window.innerWidth-480)/2;
     var cy = 30;

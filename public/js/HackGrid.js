@@ -102,4 +102,11 @@ HackGrid.prototype.getUniqueConnections = function()
     });
 
     return result;
+};
+
+HackGrid.prototype.hackNode = function(x, y)
+{
+	node = this.grid[x][y]
+	node.activelyBeingHacked = true;
+	this.scene.playerActivelyHacking = true;
 }
