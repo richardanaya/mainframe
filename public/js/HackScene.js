@@ -3,9 +3,10 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.returnScene = returnScene;
     this.playerImage = playerImage;
     this.mode = "play";
-    this.mainframeEnmity = 5.0;
+    this.mainframeEnmity = 50.0;
     this.time = 0;
-    this.failTimer = 60.0;
+    this.playerActivelyHacking = false;
+    this.hackingFullyBacktraced = false;
     this.music = new Howl({
         urls: ['sounds/sfx_general/sfx_computer_on.mp3'],
         loop: false
@@ -157,8 +158,6 @@ HackScene.prototype.update = function(delta){
 
     if (!this.phasingIn)
     {
-        this.failTimer -= delta;
-
         /*
         this.ctx.font = "12px 'Press Start 2P'";
         this.ctx.fillStyle = "white";
@@ -210,7 +209,15 @@ HackScene.prototype.update = function(delta){
 
         this.drawBox(10,10,this.upLeftGridCornerX - 20,this.height - 20);
 
-        if (this.mainframeEnmity == 0)
+        if (this.hackingFullyBacktraced == true)
+        {
+            this.ctx.font = "14px 'Press Start 2P'";
+            this.ctx.fillStyle = "red";
+            this.ctx.globalAlpha = 1;
+            this.ctx.fillText("HACKING FULLY BACKTRACED", 30, 40);
+            this.ctx.fillText("SESSION TERMINATED", 30, 60);
+        }
+        else if (this.mainframeEnmity == 0)
         {
             this.ctx.font = "14px 'Press Start 2P'";
             this.ctx.fillStyle = "green";
@@ -224,6 +231,11 @@ HackScene.prototype.update = function(delta){
             this.ctx.globalAlpha = 1;
             this.ctx.fillText("INTRUSTION DETECTED", 30, 40);
             this.ctx.fillText("Mainframe Enmity: " + this.mainframeEnmity + "%", 30, 60);
+
+            this.ctx.font = "10px 'Press Start 2P'";
+            this.ctx.fillStyle = "white";
+            this.ctx.fillText("Hack primary Data Cache before", 30, 90);
+            this.ctx.fillText("Mainframe completes backtrace!", 30, 110);
         }
 
     }
