@@ -90,7 +90,7 @@ Mainframe.prototype.changeScene = function(s){
 
 Mainframe.prototype.start = function(){
     Resources.addImage("grass","images/tst_tile.png");
-    Resources.addImage("player","images/street_samurai.png");
+    Resources.addImage("player","images/street_samurai_1.png");
     Resources.addImage("player_idle_0","images/street_samurai_1.png");
     Resources.addImage("player_idle_1","images/street_samurai_2.png");
     Resources.addImage("robot","images/robot.png");
@@ -102,36 +102,21 @@ Mainframe.prototype.start = function(){
     Resources.addImage("keycard","images/keycard.png");
     Resources.addImage("fowoverlay","images/fogofwar.png");
 
-    Resources.addImage("elevator1","images/seq/elevator0001.png");
-    Resources.addImage("elevator2","images/seq/elevator0002.png");
-    Resources.addImage("elevator3","images/seq/elevator0003.png");
-    Resources.addImage("elevator4","images/seq/elevator0004.png");
-    Resources.addImage("elevator5","images/seq/elevator0005.png");
-    Resources.addImage("elevator6","images/seq/elevator0006.png");
-    Resources.addImage("elevator7","images/seq/elevator0007.png");
-    Resources.addImage("elevator8","images/seq/elevator0008.png");
-    Resources.addImage("elevator9","images/seq/elevator0009.png");
-    Resources.addImage("elevator10","images/seq/elevator0010.png");
-    Resources.addImage("elevator11","images/seq/elevator0011.png");
-    Resources.addImage("elevator12","images/seq/elevator0012.png");
-    Resources.addImage("elevator13","images/seq/elevator0013.png");
-    Resources.addImage("elevator14","images/seq/elevator0014.png");
-    Resources.addImage("elevator15","images/seq/elevator0015.png");
-    Resources.addImage("elevator16","images/seq/elevator0016.png");
-    Resources.addImage("elevator17","images/seq/elevator0017.png");
-    Resources.addImage("elevator18","images/seq/elevator0018.png");
-    Resources.addImage("elevator19","images/seq/elevator0019.png");
-    Resources.addImage("elevator20","images/seq/elevator0020.png");
-    Resources.addImage("elevator21","images/seq/elevator0021.png");
-    Resources.addImage("elevator22","images/seq/elevator0022.png");
-    Resources.addImage("elevator23","images/seq/elevator0023.png");
-    Resources.addImage("elevator24","images/seq/elevator0024.png");
-    Resources.addImage("elevator25","images/seq/elevator0025.png");
-    Resources.addImage("elevator26","images/seq/elevator0026.png");
-    Resources.addImage("elevator27","images/seq/elevator0027.png");
-    Resources.addImage("elevator28","images/seq/elevator0028.png");
-    Resources.addImage("elevator29","images/seq/elevator0029.png");
-    Resources.addImage("elevator30","images/seq/elevator0030.png");
+    for(var i = 1 ; i <= 30; i++){
+        var s = i+"";
+        while(s.length != 4){
+            s = "0"+s;
+        }
+        Resources.addImage("elevator"+i,"images/seq/elevator"+s+".png");
+    }
+
+    for(var i = 1 ; i <= 70; i++){
+        var s = i+"";
+        while(s.length != 4){
+            s = "0"+s;
+        }
+        Resources.addImage("computer"+i,"images/seq/computer"+s+".png");
+    }
 
 
 
