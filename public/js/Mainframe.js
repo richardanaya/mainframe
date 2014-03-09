@@ -79,7 +79,7 @@ this.currentScene.onKeyDown(key);
 
 Mainframe.prototype.onTap = function(e){
     if(this.currentScene){
-        this.currentScene.onTap(e.gesture.touches[0].offsetX, e.gesture.touches[0].offsetY);
+        this.currentScene.onTap(e.gesture.touches[0].clientX, e.gesture.touches[0].clientY);
 
     }
 };
