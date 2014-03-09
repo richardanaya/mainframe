@@ -15,6 +15,7 @@
     "width": 1000,
     "height": 600,
     "position": "center",
+    "icon": "icon.png",
     "resizable": true
     }
 }
