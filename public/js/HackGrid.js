@@ -42,7 +42,14 @@ HackGrid.prototype.update = function(delta)
 	{
 		this.nodes[i].update(delta);
 	}
+}
 
+HackGrid.prototype.updateNodeConnectionLines = function(delta)
+{
+	for (i=0; i<this.nodeCount;i++)
+	{
+		this.nodes[i].drawConnectorLines(delta);
+	}
 };
 
 HackGrid.prototype.createNewNode = function(x, y, type)
