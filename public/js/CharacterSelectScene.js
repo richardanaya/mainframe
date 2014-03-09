@@ -14,11 +14,10 @@ CharacterSelectScene.prototype.update = function(delta){
     this.ctx.drawImage(bg,0,0,window.innerWidth,window.innerHeight);
 
     var cx = (window.innerWidth-480)/2;
-    var cy = 100;
+    var cy = 30;
 
     this.ctx.font = "16px 'Press Start 2P'";
     this.ctx.fillStyle = "white"
-    this.ctx.fillText("Select Character:",cx+15,cy-5);
     this.drawBox(cx,cy,480,400);
     this.drawBox(cx+20,cy+20,120,120);
     this.drawBox(cx+180,cy+20,120,120);
