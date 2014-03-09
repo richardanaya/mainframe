@@ -39,18 +39,36 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.playerActionThrottle = 0.1;
     this.timeSinceTurn = 0.0;
 
-    this.grid.createNewNode(1,1,"player");
-    this.grid.createNewNode(8,8,"goal");
-    this.grid.createNewNode(5,2,"neutral");
-    this.grid.createNewNode(0,9,"neutral");
-    this.grid.createNewNode(2,7,"mainframe");
+    this.grid.createNewNode(0,1,"player");
+ 
+    this.grid.createNewNode(1,1,"neutral");
+    this.grid.createNewNode(2,3,"neutral");
+    this.grid.createNewNode(4,6,"neutral");
+    this.grid.createNewNode(6,3,"neutral");
+    this.grid.createNewNode(6,1,"neutral");
+    this.grid.createNewNode(6,8,"neutral");
+    this.grid.createNewNode(0,6,"neutral");
+
+    this.grid.createNewNode(9,6,"goal");
+    this.grid.createNewNode(0,8,"goal");
+    this.grid.createNewNode(7,9,"goal");
+    this.grid.createNewNode(9,0,"goal");
+
+    this.grid.createNewNode(9,3,"mainframe");
 
 
-    this.grid.grid[1][1].addConnection(this.grid.grid[5][2]);
-
-    this.grid.grid[2][7].addConnection(this.grid.grid[8][8]);
-
-
+    this.grid.grid[0][1].addConnection(this.grid.grid[1][1]);
+    this.grid.grid[1][1].addConnection(this.grid.grid[2][3]);
+    this.grid.grid[2][3].addConnection(this.grid.grid[4][6]);
+    this.grid.grid[2][3].addConnection(this.grid.grid[6][3]);
+    this.grid.grid[4][6].addConnection(this.grid.grid[0][6]);
+    this.grid.grid[4][6].addConnection(this.grid.grid[9][6]);
+    this.grid.grid[4][6].addConnection(this.grid.grid[6][8]);
+    this.grid.grid[0][6].addConnection(this.grid.grid[0][8]);
+    this.grid.grid[6][8].addConnection(this.grid.grid[7][9]);
+    this.grid.grid[6][3].addConnection(this.grid.grid[6][1]);
+    this.grid.grid[6][3].addConnection(this.grid.grid[9][3]);
+    this.grid.grid[6][1].addConnection(this.grid.grid[9][0]);
 };
 
 HackScene.prototype = Object.create(Scene.prototype);
@@ -185,16 +203,28 @@ HackScene.prototype.update = function(delta){
                            this.gridObjectSize, 
                            this.gridObjectSize);
 
+        this.grid.hackingSimulationUpdate(delta);
         this.grid.updateBacktraceHighlights(delta);
         this.grid.updateNodeConnectionLines(delta);
         this.grid.update(delta);
 
         this.drawBox(10,10,this.upLeftGridCornerX - 20,this.height - 20);
 
-        this.ctx.font = "14px 'Press Start 2P'";
-        this.ctx.fillStyle = "green";
-        this.ctx.globalAlpha = 1;
-        this.ctx.fillText("Currently Undetected", 30, 40);
+        if (this.mainframeEnmity == 0)
+        {
+            this.ctx.font = "14px 'Press Start 2P'";
+            this.ctx.fillStyle = "green";
+            this.ctx.globalAlpha = 1;
+            this.ctx.fillText("Currently Undetected", 30, 40);
+        }
+        else
+        {
+            this.ctx.font = "14px 'Press Start 2P'";
+            this.ctx.fillStyle = "red";
+            this.ctx.globalAlpha = 1;
+            this.ctx.fillText("INTRUSTION DETECTED", 30, 40);
+            this.ctx.fillText("Mainframe Enmity: " + this.mainframeEnmity + "%", 30, 60);
+        }
 
     }
 };
@@ -270,7 +300,7 @@ HackScene.prototype.drawCircleAtGridPos = function(x,y,type)
     else if (type == "goal")
         color = "yellow";
     else if (type == "neutral")
-        color = "blue";
+        color = "white";
     else if (type == "mainframe")
         color = "red";
 
@@ -306,8 +336,6 @@ HackScene.prototype.drawBacktraceCircleAtGridPos = function(x,y)
     this.ctx.strokeStyle = '#003300';
     this.ctx.stroke();
     this.ctx.globalAlpha = 1;
-
-    console.log("test");
 };
 
 HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)
@@ -325,18 +353,36 @@ HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)
     this.ctx.globalAlpha = 1;
 };
 
-HackScene.prototype.drawBacktraceLines = function(x1,y1, x2, y2)
+HackScene.prototype.drawBacktraceLines = function(x1,y1, x2, y2, nodeFullyBacktraced)
 {
-    this.ctx.globalAlpha = 0.3;
-    this.ctx.strokeStyle = "red";
+    this.ctx.globalAlpha = 0.4;
     this.ctx.lineWidth = 25;
     
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
-                            this.upLeftGridCornerY + (y1 * this.squareSize) + (0.5 * this.squareSize));
-    this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
-                            this.upLeftGridCornerY + (y2 * this.squareSize) + (0.5 * this.squareSize));
-    this.ctx.stroke();
+    if(nodeFullyBacktraced == true)
+    {
+        
+        this.ctx.strokeStyle = "red";
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
+                                this.upLeftGridCornerY + (y1 * this.squareSize) + (0.5 * this.squareSize));
+        this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
+                                this.upLeftGridCornerY + (y2 * this.squareSize) + (0.5 * this.squareSize));
+        this.ctx.stroke();
+        
+    }
+    else if(nodeFullyBacktraced == false)
+    {
+        this.ctx.strokeStyle = "orange";
+                this.ctx.beginPath();
+        this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
+                                this.upLeftGridCornerY + (y1 * this.squareSize) + (0.5 * this.squareSize));
+        this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
+                                this.upLeftGridCornerY + (y2 * this.squareSize) + (0.5 * this.squareSize));
+        this.ctx.stroke();
+    }
+    else
+        console.debug("WHAT?");
+
     this.ctx.globalAlpha = 1;
 };
 
