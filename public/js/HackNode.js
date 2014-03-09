@@ -10,6 +10,11 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 HackNode.prototype.update = function(delta)
 {
 	this.hackingScene.drawCircleAtGridPos(this.gridXPos, this.gridYPos, this.type);
+}
+
+
+HackNode.prototype.drawConnectorLines = function(delta)
+{
 	for (var i = 0; i < this.connectedTo.length; i++)
 	{
 		this.hackingScene.lineConnectTwoGridObjects(this.gridXPos,

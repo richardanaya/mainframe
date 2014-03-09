@@ -78,13 +78,13 @@ HackScene.prototype.update = function(delta){
 
     this.gridObjectSize = this.squareSize - (this.gridObjectPadding * 2);
 
-    if (this.width/4 > 300)
+    if (this.width/4 > 400)
     {
         this.upLeftGridCornerX = this.width/4;
     }
     else
     {   
-        this.upLeftGridCornerX = 300;
+        this.upLeftGridCornerX = 400;
     }
 
     this.upLeftGridCornerY = this.height * .05;
@@ -148,11 +148,6 @@ HackScene.prototype.update = function(delta){
         this.ctx.fillText(Math.ceil(this.failTimer).toString() + " seconds", 10, 50);
         */
 
-        this.ctx.font = "14px 'Press Start 2P'";
-        this.ctx.fillStyle = "blue";
-        this.ctx.globalAlpha = 1;
-        this.ctx.fillText("Currently Undetected", 10, 40);
-
         this.ctx.strokeStyle = "#15dbc4";
         this.ctx.lineWidth = 1;
 
@@ -189,7 +184,16 @@ HackScene.prototype.update = function(delta){
                            this.gridObjectSize, 
                            this.gridObjectSize);
 
+        this.grid.updateNodeConnectionLines(delta);
         this.grid.update(delta);
+
+        this.drawBox(10,10,this.upLeftGridCornerX - 20,this.height - 20);
+
+        this.ctx.font = "14px 'Press Start 2P'";
+        this.ctx.fillStyle = "green";
+        this.ctx.globalAlpha = 1;
+        this.ctx.fillText("Currently Undetected", 30, 40);
+
     }
 };
 
@@ -224,7 +228,34 @@ HackScene.prototype.onKeyDown = function(key){
     }
 };
 
-HackScene.prototype.onTap = function(x,y){
+HackScene.prototype.onTap = function(x,y)
+{
+    var xGridClick = -99;
+    var yGridClick = -99;
+
+    for (var i = 0; i < this.grid.xSize; i++)
+    {
+        if ((xGridClick == -99) &&
+            (x > (i * this.squareSize + this.upLeftGridCornerX)) && 
+            (x < ((i + 1) * this.squareSize + this.upLeftGridCornerX)))
+        {
+            xGridClick = i;
+        }
+    }
+
+    for (var i = 0; i < this.grid.ySize; i++)
+    {
+        if ((yGridClick == -99) &&
+            (y > (i * this.squareSize + this.upLeftGridCornerY)) && 
+            (y < ((i + 1) * this.squareSize + this.upLeftGridCornerY)))
+        {
+            yGridClick = i;
+        }
+    }
+
+    //if(xGridClick != -99 && yGridClick != -99)
+        //console.log("Mouse position is X: " + x + " Y: " + y);
+        //console.log("The player clicked on grid X: " + xGridClick + " Y: " + yGridClick);
 
 };
 
@@ -257,9 +288,9 @@ HackScene.prototype.drawCircleAtGridPos = function(x,y,type)
 
 HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)
 {
-    
-    this.ctx.strokeStyle = "red";
-    this.ctx.lineWidth = 2;
+    this.ctx.globalAlpha = 0.5;
+    this.ctx.strokeStyle = "white";
+    this.ctx.lineWidth = 10;
     
     this.ctx.beginPath();
     this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
@@ -267,5 +298,48 @@ HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)
     this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
                             this.upLeftGridCornerY + (y2 * this.squareSize) + (0.5 * this.squareSize));
     this.ctx.stroke();
+    this.ctx.globalAlpha = 1;
+};
 
+HackScene.prototype.drawBox = function(x,y,width,height)
+{
+    x = Math.floor(x);
+    y = Math.floor(y);
+    width = Math.floor(width);
+    height = Math.floor(height);
+    dialog_bg = Resources.getImage("dialog_bg");
+    dialog_frame_bottom = Resources.getImage("dialog_frame_bottom");
+    dialog_frame_bottomleft = Resources.getImage("dialog_frame_bottomleft");
+    dialog_frame_bottomright = Resources.getImage("dialog_frame_bottomright");
+    dialog_frame_left = Resources.getImage("dialog_frame_left");
+    dialog_frame_right = Resources.getImage("dialog_frame_right");
+    dialog_frame_top = Resources.getImage("dialog_frame_top");
+    dialog_frame_topleft = Resources.getImage("dialog_frame_topleft");
+    dialog_frame_topright = Resources.getImage("dialog_frame_topright");
+
+    var context = this.ctx;
+
+    context.save();
+    // Draw the path that is going to be clipped
+    context.beginPath();
+    context.rect(x+4,y+4,width-8,height-8);
+    context.clip();
+
+    context.beginPath();
+    for(var xx=0;xx<width/32;xx++){
+        for(var yy=0;yy<height/32;yy++){
+            this.ctx.drawImage(dialog_bg,x+xx*32,y+yy*32,32,32);
+        }
+    }
+
+    context.restore();
+
+    this.ctx.drawImage(dialog_frame_topleft,x,y,8,8);
+    this.ctx.drawImage(dialog_frame_top,x+8,y,width-16,8);
+    this.ctx.drawImage(dialog_frame_bottomleft,x,y+height-8,8,8);
+    this.ctx.drawImage(dialog_frame_left,x,y+8,8,height-16);
+    this.ctx.drawImage(dialog_frame_right,x+width-8,y+8,8,height-16);
+    this.ctx.drawImage(dialog_frame_topright,x+width-8,y,8,8);
+    this.ctx.drawImage(dialog_frame_bottomright,x+width-8,y+height-8,8,8);
+    this.ctx.drawImage(dialog_frame_bottom,x+8,y+height-8,width-16,8);
 }
