@@ -312,9 +312,24 @@ HackScene.prototype.drawBacktraceCircleAtGridPos = function(x,y)
 
 HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)
 {
-    this.ctx.globalAlpha = 0.5;
+    this.ctx.globalAlpha = 0.8;
     this.ctx.strokeStyle = "white";
     this.ctx.lineWidth = 10;
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
+                            this.upLeftGridCornerY + (y1 * this.squareSize) + (0.5 * this.squareSize));
+    this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
+                            this.upLeftGridCornerY + (y2 * this.squareSize) + (0.5 * this.squareSize));
+    this.ctx.stroke();
+    this.ctx.globalAlpha = 1;
+};
+
+HackScene.prototype.drawBacktraceLines = function(x1,y1, x2, y2)
+{
+    this.ctx.globalAlpha = 0.3;
+    this.ctx.strokeStyle = "red";
+    this.ctx.lineWidth = 25;
     
     this.ctx.beginPath();
     this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 

@@ -3,7 +3,7 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	this.gridXPos = gridXPos;
 	this.gridYPos = gridYPos;
 	this.type = type;
-	this.hostile = true;
+	this.hostile = false;
 	this.connectedTo = [];
 	this.hackingScene = scene;
 	this.localBacktraceComplete = false;
@@ -24,12 +24,12 @@ HackNode.prototype.drawBacktraceHighlights = function(delta)
 	
 		for (var i = 0; i < this.connectedTo.length; i++)
 		{
-			/*
+			
 			this.hackingScene.drawBacktraceLines(this.gridXPos,
 														this.gridYPos,
 														this.connectedTo[0].gridXPos,
 														this.connectedTo[0].gridYPos);
-			*/
+			
 		}
 	}
 
