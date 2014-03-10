@@ -47,11 +47,8 @@ Mainframe.prototype.GetLevel = function(height){
         var de = new DownElevator();
         level.addObjectTo(8,1,de);
         de.image = Resources.getImage("stairs");
-        for(var i in Pickupable.Items){
-            level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(i));
 
-        }
-        level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),new Robot());
+        level.addObjectTo(2,2,Pickupable.load("lab_note_0"));
 
         generator.postProcess( level );
 
@@ -65,8 +62,37 @@ Mainframe.prototype.GetLevel = function(height){
 
         return level;
     }
+    var tileSet = null;
+    /*if(height<=900 && height >=700){
+        tileSet = Tileset.createOfficeTileset();
+    }
+    if(height<=600 && height >=400){
+        tileSet = Tileset.createLabTileset();
+    }
+    if(height<=300 && height >=100){
+        tileSet = Tileset.createBasementTileset();
+    }
+    if(height == 0){
+        tileSet = Tileset.createMainframeTileset();
+    }*/
 
-    var level = generator.generateLevel( 50, 50, Tileset.createOfficeTileset() );
+    if(Level.isOfficeHeight(height)) {
+        tileSet = Tileset.createOfficeTileset();
+    }
+    else if(Level.isLabHeight(height)) {
+        tileSet = Tileset.createLabTileset();
+        if(height == 400){
+            //store level
+        }
+    }
+    else if(Level.isBasementHeight(height)) {
+        tileSet = Tileset.createBasementTileset();
+    }
+    else if(Level.isMainframeHeight(height)) {
+        tileSet = Tileset.createMainframeTileset();
+        //create mainframe block
+    }
+    var level = generator.generateLevel( 50, 50, tileSet, height );
     level.designRooms(this.currentHeight);
     return level;
 };

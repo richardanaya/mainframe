@@ -73,7 +73,8 @@ Pickupable.Items = {
         tags: ["melee","weapon"],
         actions: ["equip"],
         equip_slot: "melee",
-        image : "bat"
+        image : "bat",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "gun" : {
         name: "Gun",
@@ -82,7 +83,88 @@ Pickupable.Items = {
         tags: ["ranged","weapon"],
         actions: ["equip"],
         equip_slot: "ranged",
-        image : "gun"
+        image : "gun",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "lab_note_1000" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
+    },
+    "lab_note_900" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
+    },
+    "lab_note_800" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
+    },
+    "lab_note_700" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
+    },
+    "lab_note_600" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
+    },
+    "lab_note_500" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
+    },
+    "lab_note_400" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
+    },
+    "lab_note_300" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
+    },
+    "lab_note_200" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
+    },
+    "lab_note_100" : {
+        name: "Lab Note: Sys Admin",
+        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
     },
     "lab_note_0" : {
         name: "Lab Note: Sys Admin",
@@ -102,67 +184,78 @@ Pickupable.Items = {
         name: "MuscleBoost",
         image : "potion_1",
         actions: ["use","throw"],
-        description: "This potion is a devastating steroid cocktail of muscle fiber inducing nanites."
+        description: "This potion is a devastating steroid cocktail of muscle fiber inducing nanites.",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_1" : {
         name: "Juice",
         image : "potion_2",
         actions: ["use","throw"],
-        description: "A juice"
+        description: "A juice",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_2" : {
         name: "Juice",
         image : "potion_3",
         actions: ["use","throw"],
-        description: "A juice"
+        description: "A juice",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_3" : {
         name: "Juice",
         image : "potion_4",
         actions: ["use","throw"],
-        description: "A juice"
+        description: "A juice",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "data_chip_0" : {
         name: "Juice",
         image : "data_chip_0",
         actions: ["data"],
-        description: "A data chip"
+        description: "A data chip",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "data_chip_0" : {
         name: "Data Chip",
         image : "scroll_0",
         actions: ["use"],
-        description: "scroll_0"
+        description: "scroll_0",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "data_chip_1" : {
         name: "Information Overload",
         image : "scroll_1",
         actions: ["use"],
-        description: "This data chip contains a library of data directly compatible with your nueral systems."
+        description: "This data chip contains a library of data directly compatible with your nueral systems.",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "data_chip_2" : {
         name: "Data Chip",
         image : "scroll_2",
         actions: ["use"],
-        description: "A data chip"
+        description: "A data chip",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "data_chip_3" : {
         name: "Data Chip",
         image : "scroll_3",
         actions: ["use"],
-        description: "A data chip"
+        description: "A data chip",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "data_chip_4" : {
         name: "Data Chip",
         image : "scroll_4",
         actions: ["use"],
-        description: "A data chip"
+        description: "A data chip",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "ecig" : {
         name: "Electric Cigarette",
         image : "ecig",
         actions: ["use"],
-        description: "An electric cigarette. A smoke break would be nice right now."
+        description: "An electric cigarette. A smoke break would be nice right now.",
+        levels: [900,800,700,600,500,400,300,200,100,0]
     }
 }
 
