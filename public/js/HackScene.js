@@ -560,15 +560,14 @@ HackScene.prototype.drawBacktraceLines = function(x1,y1, x2, y2, nodeFullyBacktr
     else if(nodeFullyBacktraced == false)
     {
         this.ctx.strokeStyle = "orange";
-                this.ctx.beginPath();
+
+        this.ctx.beginPath();
         this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
                                 this.upLeftGridCornerY + (y1 * this.squareSize) + (0.5 * this.squareSize));
         this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
                                 this.upLeftGridCornerY + (y2 * this.squareSize) + (0.5 * this.squareSize));
         this.ctx.stroke();
     }
-    else
-        console.debug("WHAT?");
 
     this.ctx.globalAlpha = 1;
 };

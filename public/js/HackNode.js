@@ -171,10 +171,8 @@ HackNode.prototype.drawBacktraceHighlights = function(delta)
 												 this.connectedTo[i].gridXPos,
 												 this.connectedTo[i].gridYPos,
 												 fullyBacktraced);
-			
 		}
 	}
-
 };
 
 
