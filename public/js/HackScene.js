@@ -28,10 +28,20 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
     this.playerActivelyHacking = false;
     this.hackingFullyBacktraced = false;
     this.selectedNode = null;
+    
     this.music = new Howl({
         urls: ['sounds/sfx_general/sfx_computer_on.mp3'],
         loop: false
         }).play();
+    
+
+    /*
+    this.music = new Howl({
+        urls: ['sounds/Hacking.mp3'],
+        loop: true
+        }).play();
+    */
+
     this.phasingIn = true;
     this.phaseInSpeed = 1.0;
     this.minimumSquareSize = 40;
@@ -269,7 +279,7 @@ HackScene.prototype.update = function(delta){
 
             if (this.playerActivelyHacking == true)
             {
-                this.ctx.fillStyle = "white";
+                this.ctx.fillStyle = "lightgreen";
                 this.ctx.fillRect(30,this.height - 370,340,70);
 
                 this.ctx.fillStyle = "green";
@@ -283,7 +293,7 @@ HackScene.prototype.update = function(delta){
                 ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable())))
             {
                 //if I ever change this position, I also need to change the hardcoded button in onTap()
-                this.ctx.fillStyle = "white";
+                this.ctx.fillStyle = "lightgreen";
                 this.ctx.fillRect(30,this.height - 370,340,70);
 
                 this.ctx.fillStyle = "black";
