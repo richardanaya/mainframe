@@ -234,8 +234,17 @@ HackScene.prototype.update = function(delta){
             this.ctx.font = "14px 'Press Start 2P'";
             this.ctx.fillStyle = "red";
             this.ctx.globalAlpha = 1;
-            this.ctx.fillText("HACKING FULLY BACKTRACED", 30, this.height/2);
-            this.ctx.fillText("SESSION TERMINATED", 30, this.height/2 + 20);
+            this.ctx.fillText("HACKING FULLY BACKTRACED", 30, this.height/2 - 50);
+            this.ctx.fillText("SESSION TERMINATED", 50, this.height/2 + 20 - 50);
+
+            this.ctx.font = "12px 'Press Start 2P'";
+            this.ctx.fillStyle = "white";
+            this.ctx.globalAlpha = 1;
+            this.ctx.fillText("Use the 'X' button in the", 30, this.height/2);
+            this.ctx.fillText("upper-right corner to exit", 30, this.height/2 + 20);
+            this.ctx.fillText("hacks at any time", 30, this.height/2 + 40);
+
+
         }
         else if (this.mainframeEnmity == 0)
         {
@@ -422,7 +431,7 @@ HackScene.prototype.update = function(delta){
                     this.ctx.fillStyle = "black";
                     this.ctx.fillText("RUN PROGRAM", 140, this.height - 145);
                 }
-                else if (this.isProgramConsumed(this.selectedProgram) == true)
+                else if ((this.isProgramConsumed(this.selectedProgram)) == true && (showRunButton == true))
                 {
                     this.ctx.fillStyle = "red";
                     this.ctx.fillRect(110,this.height - 175,175,50);
