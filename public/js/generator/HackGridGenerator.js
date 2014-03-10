@@ -2,7 +2,7 @@
 var HackGridGenerator = function() {
 }
 
-HackGridGenerator.maxNodeRatio = 0.3;
+HackGridGenerator.maxNodeRatio = 0.15;
 HackGridGenerator.maxFailAttempts = 500;
 
 HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, difficulty ) {
@@ -23,12 +23,14 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
     var failures = 0;
 
     var nodes = [];
+
+    // step1 : generate a trunk
     while( nodeCount < numNodes ) {
         var randPos = { x: Utilities.randRangeInt(0,desiredSizeX), y: Utilities.randRangeInt(0,desiredSizeY) };
         if( HackGridGenerator.canPlaceNode( hackGrid, nodes, randPos ) ) {
             lastNode = HackGridGenerator.createNode( hackGrid, randPos, HackNodeType.Mainframe, lastNode );
             nodes.push( lastNode );
-
+            hackGrid.addNode( lastNode );
             failures = 0;
             ++nodeCount;
         }
@@ -40,19 +42,18 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
         }
     }
 
-    /*
-    nodes.forEach( function( node ) {
-        var closest = HackGridGenerator.getClosestNode( node, nodes );
-        node.addConnection( closest );
-
-        if( Math.random() < 0.25 ) {
-            closest = HackGridGenerator.getClosestNode( node, nodes );
-            node.addConnection( closest );
+    // step 2 : make first connections
+    var recursiveConnectToClosestUnconnected = function( node, nodes, hackGrid ) {
+        if( node.connectedTo.length < 2 ) {
+            var closest = HackGridGenerator.getClosestUnconnectedNode( node, nodes );
+            if( closest != null ) {
+                node.addConnection( closest );
+                recursiveConnectToClosestUnconnected( closest, nodes, hackGrid );
+            }
         }
+    }
 
-        hackGrid.addNode( node );
-    });
-    */
+    recursiveConnectToClosestUnconnected( nodes[0], nodes, hackGrid );
 
 	return hackGrid;
 }
@@ -64,18 +65,23 @@ HackGridGenerator.createNode = function( hackGrid, at, nodeType, from ) {
 
 HackGridGenerator.canPlaceNode = function( hackGrid, nodes, at ) {
     if( !hackGrid.isValidGridPoint( at.x, at.y ) ) return false;
-    /*
+
     var calcDist2 = function( p1, p2 ) {
-        var delta = { x: p2.x - p1.y, y: p2.x - p1.y };
+        var delta = { x: p2.x - p1.x, y: p2.y - p1.y };
         return delta.x*delta.x+delta.y*delta.y;
     }
 
     for( var key in nodes ) {
         var node = nodes[key];
         var diff2 = calcDist2( node.getGridPos(), at );
-        if( diff2 < 1 ) return false;
+        if( diff2 < 3 ) return false;
     }
-    */
+
+    var connections = HackGridGenerator.getUniqueConnections( hackGrid );
+    for( var key in connections ) {
+        var connection = connections[key];
+        if( Utilities.isPointOnLine( at, connection.segment ) ) return false;
+    }
 
     return true;
 }
@@ -162,7 +168,7 @@ HackGridGenerator.getUniqueNodeName = function( node ) {
     return node.gridXPos.toString() + "," + node.gridYPos.toString();
 }
 
-HackGridGenerator.getClosestNode = function( node, nodes ) {
+HackGridGenerator.getClosestUnconnectedNode = function( node, nodes ) {
     var dist = 0;
     var result = null;
 
@@ -171,22 +177,16 @@ HackGridGenerator.getClosestNode = function( node, nodes ) {
         return delta.x*delta.x+delta.y*delta.y;
     }
 
-    nodes.forEach( function( test ) {
-        if( test == node ) return;
-        if( result == null ) {
-            dist = calcDist2(node,test);
-            result = test;
-        }
-        else if( node.connectedTo.indexOf(test) < 0 && test.connectedTo.length < 3 ) {
-            var testDist = calcDist2( node, test );
-            if( testDist < dist ) {
+    for( var index = 0; index < nodes.length; ++index ) {
+        var test = nodes[index];
+        if( test != node && test.connectedTo.length == 0 ) {
+            var newDist = calcDist2( node, test );
+            if( result == null || newDist < dist ) {
+                dist = newDist;
                 result = test;
-                dist = testDist;
-            }
+            } 
         }
-    });
-
-    if( result == null ) debugger;
+    }
 
     return result;
 }
