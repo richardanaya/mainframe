@@ -1,9 +1,19 @@
-var HackScene = function(game, returnScene, playerImage, difficulty){
+var HackScene = function(game, returnScene, difficulty, programs, endHackCallBack){
     this.game = game;
     this.returnScene = returnScene;
-    this.playerImage = playerImage;
     this.difficulty = difficulty;
-    this.programs = ["testProg1", "testProg2", "testProg3", "testProg4"]
+
+    this.programs = ["Net Ninja", "Network Warrior", "Bit Shifter", "SUDO Inspect"]
+    //this.programs = programs
+
+    this.endHackCallBack = endHackCallBack;
+
+    this.selectedProgram = null;
+    this.program1Consumed = false;
+    this.program2Consumed = false;
+    this.program3Consumed = false;
+    this.program4Consumed = false;
+
     this.mode = "play";
     this.mainframeEnmity = 0.0;
     this.time = 0;
@@ -22,15 +32,8 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.upLeftGridCornerY = 0;
     this.gridObjectSize = 0;
     this.gridObjectPadding = 1;
-
     this.difficulty = difficulty;
-
     this.grid = HackGridGenerator.generate( 10, 10, this, this.difficulty );
-
-    this.whoseTurn = "player";
-
-    this.playerActionThrottle = 0.1;
-    this.timeSinceTurn = 0.0;
 };
 
 HackScene.prototype = Object.create(Scene.prototype);
@@ -149,20 +152,6 @@ HackScene.prototype.update = function(delta){
             this.ctx.stroke();
         }
 
-        /*
-        this.ctx.fillStyle = "yellow";
-        this.ctx.fillRect(this.upLeftGridCornerX + (this.grid.goalX * this.squareSize) + this.gridObjectPadding,
-                          this.upLeftGridCornerY + (this.grid.goalY * this.squareSize) + this.gridObjectPadding,
-                          this.gridObjectSize, 
-                          this.gridObjectSize);
-        */
-
-        this.ctx.drawImage(this.playerImage,
-                           this.upLeftGridCornerX + (this.playerGridPosX * this.squareSize) + this.gridObjectPadding,
-                           this.upLeftGridCornerY + (this.playerGridPosY * this.squareSize) + this.gridObjectPadding,
-                           this.gridObjectSize, 
-                           this.gridObjectSize);
-
         this.grid.hackingSimulationUpdate(delta);
         this.grid.updateBacktraceHighlights(delta);
         this.grid.updateNodeConnectionLines(delta);
@@ -170,13 +159,28 @@ HackScene.prototype.update = function(delta){
 
         this.drawBox(10,10,this.upLeftGridCornerX - 20,this.height - 20);
 
+        this.ctx.fillStyle = "red";
+        this.ctx.fillRect(this.width - 40, 0 + 10,30,30);
+        this.ctx.font = "16px 'Press Start 2P'";
+        this.ctx.fillStyle = "black";
+        this.ctx.fillText("X", this.width - 32, 0 + 35);
+
         if (this.hackingFullyBacktraced == true)
         {
             this.ctx.font = "14px 'Press Start 2P'";
             this.ctx.fillStyle = "red";
             this.ctx.globalAlpha = 1;
-            this.ctx.fillText("HACKING FULLY BACKTRACED", 30, 40);
-            this.ctx.fillText("SESSION TERMINATED", 30, 60);
+            this.ctx.fillText("HACKING FULLY BACKTRACED", 30, this.height/2 - 50);
+            this.ctx.fillText("SESSION TERMINATED", 50, this.height/2 + 20 - 50);
+
+            this.ctx.font = "12px 'Press Start 2P'";
+            this.ctx.fillStyle = "white";
+            this.ctx.globalAlpha = 1;
+            this.ctx.fillText("Use the 'X' button in the", 30, this.height/2);
+            this.ctx.fillText("upper-right corner to exit", 30, this.height/2 + 20);
+            this.ctx.fillText("hacks at any time", 30, this.height/2 + 40);
+
+
         }
         else if (this.mainframeEnmity == 0)
         {
@@ -195,8 +199,8 @@ HackScene.prototype.update = function(delta){
 
             this.ctx.font = "10px 'Press Start 2P'";
             this.ctx.fillStyle = "white";
-            this.ctx.fillText("Hack primary Data Cache before", 30, 90);
-            this.ctx.fillText("Mainframe completes backtrace!", 30, 110);
+            this.ctx.fillText("Hack primary Data Cache before the", 30, 90);
+            this.ctx.fillText("Mainframe completes its backtrace!", 30, 110);
         }
 
         if (this.selectedNode != null && this.hackingFullyBacktraced == false)
@@ -231,7 +235,7 @@ HackScene.prototype.update = function(delta){
 
             this.ctx.fillText("Type: " + nodeDescription, 30, 170);
 
-            this.ctx.fillText("Connections: " + this.selectedNode.connectedTo.length, 30, 190);
+            //this.ctx.fillText("Connections: " + this.selectedNode.connectedTo.length, 30, 190);
 
             var hackableDescription = "";
             var nodeIsHackable = this.selectedNode.isHackable();
@@ -252,12 +256,12 @@ HackScene.prototype.update = function(delta){
                 hackableDescription = "Node Hacked!";
             }
 
-            this.ctx.fillText(hackableDescription, 30, 210);
+            this.ctx.fillText(hackableDescription, 30, 190);
 
             this.ctx.fillStyle = "white";
 
             if (nodeIsHackable == true)
-                this.ctx.fillText("Detection Chance: " + this.selectedNode.mainframeDetectionChancePerc + "%", 30, 230);
+                this.ctx.fillText("Detection Chance: " + this.selectedNode.mainframeDetectionChancePerc + "%", 30, 210);
 
             //now I need to draw a button to actually initiate hack.
 
@@ -265,13 +269,13 @@ HackScene.prototype.update = function(delta){
             if (this.playerActivelyHacking == true)
             {
                 this.ctx.fillStyle = "white";
-                this.ctx.fillRect(30,this.height - 200,340,70);
+                this.ctx.fillRect(30,this.height - 370,340,70);
 
                 this.ctx.fillStyle = "green";
-                this.ctx.fillRect(30,this.height - 200, (this.selectedNode.hackingProgress/this.selectedNode.hackingDifficultyInSec)* 340,70);
+                this.ctx.fillRect(30,this.height - 370, (this.selectedNode.hackingProgress/this.selectedNode.hackingDifficultyInSec)* 340,70);
 
                 this.ctx.fillStyle = "black";
-                this.ctx.fillText("HACKING IN PROGRESS", 65, this.height - 155);
+                this.ctx.fillText("HACKING IN PROGRESS", 65, this.height - 325);
             }
 
             if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
@@ -279,69 +283,108 @@ HackScene.prototype.update = function(delta){
             {
                 //if I ever change this position, I also need to change the hardcoded button in onTap()
                 this.ctx.fillStyle = "white";
-                this.ctx.fillRect(30,this.height - 200,340,70);
+                this.ctx.fillRect(30,this.height - 370,340,70);
 
                 this.ctx.fillStyle = "black";
-                this.ctx.fillText("Click To Initiate Hack", 50, this.height - 155);
+                this.ctx.fillText("Click To Initiate Hack", 50, this.height - 325);
             }
         }
 
-        for (var i = 0; i < this.programs.length; i++)
+        if (this.hackingFullyBacktraced != true)
         {
-            if (i == 0)
+            for (var i = 0; i < this.programs.length; i++)
             {
-                this.ctx.fillStyle = "white";
-                this.ctx.fillRect(30,this.height - 100,65,65);
+                if (i == 0)
+                {
+                    this.ctx.fillStyle = "white";
+                    this.ctx.fillRect(30,this.height - 100,65,65);
+                }
+                else if (i == 1)
+                {
+                    this.ctx.fillStyle = "white";
+                    this.ctx.fillRect(120,this.height - 100,65,65);
+                }
+                else if (i == 2)
+                {
+                    this.ctx.fillStyle = "white";
+                    this.ctx.fillRect(215,this.height - 100,65,65);
+                }
+                else if (i == 3)
+                {
+                    this.ctx.fillStyle = "white";
+                    this.ctx.fillRect(305,this.height - 100,65,65);
+                }
             }
-            else if (i == 1)
+
+            if (this.selectedProgram != null)
             {
                 this.ctx.fillStyle = "white";
-                this.ctx.fillRect(120,this.height - 100,65,65);
-            }
-            else if (i == 2)
-            {
-                this.ctx.fillStyle = "white";
-                this.ctx.fillRect(215,this.height - 100,65,65);
-            }
-            else if (i == 3)
-            {
-                this.ctx.fillStyle = "white";
-                this.ctx.fillRect(305,this.height - 100,65,65);
+                this.ctx.fillRect(30,this.height - 280,340,160);
+
+                this.ctx.fillStyle = "black";
+                this.ctx.font = "12px 'Press Start 2P'";
+                this.ctx.fillText("Program " + this.selectedProgram + ":", 40, this.height - 260);
+
+                var showRunButton = true;
+
+                if (this.programs[this.selectedProgram - 1] == "Net Ninja")
+                {
+                    this.ctx.fillText("Net Ninja", 165, this.height - 260);
+                    showRunButton = false;
+
+                    this.ctx.fillText("A passive buff that reduces", 40, this.height - 240);
+                    this.ctx.fillText("the chance to be detected", 40, this.height - 225);
+                    this.ctx.fillText("while hacking by 5%", 40, this.height - 210);
+                }
+                else if (this.programs[this.selectedProgram - 1] == "Network Warrior")
+                {
+                    this.ctx.fillText("Network Warrior", 165, this.height - 260);
+
+                    this.ctx.fillText("A once-per-hack skill that", 40, this.height - 240);
+                    this.ctx.fillText("allows the hacker to tether", 40, this.height - 225);
+                    this.ctx.fillText("any Node directly to their", 40, this.height - 210);
+                    this.ctx.fillText("System Entry Point ", 40, this.height - 195);
+                }
+                else if (this.programs[this.selectedProgram - 1] == "Bit Shifter")
+                {
+                    this.ctx.fillText("Bit Shifter", 165, this.height - 260);
+                }
+                else if (this.programs[this.selectedProgram - 1] == "SUDO Inspect")
+                {
+                    this.ctx.fillText("SUDO Inspect", 165, this.height - 260);
+                }
+                else if (this.programs[this.selectedProgram - 1] == "Driver Corrupt")
+                {
+                    this.ctx.fillText("Driver Corrupt", 165, this.height - 260);
+                }
+
+                if ((showRunButton == true) && (this.isProgramConsumed(this.selectedProgram) == false))
+                {
+                    this.ctx.fillStyle = "green";
+                    this.ctx.fillRect(110,this.height - 175,175,50);
+
+                    this.ctx.font = "10px 'Press Start 2P'";
+                    this.ctx.fillStyle = "black";
+                    this.ctx.fillText("RUN PROGRAM", 140, this.height - 145);
+                }
+                else if ((this.isProgramConsumed(this.selectedProgram)) == true && (showRunButton == true))
+                {
+                    this.ctx.fillStyle = "red";
+                    this.ctx.fillRect(110,this.height - 175,175,50);
+
+                    this.ctx.font = "8px 'Press Start 2P'";
+                    this.ctx.fillStyle = "black";
+                    this.ctx.fillText("PROGRAM ALREADY USED", 118, this.height - 145);
+                }
+
             }
         }
     }
 };
 
 
-HackScene.prototype.onKeyDown = function(key){
-    if (!this.phasingIn && this.whoseTurn == "player")
-    {
-        if((key == 37 && this.playerGridPosX > this.grid.minGridX) || (key == 65 && this.playerGridPosX > this.grid.minGridX))
-        {
-            this.playerGridPosX--;
-            this.whoseTurn = "enemy";
-            this.timeSinceTurn = 0.0;
-        }
-        else if((key == 38 && this.playerGridPosY > this.grid.minGridY) || (key == 87 && this.playerGridPosY > this.grid.minGridY))
-        {
-            this.playerGridPosY--;
-            this.whoseTurn = "enemy";
-            this.timeSinceTurn = 0.0;
-        }
-        else if((key == 39 && this.playerGridPosX < this.grid.maxGridX) || (key == 68 && this.playerGridPosX < this.grid.maxGridX))
-        {
-            this.playerGridPosX++;
-            this.whoseTurn = "enemy";
-            this.timeSinceTurn = 0.0;
-        }
-        else if((key == 40 && this.playerGridPosY < this.grid.maxGridY) || (key == 83 && this.playerGridPosY < this.grid.maxGridY)) 
-        {
-            this.playerGridPosY++;
-            this.whoseTurn = "enemy";
-            this.timeSinceTurn = 0.0;
-        }
-    }
-
+HackScene.prototype.onKeyDown = function(key)
+{
     if ((key == 32) && (this.selectedNode != null) && (this.playerActivelyHacking == false))
     {
         if ((this.selectedNode.isHackable()) || (this.selectedNode.type == "goal"))
@@ -391,14 +434,50 @@ HackScene.prototype.onTap = function(x,y)
 
     if(this.selectedNode != null)
     {
-        if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
-            ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable())))
+
+        if ((x > 30) && (x < 370) && (y > this.height - 370) && (y < this.height - 300))
         {
-            if ((x > 30) && (x < 370) && (y > this.height - 200) && (y < this.height - 130))
+            if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
+            ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable())))
+            {
                 this.grid.hackNode(this.selectedNode);
+            }
         }
     }
 
+    if ((this.hackingFullyBacktraced == false) && (this.programs.length > 0))
+    {
+        if ((x > 30) && (x < 95) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 0))
+        {
+            this.selectedProgram = 1;
+        }
+        else if ((x > 120) && (x < 185) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 1))
+        {
+            this.selectedProgram = 2;
+        }
+        else if ((x > 215) && (x < 280) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 2))
+        {
+            this.selectedProgram = 3;
+        }
+        else if ((x > 305) && (x < 370) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 3))
+        {
+            this.selectedProgram = 4;
+        }
+
+        if ((this.selectedProgram != null) && (x > 110) && (x < 285) && (y > this.height - 175) && 
+            (y < this.height - 125) && (this.programs.length > 0))
+        {
+            //console.log("Program " + this.selectedProgram + " was run!");
+            this.runRigProgram(this.selectedProgram, this.programs[this.selectedProgram - 1]);
+        }    
+    }
+
+    //exit button
+    if ((x > this.width - 40) && (x < this.width - 10) && (y > 10) && (y < 40))
+    {
+        var hackEnd = new HackEndStatus(true, false);
+        this.endHackCallBack(hackEnd);
+    }
 };
 
 HackScene.prototype.drawCircleAtGridPos = function(x,y,color)
@@ -531,4 +610,106 @@ HackScene.prototype.drawBox = function(x,y,width,height)
     this.ctx.drawImage(dialog_frame_topright,x+width-8,y,8,8);
     this.ctx.drawImage(dialog_frame_bottomright,x+width-8,y+height-8,8,8);
     this.ctx.drawImage(dialog_frame_bottom,x+8,y+height-8,width-16,8);
-}
+};
+
+HackScene.prototype.runRigProgram = function(programNumber, programName)
+{
+    var programRunnable = true;
+
+    if (programNumber == 1)
+    {
+        if (this.program1Consumed == true)
+            programRunnable = false;
+    }
+    else if (programNumber == 2)
+    {
+        if (this.program2Consumed == true)
+            programRunnable = false;
+    }
+    else if (programNumber == 3)
+    {
+        if (this.program3Consumed == true)
+            programRunnable = false;
+    }
+    else if (programNumber == 4)
+    {
+        if (this.program4Consumed == true)
+            programRunnable = false; 
+    }
+
+    if (programRunnable == true)
+    {
+        if (programNumber == 1)
+            this.program1Consumed = true;
+        else if (programNumber == 2)
+            this.program2Consumed = true;
+        else if (programNumber == 3)
+            this.program3Consumed = true;
+        else if (programNumber == 4)
+            this.program4Consumed = true;
+
+        if (programName == "Network Warrior")
+        {
+            if (this.selectedNode == null)
+            {
+                this.unConsumeRigProgram(programNumber);
+            }
+            else if (this.grid.playerNode.connectedTo.indexOf(this.selectedNode) == -1)
+            {
+                this.grid.playerNode.addConnection(this.selectedNode);
+            }
+            else
+                this.unConsumeRigProgram(programNumber);
+        }
+        else if (programName == "Bit Shifter")
+        {
+        }
+        else if (programName == "Driver Corrupt")
+        {
+        }
+        else if (programName == "SUDO Inspect")
+        {
+        }
+    }
+};
+
+HackScene.prototype.unConsumeRigProgram = function(programNumber)
+{
+    if (programNumber == 1)
+        this.program1Consumed = false;
+    else if (programNumber == 2)
+        this.program2Consumed = false;
+    else if (programNumber == 3)
+        this.program3Consumed = false;
+    else if (programNumber == 4)
+        this.program4Consumed = false;
+};
+
+
+HackScene.prototype.isProgramConsumed = function(programNumber)
+{
+    var programIsConsumed = false;
+
+    if (programNumber == 1)
+    {
+        if (this.program1Consumed == true)
+            programIsConsumed = true;
+    }
+    else if (programNumber == 2)
+    {
+        if (this.program2Consumed == true)
+            programIsConsumed = true;
+    }
+    else if (programNumber == 3)
+    {
+        if (this.program3Consumed == true)
+            programIsConsumed = true;
+    }
+    else if (programNumber == 4)
+    {
+        if (this.program4Consumed == true)
+            programIsConsumed = true; 
+    }
+
+    return programIsConsumed;
+};

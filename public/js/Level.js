@@ -264,14 +264,45 @@ Level.prototype.refreshLights = function( dynamicLights ) {
 }
 
 Level.prototype.designRooms = function(height) {
-    var startRoom = this.getRoomByDepth(0);
+    /*var startRoom = this.getRoomByDepth(0);
     var upElevatorPos = this.getRandomWall(startRoom);
     this.addObjectTo(upElevatorPos.x,upElevatorPos.y,new UpElevator());
-    this.getTileAt(upElevatorPos.x,upElevatorPos.y).type = Level.Types.Floor;
+    this.getTileAt(upElevatorPos.x,upElevatorPos.y).type = Level.Types.Floor;*/
     var endRoom = this.getRoomByDepth(this.maxRoomDepth);
     var downElevatorPos = this.getRandomWall(endRoom);
     this.addObjectTo(downElevatorPos.x,downElevatorPos.y,new DownElevator());
     this.getTileAt(downElevatorPos.x,downElevatorPos.y).type = Level.Types.Floor;
+
+    var itemsForLevel = [];
+    for(var i in Pickupable.Items){
+        if(Pickupable.Items[i].levels && Pickupable.Items[i].levels.indexOf(this.levelDepth)!=-1){
+            itemsForLevel.push(i);
+        }
+    }
+    for(var j = 0 ; j < this.maxRoomDepth/2; j++){
+        this.placeItemInRandomSpot(Pickupable.load(itemsForLevel[Math.floor(Math.random()*itemsForLevel.length)]));
+    }
+
+    var monstersForLevel = [];
+    for(var i in Monster.List){
+        if(Monster.List[i].levels && Monster.List[i].levels.indexOf(this.levelDepth)!=-1){
+            monstersForLevel.push(i);
+        }
+    }
+    for(var j = 0 ; j < this.maxRoomDepth/2; j++){
+        this.placeItemInRandomSpot(Monster.load(monstersForLevel[Math.floor(Math.random()*monstersForLevel.length)]));
+    }
+    this.placeItemInRandomSpot(Pickupable.load("lab_note_"+this.levelDepth));
+}
+
+Level.prototype.placeItemInRandomSpot = function(item){
+    var room = this.getRandomRoom()
+    var pos = this.getRandomFreeTile(room);
+    this.addObjectTo(pos.x,pos.y,item);
+}
+
+Level.prototype.getRandomRoom = function(){
+    return this.rooms[Math.floor(this.rooms.length*Math.random())];
 }
 
 Level.prototype.getRoomByDepth = function(depth) {
@@ -295,27 +326,12 @@ Level.prototype.getRandomFreeTile = function(room) {
 
 Level.prototype.getRandomWall = function(room) {
      var f = function(){
-        if(Math.random()<.5){
-            if(Math.random()<.5){
-                return {x:room.x-1, y:Utilities.randRangeInt( room.y, room.y+room.height )};
-            }
-            else {
-                return {x:room.x+room.width, y:Utilities.randRangeInt( room.y, room.y+room.height )};
-            }
-        }
-        else {
-        if(Math.random()<.5){
-            return {x:Utilities.randRangeInt( room.x-1, room.x+room.width ), y:room.y-1};
-        }
-        else {
-            return {x:Utilities.randRangeInt( room.x-1, room.x+room.width ), y:room.y+room.height};
-        }
-        }
-    }
+         return {x:Utilities.randRangeInt( room.x, room.x+room.width-1 ), y:room.y-1};
+    };
     var p = f();
-    while(this.getNeighborsByType(p.x, p.y,Level.Types.Floor)==0){
+    /*while(this.getNeighborsByType(p.x, p.y,Level.Types.Floor)==0){
         p = f();
-    }
+    }*/
     return p;
 };
 
@@ -330,3 +346,20 @@ Level.prototype.isFreeTile = function(x,y) {
     var t = this.getTileAt(x,y);
     return (t.type != Level.Types.Prop && t.type != Level.Types.Wall);
 }
+
+Level.isOfficeHeight = function(h){
+    return (h<=900 && h>=700);
+}
+
+Level.isLabHeight = function(h){
+    return (h<=600 && h>=400);
+}
+
+Level.isBasementHeight = function(h){
+    return (h<=300 && h>=100);
+}
+
+Level.isMainframeHeight = function(h){
+    return (h==0);
+}
+

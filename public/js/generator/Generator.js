@@ -3,12 +3,13 @@ var Generator = function() {
 	this.maxHalfRoomSize = 8;
 }
 
-Generator.prototype.generateLevel = function( width, height ) {
+Generator.prototype.generateLevel = function( width, height, tileSet, levelDepth ) {
 	var level = new Level();
 	level.width = width;
 	level.height = height;
+    level.levelDepth = levelDepth;
 	level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
-	level.tileset = Tileset.createOfficeTileset();
+	level.tileset = tileSet;
 	
 	var halfWidth = Utilities.randRangeInt( this.minHalfRoomSize, this.maxHalfRoomSize );
 	var halfHeight = Utilities.randRangeInt( this.minHalfRoomSize, this.maxHalfRoomSize );

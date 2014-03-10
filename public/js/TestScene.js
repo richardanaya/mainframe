@@ -101,16 +101,34 @@ TestScene.prototype.loadLevel = function(height){
             }).play();
             _this.music.fade(0,1,3000);
             if(Flags.flag("intro")){
-                _this.showDialog("You wake up to the sound of rain.  What happened? You feel a burning at the ache of your neck. You reach back and find blood at your neckport, but you cannot recall any memory how you arrived to the top of _this building.",_this.player.image_idle_0,_this.player.image_idle_1)
+                _this.showDialog("You wake up to the sound of rain.  What happened? You feel a burning sensation at the base of your neck. You reach back and find blood at your neckport and realize you have no memory of how you arrived at the top of this building. You see a single exit. It appears to lead downwards, into the tower.",_this.player.image_idle_0,_this.player.image_idle_1)
             }
         }
         else {
-            _this.music = new Howl({
-                urls: ['sounds/Corporate.ogg','sounds/Corporate.mp3'],
-                loop: true
-            }).play();
-            _this.music.fade(0,1,3000);
-            _this.music = null;
+            if(Level.isOfficeHeight(height)) {
+                _this.music = new Howl({
+                    urls: ['sounds/Corporate.ogg','sounds/Corporate.mp3'],
+                    loop: true
+                }).play();
+            }
+            else if(Level.isLabHeight(height)) {
+                _this.music = new Howl({
+                    urls: ['sounds/Laboratory.ogg','sounds/Laboratory.mp3'],
+                    loop: true
+                }).play();
+            }
+            else if(Level.isBasementHeight(height)) {
+                _this.music = new Howl({
+                    urls: ['sounds/CYBER.ogg','sounds/CYBER.mp3'],
+                    loop: true
+                }).play();
+            }
+            else if(Level.isMainframeHeight(height)) {
+                _this.music = new Howl({
+                    urls: ['sounds/final boss.ogg','sounds/final boss.mp3'],
+                    loop: true
+                }).play();
+            }
         }
     }
 
@@ -334,7 +352,7 @@ TestScene.prototype.onKeyDown = function(key){
     if(this.mode == "play"){
         this.graph = this.level.getGraph();
         if(key == 72){
-            this.game.changeScene(new HackScene(this.game, this.scene, this.player.image_idle_0, 1));
+            this.game.changeScene(new HackScene(this.game, this.scene, 1));
         }
 
         else if(key == 37 || key == 65){

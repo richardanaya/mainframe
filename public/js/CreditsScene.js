@@ -89,12 +89,12 @@ CreditsScene.prototype.update = function(delta){
     this.ctx.fill();
 
 
-    if(this.time > 54){
+    if(this.time > 56){
         this.ctx.font = "36px 'Press Start 2P'";
         this.ctx.fillStyle = "white";
-        this.ctx.globalAlpha = Math.min((this.time-54)/2,.2);
+        this.ctx.globalAlpha = Math.min((this.time-56)/2,.2);
         this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2-15, this.height/2-15);
-        this.ctx.globalAlpha = Math.min((this.time-54)/2,1);
+        this.ctx.globalAlpha = Math.min((this.time-56)/2,1);
         this.ctx.fillText("Mainframe Loves You", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2, this.height/2);
 
     }
@@ -123,6 +123,11 @@ CreditsScene.prototype.update = function(delta){
     this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1900-t*speed,Resources.getImage("tentative"),"tentative-stagename", "", "Music","");
     this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+2100-t*speed,Resources.getImage("jonathan"),"Jonathan Churchill", "", "Sound","");
     this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+2300-t*speed,Resources.getImage("brian"),"Brian Ho", "", "Art","");
+
+    this.ctx.font = "12px 'Press Start 2P'";
+    this.ctx.fillText("Thanks to Sophie - the best dog ever",(window.innerWidth-710)/2,(window.innerHeight-200)/2+2500-t*speed);
+    this.ctx.fillText("Thanks to Hank Smith for the delicious steak and caffeine",(window.innerWidth-710)/2,(window.innerHeight-200)/2+2530-t*speed);
+    this.ctx.fillText("Thanks to /u/Hellisothersheeple for our megacorp name",(window.innerWidth-710)/2,(window.innerHeight-200)/2+2560-t*speed);
 };
 
 CreditsScene.prototype.drawPerson = function(x,y,icon,name, group, role, saying){
