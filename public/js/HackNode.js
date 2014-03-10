@@ -28,7 +28,7 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 
 	else if (this.type == "goal")
 	{
-		this.hackingDifficultyInSec = 8.0;
+		this.hackingDifficultyInSec = 10.0;
 		this.mainframeDetectionChancePerc = 80.0;
 		this.enmityGainIfDetected = 25.00;
 	}
@@ -42,9 +42,15 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 		if (this.activelyBeingHacked == true)
 		{
 			if (this.hackingProgress == 0.0)
-			{
+			{	
+				/*
+				var date = new Date();
+				console.log("Hack start time: " +date.getMinutes() + " min, " + date.getSeconds() + 
+									"sec, " + date.getMilliseconds() + " milliSec");
+				*/
+
 				var randomNumber = Math.ceil(Math.random()*100)
-				if (randomNum < this.mainframeDetectionChancePerc)
+				if (randomNumber < this.mainframeDetectionChancePerc)
 					this.hackingScene.mainframeEnmity += this.enmityGainIfDetected;
 			}
 
@@ -55,6 +61,12 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 				this.hacked = true;
 				this.activelyBeingHacked = false;
 				this.hackingScene.playerActivelyHacking = false;
+
+				/*
+				var date = new Date();
+				console.log("Hack end time: " +date.getMinutes() + " min, " + date.getSeconds() + 
+									"sec, " + date.getMilliseconds() + " milliSec");
+				*/
 			}
 		}
 
@@ -97,15 +109,15 @@ HackNode.prototype.update = function(delta)
     if(this.type == "player")
         color = "green";
     else if ((this.type == "neutral") && (this.hacked == true))
-        color = "lightgreen";
+        color = "green";
     else if ((this.type == "neutral") && (this.activelyBeingHacked == true))
-        color = "purple";
+        color = "lightgreen";
     else if (this.type == "neutral")
         color = "white";
     else if ((this.type == "goal") && (this.hacked == true))
         color = "purple";
     else if ((this.type == "goal") && (this.activelyBeingHacked == true))
-        color = "purple";
+        color = "blue";
     else if (this.type == "goal")
         color = "yellow";
     else if (this.type == "mainframe")
@@ -166,10 +178,13 @@ HackNode.prototype.isHackable = function()
 {
 	var canBeHacked = false;
 
-	for (var i = 0; i < this.connectedTo.length; i++)
+	if (this.hacked != true)
 	{
-		if (this.connectedTo[i].hacked == true)
-			canBeHacked = true;
+		for (var i = 0; i < this.connectedTo.length; i++)
+		{
+			if (this.connectedTo[i].hacked == true)
+				canBeHacked = true;
+		}
 	}
 
 	return canBeHacked;

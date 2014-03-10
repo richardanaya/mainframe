@@ -3,7 +3,7 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.returnScene = returnScene;
     this.playerImage = playerImage;
     this.mode = "play";
-    this.mainframeEnmity = 50.0;
+    this.mainframeEnmity = 0.0;
     this.time = 0;
     this.playerActivelyHacking = false;
     this.hackingFullyBacktraced = false;
@@ -287,12 +287,36 @@ HackScene.prototype.update = function(delta){
             else
                 hackableDescription = "No Available Hack Route";
 
+            if (this.selectedNode.type == "player")
+                hackableDescription = " ";
+            else if (this.selectedNode.hacked == true)
+            {
+                this.ctx.fillStyle = "green";
+                hackableDescription = "Node Hacked!";
+            }
+
             this.ctx.fillText(hackableDescription, 30, 210);
+
+            this.ctx.fillStyle = "white";
 
             if (nodeIsHackable == true)
                 this.ctx.fillText("Detection Chance: " + this.selectedNode.mainframeDetectionChancePerc + "%", 30, 230);
 
             //now I need to draw a button to actually initiate hack.
+
+
+            if (this.playerActivelyHacking == true)
+            {
+                this.ctx.fillStyle = "white";
+                this.ctx.fillRect(30,350,340,70);
+
+                this.ctx.fillStyle = "green";
+                this.ctx.fillRect(30,350, (this.selectedNode.hackingProgress/this.selectedNode.hackingDifficultyInSec)* 340,70);
+
+                this.ctx.fillStyle = "black";
+                this.ctx.fillText("HACKING IN PROGRESS", 65, 390);
+            }
+
 
         }
 
@@ -327,6 +351,12 @@ HackScene.prototype.onKeyDown = function(key){
             this.whoseTurn = "enemy";
             this.timeSinceTurn = 0.0;
         }
+    }
+
+    if ((key == 32) && (this.selectedNode != null) && (this.playerActivelyHacking == false))
+    {
+        if ((this.selectedNode.isHackable()) || (this.selectedNode.type == "goal"))
+            this.grid.hackNode(this.selectedNode);
     }
 };
 
