@@ -3,9 +3,14 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.returnScene = returnScene;
     this.playerImage = playerImage;
     this.difficulty = difficulty;
+
     this.programs = ["Net Ninja", "Network Warrior", "Bit Shifter", "SUDO Inspect"]
     this.selectedProgram = null;
- 
+    this.program1Consumed = false;
+    this.program2Consumed = false;
+    this.program3Consumed = false;
+    this.program4Consumed = false;
+
     this.mode = "play";
     this.mainframeEnmity = 0.0;
     this.time = 0;
@@ -44,6 +49,7 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.timeSinceTurn = 0.0;
 
     this.grid.createNewNode(0,1,"player");
+    this.grid.playerNode = this.grid.grid[0][1];
  
     this.grid.createNewNode(1,1,"neutral");
     this.grid.createNewNode(2,3,"neutral");
@@ -74,8 +80,6 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.grid.grid[6][3].addConnection(this.grid.grid[6][1]);
     this.grid.grid[6][3].addConnection(this.grid.grid[9][3]);
     this.grid.grid[6][1].addConnection(this.grid.grid[9][0]);
-
-    
 };
 
 HackScene.prototype = Object.create(Scene.prototype);
@@ -366,13 +370,25 @@ HackScene.prototype.update = function(delta){
                 this.ctx.font = "12px 'Press Start 2P'";
                 this.ctx.fillText("Program " + this.selectedProgram + ":", 40, this.height - 260);
 
+                var showRunButton = true;
+
                 if (this.programs[this.selectedProgram - 1] == "Net Ninja")
                 {
                     this.ctx.fillText("Net Ninja", 165, this.height - 260);
+                    showRunButton = false;
+
+                    this.ctx.fillText("A passive buff that reduces", 40, this.height - 240);
+                    this.ctx.fillText("the chance to be detected", 40, this.height - 225);
+                    this.ctx.fillText("while hacking by 5%", 40, this.height - 210);
                 }
                 else if (this.programs[this.selectedProgram - 1] == "Network Warrior")
                 {
                     this.ctx.fillText("Network Warrior", 165, this.height - 260);
+
+                    this.ctx.fillText("A once-per-hack skill that", 40, this.height - 240);
+                    this.ctx.fillText("allows the hacker to tether", 40, this.height - 225);
+                    this.ctx.fillText("any Node directly to their", 40, this.height - 210);
+                    this.ctx.fillText("System Entry Point ", 40, this.height - 195);
                 }
                 else if (this.programs[this.selectedProgram - 1] == "Bit Shifter")
                 {
@@ -387,12 +403,25 @@ HackScene.prototype.update = function(delta){
                     this.ctx.fillText("Driver Corrupt", 165, this.height - 260);
                 }
 
-                this.ctx.fillStyle = "green";
-                this.ctx.fillRect(110,this.height - 175,175,50);
+                if ((showRunButton == true) && (this.isProgramConsumed(this.selectedProgram) == false))
+                {
+                    this.ctx.fillStyle = "green";
+                    this.ctx.fillRect(110,this.height - 175,175,50);
 
-                this.ctx.font = "10px 'Press Start 2P'";
-                this.ctx.fillStyle = "black";
-                this.ctx.fillText("RUN PROGRAM", 140, this.height - 145);
+                    this.ctx.font = "10px 'Press Start 2P'";
+                    this.ctx.fillStyle = "black";
+                    this.ctx.fillText("RUN PROGRAM", 140, this.height - 145);
+                }
+                else if (this.isProgramConsumed(this.selectedProgram) == true)
+                {
+                    this.ctx.fillStyle = "red";
+                    this.ctx.fillRect(110,this.height - 175,175,50);
+
+                    this.ctx.font = "8px 'Press Start 2P'";
+                    this.ctx.fillStyle = "black";
+                    this.ctx.fillText("PROGRAM ALREADY USED", 118, this.height - 145);
+                }
+
             }
         }
     }
@@ -490,25 +519,28 @@ HackScene.prototype.onTap = function(x,y)
     {
         if ((x > 30) && (x < 95) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 0))
         {
-            console.log("Program 1 clicked");
             this.selectedProgram = 1;
         }
         else if ((x > 120) && (x < 185) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 1))
         {
-            console.log("Program 2 clicked");
             this.selectedProgram = 2;
         }
         else if ((x > 215) && (x < 280) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 2))
         {
-            console.log("Program 3 clicked");
             this.selectedProgram = 3;
         }
         else if ((x > 305) && (x < 370) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 3))
         {
-            console.log("Program 4 clicked");
             this.selectedProgram = 4;
         }
-    }  
+
+        if ((this.selectedProgram != null) && (x > 110) && (x < 285) && (y > this.height - 175) && 
+            (y < this.height - 125) && (this.programs.length > 0))
+        {
+            //console.log("Program " + this.selectedProgram + " was run!");
+            this.runRigProgram(this.selectedProgram, this.programs[this.selectedProgram - 1]);
+        }    
+    }
 };
 
 HackScene.prototype.drawCircleAtGridPos = function(x,y,color)
@@ -636,4 +668,106 @@ HackScene.prototype.drawBox = function(x,y,width,height)
     this.ctx.drawImage(dialog_frame_topright,x+width-8,y,8,8);
     this.ctx.drawImage(dialog_frame_bottomright,x+width-8,y+height-8,8,8);
     this.ctx.drawImage(dialog_frame_bottom,x+8,y+height-8,width-16,8);
-}
+};
+
+HackScene.prototype.runRigProgram = function(programNumber, programName)
+{
+    var programRunnable = true;
+
+    if (programNumber == 1)
+    {
+        if (this.program1Consumed == true)
+            programRunnable = false;
+    }
+    else if (programNumber == 2)
+    {
+        if (this.program2Consumed == true)
+            programRunnable = false;
+    }
+    else if (programNumber == 3)
+    {
+        if (this.program3Consumed == true)
+            programRunnable = false;
+    }
+    else if (programNumber == 4)
+    {
+        if (this.program4Consumed == true)
+            programRunnable = false; 
+    }
+
+    if (programRunnable == true)
+    {
+        if (programNumber == 1)
+            this.program1Consumed = true;
+        else if (programNumber == 2)
+            this.program2Consumed = true;
+        else if (programNumber == 3)
+            this.program3Consumed = true;
+        else if (programNumber == 4)
+            this.program4Consumed = true;
+
+        if (programName == "Network Warrior")
+        {
+            if (this.selectedNode == null)
+            {
+                this.unConsumeRigProgram(programNumber);
+            }
+            else if (this.grid.playerNode.connectedTo.indexOf(this.selectedNode) == -1)
+            {
+                this.grid.playerNode.addConnection(this.selectedNode);
+            }
+            else
+                this.unConsumeRigProgram(programNumber);
+        }
+        else if (programName == "Bit Shifter")
+        {
+        }
+        else if (programName == "Driver Corrupt")
+        {
+        }
+        else if (programName == "SUDO Inspect")
+        {
+        }
+    }
+};
+
+HackScene.prototype.unConsumeRigProgram = function(programNumber)
+{
+    if (programNumber == 1)
+        this.program1Consumed = false;
+    else if (programNumber == 2)
+        this.program2Consumed = false;
+    else if (programNumber == 3)
+        this.program3Consumed = false;
+    else if (programNumber == 4)
+        this.program4Consumed = false;
+};
+
+
+HackScene.prototype.isProgramConsumed = function(programNumber)
+{
+    var programIsConsumed = false;
+
+    if (programNumber == 1)
+    {
+        if (this.program1Consumed == true)
+            programIsConsumed = true;
+    }
+    else if (programNumber == 2)
+    {
+        if (this.program2Consumed == true)
+            programIsConsumed = true;
+    }
+    else if (programNumber == 3)
+    {
+        if (this.program3Consumed == true)
+            programIsConsumed = true;
+    }
+    else if (programNumber == 4)
+    {
+        if (this.program4Consumed == true)
+            programIsConsumed = true; 
+    }
+
+    return programIsConsumed;
+};
