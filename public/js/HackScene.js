@@ -384,7 +384,9 @@ HackScene.prototype.onTap = function(x,y)
             this.selectedNode = this.grid.grid[xGridClick][yGridClick];
         }
         else
+        {
             this.selectedNode = null;
+        }
     }
 
     if(this.selectedNode != null)
@@ -434,6 +436,11 @@ HackScene.prototype.drawBacktraceCircleAtGridPos = function(x,y)
     this.ctx.stroke();
     this.ctx.globalAlpha = 1;
 };
+
+HackScene.prototype.lineConnectTwoActualGridObjectsPassiveAggresively = function( obj1, obj2 )
+{
+    this.lineConnectTwoGridObjects( obj1.gridXPos, obj1.gridYPos, obj2.gridXPos, obj2.gridYPos );
+}
 
 HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)
 {

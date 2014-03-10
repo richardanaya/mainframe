@@ -1,4 +1,3 @@
-
 var HackGridGenerator = function() {
 }
 
@@ -12,13 +11,6 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
     var area = desiredSizeX * desiredSizeY;
     var numNodes = Math.round( area * this.maxNodeRatio );
     var numTrunkNodes = Math.round( numNodes * HackGridGenerator.trunkToNodeRatio );
-    console.log( numNodes.toString() );
-	
-	hackGrid.playerGridPosX = 1,
-    hackGrid.playerGridPosY = 1;
-
-    hackGrid.goalGridPosX = 9;
-    hackGrid.goalGridPosY = 7;
 
     var lastNode = null;
     var nodeCount = 0;
@@ -237,3 +229,4 @@ HackGridGenerator.areConnected = function( node1, node2 ) {
 
     return false;
 }
+
