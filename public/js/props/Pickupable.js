@@ -86,11 +86,11 @@ Pickupable.prototype.onAction = function(action){
                     this.equipped = true;
                 }
                 else {
-                    this.player.level.scene.showInfoText("Your rig does not have any space left for program");
+                    this.player.level.scene.showInfoText("Your computer does not have any space left for program");
                 }
             }
             else {
-                this.player.level.scene.showInfoText("You do not have a rig to install programs");
+                this.player.level.scene.showInfoText("You need to wear a computer to install programs");
             }
             this.player.level.scene.inventoryDialog.show();
             return;

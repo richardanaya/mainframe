@@ -36,6 +36,9 @@ Player.prototype = Object.create(Character.prototype);
 Player.prototype.setupScientist = function(){
     this.image_idle_0 = Resources.getImage("scientist_1");
     this.image_idle_1 = Resources.getImage("scientist_2");
+    var g = Pickupable.load("rig_0");
+    g.equipped = true;
+    this.addToInventory(g);
     this.mind = 12;
 }
 
@@ -50,6 +53,9 @@ Player.prototype.setupHacker = function(){
     g.equipped = true;
     this.addToInventory(g);
     this.useRanged(g);
+    var g = Pickupable.load("rig_0");
+    g.equipped = true;
+    this.addToInventory(g);
     this.accuracy = 11;
     this.mind = 11;
 }
