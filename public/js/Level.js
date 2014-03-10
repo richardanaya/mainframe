@@ -264,10 +264,10 @@ Level.prototype.refreshLights = function( dynamicLights ) {
 }
 
 Level.prototype.designRooms = function(height) {
-    var startRoom = this.getRoomByDepth(0);
+    /*var startRoom = this.getRoomByDepth(0);
     var upElevatorPos = this.getRandomWall(startRoom);
     this.addObjectTo(upElevatorPos.x,upElevatorPos.y,new UpElevator());
-    this.getTileAt(upElevatorPos.x,upElevatorPos.y).type = Level.Types.Floor;
+    this.getTileAt(upElevatorPos.x,upElevatorPos.y).type = Level.Types.Floor;*/
     var endRoom = this.getRoomByDepth(this.maxRoomDepth);
     var downElevatorPos = this.getRandomWall(endRoom);
     this.addObjectTo(downElevatorPos.x,downElevatorPos.y,new DownElevator());
@@ -295,27 +295,12 @@ Level.prototype.getRandomFreeTile = function(room) {
 
 Level.prototype.getRandomWall = function(room) {
      var f = function(){
-        if(Math.random()<.5){
-            if(Math.random()<.5){
-                return {x:room.x-1, y:Utilities.randRangeInt( room.y, room.y+room.height )};
-            }
-            else {
-                return {x:room.x+room.width, y:Utilities.randRangeInt( room.y, room.y+room.height )};
-            }
-        }
-        else {
-        if(Math.random()<.5){
-            return {x:Utilities.randRangeInt( room.x-1, room.x+room.width ), y:room.y-1};
-        }
-        else {
-            return {x:Utilities.randRangeInt( room.x-1, room.x+room.width ), y:room.y+room.height};
-        }
-        }
-    }
+         return {x:Utilities.randRangeInt( room.x, room.x+room.width-1 ), y:room.y-1};
+    };
     var p = f();
-    while(this.getNeighborsByType(p.x, p.y,Level.Types.Floor)==0){
+    /*while(this.getNeighborsByType(p.x, p.y,Level.Types.Floor)==0){
         p = f();
-    }
+    }*/
     return p;
 };
 

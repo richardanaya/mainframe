@@ -65,8 +65,33 @@ Mainframe.prototype.GetLevel = function(height){
 
         return level;
     }
+    var tileSet = null;
+    /*if(height<=900 && height >=700){
+        tileSet = Tileset.createOfficeTileset();
+    }
+    if(height<=600 && height >=400){
+        tileSet = Tileset.createLabTileset();
+    }
+    if(height<=300 && height >=100){
+        tileSet = Tileset.createBasementTileset();
+    }
+    if(height == 0){
+        tileSet = Tileset.createMainframeTileset();
+    }*/
 
-    var level = generator.generateLevel( 50, 50, Tileset.createOfficeTileset() );
+    if(height==900) {
+        tileSet = Tileset.createOfficeTileset();
+    }
+    else if(height==800) {
+        tileSet = Tileset.createLabTileset();
+    }
+    else if(height==700) {
+        tileSet = Tileset.createBasementTileset();
+    }
+    else if(height==600) {
+        tileSet = Tileset.createMainframeTileset();
+    }
+    var level = generator.generateLevel( 50, 50, tileSet, height );
     level.designRooms(this.currentHeight);
     return level;
 };
