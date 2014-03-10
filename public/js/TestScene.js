@@ -124,7 +124,10 @@ TestScene.prototype.loadLevel = function(height){
                 }).play();
             }
             else if(Level.isMainframeHeight(height)) {
-                tileSet = Tileset.createMainframeTileset();
+                _this.music = new Howl({
+                    urls: ['sounds/final boss.ogg','sounds/final boss.mp3'],
+                    loop: true
+                }).play();
             }
         }
     }
