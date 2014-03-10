@@ -3,7 +3,9 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.returnScene = returnScene;
     this.playerImage = playerImage;
     this.difficulty = difficulty;
-    this.programs = ["testProg1", "testProg2", "testProg3", "testProg4"]
+    this.programs = ["Net Ninja", "Network Warrior", "Bit Shifter", "SUDO Inspect"]
+    this.selectedProgram = null;
+ 
     this.mode = "play";
     this.mainframeEnmity = 0.0;
     this.time = 0;
@@ -28,8 +30,6 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
 
     this.goalGridPosX = 9;
     this.goalGridPosY = 7;
-
-    
 
     this.grid;
 
@@ -220,8 +220,8 @@ HackScene.prototype.update = function(delta){
             this.ctx.font = "14px 'Press Start 2P'";
             this.ctx.fillStyle = "red";
             this.ctx.globalAlpha = 1;
-            this.ctx.fillText("HACKING FULLY BACKTRACED", 30, 40);
-            this.ctx.fillText("SESSION TERMINATED", 30, 60);
+            this.ctx.fillText("HACKING FULLY BACKTRACED", 30, this.height/2);
+            this.ctx.fillText("SESSION TERMINATED", 30, this.height/2 + 20);
         }
         else if (this.mainframeEnmity == 0)
         {
@@ -240,8 +240,8 @@ HackScene.prototype.update = function(delta){
 
             this.ctx.font = "10px 'Press Start 2P'";
             this.ctx.fillStyle = "white";
-            this.ctx.fillText("Hack primary Data Cache before", 30, 90);
-            this.ctx.fillText("Mainframe completes backtrace!", 30, 110);
+            this.ctx.fillText("Hack primary Data Cache before the", 30, 90);
+            this.ctx.fillText("Mainframe completes its backtrace!", 30, 110);
         }
 
         if (this.selectedNode != null && this.hackingFullyBacktraced == false)
@@ -310,13 +310,13 @@ HackScene.prototype.update = function(delta){
             if (this.playerActivelyHacking == true)
             {
                 this.ctx.fillStyle = "white";
-                this.ctx.fillRect(30,this.height - 200,340,70);
+                this.ctx.fillRect(30,this.height - 400,340,70);
 
                 this.ctx.fillStyle = "green";
-                this.ctx.fillRect(30,this.height - 200, (this.selectedNode.hackingProgress/this.selectedNode.hackingDifficultyInSec)* 340,70);
+                this.ctx.fillRect(30,this.height - 400, (this.selectedNode.hackingProgress/this.selectedNode.hackingDifficultyInSec)* 340,70);
 
                 this.ctx.fillStyle = "black";
-                this.ctx.fillText("HACKING IN PROGRESS", 65, this.height - 155);
+                this.ctx.fillText("HACKING IN PROGRESS", 65, this.height - 355);
             }
 
             if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
@@ -324,34 +324,75 @@ HackScene.prototype.update = function(delta){
             {
                 //if I ever change this position, I also need to change the hardcoded button in onTap()
                 this.ctx.fillStyle = "white";
-                this.ctx.fillRect(30,this.height - 200,340,70);
+                this.ctx.fillRect(30,this.height - 400,340,70);
 
                 this.ctx.fillStyle = "black";
-                this.ctx.fillText("Click To Initiate Hack", 50, this.height - 155);
+                this.ctx.fillText("Click To Initiate Hack", 50, this.height - 355);
             }
         }
 
-        for (var i = 0; i < this.programs.length; i++)
+        if (this.hackingFullyBacktraced != true)
         {
-            if (i == 0)
+            for (var i = 0; i < this.programs.length; i++)
             {
-                this.ctx.fillStyle = "white";
-                this.ctx.fillRect(30,this.height - 100,65,65);
+                if (i == 0)
+                {
+                    this.ctx.fillStyle = "white";
+                    this.ctx.fillRect(30,this.height - 100,65,65);
+                }
+                else if (i == 1)
+                {
+                    this.ctx.fillStyle = "white";
+                    this.ctx.fillRect(120,this.height - 100,65,65);
+                }
+                else if (i == 2)
+                {
+                    this.ctx.fillStyle = "white";
+                    this.ctx.fillRect(215,this.height - 100,65,65);
+                }
+                else if (i == 3)
+                {
+                    this.ctx.fillStyle = "white";
+                    this.ctx.fillRect(305,this.height - 100,65,65);
+                }
             }
-            else if (i == 1)
+
+            if (this.selectedProgram != null)
             {
                 this.ctx.fillStyle = "white";
-                this.ctx.fillRect(120,this.height - 100,65,65);
-            }
-            else if (i == 2)
-            {
-                this.ctx.fillStyle = "white";
-                this.ctx.fillRect(215,this.height - 100,65,65);
-            }
-            else if (i == 3)
-            {
-                this.ctx.fillStyle = "white";
-                this.ctx.fillRect(305,this.height - 100,65,65);
+                this.ctx.fillRect(30,this.height - 300,340,180);
+
+                this.ctx.fillStyle = "black";
+                this.ctx.font = "12px 'Press Start 2P'";
+                this.ctx.fillText("Program " + this.selectedProgram + ":", 40, this.height - 275);
+
+                if (this.programs[this.selectedProgram - 1] == "Net Ninja")
+                {
+                    this.ctx.fillText("Net Ninja", 165, this.height - 275);
+                }
+                else if (this.programs[this.selectedProgram - 1] == "Network Warrior")
+                {
+                    this.ctx.fillText("Network Warrior", 165, this.height - 275);
+                }
+                else if (this.programs[this.selectedProgram - 1] == "Bit Shifter")
+                {
+                    this.ctx.fillText("Bit Shifter", 165, this.height - 275);
+                }
+                else if (this.programs[this.selectedProgram - 1] == "SUDO Inspect")
+                {
+                    this.ctx.fillText("SUDO Inspect", 165, this.height - 275);
+                }
+                else if (this.programs[this.selectedProgram - 1] == "Driver Corrupt")
+                {
+                    this.ctx.fillText("Driver Corrupt", 165, this.height - 275);
+                }
+
+                this.ctx.fillStyle = "green";
+                this.ctx.fillRect(110,this.height - 175,175,50);
+
+                this.ctx.font = "10px 'Press Start 2P'";
+                this.ctx.fillStyle = "black";
+                this.ctx.fillText("RUN PROGRAM", 140, this.height - 145);
             }
         }
     }
@@ -434,14 +475,40 @@ HackScene.prototype.onTap = function(x,y)
 
     if(this.selectedNode != null)
     {
-        if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
-            ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable())))
+
+        if ((x > 30) && (x < 370) && (y > this.height - 400) && (y < this.height - 330))
         {
-            if ((x > 30) && (x < 370) && (y > this.height - 200) && (y < this.height - 130))
+            if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
+            ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable())))
+            {
                 this.grid.hackNode(this.selectedNode);
+            }
         }
     }
 
+    if ((this.hackingFullyBacktraced == false) && (this.programs.length > 0))
+    {
+        if ((x > 30) && (x < 95) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 0))
+        {
+            console.log("Program 1 clicked");
+            this.selectedProgram = 1;
+        }
+        else if ((x > 120) && (x < 185) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 1))
+        {
+            console.log("Program 2 clicked");
+            this.selectedProgram = 2;
+        }
+        else if ((x > 215) && (x < 280) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 2))
+        {
+            console.log("Program 3 clicked");
+            this.selectedProgram = 3;
+        }
+        else if ((x > 305) && (x < 370) && (y > this.height - 100) && (y < this.height - 35) && (this.programs.length > 3))
+        {
+            console.log("Program 4 clicked");
+            this.selectedProgram = 4;
+        }
+    }  
 };
 
 HackScene.prototype.drawCircleAtGridPos = function(x,y,color)
