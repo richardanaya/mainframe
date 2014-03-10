@@ -105,10 +105,27 @@ TestScene.prototype.loadLevel = function(height){
             }
         }
         else {
-            _this.music = new Howl({
-                urls: ['sounds/Corporate.ogg','sounds/Corporate.mp3'],
-                loop: true
-            }).play();
+            if(Level.isOfficeHeight(height)) {
+                _this.music = new Howl({
+                    urls: ['sounds/Corporate.ogg','sounds/Corporate.mp3'],
+                    loop: true
+                }).play();
+            }
+            else if(Level.isLabHeight(height)) {
+                _this.music = new Howl({
+                    urls: ['sounds/Laboratory.ogg','sounds/Laboratory.mp3'],
+                    loop: true
+                }).play();
+            }
+            else if(Level.isBasementHeight(height)) {
+                _this.music = new Howl({
+                    urls: ['sounds/CYBER.ogg','sounds/CYBER.mp3'],
+                    loop: true
+                }).play();
+            }
+            else if(Level.isMainframeHeight(height)) {
+                tileSet = Tileset.createMainframeTileset();
+            }
             _this.music.fade(0,1,3000);
             _this.music = null;
         }

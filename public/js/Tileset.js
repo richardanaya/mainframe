@@ -135,11 +135,11 @@ Tileset.createOfficeTileset = function() {
 Tileset.createLabTileset = function() {
     var result = new Tileset();
     result.floors = [
-        Utilities.createImage( 'images/tilesets/office/floors/floor01.png' ),
-        Utilities.createImage( 'images/tilesets/office/floors/floor02.png' ),
-        Utilities.createImage( 'images/tilesets/office/floors/floor01.png' ),
-        Utilities.createImage( 'images/tilesets/office/floors/floor02.png' ),
-        Utilities.createImage( 'images/tilesets/office/floors/floor_windowlight.png' )
+        Utilities.createImage( 'images/tilesets/lab/floors/floor01.png' ),
+        Utilities.createImage( 'images/tilesets/lab/floors/floor02.png' ),
+        Utilities.createImage( 'images/tilesets/lab/floors/floor01.png' ),
+        Utilities.createImage( 'images/tilesets/lab/floors/floor02.png' ),
+        Utilities.createImage( 'images/tilesets/lab/floors/floor_windowlight.png' )
     ];
 
     result.edging = {
@@ -256,19 +256,19 @@ Tileset.createLabTileset = function() {
 Tileset.createBasementTileset = function() {
     var result = new Tileset();
     result.floors = [
-        Utilities.createImage( 'images/tilesets/lab/floors/floor01.png' ),
-        Utilities.createImage( 'images/tilesets/lab/floors/floor02.png' ),
+        Utilities.createImage( 'images/basement/lab/floors/floor01.png' ),
+        Utilities.createImage( 'images/basement/lab/floors/floor02.png' ),
     ];
 
     result.edging = {
-        north: 			[Utilities.createImage( 'images/tilesets/lab/floors/floor_shadow_top.png' )],
-        northeast: 		[Utilities.createImage( 'images/tilesets/lab/floors/floor_shadow_topright.png' )],
+        north: 			[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_top.png' )],
+        northeast: 		[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_topright.png' )],
         east: 			[Utilities.createImage( 'images/tilesets/lab/floors/floor_shadow_right.png' )],
-        southeast: 		[Utilities.createImage( 'images/tilesets/lab/floors/floor_shadow_bottomright.png' )],
-        south: 			[Utilities.createImage( 'images/tilesets/lab/floors/floor_shadow_bottom.png' )],
-        southwest: 		[Utilities.createImage( 'images/tilesets/lab/floors/floor_shadow_bottomleft.png' )],
-        west: 			[Utilities.createImage( 'images/tilesets/lab/floors/floor_shadow_left.png' )],
-        northwest:	 	[Utilities.createImage( 'images/tilesets/lab/floors/floor_shadow_topleft.png' )],
+        southeast: 		[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_bottomright.png' )],
+        south: 			[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_bottom.png' )],
+        southwest: 		[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_bottomleft.png' )],
+        west: 			[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_left.png' )],
+        northwest:	 	[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_topleft.png' )],
     };
 
     result.walls = {

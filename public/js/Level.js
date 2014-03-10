@@ -272,6 +272,27 @@ Level.prototype.designRooms = function(height) {
     var downElevatorPos = this.getRandomWall(endRoom);
     this.addObjectTo(downElevatorPos.x,downElevatorPos.y,new DownElevator());
     this.getTileAt(downElevatorPos.x,downElevatorPos.y).type = Level.Types.Floor;
+
+    var itemsForLevel = [];
+    for(var i in Pickupable.Items){
+        if(Pickupable.Items[i].levels && Pickupable.Items[i].levels.indexOf(this.levelDepth)!=-1){
+            itemsForLevel.push(i);
+        }
+    }
+    for(var j = 0 ; j < this.maxRoomDepth/2; j++){
+        this.placeItemInRandomSpot(Pickupable.load(itemsForLevel[Math.floor(Math.random()*itemsForLevel.length)]));
+    }
+    this.placeItemInRandomSpot(Pickupable.load("lab_note_"+this.levelDepth));
+}
+
+Level.prototype.placeItemInRandomSpot = function(item){
+    var room = this.getRandomRoom()
+    var pos = this.getRandomFreeTile(room);
+    this.addObjectTo(pos.x,pos.y,item);
+}
+
+Level.prototype.getRandomRoom = function(){
+    return this.rooms[Math.floor(this.rooms.length*Math.random())];
 }
 
 Level.prototype.getRoomByDepth = function(depth) {
@@ -315,3 +336,20 @@ Level.prototype.isFreeTile = function(x,y) {
     var t = this.getTileAt(x,y);
     return (t.type != Level.Types.Prop && t.type != Level.Types.Wall);
 }
+
+Level.isOfficeHeight = function(h){
+    return (h<=900 && h>=700);
+}
+
+Level.isLabHeight = function(h){
+    return (h<=600 && h>=400);
+}
+
+Level.isBasementHeight = function(h){
+    return (h<=300 && h>=100);
+}
+
+Level.isMainframeHeight = function(h){
+    return (h==0);
+}
+
