@@ -26,10 +26,12 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	this.neutralImage = Resources.getImage("neutral_node");
 	this.mainframeImage = Resources.getImage("mainframe_node");
 	this.midHackNeutralImage = Resources.getImage("neutral_node_mid_hack");
-	this.hackedImage = Resources.getImage("entry_node");
+	this.playerImage = Resources.getImage("entry_node");
+	this.hackedImage = Resources.getImage("hacked_node");
 	this.dataCacheImage = Resources.getImage("datacache_node");
 	this.hackedEmptyDataCacheImage = Resources.getImage("datacache_hack_empty");
 	this.midHackDataCacheImage = Resources.getImage("datacache_mid_hack");
+	this.trueDataCacheImage = Resources.getImage("datacache_true");
 
 
 
@@ -62,7 +64,7 @@ HackNode.prototype.getGridPos = function() {
 
 HackNode.prototype.hackingSimulationUpdate = function(delta)
 {
-	if (!this.hackingScene.hackingFullyBacktraced)
+	if ((this.hackingScene.hackingFullyBacktraced == false) && (this.hackingScene.goalFound == false))
 	{
 		if (this.activelyBeingHacked == true)
 		{
@@ -87,6 +89,12 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 				this.hacked = true;
 				this.activelyBeingHacked = false;
 				this.hackingScene.playerActivelyHacking = false;
+
+				if (this.isTrueDataCache == true)
+				{
+					this.hackingScene.goalFound = true;
+					console.log("found the true data cache!");
+				}
 
 				/*
 				var date = new Date();
@@ -133,19 +141,21 @@ HackNode.prototype.update = function(delta)
 	var image = this.neutralImage;
 	
     if(this.type == "player")
-        image = this.hackedImage;
+        image = this.playerImage;
     else if ((this.type == "neutral") && (this.hacked == true))
         image = this.hackedImage;
     else if ((this.type == "neutral") && (this.activelyBeingHacked == true))
         image = this.midHackNeutralImage;
     else if (this.type == "neutral")
         image = this.neutralImage;
-    else if ((this.type == "goal") && (this.hacked == true))
+    else if ((this.type == "goal") && (this.activelyBeingHacked == false) && (this.hacked == false))
+        image = this.dataCacheImage;
+    else if ((this.type == "goal") && (this.hacked == true) && (this.isTrueDataCache == false))
         image = this.hackedEmptyDataCacheImage;
+    else if ((this.type == "goal") && (this.hacked == true) && (this.isTrueDataCache == true))
+    	image = this.trueDataCacheImage;
     else if ((this.type == "goal") && (this.activelyBeingHacked == true))
         image = this.midHackDataCacheImage;
-    else if (this.type == "goal")
-        image = this.dataCacheImage;
     else if (this.type == "mainframe")
         image = this.mainframeImage;
   

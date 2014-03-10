@@ -123,7 +123,7 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
         }
         else if( ++failures > this.maxFailAttempts )
         {
-            console.log( "Fail" + failures.toString() );
+            //console.log( "Fail" + failures.toString() );
             failures = 0;
             ++nodeCount;
         }
@@ -136,7 +136,19 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
 HackGridGenerator.setupNodes = function ( hackGrid )
 {
     hackGrid.makePlayer( hackGrid.getRandomNeutralNode() );
-    hackGrid.makeMainframe( hackGrid.getRandomNodeInRange( hackGrid.playerNode, 5, 8 ) );
+
+    var isLeafNode = false
+
+    while (isLeafNode == false)
+    {
+        var newPotentialMainFrameNode = hackGrid.getRandomNodeInRange(hackGrid.playerNode, 5, 8 );
+
+        if (newPotentialMainFrameNode.connectedTo.length == 1)
+            isLeafNode = true;
+    }
+
+    
+    hackGrid.makeMainframe( newPotentialMainFrameNode );
     hackGrid.makeTrueDataCache( hackGrid.getRandomNeutralNode() );
 
     var randInt = Utilities.randRangeInt(1,3);

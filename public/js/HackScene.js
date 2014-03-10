@@ -3,6 +3,9 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
     this.returnScene = returnScene;
     this.difficulty = difficulty;
 
+    this.goalFound = false;
+
+
     this.programs = ["Net Ninja", "Network Warrior", "Bit Shifter", "SUDO Inspect"]
     //this.programs = programs
 
@@ -37,7 +40,6 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
     this.upLeftGridCornerY = 0;
     this.gridObjectSize = 0;
     this.gridObjectPadding = 1;
-    this.difficulty = difficulty;
     this.grid = HackGridGenerator.generate( 10, 10, this, this.difficulty );
 };
 
@@ -45,7 +47,6 @@ HackScene.prototype = Object.create(Scene.prototype);
 
 HackScene.prototype.update = function(delta){
     this.time += delta;
-    this.timeSinceTurn += delta;
 
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0,0,this.width,this.height);
