@@ -78,7 +78,16 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
         }
     }
 
+    HackGridGenerator.setupNodes(hackGrid);
 	return hackGrid;
+}
+
+HackGridGenerator.setupNodes = function ( hackGrid )
+{
+
+    //var randomIndex = Math.floor(Math.random() * (hackGrid.nodes.length - 1));
+
+
 }
 
 HackGridGenerator.createNode = function( hackGrid, at, nodeType, from ) {

@@ -28,6 +28,11 @@
 
     this.goalGridPosX = 0;
     this.goalGridPosY = 0;
+
+    this.playerNode = null;
+    this.mainframeNode = null;
+    this.trueDataCacheNode = null;
+    this.dataCacheNodes = [];
   
     for (i = 0; i < desiredXSize; i++)
     {
