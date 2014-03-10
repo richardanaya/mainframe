@@ -1,7 +1,6 @@
-var HackScene = function(game, returnScene, playerImage, difficulty, programs, endHackCallBack){
+var HackScene = function(game, returnScene, difficulty, programs, endHackCallBack){
     this.game = game;
     this.returnScene = returnScene;
-    this.playerImage = playerImage;
     this.difficulty = difficulty;
 
     this.programs = ["Net Ninja", "Network Warrior", "Bit Shifter", "SUDO Inspect"]
@@ -34,23 +33,12 @@ var HackScene = function(game, returnScene, playerImage, difficulty, programs, e
     this.gridObjectSize = 0;
     this.gridObjectPadding = 1;
 
-    this.playerGridPosX = 1,
-    this.playerGridPosY = 1;
-
-    this.goalGridPosX = 9;
-    this.goalGridPosY = 7;
-
     this.grid;
 
     if (this.difficulty == 1)
     {
         this.grid = new HackGrid(10,10,this);
     }
-
-    this.whoseTurn = "player";
-
-    this.playerActionThrottle = 0.1;
-    this.timeSinceTurn = 0.0;
 
     this.grid.createNewNode(0,1,"player");
     this.grid.playerNode = this.grid.grid[0][1];
@@ -201,20 +189,6 @@ HackScene.prototype.update = function(delta){
             this.ctx.lineTo((this.grid.maxGridX + 1) * this.squareSize + this.upLeftGridCornerX, i * this.squareSize + this.upLeftGridCornerY);
             this.ctx.stroke();
         }
-
-        /*
-        this.ctx.fillStyle = "yellow";
-        this.ctx.fillRect(this.upLeftGridCornerX + (this.grid.goalX * this.squareSize) + this.gridObjectPadding,
-                          this.upLeftGridCornerY + (this.grid.goalY * this.squareSize) + this.gridObjectPadding,
-                          this.gridObjectSize, 
-                          this.gridObjectSize);
-        */
-
-        this.ctx.drawImage(this.playerImage,
-                           this.upLeftGridCornerX + (this.playerGridPosX * this.squareSize) + this.gridObjectPadding,
-                           this.upLeftGridCornerY + (this.playerGridPosY * this.squareSize) + this.gridObjectPadding,
-                           this.gridObjectSize, 
-                           this.gridObjectSize);
 
         this.grid.hackingSimulationUpdate(delta);
         this.grid.updateBacktraceHighlights(delta);
@@ -447,35 +421,8 @@ HackScene.prototype.update = function(delta){
 };
 
 
-HackScene.prototype.onKeyDown = function(key){
-    if (!this.phasingIn && this.whoseTurn == "player")
-    {
-        if((key == 37 && this.playerGridPosX > this.grid.minGridX) || (key == 65 && this.playerGridPosX > this.grid.minGridX))
-        {
-            this.playerGridPosX--;
-            this.whoseTurn = "enemy";
-            this.timeSinceTurn = 0.0;
-        }
-        else if((key == 38 && this.playerGridPosY > this.grid.minGridY) || (key == 87 && this.playerGridPosY > this.grid.minGridY))
-        {
-            this.playerGridPosY--;
-            this.whoseTurn = "enemy";
-            this.timeSinceTurn = 0.0;
-        }
-        else if((key == 39 && this.playerGridPosX < this.grid.maxGridX) || (key == 68 && this.playerGridPosX < this.grid.maxGridX))
-        {
-            this.playerGridPosX++;
-            this.whoseTurn = "enemy";
-            this.timeSinceTurn = 0.0;
-        }
-        else if((key == 40 && this.playerGridPosY < this.grid.maxGridY) || (key == 83 && this.playerGridPosY < this.grid.maxGridY)) 
-        {
-            this.playerGridPosY++;
-            this.whoseTurn = "enemy";
-            this.timeSinceTurn = 0.0;
-        }
-    }
-
+HackScene.prototype.onKeyDown = function(key)
+{
     if ((key == 32) && (this.selectedNode != null) && (this.playerActivelyHacking == false))
     {
         if ((this.selectedNode.isHackable()) || (this.selectedNode.type == "goal"))
