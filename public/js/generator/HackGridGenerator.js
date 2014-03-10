@@ -2,14 +2,16 @@
 var HackGridGenerator = function() {
 }
 
-HackGridGenerator.maxNodeRatio = 0.15;
-HackGridGenerator.maxFailAttempts = 500;
+HackGridGenerator.maxNodeRatio = 0.5;
+HackGridGenerator.trunkToNodeRatio = .01;
+HackGridGenerator.maxFailAttempts = 1000;
 
 HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, difficulty ) {
 	var hackGrid = new HackGrid( desiredSizeX, desiredSizeY, scene );
 
     var area = desiredSizeX * desiredSizeY;
     var numNodes = Math.round( area * this.maxNodeRatio );
+    var numTrunkNodes = Math.round( numNodes * HackGridGenerator.trunkToNodeRatio );
     console.log( numNodes.toString() );
 	
 	hackGrid.playerGridPosX = 1,
@@ -25,7 +27,7 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
     var nodes = [];
 
     // step1 : generate a trunk
-    while( nodeCount < numNodes ) {
+    while( nodeCount < numTrunkNodes ) {
         var randPos = { x: Utilities.randRangeInt(0,desiredSizeX), y: Utilities.randRangeInt(0,desiredSizeY) };
         if( HackGridGenerator.canPlaceNode( hackGrid, nodes, randPos ) ) {
             lastNode = HackGridGenerator.createNode( hackGrid, randPos, HackNodeType.Mainframe, lastNode );
@@ -42,10 +44,10 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
         }
     }
 
-    // step 2 : make first connections
+    // step 2 : make trunk connections
     var recursiveConnectToClosestUnconnected = function( node, nodes, hackGrid ) {
         if( node.connectedTo.length < 2 ) {
-            var closest = HackGridGenerator.getClosestUnconnectedNode( node, nodes );
+            var closest = HackGridGenerator.getClosestNode( node, nodes, 0 );
             if( closest != null ) {
                 node.addConnection( closest );
                 recursiveConnectToClosestUnconnected( closest, nodes, hackGrid );
@@ -54,6 +56,35 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
     }
 
     recursiveConnectToClosestUnconnected( nodes[0], nodes, hackGrid );
+
+
+    // step 3 : ranomly place remaining nodes
+    // immediately connect them so there are no islands
+    nodeCount = 0;
+    while( nodeCount < (numNodes-numTrunkNodes) ) {
+        var randPos = { x: Utilities.randRangeInt(0,desiredSizeX), y: Utilities.randRangeInt(0,desiredSizeY) };
+        if( HackGridGenerator.canPlaceNode( hackGrid, nodes, randPos ) ) {
+            lastNode = HackGridGenerator.createNode( hackGrid, randPos, HackNodeType.Mainframe, lastNode );
+
+            var closest = HackGridGenerator.getClosestNode( lastNode, nodes );
+            if( closest != null /*&& HackGridGenerator.canMakeConnection( hackGrid, [lastNode.getGridPos(),closest.getGridPos()] )*/) {
+                lastNode.addConnection( closest );
+                nodes.push( lastNode );
+                hackGrid.addNode( lastNode );
+                failures = 0;
+                ++nodeCount;
+            }
+
+            failures = 0;
+            ++nodeCount;
+        }
+        else if( ++failures > this.maxFailAttempts )
+        {
+            console.log( "Fail" + failures.toString() );
+            failures = 0;
+            ++nodeCount;
+        }
+    }
 
 	return hackGrid;
 }
@@ -77,11 +108,13 @@ HackGridGenerator.canPlaceNode = function( hackGrid, nodes, at ) {
         if( diff2 < 3 ) return false;
     }
 
+/*
     var connections = HackGridGenerator.getUniqueConnections( hackGrid );
     for( var key in connections ) {
         var connection = connections[key];
         if( Utilities.isPointOnLine( at, connection.segment ) ) return false;
     }
+*/
 
     return true;
 }
@@ -168,7 +201,7 @@ HackGridGenerator.getUniqueNodeName = function( node ) {
     return node.gridXPos.toString() + "," + node.gridYPos.toString();
 }
 
-HackGridGenerator.getClosestUnconnectedNode = function( node, nodes ) {
+HackGridGenerator.getClosestNode = function( node, nodes, connectionLimit ) {
     var dist = 0;
     var result = null;
 
@@ -179,7 +212,7 @@ HackGridGenerator.getClosestUnconnectedNode = function( node, nodes ) {
 
     for( var index = 0; index < nodes.length; ++index ) {
         var test = nodes[index];
-        if( test != node && test.connectedTo.length == 0 ) {
+        if( test != node && (connectionLimit == undefined || test.connectedTo.length <= connectionLimit)) {
             var newDist = calcDist2( node, test );
             if( result == null || newDist < dist ) {
                 dist = newDist;
