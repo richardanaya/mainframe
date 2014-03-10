@@ -3,6 +3,8 @@ var HackGrid = function(desiredXSize, desiredYSize, scene)
 	this.time = 0;
 	this.scene = scene;
 
+	this.playerNode = null;
+
 	this.emptyTestArray = [];
 
 	this.xSize = desiredXSize;

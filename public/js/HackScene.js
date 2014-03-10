@@ -7,6 +7,8 @@ var HackScene = function(game, returnScene, playerImage, difficulty, programs, e
     this.programs = ["Net Ninja", "Network Warrior", "Bit Shifter", "SUDO Inspect"]
     //this.programs = programs
 
+    this.endHackCallBack = endHackCallBack;
+
     this.selectedProgram = null;
     this.program1Consumed = false;
     this.program2Consumed = false;
@@ -220,6 +222,12 @@ HackScene.prototype.update = function(delta){
         this.grid.update(delta);
 
         this.drawBox(10,10,this.upLeftGridCornerX - 20,this.height - 20);
+
+        this.ctx.fillStyle = "red";
+        this.ctx.fillRect(this.width - 40, 0 + 10,30,30);
+        this.ctx.font = "16px 'Press Start 2P'";
+        this.ctx.fillStyle = "black";
+        this.ctx.fillText("X", this.width - 32, 0 + 35);
 
         if (this.hackingFullyBacktraced == true)
         {
@@ -542,6 +550,13 @@ HackScene.prototype.onTap = function(x,y)
             //console.log("Program " + this.selectedProgram + " was run!");
             this.runRigProgram(this.selectedProgram, this.programs[this.selectedProgram - 1]);
         }    
+    }
+
+    //exit button
+    if ((x > this.width - 40) && (x < this.width - 10) && (y > 10) && (y < 40))
+    {
+        var hackEnd = new HackEndStatus(true, false);
+        this.endHackCallBack(hackEnd);
     }
 };
 
