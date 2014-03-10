@@ -82,7 +82,7 @@ Pickupable.prototype.onAction = function(action){
                 }
 
                 if(ct< Pickupable.Items[r.id].max_programs){
-                    this.player.level.scene.showInfoText("Program installed");
+                    this.player.level.scene.showInfoText("Program installed: "+this.name);
                     this.equipped = true;
                 }
                 else {
@@ -331,57 +331,57 @@ Pickupable.Items = {
     },
     "program_0" : {
         name: "Net Ninja",
-        description: "You find a computer program",
+        description: "Net Ninja virus program",
         program_name: "Net Ninja",
         tags: ["program"],
         actions: ["equip"],
         equip_slot: "program",
         image : "program_0",
-        floor_name: "program data chip",
+        floor_name: "Net Ninja virus program",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "program_1" : {
         name: "Network Warrior",
-        description: "You find a computer program",
+        description: "Network Warrior virus program",
         program_name: "Network Warrior",
         tags: ["program"],
         actions: ["equip"],
         equip_slot: "program",
         image : "program_1",
-        floor_name: "program data chip",
+        floor_name: "Network Warrior virus program",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "program_2" : {
         name: "Bit Shifter",
-        description: "You find a computer program",
+        description: "Bit Shifter worm program",
         program_name: "Bit Shifter",
         tags: ["program"],
         actions: ["equip"],
         equip_slot: "program",
         image : "program_2",
-        floor_name: "program data chip",
+        floor_name: "Bit Shifter worm program",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "program_3" : {
         name: "SUDO Inspect",
-        description: "You find a computer program",
+        description: "SUDO Inspect ice breaker program",
         program_name: "SUDO Inspect",
         tags: ["program"],
         actions: ["equip"],
         equip_slot: "program",
         image : "program_3",
-        floor_name: "program data chip",
+        floor_name: "SUDO Inspect ice breaker program",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "program_4" : {
         name: "Driver Corrupt",
-        description: "You find a computer program",
+        description: "Driver Corrupt program",
         program_name: "Driver Corrupt",
         tags: ["program"],
         actions: ["equip"],
         equip_slot: "program",
         image : "program_4",
-        floor_name: "program data chip",
+        floor_name: "Driver Corrupt program",
         levels: [900,800,700,600,500,400,300,200,100,0]
     }
 }
