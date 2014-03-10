@@ -48,13 +48,65 @@ Pickupable.prototype.onAction = function(action){
         if(this.equipped){
             this.equipped = false;
             this.player.level.scene.inventoryDialog.show();
+            if(Pickupable.Items[this.id].equip_slot == "rig"){
+                var items = this.player.getInventoryWithTag("program");
+                for(var i = 0 ; i < items.length ; i++){
+                    items[i].equipped = false;
+                }
+            }
+            return;
+
+        }
+
+        if(Pickupable.Items[this.id].equip_slot == "program"){
+            var wornRig = null;
+            var rig = this.player.getInventoryWithTag("rig");
+            for(var j = 0 ; j < rig.length; rig++){
+                if(rig[j].equipped){
+                    wornRig = rig[j];
+                }
+            }
+            if(wornRig){
+                var r = wornRig;
+                var programs = this.player.getInventoryWithTag("program");
+                var ct = 0;
+                for(var k = 0 ; k < programs.length; k++){
+                    if(programs[k].id == this.id && programs[k].equipped){
+                        this.player.level.scene.showInfoText("Program already installed");
+                        this.player.level.scene.inventoryDialog.show();
+                        return;
+                    }
+                    if(programs[k].equipped){
+                        ct++;
+                    }
+                }
+
+                if(ct< Pickupable.Items[r.id].max_programs){
+                    this.player.level.scene.showInfoText("Program installed");
+                    this.equipped = true;
+                }
+                else {
+                    this.player.level.scene.showInfoText("Your rig does not have any space left for program");
+                }
+            }
+            else {
+                this.player.level.scene.showInfoText("You do not have a rig to install programs");
+            }
+            this.player.level.scene.inventoryDialog.show();
             return;
         }
+
         var items = this.player.getInventoryWithTag(Pickupable.Items[this.id].equip_slot);
         for(var i = 0 ; i < items.length ; i++){
             items[i].equipped = false;
         }
         this.equipped = true;
+        if(Pickupable.Items[this.id].equip_slot == "rig"){
+            var items = this.player.getInventoryWithTag("program");
+            for(var i = 0 ; i < items.length ; i++){
+                items[i].equipped = false;
+            }
+        }
         if(Pickupable.Items[this.id].equip_slot == "ranged"){
             this.player.useRanged(this);
         }
@@ -255,6 +307,81 @@ Pickupable.Items = {
         image : "ecig",
         actions: ["use"],
         description: "An electric cigarette. A smoke break would be nice right now.",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "hackable_computer" : {
+        name: "Hackable Computer",
+        image : "hackable_computer_office",
+        actions: ["use"],
+        floor_name: "computer you can hack",
+        description: "",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "rig_0" : {
+        name: "HaxMark 5",
+        description: "You find a computer rig for accessing networks with (2 program capacity)",
+        read_on_pickup: true,
+        tags: ["rig"],
+        max_programs: 2,
+        actions: ["equip","look at"],
+        equip_slot: "rig",
+        image : "rig_0",
+        floor_name: "computer rig",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "program_0" : {
+        name: "Net Ninja",
+        description: "You find a computer program",
+        program_name: "Net Ninja",
+        tags: ["program"],
+        actions: ["equip"],
+        equip_slot: "program",
+        image : "program_0",
+        floor_name: "program data chip",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "program_1" : {
+        name: "Network Warrior",
+        description: "You find a computer program",
+        program_name: "Network Warrior",
+        tags: ["program"],
+        actions: ["equip"],
+        equip_slot: "program",
+        image : "program_1",
+        floor_name: "program data chip",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "program_2" : {
+        name: "Bit Shifter",
+        description: "You find a computer program",
+        program_name: "Bit Shifter",
+        tags: ["program"],
+        actions: ["equip"],
+        equip_slot: "program",
+        image : "program_2",
+        floor_name: "program data chip",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "program_3" : {
+        name: "SUDO Inspect",
+        description: "You find a computer program",
+        program_name: "SUDO Inspect",
+        tags: ["program"],
+        actions: ["equip"],
+        equip_slot: "program",
+        image : "program_3",
+        floor_name: "program data chip",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "program_4" : {
+        name: "Driver Corrupt",
+        description: "You find a computer program",
+        program_name: "Driver Corrupt",
+        tags: ["program"],
+        actions: ["equip"],
+        equip_slot: "program",
+        image : "program_4",
+        floor_name: "program data chip",
         levels: [900,800,700,600,500,400,300,200,100,0]
     }
 }
