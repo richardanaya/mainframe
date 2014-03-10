@@ -19,6 +19,9 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	{
 		this.hostile = true;
 		this.backtracePercentProgress = 100.0;
+		this.hackingDifficultyInSec = 120.00;
+		this.mainframeDetectionChancePerc = 100.0;
+		this.enmityGainIfDetected = 100.00;
 	}
 
 	else if (this.type == "player")
@@ -51,7 +54,8 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 
 				var randomNumber = Math.ceil(Math.random()*100)
 				if (randomNumber < this.mainframeDetectionChancePerc)
-					this.hackingScene.mainframeEnmity += this.enmityGainIfDetected;
+					this.hackingScene.mainframeEnmity = Math.min((this.hackingScene.mainframeEnmity + this.enmityGainIfDetected),
+																 100.0);
 			}
 
 			this.hackingProgress += delta;
