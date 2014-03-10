@@ -17,7 +17,7 @@ Pickup.prototype.process = function(complete){
                 programs.push(Pickupable.Items[items[i].id].program_name);
             }
         }
-        this.player.level.scene.game.changeScene(new HackScene(this.game, this.scene, this.player.image_idle_0, 1, programs, function(result){
+        this.player.level.scene.game.changeScene(new HackScene(this.game, this.scene, 1, programs, function(result){
             _this.player.level.scene.game.changeScene(_this.player.level.scene);
             complete();
         }));

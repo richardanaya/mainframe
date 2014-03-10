@@ -114,3 +114,47 @@ Utilities.getTJoinType = function( center, first, second, third ) {
 Utilities.isPointInRectangle = function(x,y,rx,ry,w,h){
     return (x>=rx && x< rx+w && y>= ry && y <ry+h);
 }
+
+// vector utils
+Utilities.isPointOnLine = function( lineSegment, test ) {
+	return (test.x <= Math.max(lineSegment[0].x, lineSegment[1].x) && test.x >= Math.min(lineSegment[0].x, lineSegment[1].x) &&
+        	test.y <= Math.max(lineSegment[0].y, lineSegment[1].y) && test.y >= Math.min(lineSegment[0].y, lineSegment[1].y));
+}
+
+Utilities.getRelativeOrientation = function( p, q, r ) {
+    // see http://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf
+    var val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+ 
+    if (val == 0) return 0;  // colinear
+ 
+    return (val > 0) ? 1: 2; // clock or counterclock wise
+}
+
+Utilities.doLineSegmentsIntersect = function( l1, l2 ) {
+	if( l1 == null || l1 == undefined || l2 == null || l2 == undefined ) debugger;
+	return Utilities.doLineSegmentIntersectPoints( l1[0], l1[1], l2[0], l2[1] );
+}
+
+Utilities.doLineSegmentIntersectPoints = function( p1, p2, q1, q2 ) {
+	if( p1 == null || p1 == undefined || p2 == null || p2 == undefined || q1 == null || q1 == undefined || q2 == null || q2 == undefined ) debugger;
+
+    var o1 = Utilities.getRelativeOrientation(p1, q1, p2);
+    var o2 = Utilities.getRelativeOrientation(p1, q1, q2);
+    var o3 = Utilities.getRelativeOrientation(p2, q2, p1);
+    var o4 = Utilities.getRelativeOrientation(p2, q2, q1);
+ 
+    if (o1 != o2 && o3 != o4)
+        return true;
+ 
+    // Special Cases
+    if (o1 == 0 && Utilities.isPointOnLine( [p1,q1], p2)) return true;
+    if (o2 == 0 && Utilities.isPointOnLine( [p1,q1], q2)) return true;
+    if (o3 == 0 && Utilities.isPointOnLine( [p2,q2], p1)) return true;
+    if (o4 == 0 && Utilities.isPointOnLine( [p2,q2], q1)) return true;
+ 
+    return false; // Doesn't fall in any of the above cases
+}
+
+Utilities.makeLineSegment = function( p1, p2 ) {
+	return [p1,p2];
+}

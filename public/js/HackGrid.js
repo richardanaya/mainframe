@@ -1,4 +1,4 @@
-var HackGrid = function(desiredXSize, desiredYSize, scene)
+    var HackGrid = function(desiredXSize, desiredYSize, scene)
 {
 	this.time = 0;
 	this.scene = scene;
@@ -22,6 +22,17 @@ var HackGrid = function(desiredXSize, desiredYSize, scene)
 
     this.xGridLineCount = this.maxGridX + 2;
     this.yGridLineCount = this.maxGridY + 2;
+
+    this.playerGridPosX = 0,
+    this.playerGridPosY = 0;
+
+    this.goalGridPosX = 0;
+    this.goalGridPosY = 0;
+
+    this.playerNode = null;
+    this.mainframeNode = null;
+    this.trueDataCacheNode = null;
+    this.dataCacheNodes = [];
   
     for (i = 0; i < desiredXSize; i++)
     {
@@ -72,13 +83,25 @@ HackGrid.prototype.updateNodeConnectionLines = function(delta)
 
 HackGrid.prototype.createNewNode = function(x, y, type)
 {
-	this.grid[x][y] = new HackNode(x, y, type, this.scene);
-	this.nodes.push(this.grid[x][y]);
-	this.nodeCount++;
-};
+    var result = new HackNode( x, y, type, this.scene );
+	this.addNode( result );
+    return result;
+}
+
+HackGrid.prototype.addNode = function( node )
+{
+    this.grid[node.gridXPos][node.gridYPos] = node;
+    this.nodes.push(node);
+    this.nodeCount++; 
+}
 
 HackGrid.prototype.hackNode = function(node)
 {
 	node.activelyBeingHacked = true;
 	this.scene.playerActivelyHacking = true;
+}
+
+HackGrid.prototype.isValidGridPoint = function( x,y )
+{
+    return ( x >= this.minGridX && x <= this.maxGridX && y >= this.minGridY && y <= this.maxGridY );
 }

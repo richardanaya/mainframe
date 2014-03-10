@@ -118,7 +118,6 @@ CreditsScene.prototype.update = function(delta){
     this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+700-t*speed,Resources.getImage("richard"),"Richard Anaya", "Voyoku", "Lead Programmer/Organizer","Above the earth, beneath the sky");
     this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+900-t*speed,Resources.getImage("cooper"),"Cooper Welch", "Voyoku", "Lead Art","");
     this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1100-t*speed,Resources.getImage("emil"),"Emil Ernstrom", "", "Lead Music","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1300-t*speed,Resources.getImage("howard"),"Howard Smith", "Black Triangles", "Programmer/Host","");
     this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1500-t*speed,Resources.getImage("jack"),"Jack Reed", "", "Programmer","");
     this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1700-t*speed,Resources.getImage("carpe"),"Carpe", "", "Music","");
     this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1900-t*speed,Resources.getImage("tentative"),"tentative-stagename", "", "Music","");

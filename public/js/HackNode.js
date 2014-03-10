@@ -1,3 +1,10 @@
+var HackNodeType = {
+	Mainframe : "mainframe",
+	Neutral: "neutral",
+	Player: "player",
+	Goal: "goal"
+}
+
 var HackNode = function(gridXPos, gridYPos, type, scene)
 {
 	this.gridXPos = gridXPos;
@@ -14,6 +21,7 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	this.hackingScene = scene;
 	this.localBacktraceComplete = false;
 	this.backtracePercentProgress = 0.0;
+	this.theSecretDataCache = false;
 
 	if (this.type == "mainframe")
 	{
@@ -37,6 +45,10 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	}
 
 };
+
+HackNode.prototype.getGridPos = function() {
+	return { x: this.gridXPos, y: this.gridYPos };
+}
 
 HackNode.prototype.hackingSimulationUpdate = function(delta)
 {
@@ -173,9 +185,15 @@ HackNode.prototype.drawConnectorLines = function(delta)
 
 HackNode.prototype.addConnection = function(connection)
 {
-	this.connectedTo.push(connection);
+	if( this.connectedTo.indexOf( connection ) < 0 )
+	{
+		this.connectedTo.push(connection);
 
-	connection.connectedTo.push(this);
+		if( connection.connectedTo.indexOf( this ) < 0 )
+		{
+			connection.connectedTo.push(this);
+		}
+	}
 };
 
 HackNode.prototype.isHackable = function()
