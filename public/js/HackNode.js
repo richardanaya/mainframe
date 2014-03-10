@@ -21,7 +21,7 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	this.hackingScene = scene;
 	this.localBacktraceComplete = false;
 	this.backtracePercentProgress = 0.0;
-	this.theSecretDataCache = false;
+	this.isTrueDataCache = false;
 
 	if (this.type == "mainframe")
 	{
