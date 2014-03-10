@@ -184,8 +184,15 @@ HackNode.prototype.drawConnectorLines = function(delta)
 
 HackNode.prototype.addConnection = function(connection)
 {
-	this.connectedTo.push(connection);
-	connection.connectedTo.push(this);
+	if( this.connectedTo.indexOf( connection ) < 0 )
+	{
+		this.connectedTo.push(connection);
+
+		if( connection.connectedTo.indexOf( this ) < 0 )
+		{
+			connection.connectedTo.push(this);
+		}
+	}
 };
 
 HackNode.prototype.isHackable = function()

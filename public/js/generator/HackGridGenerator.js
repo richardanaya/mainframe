@@ -2,14 +2,15 @@
 var HackGridGenerator = function() {
 }
 
-HackGridGenerator.maxNodeRatio = .07;
-HackGridGenerator.maxFailAttempts = 50;
+HackGridGenerator.maxNodeRatio = 0.3;
+HackGridGenerator.maxFailAttempts = 500;
 
 HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, difficulty ) {
 	var hackGrid = new HackGrid( desiredSizeX, desiredSizeY, scene );
 
     var area = desiredSizeX * desiredSizeY;
-    var numNodes = Math.floor( area * this.maxNodeRatio );
+    var numNodes = Math.round( area * this.maxNodeRatio );
+    console.log( numNodes.toString() );
 	
 	hackGrid.playerGridPosX = 1,
     hackGrid.playerGridPosY = 1;
@@ -27,27 +28,31 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
         if( HackGridGenerator.canPlaceNode( hackGrid, nodes, randPos ) ) {
             lastNode = HackGridGenerator.createNode( hackGrid, randPos, HackNodeType.Mainframe, lastNode );
             nodes.push( lastNode );
-            ++nodeCount;
+
             failures = 0;
+            ++nodeCount;
         }
         else if( ++failures > this.maxFailAttempts )
         {
+            console.log( "Fail" + failures.toString() );
+            failures = 0;
             ++nodeCount;
         }
     }
 
+    /*
     nodes.forEach( function( node ) {
-        var closest = [];
-        var test = HackGridGenerator.getClosestNode( node, nodes );
-        closest.push( test );
-        closest.forEach( function( close ) {
-            close.addConnection( node );
-        });
+        var closest = HackGridGenerator.getClosestNode( node, nodes );
+        node.addConnection( closest );
+
+        if( Math.random() < 0.25 ) {
+            closest = HackGridGenerator.getClosestNode( node, nodes );
+            node.addConnection( closest );
+        }
 
         hackGrid.addNode( node );
     });
-
-    
+    */
 
 	return hackGrid;
 }
@@ -59,18 +64,18 @@ HackGridGenerator.createNode = function( hackGrid, at, nodeType, from ) {
 
 HackGridGenerator.canPlaceNode = function( hackGrid, nodes, at ) {
     if( !hackGrid.isValidGridPoint( at.x, at.y ) ) return false;
-
-    for( var x = at.x-1; x < at.x+1; ++x ) {
-        for( var y = at.y-1; y < at.y+1; ++y ) {
-            if( hackGrid.isValidGridPoint( x, y ) ) {
-                var isGood = true;
-                nodes.forEach( function( exist ) {
-                    if( exist.gridXPos == x || exist.gridYPos == y ) isGood = false;
-                });
-                if( !isGood ) return false;
-            }
-        }
+    /*
+    var calcDist2 = function( p1, p2 ) {
+        var delta = { x: p2.x - p1.y, y: p2.x - p1.y };
+        return delta.x*delta.x+delta.y*delta.y;
     }
+
+    for( var key in nodes ) {
+        var node = nodes[key];
+        var diff2 = calcDist2( node.getGridPos(), at );
+        if( diff2 < 1 ) return false;
+    }
+    */
 
     return true;
 }
@@ -157,7 +162,7 @@ HackGridGenerator.getUniqueNodeName = function( node ) {
     return node.gridXPos.toString() + "," + node.gridYPos.toString();
 }
 
-HackGridGenerator.getClosestNode = function( node, nodes, ignore ) {
+HackGridGenerator.getClosestNode = function( node, nodes ) {
     var dist = 0;
     var result = null;
 
@@ -167,12 +172,12 @@ HackGridGenerator.getClosestNode = function( node, nodes, ignore ) {
     }
 
     nodes.forEach( function( test ) {
+        if( test == node ) return;
         if( result == null ) {
             dist = calcDist2(node,test);
             result = test;
         }
-        else if( node.connectedTo.indexOf(test) == -1 && test.connectedTo.length < 3 && (ignore == undefined || ignore != test ) ) {
-
+        else if( node.connectedTo.indexOf(test) < 0 && test.connectedTo.length < 3 ) {
             var testDist = calcDist2( node, test );
             if( testDist < dist ) {
                 result = test;
@@ -184,4 +189,18 @@ HackGridGenerator.getClosestNode = function( node, nodes, ignore ) {
     if( result == null ) debugger;
 
     return result;
+}
+
+HackGridGenerator.areConnected = function( node1, node2 ) {
+    console.log( node1.connectedTo.indexOf( node2 ) );
+
+    if( node1 == undefined || node1 == null || node2 == undefined || node2 == null ) debugger;
+    var node2Uid = HackGridGenerator.getUniqueNodeName( node2 );
+    for( var nodeIndex = 0; nodeIndex < node1.connectedTo.length; ++nodeIndex ) {
+        var test = node1.connectedTo[ nodeIndex ];
+        var testUid = HackGridGenerator.getUniqueNodeName( test );
+        if( testUid == node2Uid ) return true;
+    };
+
+    return false;
 }

@@ -1,4 +1,4 @@
-var HackGrid = function(desiredXSize, desiredYSize, scene)
+    var HackGrid = function(desiredXSize, desiredYSize, scene)
 {
 	this.time = 0;
 	this.scene = scene;
@@ -96,5 +96,5 @@ HackGrid.prototype.hackNode = function(node)
 
 HackGrid.prototype.isValidGridPoint = function( x,y )
 {
-    return ( x >= this.minGridX && x < this.maxGridX && y >= this.minGridY && y < this.maxGridY );
+    return ( x >= this.minGridX && x <= this.maxGridX && y >= this.minGridY && y <= this.maxGridY );
 }
