@@ -2,6 +2,8 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.game = game;
     this.returnScene = returnScene;
     this.playerImage = playerImage;
+    this.difficulty = difficulty;
+    this.programs = ["testProg1", "testProg2", "testProg3", "testProg4"]
     this.mode = "play";
     this.mainframeEnmity = 0.0;
     this.time = 0;
@@ -27,7 +29,7 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.goalGridPosX = 9;
     this.goalGridPosY = 7;
 
-    this.difficulty = difficulty;
+    
 
     this.grid;
 
@@ -223,18 +225,18 @@ HackScene.prototype.update = function(delta){
         }
         else if (this.mainframeEnmity == 0)
         {
-            this.ctx.font = "14px 'Press Start 2P'";
+            this.ctx.font = "17px 'Press Start 2P'";
             this.ctx.fillStyle = "green";
             this.ctx.globalAlpha = 1;
-            this.ctx.fillText("Currently Undetected", 30, 40);
+            this.ctx.fillText("Currently Undetected", 30, 80);
         }
         else
         {
             this.ctx.font = "14px 'Press Start 2P'";
             this.ctx.fillStyle = "red";
             this.ctx.globalAlpha = 1;
-            this.ctx.fillText("INTRUSTION DETECTED", 30, 40);
-            this.ctx.fillText("Mainframe Enmity: " + this.mainframeEnmity + "%", 30, 60);
+            this.ctx.fillText("INTRUSTION DETECTED", 60, 40);
+            this.ctx.fillText("Mainframe Enmity: " + this.mainframeEnmity + "%", 50, 60);
 
             this.ctx.font = "10px 'Press Start 2P'";
             this.ctx.fillStyle = "white";
@@ -308,18 +310,50 @@ HackScene.prototype.update = function(delta){
             if (this.playerActivelyHacking == true)
             {
                 this.ctx.fillStyle = "white";
-                this.ctx.fillRect(30,350,340,70);
+                this.ctx.fillRect(30,this.height - 200,340,70);
 
                 this.ctx.fillStyle = "green";
-                this.ctx.fillRect(30,350, (this.selectedNode.hackingProgress/this.selectedNode.hackingDifficultyInSec)* 340,70);
+                this.ctx.fillRect(30,this.height - 200, (this.selectedNode.hackingProgress/this.selectedNode.hackingDifficultyInSec)* 340,70);
 
                 this.ctx.fillStyle = "black";
-                this.ctx.fillText("HACKING IN PROGRESS", 65, 390);
+                this.ctx.fillText("HACKING IN PROGRESS", 65, this.height - 155);
             }
 
+            if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
+                ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable())))
+            {
+                //if I ever change this position, I also need to change the hardcoded button in onTap()
+                this.ctx.fillStyle = "white";
+                this.ctx.fillRect(30,this.height - 200,340,70);
 
+                this.ctx.fillStyle = "black";
+                this.ctx.fillText("Click To Initiate Hack", 50, this.height - 155);
+            }
         }
 
+        for (var i = 0; i < this.programs.length; i++)
+        {
+            if (i == 0)
+            {
+                this.ctx.fillStyle = "white";
+                this.ctx.fillRect(30,this.height - 100,65,65);
+            }
+            else if (i == 1)
+            {
+                this.ctx.fillStyle = "white";
+                this.ctx.fillRect(120,this.height - 100,65,65);
+            }
+            else if (i == 2)
+            {
+                this.ctx.fillStyle = "white";
+                this.ctx.fillRect(215,this.height - 100,65,65);
+            }
+            else if (i == 3)
+            {
+                this.ctx.fillStyle = "white";
+                this.ctx.fillRect(305,this.height - 100,65,65);
+            }
+        }
     }
 };
 
@@ -396,6 +430,16 @@ HackScene.prototype.onTap = function(x,y)
         }
         else
             this.selectedNode = null;
+    }
+
+    if(this.selectedNode != null)
+    {
+        if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
+            ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable())))
+        {
+            if ((x > 30) && (x < 370) && (y > this.height - 200) && (y < this.height - 130))
+                this.grid.hackNode(this.selectedNode);
+        }
     }
 
 };
