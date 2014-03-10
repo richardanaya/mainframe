@@ -276,7 +276,7 @@ HackScene.prototype.update = function(delta){
 
             this.ctx.fillText("Type: " + nodeDescription, 30, 170);
 
-            this.ctx.fillText("Connections: " + this.selectedNode.connectedTo.length, 30, 190);
+            //this.ctx.fillText("Connections: " + this.selectedNode.connectedTo.length, 30, 190);
 
             var hackableDescription = "";
             var nodeIsHackable = this.selectedNode.isHackable();
@@ -297,12 +297,12 @@ HackScene.prototype.update = function(delta){
                 hackableDescription = "Node Hacked!";
             }
 
-            this.ctx.fillText(hackableDescription, 30, 210);
+            this.ctx.fillText(hackableDescription, 30, 190);
 
             this.ctx.fillStyle = "white";
 
             if (nodeIsHackable == true)
-                this.ctx.fillText("Detection Chance: " + this.selectedNode.mainframeDetectionChancePerc + "%", 30, 230);
+                this.ctx.fillText("Detection Chance: " + this.selectedNode.mainframeDetectionChancePerc + "%", 30, 210);
 
             //now I need to draw a button to actually initiate hack.
 
@@ -310,13 +310,13 @@ HackScene.prototype.update = function(delta){
             if (this.playerActivelyHacking == true)
             {
                 this.ctx.fillStyle = "white";
-                this.ctx.fillRect(30,this.height - 400,340,70);
+                this.ctx.fillRect(30,this.height - 370,340,70);
 
                 this.ctx.fillStyle = "green";
-                this.ctx.fillRect(30,this.height - 400, (this.selectedNode.hackingProgress/this.selectedNode.hackingDifficultyInSec)* 340,70);
+                this.ctx.fillRect(30,this.height - 370, (this.selectedNode.hackingProgress/this.selectedNode.hackingDifficultyInSec)* 340,70);
 
                 this.ctx.fillStyle = "black";
-                this.ctx.fillText("HACKING IN PROGRESS", 65, this.height - 355);
+                this.ctx.fillText("HACKING IN PROGRESS", 65, this.height - 325);
             }
 
             if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
@@ -324,10 +324,10 @@ HackScene.prototype.update = function(delta){
             {
                 //if I ever change this position, I also need to change the hardcoded button in onTap()
                 this.ctx.fillStyle = "white";
-                this.ctx.fillRect(30,this.height - 400,340,70);
+                this.ctx.fillRect(30,this.height - 370,340,70);
 
                 this.ctx.fillStyle = "black";
-                this.ctx.fillText("Click To Initiate Hack", 50, this.height - 355);
+                this.ctx.fillText("Click To Initiate Hack", 50, this.height - 325);
             }
         }
 
@@ -360,31 +360,31 @@ HackScene.prototype.update = function(delta){
             if (this.selectedProgram != null)
             {
                 this.ctx.fillStyle = "white";
-                this.ctx.fillRect(30,this.height - 300,340,180);
+                this.ctx.fillRect(30,this.height - 280,340,160);
 
                 this.ctx.fillStyle = "black";
                 this.ctx.font = "12px 'Press Start 2P'";
-                this.ctx.fillText("Program " + this.selectedProgram + ":", 40, this.height - 275);
+                this.ctx.fillText("Program " + this.selectedProgram + ":", 40, this.height - 260);
 
                 if (this.programs[this.selectedProgram - 1] == "Net Ninja")
                 {
-                    this.ctx.fillText("Net Ninja", 165, this.height - 275);
+                    this.ctx.fillText("Net Ninja", 165, this.height - 260);
                 }
                 else if (this.programs[this.selectedProgram - 1] == "Network Warrior")
                 {
-                    this.ctx.fillText("Network Warrior", 165, this.height - 275);
+                    this.ctx.fillText("Network Warrior", 165, this.height - 260);
                 }
                 else if (this.programs[this.selectedProgram - 1] == "Bit Shifter")
                 {
-                    this.ctx.fillText("Bit Shifter", 165, this.height - 275);
+                    this.ctx.fillText("Bit Shifter", 165, this.height - 260);
                 }
                 else if (this.programs[this.selectedProgram - 1] == "SUDO Inspect")
                 {
-                    this.ctx.fillText("SUDO Inspect", 165, this.height - 275);
+                    this.ctx.fillText("SUDO Inspect", 165, this.height - 260);
                 }
                 else if (this.programs[this.selectedProgram - 1] == "Driver Corrupt")
                 {
-                    this.ctx.fillText("Driver Corrupt", 165, this.height - 275);
+                    this.ctx.fillText("Driver Corrupt", 165, this.height - 260);
                 }
 
                 this.ctx.fillStyle = "green";
@@ -476,7 +476,7 @@ HackScene.prototype.onTap = function(x,y)
     if(this.selectedNode != null)
     {
 
-        if ((x > 30) && (x < 370) && (y > this.height - 400) && (y < this.height - 330))
+        if ((x > 30) && (x < 370) && (y > this.height - 370) && (y < this.height - 300))
         {
             if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
             ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable())))
