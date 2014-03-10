@@ -7,6 +7,7 @@ var HackScene = function(game, returnScene, playerImage, difficulty){
     this.time = 0;
     this.playerActivelyHacking = false;
     this.hackingFullyBacktraced = false;
+    this.selectedNode = null;
     this.music = new Howl({
         urls: ['sounds/sfx_general/sfx_computer_on.mp3'],
         loop: false
@@ -196,6 +197,60 @@ HackScene.prototype.update = function(delta){
             this.ctx.fillText("Mainframe completes backtrace!", 30, 110);
         }
 
+        if (this.selectedNode != null && this.hackingFullyBacktraced == false)
+        {
+            this.ctx.font = "14px 'Press Start 2P'";
+            this.ctx.fillStyle = "white";
+            this.ctx.globalAlpha = 1;
+            this.ctx.fillText("NODE SCAN RESULTS:", 30, 150);
+            
+            var nodeDescription = "";
+
+            if (this.selectedNode.type == "player")
+                nodeDescription = "System Entry Point";
+            else if (this.selectedNode.type == "mainframe")
+                nodeDescription = "Psychotic Mainframe";
+            else if (this.selectedNode.type == "neutral")
+            {   
+                if (this.selectedNode.hacked == false)
+                    nodeDescription = "Neutral";
+                else
+                    nodeDescription = "Hacked Neutral";
+            }
+            else if (this.selectedNode.type == "goal")
+            {
+                if (this.selectedNode.hacked == false)
+                    nodeDescription = "Data Cache";
+                else
+                    nodeDescription = "Hacked Data Cache";
+            }
+            else
+                nodeDescription = "Default";
+
+            this.ctx.fillText("Type: " + nodeDescription, 30, 170);
+
+            this.ctx.fillText("Connections: " + this.selectedNode.connectedTo.length, 30, 190);
+
+            var hackableDescription = "";
+            var nodeIsHackable = this.selectedNode.isHackable();
+
+            if (this.selectedNode.type == "goal")
+                nodeIsHackable = true;
+
+            if (nodeIsHackable == true)
+                hackableDescription = "Currently Hackable";
+            else
+                hackableDescription = "No Available Hack Route";
+
+            this.ctx.fillText(hackableDescription, 30, 210);
+
+            if (nodeIsHackable == true)
+                this.ctx.fillText("Detection Chance: " + this.selectedNode.mainframeDetectionChancePerc + "%", 30, 230);
+
+            //now I need to draw a button to actually initiate hack.
+
+        }
+
     }
 };
 
@@ -255,25 +310,23 @@ HackScene.prototype.onTap = function(x,y)
         }
     }
 
-    //if(xGridClick != -99 && yGridClick != -99)
+    if(xGridClick != -99 && yGridClick != -99)
+    {
         //console.log("Mouse position is X: " + x + " Y: " + y);
         //console.log("The player clicked on grid X: " + xGridClick + " Y: " + yGridClick);
 
+        if (this.grid.grid[xGridClick][yGridClick] != 0)
+        {
+            this.selectedNode = this.grid.grid[xGridClick][yGridClick];
+        }
+        else
+            this.selectedNode = null;
+    }
+
 };
 
-HackScene.prototype.drawCircleAtGridPos = function(x,y,type)
+HackScene.prototype.drawCircleAtGridPos = function(x,y,color)
 {   
-    var color = "purple";
-
-    if(type == "player")
-        color = "green";
-    else if (type == "goal")
-        color = "yellow";
-    else if (type == "neutral")
-        color = "white";
-    else if (type == "mainframe")
-        color = "red";
-
     this.ctx.lineWidth = 1;
     this.ctx.beginPath();
     this.ctx.arc(this.upLeftGridCornerX + (x * this.squareSize) + (0.5 * this.squareSize), 
@@ -310,7 +363,7 @@ HackScene.prototype.drawBacktraceCircleAtGridPos = function(x,y)
 
 HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)
 {
-    this.ctx.globalAlpha = 0.8;
+    this.ctx.globalAlpha = 0.25;
     this.ctx.strokeStyle = "white";
     this.ctx.lineWidth = 10;
     

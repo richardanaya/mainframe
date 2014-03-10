@@ -33,7 +33,18 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 		this.hacked = true;
 	}
 
+	else if (this.type == "goal")
+	{
+		this.hackingDifficultyInSec = 8.0;
+		this.mainframeDetectionChancePerc = 80.0;
+		this.enmityGainIfDetected = 25.00;
+	}
+
 };
+
+HackNode.prototype.getGridPos = function() {
+	return { x: this.gridXPos, y: this.gridYPos };
+}
 
 HackNode.prototype.hackingSimulationUpdate = function(delta)
 {
@@ -58,9 +69,7 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 			}
 		}
 
-
-
-		else if (((this.hackingScene.mainframeEnmity > 0) && (this.type == "mainframe")) ||
+		if (((this.hackingScene.mainframeEnmity > 0) && (this.type == "mainframe")) ||
 			((this.hackingScene.mainframeEnmity > 0) && (this.hostile == true)))
 		{
 			for (var i = 0; i < this.connectedTo.length; i++)
@@ -88,14 +97,32 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 					}
 				}
 			}
-
 		}
 	}
 };
 
 HackNode.prototype.update = function(delta)
 {
-	this.hackingScene.drawCircleAtGridPos(this.gridXPos, this.gridYPos, this.type);
+	var color = "purple";
+
+    if(this.type == "player")
+        color = "green";
+    else if ((this.type == "neutral") && (this.hacked == true))
+        color = "lightgreen";
+    else if ((this.type == "neutral") && (this.activelyBeingHacked == true))
+        color = "purple";
+    else if (this.type == "neutral")
+        color = "white";
+    else if ((this.type == "goal") && (this.hacked == true))
+        color = "purple";
+    else if ((this.type == "goal") && (this.activelyBeingHacked == true))
+        color = "purple";
+    else if (this.type == "goal")
+        color = "yellow";
+    else if (this.type == "mainframe")
+        color = "red";
+
+	this.hackingScene.drawCircleAtGridPos(this.gridXPos, this.gridYPos, color);
 };
 
 HackNode.prototype.drawBacktraceHighlights = function(delta)
@@ -133,8 +160,8 @@ HackNode.prototype.drawConnectorLines = function(delta)
 	{
 		this.hackingScene.lineConnectTwoGridObjects(this.gridXPos,
 													this.gridYPos,
-													this.connectedTo[0].gridXPos,
-													this.connectedTo[0].gridYPos);
+													this.connectedTo[i].gridXPos,
+													this.connectedTo[i].gridYPos);
 	}
 
 };
@@ -142,6 +169,18 @@ HackNode.prototype.drawConnectorLines = function(delta)
 HackNode.prototype.addConnection = function(connection)
 {
 	this.connectedTo.push(connection);
-
 	connection.connectedTo.push(this);
-}
+};
+
+HackNode.prototype.isHackable = function()
+{
+	var canBeHacked = false;
+
+	for (var i = 0; i < this.connectedTo.length; i++)
+	{
+		if (this.connectedTo[i].hacked == true)
+			canBeHacked = true;
+	}
+
+	return canBeHacked;
+};

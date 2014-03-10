@@ -97,7 +97,7 @@ ElevatorScene.prototype.update = function(delta){
         }
         this.ctx.fillStyle = "#2bd9bc";
         this.ctx.font = "16px 'Press Start 2P'";
-        wrapText(this.ctx, this.dialogText, (this.width-this.width*3/4)/2,100, this.width*3/4, 30);
+        wrapText(this.ctx, this.dialogText, (this.width-this.width*4/5)/2,50, this.width*4/5, 30);
     }
 };
 

@@ -115,15 +115,15 @@ CreditsScene.prototype.update = function(delta){
 
     this.ctx.font = "16px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+700-t*speed,Resources.getImage("richard"),"Daedius/Richard Anaya", "Neon Origami", "Lead Programmer/Organizer","Above the earth, beneath the sky");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+900-t*speed,Resources.getImage("richard"),"Cooper", "", "Lead Art","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1100-t*speed,Resources.getImage("richard"),"Emil", "", "Lead Music","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1300-t*speed,Resources.getImage("richard"),"Howard", "", "Programmer","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1500-t*speed,Resources.getImage("richard"),"Jack", "", "Programmer","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1700-t*speed,Resources.getImage("richard"),"Carpe", "", "Music","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1900-t*speed,Resources.getImage("richard"),"Sieg", "", "Music","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+2100-t*speed,Resources.getImage("richard"),"Jonathan", "", "Sound","");
-    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+2300-t*speed,Resources.getImage("richard"),"Brian", "", "Art","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+700-t*speed,Resources.getImage("richard"),"Richard Anaya", "Voyoku", "Lead Programmer/Organizer","Above the earth, beneath the sky");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+900-t*speed,Resources.getImage("cooper"),"Cooper Welch", "Voyoku", "Lead Art","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1100-t*speed,Resources.getImage("emil"),"Emil Ernstrom", "", "Lead Music","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1300-t*speed,Resources.getImage("howard"),"Howard Smith", "", "Programmer","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1500-t*speed,Resources.getImage("jack"),"Jack Reed", "", "Programmer","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1700-t*speed,Resources.getImage("carpe"),"Carpe", "", "Music","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+1900-t*speed,Resources.getImage("tentative"),"tentative-stagename", "", "Music","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+2100-t*speed,Resources.getImage("jonathan"),"Jonathan Churchill", "", "Sound","");
+    this.drawPerson((window.innerWidth-710)/2,(window.innerHeight-200)/2+2300-t*speed,Resources.getImage("brian"),"Brian Ho", "", "Art","");
 };
 
 CreditsScene.prototype.drawPerson = function(x,y,icon,name, group, role, saying){

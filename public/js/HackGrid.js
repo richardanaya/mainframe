@@ -77,36 +77,25 @@ HackGrid.prototype.updateNodeConnectionLines = function(delta)
 HackGrid.prototype.createNewNode = function(x, y, type)
 {
     var result = new HackNode( x, y, type, this.scene );
-	this.grid[x][y] = result;
-	this.nodes.push(result);
-	this.nodeCount++; 
-
+	this.addNode( result );
     return result;
 }
 
-HackGrid.prototype.getUniqueConnections = function()
+HackGrid.prototype.addNode = function( node )
 {
-    var result = {};
-    this.nodes.forEach( function( node ) {
-        node.connectedTo.forEach( function( con ) {
-            if( result[node] == undefined && result[con] == undefined ) {
-                result[node] = [con];
-            }
-            else if( result[node] != undefined && result[node].contains(con) == false ) {
-                result[node].push( con );
-            }
-            else if( result[con] != undefined && result[con].contains(node) == false ) {
-                result[con].push( node );
-            }
-        });
-    });
-
-    return result;
-};
+    this.grid[node.gridXPos][node.gridYPos] = node;
+    this.nodes.push(node);
+    this.nodeCount++; 
+}
 
 HackGrid.prototype.hackNode = function(x, y)
 {
 	node = this.grid[x][y]
 	node.activelyBeingHacked = true;
 	this.scene.playerActivelyHacking = true;
+}
+
+HackGrid.prototype.isValidGridPoint = function( x,y )
+{
+    return ( x >= this.minGridX && x < this.maxGridX && y >= this.minGridY && y < this.maxGridY );
 }
