@@ -28,6 +28,9 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	this.midHackNeutralImage = Resources.getImage("neutral_node_mid_hack");
 	this.hackedImage = Resources.getImage("entry_node");
 	this.dataCacheImage = Resources.getImage("datacache_node");
+	this.hackedEmptyDataCacheImage = Resources.getImage("datacache_hack_empty");
+	this.midHackDataCacheImage = Resources.getImage("datacache_mid_hack");
+
 
 
 	if (this.type == "mainframe")
@@ -138,9 +141,9 @@ HackNode.prototype.update = function(delta)
     else if (this.type == "neutral")
         image = this.neutralImage;
     else if ((this.type == "goal") && (this.hacked == true))
-        image = this.dataCacheImage;
+        image = this.hackedEmptyDataCacheImage;
     else if ((this.type == "goal") && (this.activelyBeingHacked == true))
-        image = this.dataCacheImage;
+        image = this.midHackDataCacheImage;
     else if (this.type == "goal")
         image = this.dataCacheImage;
     else if (this.type == "mainframe")

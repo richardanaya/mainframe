@@ -14,6 +14,11 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
     this.program3Consumed = false;
     this.program4Consumed = false;
 
+    this.prog1Image = Resources.getImage("1");
+    this.prog2Image = Resources.getImage("2");
+    this.prog3Image = Resources.getImage("3");
+    this.prog4Image = Resources.getImage("4");
+
     this.mode = "play";
     this.mainframeEnmity = 0.0;
     this.time = 0;
@@ -291,23 +296,19 @@ HackScene.prototype.update = function(delta){
             {
                 if (i == 0)
                 {
-                    this.ctx.fillStyle = "white";
-                    this.ctx.fillRect(30,this.height - 100,65,65);
+                    this.ctx.drawImage(this.prog1Image, 30, this.height - 100, 64, 64);
                 }
                 else if (i == 1)
                 {
-                    this.ctx.fillStyle = "white";
-                    this.ctx.fillRect(120,this.height - 100,65,65);
+                    this.ctx.drawImage(this.prog2Image, 120, this.height - 100, 64, 64);
                 }
                 else if (i == 2)
                 {
-                    this.ctx.fillStyle = "white";
-                    this.ctx.fillRect(215,this.height - 100,65,65);
+                    this.ctx.drawImage(this.prog3Image, 215, this.height - 100, 64, 64);
                 }
                 else if (i == 3)
                 {
-                    this.ctx.fillStyle = "white";
-                    this.ctx.fillRect(305,this.height - 100,65,65);
+                    this.ctx.drawImage(this.prog4Image, 305, this.height - 100, 64, 64);
                 }
             }
 
