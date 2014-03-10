@@ -101,7 +101,7 @@ TestScene.prototype.loadLevel = function(height){
             }).play();
             _this.music.fade(0,1,3000);
             if(Flags.flag("intro")){
-                _this.showDialog("You wake up to the sound of rain.  What happened? You feel a burning at the base of your neck. You reach back and find blood at your neckport and realise you have no memory of how you arrived at the top of this building. You see a single exit. It appears to lead downward, into the tower.",_this.player.image_idle_0,_this.player.image_idle_1)
+                _this.showDialog("You wake up to the sound of rain.  What happened? You feel a burning at the base of your neck. You reach back and find blood at your neckport and realize you have no memory of how you arrived at the top of this building. You see a single exit. It appears to lead downwards, into the tower.",_this.player.image_idle_0,_this.player.image_idle_1)
             }
         }
         else {
