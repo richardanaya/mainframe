@@ -282,6 +282,16 @@ Level.prototype.designRooms = function(height) {
     for(var j = 0 ; j < this.maxRoomDepth/2; j++){
         this.placeItemInRandomSpot(Pickupable.load(itemsForLevel[Math.floor(Math.random()*itemsForLevel.length)]));
     }
+
+    var monstersForLevel = [];
+    for(var i in Monster.List){
+        if(Monster.List[i].levels && Monster.List[i].levels.indexOf(this.levelDepth)!=-1){
+            monstersForLevel.push(i);
+        }
+    }
+    for(var j = 0 ; j < this.maxRoomDepth/2; j++){
+        this.placeItemInRandomSpot(Monster.load(monstersForLevel[Math.floor(Math.random()*monstersForLevel.length)]));
+    }
     this.placeItemInRandomSpot(Pickupable.load("lab_note_"+this.levelDepth));
 }
 

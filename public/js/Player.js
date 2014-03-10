@@ -6,7 +6,7 @@ var Player = function(){
     var r = Math.random();
 
     this.inventory = [];
-    this.name = "Robot";
+    this.name = "You";
     this.strength = 10;
     this.accuracy = 10;
     this.mind = 10;
