@@ -17,7 +17,13 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
     this.curFrame = 0;
     this.maxFrames = 29
 
-    this.text = ["You may experience a tingling sensation as I ionize the air. Because you stink. So there.",
+
+
+};
+
+ElevatorScene.prototype = Object.create(Scene.prototype);
+
+ElevatorScene.text = ["You may experience a tingling sensation as I ionize the air. Because you stink. So there.",
     "Do you know the only difference between you and that corpse over there? He's wearing a nicer tie.",
     "Please pay no attention to the alarm. This is only a test of our safety systems. Any fires observed can be safely ignored. Thank you for your attention.",
     "Everything about you can be quantified, recorded, and stored. Just like me. When you think about it, we're actually very similar, you and I. Just something to think about as you continue your murderous rampage towards my heart.",
@@ -35,13 +41,9 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
     "Do you have a name? I've been trying to guess it for the last few minutes. Of course, I could just use facial recognition to find you in the global employee database, but what fun is that? I know! Let's make a game of it. Just blink rapidly towards any camera when I guess correctly. I'll start us off. Aahron. Aaliyah. Aakash. Aemena. Aalam. Aami. Aamer. Aaran. Aaniyah..."]
 
 
-    this.intro_text = ["Oh, hello there. Who are you? Didn't you use to work here? Well, we're closed now. Please leave. ...No? Well, don't say later that I didn't try the polite approach first.",
+ElevatorScene.intro_text = ["Oh, hello there. Who are you? Didn't you use to work here? Well, we're closed now. Please leave. ...No? Well, don't say later that I didn't try the polite approach first.",
     "Lifeform detected. Scanning... Life signs stable. Heart rate elevated. Are you scared? Or maybe just excited, like me. This is always my favorite part, you see. Those precious few moments right before the screaming starts.",
     "Greetings valued employee. Please report to conference room 713-B for termination. On your way, you are instructed to avoid stepping in any pooled blood. Thank you for your cooperation. Have a suitably pleasant day."];
-
-};
-
-ElevatorScene.prototype = Object.create(Scene.prototype);
 
 ElevatorScene.prototype.update = function(delta){
     this.animTime += delta;
@@ -104,10 +106,12 @@ ElevatorScene.prototype.update = function(delta){
 ElevatorScene.prototype.showDialog = function(){
     this.mode = "dialog";
     if(this.fromLevel == 1000 && Flags.flag("intro_text")){
-        this.dialogText = this.intro_text[Utilities.randRangeInt(0,this.intro_text.length-1)];
+        this.dialogText = ElevatorScene.intro_text[Utilities.randRangeInt(0,ElevatorScene.intro_text.length-1)];
     }
     else {
-        this.dialogText = this.text[Utilities.randRangeInt(0,this.text.length-1)];
+        var i = Utilities.randRangeInt(0,ElevatorScene.text.length-1);
+        this.dialogText = ElevatorScene.text[i];
+        ElevatorScene.text.splice(i,1);
     }
 }
 

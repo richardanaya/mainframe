@@ -126,8 +126,6 @@ TestScene.prototype.loadLevel = function(height){
             else if(Level.isMainframeHeight(height)) {
                 tileSet = Tileset.createMainframeTileset();
             }
-            _this.music.fade(0,1,3000);
-            _this.music = null;
         }
     }
 
