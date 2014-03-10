@@ -3,7 +3,7 @@ var HackGridGenerator = function() {
 }
 
 HackGridGenerator.maxNodeRatio = .07;
-HackGridGenerator.maxFailAttempts = 5;
+HackGridGenerator.maxFailAttempts = 50;
 
 HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, difficulty ) {
 	var hackGrid = new HackGrid( desiredSizeX, desiredSizeY, scene );
@@ -20,10 +20,13 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
     var lastNode = null;
     var nodeCount = 0;
     var failures = 0;
+
+    var nodes = [];
     while( nodeCount < numNodes ) {
         var randPos = { x: Utilities.randRangeInt(0,desiredSizeX), y: Utilities.randRangeInt(0,desiredSizeY) };
-        if( HackGridGenerator.canPlaceNode( hackGrid, randPos ) ) {
+        if( HackGridGenerator.canPlaceNode( hackGrid, nodes, randPos ) ) {
             lastNode = HackGridGenerator.createNode( hackGrid, randPos, HackNodeType.Mainframe, lastNode );
+            nodes.push( lastNode );
             ++nodeCount;
             failures = 0;
         }
@@ -33,38 +36,38 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
         }
     }
 
+    nodes.forEach( function( node ) {
+        var closest = [];
+        var test = HackGridGenerator.getClosestNode( node, nodes );
+        closest.push( test );
+        closest.forEach( function( close ) {
+            close.addConnection( node );
+        });
+
+        hackGrid.addNode( node );
+    });
+
+    
+
 	return hackGrid;
 }
 
 HackGridGenerator.createNode = function( hackGrid, at, nodeType, from ) {
     var node = new HackNode( at.x, at.y, HackNodeType.Neutral, hackGrid.scene );
-    if( from != null && from != undefined ) {
-        if( HackGridGenerator.attemptConnection( hackGrid, node, from ) )
-        {
-            hackGrid.addNode( node );
-        }
-    }
-    else
-    {
-        hackGrid.addNode( node );
-    }
-
     return node;
 }
 
-HackGridGenerator.canPlaceNode = function( hackGrid, at ) {
+HackGridGenerator.canPlaceNode = function( hackGrid, nodes, at ) {
     if( !hackGrid.isValidGridPoint( at.x, at.y ) ) return false;
 
-    var connections = HackGridGenerator.getUniqueConnections( hackGrid );
-    for( var key in connections ) {
-        var connection = connections[key];
-        if( Utilities.isPointOnLine( connection.segment, at ) ) return false;
-    }
-
-    for( var x = at.x-1; x < at.x+2; ++x ) {
-        for( var y = at.y-1; y < at.y+2; ++y ) {
+    for( var x = at.x-1; x < at.x+1; ++x ) {
+        for( var y = at.y-1; y < at.y+1; ++y ) {
             if( hackGrid.isValidGridPoint( x, y ) ) {
-                if( hackGrid.grid[x][y] != 0 ) return false;
+                var isGood = true;
+                nodes.forEach( function( exist ) {
+                    if( exist.gridXPos == x || exist.gridYPos == y ) isGood = false;
+                });
+                if( !isGood ) return false;
             }
         }
     }
@@ -152,4 +155,33 @@ HackGridGenerator.getConnection = function( node1, node2 ) {
 
 HackGridGenerator.getUniqueNodeName = function( node ) {
     return node.gridXPos.toString() + "," + node.gridYPos.toString();
+}
+
+HackGridGenerator.getClosestNode = function( node, nodes, ignore ) {
+    var dist = 0;
+    var result = null;
+
+    var calcDist2 = function( p1, p2 ) {
+        var delta = { x: p2.gridXPos - p1.gridXPos, y: p2.gridYPos - p1.gridYPos };
+        return delta.x*delta.x+delta.y*delta.y;
+    }
+
+    nodes.forEach( function( test ) {
+        if( result == null ) {
+            dist = calcDist2(node,test);
+            result = test;
+        }
+        else if( node.connectedTo.indexOf(test) == -1 && test.connectedTo.length < 3 && (ignore == undefined || ignore != test ) ) {
+
+            var testDist = calcDist2( node, test );
+            if( testDist < dist ) {
+                result = test;
+                dist = testDist;
+            }
+        }
+    });
+
+    if( result == null ) debugger;
+
+    return result;
 }
