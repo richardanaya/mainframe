@@ -1,10 +1,12 @@
-var HackScene = function(game, returnScene, playerImage, difficulty){
+var HackScene = function(game, returnScene, playerImage, difficulty, programs, endHackCallBack){
     this.game = game;
     this.returnScene = returnScene;
     this.playerImage = playerImage;
     this.difficulty = difficulty;
 
     this.programs = ["Net Ninja", "Network Warrior", "Bit Shifter", "SUDO Inspect"]
+    //this.programs = programs
+
     this.selectedProgram = null;
     this.program1Consumed = false;
     this.program2Consumed = false;
