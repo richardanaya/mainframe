@@ -42,11 +42,6 @@ HackScene.prototype.update = function(delta){
     this.time += delta;
     this.timeSinceTurn += delta;
 
-    if (this.timeSinceTurn >= this.playerActionThrottle)
-    {
-        this.whoseTurn = "player";
-    }
-    
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0,0,this.width,this.height);
 
@@ -494,6 +489,15 @@ HackScene.prototype.drawCircleAtGridPos = function(x,y,color)
     this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = '#003300';
     this.ctx.stroke();
+};
+
+HackScene.prototype.drawImageAtGridPos = function(x,y,image)
+{   
+    this.ctx.drawImage(image, 
+                       this.upLeftGridCornerX + (x * this.squareSize) + (0.5 * this.gridObjectPadding),
+                       this.upLeftGridCornerY + (y * this.squareSize) + (0.5 * this.gridObjectPadding), 
+                       this.squareSize - this.gridObjectPadding, 
+                       this.squareSize - this.gridObjectPadding);
 };
 
 HackScene.prototype.drawBacktraceCircleAtGridPos = function(x,y)

@@ -169,6 +169,7 @@ HackGrid.prototype.makeTrueDataCache = function( node )
     node.enmityGainIfDetected = 25.00;
     node.isTrueDataCache = true;
     this.trueDataCacheNode = node;
+    node.type = "goal";
 }
 
 HackGrid.prototype.makeFakeDataCache = function( node )
@@ -176,6 +177,7 @@ HackGrid.prototype.makeFakeDataCache = function( node )
     node.hackingDifficultyInSec = 10.0;
     node.mainframeDetectionChancePerc = 80.0;
     node.enmityGainIfDetected = 25.00;
+    node.type = "goal";
 }
 
 HackGrid.prototype.makeNeutral = function( node )

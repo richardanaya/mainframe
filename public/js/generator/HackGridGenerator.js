@@ -136,8 +136,11 @@ HackGridGenerator.generate = function( desiredSizeX, desiredSizeY, scene, diffic
 HackGridGenerator.setupNodes = function ( hackGrid )
 {
     hackGrid.makePlayer( hackGrid.getRandomNeutralNode() );
-    hackGrid.makeMainframe( hackGrid.getRandomNodeInRange( hackGrid.playerNode, 3, 8 ) );
-
+    hackGrid.makeMainframe( hackGrid.getRandomNodeInRange( hackGrid.playerNode, 5, 8 ) );
+    hackGrid.makeTrueDataCache( hackGrid.getRandomNeutralNode() );
+    hackGrid.makeFakeDataCache( hackGrid.getRandomNeutralNode() );
+    hackGrid.makeFakeDataCache( hackGrid.getRandomNeutralNode() );
+    hackGrid.makeFakeDataCache( hackGrid.getRandomNeutralNode() );
 }
 
 HackGridGenerator.createNode = function( hackGrid, at, nodeType, from ) {

@@ -23,6 +23,13 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	this.backtracePercentProgress = 0.0;
 	this.isTrueDataCache = false;
 
+	this.neutralImage = Resources.getImage("neutral_node");
+	this.mainframeImage = Resources.getImage("mainframe_node");
+	this.midHackNeutralImage = Resources.getImage("neutral_node_mid_hack");
+	this.hackedImage = Resources.getImage("entry_node");
+	this.dataCacheImage = Resources.getImage("datacache_node");
+
+
 	if (this.type == "mainframe")
 	{
 		this.hostile = true;
@@ -120,26 +127,26 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 
 HackNode.prototype.update = function(delta)
 {
-	var color = "purple";
-
+	var image = this.neutralImage;
+	
     if(this.type == "player")
-        color = "green";
+        image = this.hackedImage;
     else if ((this.type == "neutral") && (this.hacked == true))
-        color = "green";
+        image = this.hackedImage;
     else if ((this.type == "neutral") && (this.activelyBeingHacked == true))
-        color = "lightgreen";
+        image = this.midHackNeutralImage;
     else if (this.type == "neutral")
-        color = "white";
+        image = this.neutralImage;
     else if ((this.type == "goal") && (this.hacked == true))
-        color = "purple";
+        image = this.dataCacheImage;
     else if ((this.type == "goal") && (this.activelyBeingHacked == true))
-        color = "blue";
+        image = this.dataCacheImage;
     else if (this.type == "goal")
-        color = "yellow";
+        image = this.dataCacheImage;
     else if (this.type == "mainframe")
-        color = "red";
-
-	this.hackingScene.drawCircleAtGridPos(this.gridXPos, this.gridYPos, color);
+        image = this.mainframeImage;
+  
+	this.hackingScene.drawImageAtGridPos(this.gridXPos, this.gridYPos, image);
 };
 
 HackNode.prototype.drawBacktraceHighlights = function(delta)
