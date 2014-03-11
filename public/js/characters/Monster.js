@@ -90,9 +90,10 @@ Monster.prototype.think = function(){
 
     /*
      */
-    var rx = result[0].x;
-    var ry = result[0].y;
+
     if(result.length > 0){
+        var rx = result[0].x;
+        var ry = result[0].y;
         if(rx == p.x && ry == p.y){
             this.attack(p,null);
         }
