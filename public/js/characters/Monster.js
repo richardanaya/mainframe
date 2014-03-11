@@ -205,6 +205,37 @@ Monster.List = {
         image_1 : "ninja_1",
         levels: [900,800,700,600,500,400,300,200,100,0]
     }
+    ,
+
+    cyborg : {
+        name : "Cyborg",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "cyborg_1",
+        image_1 : "cyborg_1",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+    ,
+
+    greygoo : {
+        name : "Grey Goo",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "greygoo_1",
+        image_1 : "greygoo_1",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
 }
 
 

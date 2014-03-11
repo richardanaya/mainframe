@@ -134,6 +134,17 @@ Pickupable.Items = {
         image : "bat",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
+    "cricket_bat" : {
+        name: "Cricket Bat",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 2,
+        image : "item_cricket_bat",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
     "gun" : {
         name: "Gun",
         description: "A trusty gun",
