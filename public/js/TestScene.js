@@ -563,7 +563,7 @@ TestScene.prototype.select = function(onselect){
 
 TestScene.prototype.onDie = function(){
     this.showInfoText("You Died");
-    this.game.changeScene(new StartScene(this.game));
+    this.game.changeScene(new DeathScene(this.game));
     this.mode = "dead";
     this.music.fadeOut(1,0,3000);
 }

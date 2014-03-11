@@ -48,16 +48,10 @@ Mainframe.prototype.GetLevel = function(height){
         level.addObjectTo(8,1,de);
         de.image = Resources.getImage("stairs");
 
-        level.addObjectTo(2,2,Pickupable.load("lab_note_0"));
-        level.addObjectTo(2,3,Pickupable.load("hackable_computer"));
-        level.addObjectTo(1,1,Pickupable.load("rig_0"));
-        level.addObjectTo(5,1,Pickupable.load("rig_0"));
-        level.addObjectTo(2,1,Pickupable.load("program_0"));
-        level.addObjectTo(3,1,Pickupable.load("program_1"));
-        level.addObjectTo(4,1,Pickupable.load("program_2"));
-        level.addObjectTo(5,1,Pickupable.load("program_3"));
-        level.addObjectTo(6,1,Pickupable.load("program_4"));
         level.addObjectTo(3,3,Monster.load("robot"));
+        for(var p in Pickupable.Items){
+            level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(p));
+        }
 
         generator.postProcess( level );
 
