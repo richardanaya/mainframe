@@ -41,14 +41,14 @@ DeathScene.prototype.update = function(delta){
         context.fillText(line, x, y);
     }
 
-    this.ctx.drawImage(Resources.getImage("death"),(window.innerWidth-256)/2,(window.innerHeight-256)/2-200,256,256);
+    this.ctx.drawImage(Resources.getImage("death"),(window.innerWidth-256)/2,(window.innerHeight-256)/2-150,256,256);
 
     this.ctx.font = "36px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
     this.ctx.globalAlpha = .2;
-    this.ctx.fillText("YOU DIED", (this.width-this.ctx.measureText("YOU DIED").width)/2-15, this.height/2-15);
+    this.ctx.fillText("YOU DIED", (this.width-this.ctx.measureText("YOU DIED").width)/2-15+50, this.height/2-15);
     this.ctx.globalAlpha = 1;
-    this.ctx.fillText("YOU DIED", (this.width-this.ctx.measureText("YOU DIED").width)/2, this.height/2);
+    this.ctx.fillText("YOU DIED", (this.width-this.ctx.measureText("YOU DIED").width)/2+50, this.height/2);
 
     this.ctx.font = "14px 'Press Start 2P'";
 
