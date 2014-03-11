@@ -153,13 +153,17 @@ TestScene.prototype.loadLevel = function(height){
                 }).play();
             }
         }
+
+        if( _this.player.onLevelDone != undefined ) {
+            _this.player.onLevelDone( _this );
+        }
     }
 
     if(height == 1000 && oldHeight>=height){
         done();
     }
     else {
-        this.game.changeScene(new ElevatorScene(this.game,done,oldHeight,height,this.player.image_idle_0))
+        this.game.changeScene(new ElevatorScene(this.game,done,oldHeight,height,this.player.image_idle_0, this.player.allyImage))
     }
 };
 
@@ -209,11 +213,15 @@ TestScene.prototype.update = function(delta){
                 if(!this.player.god && this.currentHeight != -100){
                     this.ctx.drawImage(Resources.getImage('fowoverlay'),x*this.size ,y*this.size,this.size ,this.size  );
                 }
+
                 this.ctx.globalAlpha = 1;
 
             	for(var i = 0 ; i < t.objects.length; i++){
             	    var o = t.objects[i];
             	    o.update(delta);
+
+                    if( o.camoCount > 0 ) this.ctx.globalAlpha = 0.25;
+
             	    this.ctx.save();
             	    if(o.flipped){
             	        this.ctx.translate(this.size* o.x+this.size,this.size* o.y);
@@ -225,6 +233,8 @@ TestScene.prototype.update = function(delta){
             	    }
             	    this.ctx.drawImage(o.image,0,0,1,1);
             	    this.ctx.restore();
+
+                    this.ctx.globalAlpha = 1;
 				}
             }
         }
@@ -345,8 +355,10 @@ TestScene.prototype.update = function(delta){
 TestScene.prototype.processAllMoves = function(){
     var moves = [];
     for(var i = 0 ; i < this.level.allObjects.length; i++){
-        if(this.level.allObjects[i].thinks){
-            moves = moves.concat(this.level.allObjects[i].think());
+        var o = this.level.allObjects[i];
+        o.camoCount = Math.max( 0, --o.camoCount );
+        if(o.thinks){
+            moves = moves.concat(o.think());
         }
     }
     var _this = this;
@@ -369,6 +381,7 @@ TestScene.prototype.processAllMoves = function(){
         }
         moves[i].process(function(){process(i+1);});
     }
+
     process(0);
 }
 
@@ -528,6 +541,9 @@ TestScene.prototype.onKeyDown = function(key){
             }
             else if(this.pickup_target){
                 this.pickupNearestTarget();
+            }
+            else {
+                this.wait();
             }
         }
         this.processAllMoves();
@@ -707,6 +723,10 @@ TestScene.prototype.attackNearestTarget = function(){
 
 TestScene.prototype.pickupNearestTarget = function(){
     this.player.pickup(this.pickup_target);
+}
+
+TestScene.prototype.wait = function() {
+    this.player.wait();
 }
 
 TestScene.prototype.select = function(onselect){

@@ -161,7 +161,8 @@ Level.prototype.getNeighborObjectsByType = function(x,y,type){
         var t = ts[j];
         for(var i = 0 ; i < t.objects.length; i++){
             if(t.objects[i].tags.indexOf(type)!=-1){
-                o.push(t.objects[i]);
+                if( type != "monster" || t.objects[i].tags.indexOf( "ally" ) == -1 )
+                    o.push(t.objects[i]);
             }
         }
     }
@@ -337,7 +338,14 @@ Level.prototype.getRandomFreeTile = function(room) {
 };
 
 Level.prototype.getRandomWall = function(room) {
-    return {x:Utilities.randRangeInt( room.x+1, room.x+room.width-3 ), y:room.y-1 };
+    for( var i = 0; i < 1000; ++i ) {
+        var result = {x:Utilities.randRangeInt( room.x+1, room.x+room.width-2 ), y:room.y-1 };
+        if( this.isPointWithin( result.x, result.y ) ) {
+            return result;
+        }
+    }
+
+    return { x: room.x+1, y: room.y-1 };
 };
 
 Level.prototype.isWithinRoom = function(room,x,y) {
@@ -350,6 +358,17 @@ Level.prototype.isWithinRoom = function(room,x,y) {
 Level.prototype.isFreeTile = function(x,y) {
     var t = this.getTileAt(x,y);
     return (t.type != Level.Types.Prop && t.type != Level.Types.Wall);
+}
+
+Level.prototype.tryPlaceNextTo = function(x,y,o) {
+    var neigh = this.getNeighborTiles(x,y);
+    for( var i = 0; i < neigh.length; ++i ) {
+        var tile = neigh[i];
+        if( tile != null && tile != undefined && tile.type == Level.Types.Floor ) {
+            this.addObjectTo( tile.x, tile.y, o );
+            return;
+        }
+    }
 }
 
 Level.isOfficeHeight = function(h){

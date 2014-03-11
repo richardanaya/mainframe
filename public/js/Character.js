@@ -14,7 +14,11 @@ var Character = function(){
     this.armor = 0;
     this.damage = 0;
 
+    this.passiveRegen = 0;
     this.canCounter = false;
+    this.canCamo = false;
+    this.canSeeThroughStealth = false;
+    this.camoCount = 0;
 }
 
 Character.prototype = Object.create(GameObject.prototype);
@@ -35,11 +39,16 @@ Character.prototype.moveDown = function(){
     this.move(this.x,this.y+1);
 }
 
+Character.prototype.onHeal = function(d) {
+    this.level.scene.effects.push(new DamageEffect(this.level.scene,this.x,this.y,d+"", "green"));
+    this.health = Math.min(this.health+d, this.maxHealth);
+}
+
 Character.prototype.onDamage = function(d){
     if(this.god){
         return;
     }
-    this.level.scene.effects.push(new DamageEffect(this.level.scene,this.x,this.y,d+""));
+    this.level.scene.effects.push(new DamageEffect(this.level.scene,this.x,this.y,d+"", "red"));
 
     this.health -= d;
     if(this.health<=0){
@@ -48,6 +57,7 @@ Character.prototype.onDamage = function(d){
 }
 
 Character.prototype.onDie = function(){
+    if( this == this.level.scene.player.aggro ) this.level.scene.player.aggro = null;
     this.level.scene.showInfoText(this.name+" died.");
     this.level.removeObject(this);
 };

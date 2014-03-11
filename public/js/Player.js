@@ -11,6 +11,7 @@ var Player = function(){
     this.defence = 9;
     this.armor = 0;
     this.damage = 5;
+    this.passiveRegen = 0;
 
     this.accuracy = 10;
     this.mind = 10;
@@ -21,6 +22,9 @@ var Player = function(){
     this.activeRoom = null;
     this.rangedWeapon = null;
     this.meleeWeapon = null;
+
+    this.deployed = false;
+    this.aggro = null;
 
 
     this.god = false;
@@ -42,12 +46,24 @@ Player.prototype.setupScientist = function(){
     this.class = "scientist";
     this.image_idle_0 = Resources.getImage("scientist_1");
     this.image_idle_1 = Resources.getImage("scientist_2");
+    this.allyImage = Resources.getImage("sop13_1");
     var g = Pickupable.load("rig_0");
     g.equipped = true;
     this.addToInventory(g);
+
+    g = Pickupable.load("sop13");
+    g.equipped = true;
+    this.addToInventory(g);
+    this.deployed = true;
     
-    this.maxHealth = 75;
-    this.health = 75;
+    this.maxHealth = 10;
+    this.health = 10;
+    this.strength = 0;
+    this.defense = 0;
+
+    this.onLevelDone = function( scene ) {
+        scene.level.tryPlaceNextTo( this.x, this.y, Monster.load( "sop13" ) );
+    }
 }
 
 Player.prototype.setupHacker = function(){
@@ -58,9 +74,19 @@ Player.prototype.setupHacker = function(){
     g.equipped = true;
     this.addToInventory(g);
     this.useRanged(g);
-    var g = Pickupable.load("rig_0");
+    var g = Pickupable.load("rig_1");
     g.equipped = true;
     this.addToInventory(g);
+
+    g = Pickupable.load("program_0");
+    g.equipped = true;
+    this.addToInventory(g);
+
+    g = Pickupable.load("program_1");
+    g.equipped = true;
+    this.addToInventory(g);
+
+    this.canCamo = true;
 
     this.maxHealth = 100;
     this.health = 100;
@@ -80,6 +106,7 @@ Player.prototype.setupSamurai = function(){
     this.useMelee(g);
     this.canCounter = true;
 
+    this.passiveRegen = 1;
     this.maxHealth = 125;
     this.health = 125;
     
@@ -132,6 +159,12 @@ Player.prototype.getInventoryWithTag = function(t){
 
 Player.prototype.pickup = function(o){
     this.moves.push(new Pickup(this,o));
+}
+
+Player.prototype.wait = function() {
+    if( this.canCamo ) {
+        this.moves.push( new Camo( this ) );
+    }
 }
 
 Player.prototype.explore = function(){

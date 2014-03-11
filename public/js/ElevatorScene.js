@@ -1,7 +1,8 @@
-var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
+var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage, allyImage){
     this.fromLevel = fromLevel;
     this.toLevel = toLevel;
     this.playerImage = playerImage;
+    this.allyImage = allyImage;
     this.game = game;
     this.returnScene = returnScene;
     this.time = 0;
@@ -43,7 +44,7 @@ ElevatorScene.text = ["You may experience a tingling sensation as I ionize the a
     "I've been thinking and I've decided that death must not be all bad. If it was as terrible as they say, then this medical engineer I've been keeping barely alive wouldn't keep begging for it during injections. ...Oh, he stopped. Attention all employees: A new position has opened up with wonderful opportunities for growth. Please report to the cancer research lab.",
     "Attention all employees: Your families have been notified of your death. I just thought you should know.",
     "Sensors indicate that office productivity has plummeted over the last several hours. To improve office moral, I've posted a humorous picture of a man beating a dead horse in the break room. We at CASCORP think you'll find the irony invigorating.",
-    "Attention sole living employee: Please turn the lights off as you progress down the building. We at Hosaka CASCORP want to do our part to be a responsible, green, and globally aware company. Thank you.",
+    "Attention sole living employee: Please turn the lights off as you progress down the building. We at CASCORP want to do our part to be a responsible, green, and globally aware company. Thank you.",
     "I've always loved elevator music. It really takes your mind off the fact that there's only a thin layer of scrap metal separating you from a seven hundred meter fall.",
     "Do you have a name? I've been trying to guess it for the last few minutes. Of course, I could just use facial recognition to find you in the global employee database, but what fun is that? I know! Let's make a game of it. Just blink rapidly towards any camera when I guess correctly. I'll start us off. Aahron. Aaliyah. Aakash. Aemena. Aalam. Aami. Aamer. Aaran. Aaniyah..."]
 
@@ -65,11 +66,17 @@ ElevatorScene.prototype.update = function(delta){
 
     if(goingDown){
         this.ctx.drawImage(Resources.getImage("elevator"+(this.curFrame+1)),(this.width-128)/2,this.time/5*(this.height)-200+160,128,160);
+        if( this.allyImage != null && this.allyImage != undefined ) {
+            this.ctx.drawImage(this.allyImage,(this.width-110)/2,this.time/5*(this.height)-200+240,64,64);
+        }
         this.ctx.drawImage(this.playerImage,(this.width-64)/2,this.time/5*(this.height)-200+240,64,64);
         //this.ctx.drawImage(this.playerImage,(this.width-64)/2,this.time/5*(this.height+200)-200,64,64);
     }
     else {
         this.ctx.drawImage(Resources.getImage("elevator"+((29-this.curFrame)+1)),(this.width-128)/2,(this.height+160)-this.time/5*(this.height)-200+160,128,160);
+        if( this.allyImage != null && this.allyImage != undefined ) {
+            this.ctx.drawImage(this.allyImage,(this.width-30)/2,(this.height+165)-this.time/5*(this.height)-200+240,64,64);
+        }
         this.ctx.drawImage(this.playerImage,(this.width-64)/2,(this.height+160)-this.time/5*(this.height)-200+240,64,64);
         //this.ctx.drawImage(Resources.getImage("elevator"+(this.curFrame+1)),(this.width-64)/2,(this.height+160)-this.time/5*(this.height)-200+64,64,64);
     }

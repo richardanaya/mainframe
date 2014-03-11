@@ -16,7 +16,7 @@ CharacterSelectScene.prototype.update = function(delta){
     var cx = (window.innerWidth-480)/2;
     var cy = 30;
 
-    this.ctx.font = "16px 'Press Start 2P'";
+    this.ctx.font = "11px 'Press Start 2P'";
     this.ctx.fillStyle = "white"
     this.drawBox(cx,cy,480,400);
     this.drawBox(cx+20,cy+20,120,120);
@@ -30,21 +30,22 @@ CharacterSelectScene.prototype.update = function(delta){
 
     if(this.character == 0){
         this.ctx.fillRect(cx+20,cy+20,120,120);
-        text = "Street Samurai - A mysterious man shrouded in robes, dawns weapons of strength to face against the streets dangerous foes"
+        text = "Street Samurai - A mysterious warrior experienced in martial combat.  Highest strength, and passive health regeneration, and can counter attack.  Recommended for first time players."
     }
     else if(this.character == 1){
         this.ctx.fillRect(cx+180,cy+20,120,120);
-        text = "Hacker - Eyes forever in the net, he moves through wires like man moves through the wind"
+        text = "Hacker - Eyes forever in the net, he moves through wires like man moves through the wind.  Makes up for low combat abilities with an active camo system and starts with hack programs to access locked gear quicker.  Recommended for experienced players."
     }
     else if(this.character == 2){
         this.ctx.fillRect(cx+340,cy+20,120,120);
-        text = "Scientist - Ready to unravel the mysteries of the world"
+        text = "Scientist - Ready to unravel the mysteries of the world.  Pitiful health and initially lacks any way to deal direct damage.  Relies completely on a powerful companion droid SOP13 for offense and defense.  Recommended for hardcore players."
     }
     this.ctx.globalAlpha = 1;
 
     this.ctx.drawImage(Resources.getImage("street_samurai_1"),cx+20+10,cy+20+10,100,100);
     this.ctx.drawImage(Resources.getImage("hacker_1"),cx+180+10,cy+20+10,100,100);
-    this.ctx.drawImage(Resources.getImage("scientist_1"),cx+340+10,cy+20+10,100,100);
+    this.ctx.drawImage(Resources.getImage("sop13_1"),cx+340+10,cy+50+10,64,64);
+    this.ctx.drawImage(Resources.getImage("scientist_1"),cx+350+10,cy+20+10,100,100);
 
     function wrapText(context, text, x, y, maxWidth, lineHeight) {
         var words = text.split(' ');
@@ -133,7 +134,7 @@ CharacterSelectScene.prototype.onKeyDown = function(k){
             p.setupHacker();
         }
         if(this.character == 2){
-            p.setupScientist();
+            p.setupScientist( this );
         }
         new Howl({
             urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],

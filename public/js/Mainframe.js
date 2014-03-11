@@ -50,7 +50,7 @@ Mainframe.prototype.GetLevel = function(height){
         level.addObjectTo(8,1,de);
         de.image = Resources.getImage("stairs");
 
-        level.addObjectTo(3,3,Monster.load('rat'));
+        level.addObjectTo(3,3,Monster.load('ninja'));
         level.addObjectTo(7,7,Pickupable.load('janitors_note'));
         level.addObjectTo(8,8,Pickupable.load('hackable_safe'));
         /*
@@ -181,6 +181,8 @@ Mainframe.prototype.start = function(){
     Resources.addImage("robot_idle_1","images/robot_2.png");
     Resources.addImage("keycard","images/keycard.png");
     Resources.addImage("fowoverlay","images/fogofwar.png");
+    Resources.addImage("sop13_1","images/SOP13_1.png");
+    Resources.addImage("sop13_2","images/SOP13_2.png");
 
     for(var i = 1 ; i <= 30; i++){
         var s = i+"";

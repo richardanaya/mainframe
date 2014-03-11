@@ -25,8 +25,6 @@ StartScene.prototype.update = function(delta){
     {
         this.ctx.drawImage(Resources.getImage("cursor_2"),(window.innerWidth-7*2)/2+130,(window.innerHeight-9*2)/2+125,7*2,9*2);
     }
-
-
 };
 
 
