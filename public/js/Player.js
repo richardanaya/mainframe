@@ -45,7 +45,8 @@ Player.prototype.setupScientist = function(){
     g.equipped = true;
     this.addToInventory(g);
     
-    this.health = 150;
+    this.maxHealth = 75;
+    this.health = 75;
 }
 
 Player.prototype.setupHacker = function(){
@@ -58,6 +59,9 @@ Player.prototype.setupHacker = function(){
     var g = Pickupable.load("rig_0");
     g.equipped = true;
     this.addToInventory(g);
+
+    this.maxHealth = 100;
+    this.health = 100;
 }
 
 Player.prototype.setupSamurai = function(){
@@ -72,6 +76,9 @@ Player.prototype.setupSamurai = function(){
     this.addToInventory(g);
     this.useMelee(g);
     this.canCounter = true;
+
+    this.maxHealth = 125;
+    this.health = 125;
     
 }
 

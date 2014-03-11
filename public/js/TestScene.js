@@ -389,8 +389,16 @@ TestScene.prototype.listOptions = function(){
         this.attackButton.show();
     }
     else {
-        this.attackButton.hide();
-        this.attack_target = null;
+        var props = this.level.getOrdinalNeighborsByType(this.player.x,this.player.y,Level.Types.Prop);
+        if( props.length>0 ) {
+                this.attack_target = props[0];
+                this.attackButton.image = this.attack_target.image;
+                this.attackButton.show();
+        }
+        else {
+            this.attackButton.hide();
+            this.attack_target = null;
+        }
     }
     return options_changed;
 }

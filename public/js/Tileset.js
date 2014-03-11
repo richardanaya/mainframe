@@ -69,6 +69,8 @@ Tileset.createOfficeTileset = function() {
 		Utilities.createImage('images/tilesets/office/props/prop04.png'),
 	];
 
+    result.smashedProp = [Utilities.createImage( 'images/tilesets/office/floors/floor04.png' )],
+
     result.propSounds = [
         null,
         "sounds/sfx_ambience/sfx_ambience_stereo_lp_7.mp3",
@@ -198,6 +200,8 @@ Tileset.createLabTileset = function() {
         Utilities.createImage('images/tilesets/lab/props/prop04.png'),
     ];
 
+    result.smashedProp = [Utilities.createImage( 'images/tilesets/lab/floors/floor01.png' )],
+
     result.propSounds = [
         null,
         "sounds/sfx_general/sfx_object_hum_lp_6.mp3",
@@ -321,6 +325,8 @@ Tileset.createBasementTileset = function() {
         Utilities.createImage('images/tilesets/basement/props/prop02.png'),
         Utilities.createImage('images/tilesets/basement/props/prop03.png'),
     ];
+
+    result.smashedProp = [Utilities.createImage( 'images/basement/lab/floors/floor01.png' )],
 
     result.propSounds = [
         "sounds/sfx_ambience/sfx_ambience_stereo_lp_4.mp3",
@@ -447,6 +453,8 @@ Tileset.createMainframeTileset = function() {
         Utilities.createImage('images/tilesets/mainframe/props/prop02.png'),
         Utilities.createImage('images/tilesets/mainframe/props/prop03.png')
     ];
+
+    result.smashedProp = [Utilities.createImage( 'images/tilesets/mainframe/floors/floor01.png' )],
 
     result.propSounds = [
         null,
