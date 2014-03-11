@@ -5,7 +5,6 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
 
     this.goalFound = false;
 
-
     this.programs = ["Net Ninja", "Network Warrior", "Bit Shifter", "SUDO Inspect"]
     //this.programs = programs
 
@@ -29,19 +28,6 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
     this.hackingFullyBacktraced = false;
     this.selectedNode = null;
     
-    this.music = new Howl({
-        urls: ['sounds/sfx_general/sfx_computer_on.mp3'],
-        loop: false
-        }).play();
-    
-
-    /*
-    this.music = new Howl({
-        urls: ['sounds/Hacking.mp3'],
-        loop: true
-        }).play();
-    */
-
     this.phasingIn = true;
     this.phaseInSpeed = 1.0;
     this.minimumSquareSize = 40;
@@ -51,6 +37,20 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
     this.gridObjectSize = 0;
     this.gridObjectPadding = 1;
     this.grid = HackGridGenerator.generate( 10, 10, this, this.difficulty );
+
+    this.sound = new Howl(
+    {
+        urls: ['sounds/sfx_general/sfx_computer_on.mp3'],
+        autoplay: true,
+        loop: false,
+    });
+
+    this.music = new Howl(
+    {
+            urls: ['sounds/Hacking.mp3'],
+            autoplay: true,
+            loop: true
+    });
 };
 
 HackScene.prototype = Object.create(Scene.prototype);
@@ -273,9 +273,7 @@ HackScene.prototype.update = function(delta){
 
             if (nodeIsHackable == true)
                 this.ctx.fillText("Detection Chance: " + this.selectedNode.mainframeDetectionChancePerc + "%", 30, 210);
-
             //now I need to draw a button to actually initiate hack.
-
 
             if (this.playerActivelyHacking == true)
             {
@@ -479,12 +477,40 @@ HackScene.prototype.onTap = function(x,y)
         }    
     }
 
-    //exit button
+    //manual exiting with X button
     if ((x > this.width - 40) && (x < this.width - 10) && (y > 10) && (y < 40))
     {
+        var _this = this;
+        this.music.fade(1,0,3000,function(){
+            _this.music.stop();
+        });
+
+        if (this.hackingFullyBacktraced == false)
+        {
+            var hackEnd = new HackEndStatus(false, false);
+            this.endHackCallBack(hackEnd);
+        }
+        else
+        {
+            var hackEnd = new HackEndStatus(false, true);
+            this.endHackCallBack(hackEnd);
+        }  
+    }
+
+    /*
+        //exiting with victory prompt
+    if ((this.goalFound) && (x > this.width - 40) && (x < this.width - 10) && (y > 10) && (y < 40))
+    {
+        var _this = this;
+        this.music.fade(1,0,3000,function(){
+            _this.music.stop();
+        });
+
         var hackEnd = new HackEndStatus(true, false);
         this.endHackCallBack(hackEnd);
     }
+    */
+
 };
 
 HackScene.prototype.drawCircleAtGridPos = function(x,y,color)

@@ -22,6 +22,7 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	this.localBacktraceComplete = false;
 	this.backtracePercentProgress = 0.0;
 	this.isTrueDataCache = false;
+	this.isSUDOInspected = false;
 
 	this.neutralImage = Resources.getImage("neutral_node");
 	this.mainframeImage = Resources.getImage("mainframe_node");
@@ -93,7 +94,7 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 				if (this.isTrueDataCache == true)
 				{
 					this.hackingScene.goalFound = true;
-					console.log("found the true data cache!");
+					//console.log("found the true data cache!");
 				}
 
 				/*
@@ -142,6 +143,10 @@ HackNode.prototype.update = function(delta)
 	
     if(this.type == "player")
         image = this.playerImage;
+    else if ((this.isSUDOInspected == true) && (this.type == "goal") && (this.isTrueDataCache == true))
+    	image = this.trueDataCacheImage;
+    else if ((this.isSUDOInspected == true) && (this.type == "goal") && (this.isTrueDataCache == false))
+    	image = this.hackedEmptyDataCacheImage;
     else if ((this.type == "neutral") && (this.hacked == true))
         image = this.hackedImage;
     else if ((this.type == "neutral") && (this.activelyBeingHacked == true))

@@ -1,5 +1,5 @@
-var HackEndStatus = function(foundCache, backtracked)
+var HackEndStatus = function(foundCache, backtraced)
 {
 	this.foundCache = foundCache;
-	this.backtracked = backtracked;
+	this.backtraced = backtraced;
 };

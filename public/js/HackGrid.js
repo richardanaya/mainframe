@@ -108,7 +108,7 @@ HackGrid.prototype.isValidGridPoint = function( x,y )
 
 HackGrid.prototype.getRandomNode = function()
 {
-    return this.nodes[ Utilities.randRangeInt( 0, this.nodes.length ) ];
+    return this.nodes[ Utilities.randRangeInt( 0, this.nodes.length-1 ) ];
 }
 
 HackGrid.prototype.getRandomNodeInRange = function( from, min, max, maxFailures )
