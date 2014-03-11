@@ -50,7 +50,7 @@ Mainframe.prototype.GetLevel = function(height){
         level.addObjectTo(8,1,de);
         de.image = Resources.getImage("stairs");
 
-        level.addObjectTo(1,1,Monster.load('cyborg'));
+        //level.addObjectTo(1,1,Monster.load('cyborg'));
         //level.addObjectTo(4,4,Pickupable.load('taser'));
         level.addObjectTo(7,7,Pickupable.load('janitors_note'));
         level.addObjectTo(8,8,Pickupable.load('hackable_safe'));
@@ -184,6 +184,7 @@ Mainframe.prototype.start = function(){
     Resources.addImage("fowoverlay","images/fogofwar.png");
     Resources.addImage("sop13_1","images/SOP13_1.png");
     Resources.addImage("sop13_2","images/SOP13_2.png");
+    Resources.addImage("masamune","images/item_masamume.png");
 
     for(var i = 1 ; i <= 30; i++){
         var s = i+"";
