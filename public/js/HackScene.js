@@ -191,7 +191,6 @@ HackScene.prototype.update = function(delta){
             this.ctx.fillText("upper-right corner to exit", 30, this.height/2 + 20);
             this.ctx.fillText("hacks at any time", 30, this.height/2 + 40);
 
-
         }
         else if (this.mainframeEnmity == 0)
         {
@@ -384,17 +383,51 @@ HackScene.prototype.update = function(delta){
 
             }
         }
+
+        if (this.goalFound == true)
+        {
+            var victoryPromptXSize = 500;
+            var victoryPromptYSize = 200;
+
+            var victoryBorderXSize = 480;
+            var victoryBorderYSize = 180;
+
+            var victoryInnerPromptXSize = 460;
+            var victoryInnerPromptYSize = 160;
+
+            this.ctx.fillStyle = "green";
+            this.ctx.fillRect(300,this.height/2 - (0.5 *  victoryPromptYSize),victoryPromptXSize, victoryPromptYSize);
+
+            this.ctx.fillStyle = "white";
+            this.ctx.fillRect(310,this.height/2 - (0.5 *  victoryBorderYSize),victoryBorderXSize, victoryBorderYSize);
+
+            this.ctx.fillStyle = "green";
+            this.ctx.fillRect(320,this.height/2 - (0.5 *  victoryInnerPromptYSize),victoryInnerPromptXSize, victoryInnerPromptYSize);
+
+            this.ctx.font = "28px 'Press Start 2P'";
+            this.ctx.fillStyle = "white";
+            this.ctx.fillText("HACK SUCCESSFUL!", 330, this.height/2 + 20);
+        }
+
     }
 };
 
 
 HackScene.prototype.onKeyDown = function(key)
 {
+    
     if ((key == 32) && (this.selectedNode != null) && (this.playerActivelyHacking == false))
     {
         if ((this.selectedNode.isHackable()) || (this.selectedNode.type == "goal"))
             this.grid.hackNode(this.selectedNode);
     }
+    
+    /*
+    //debug spacebar = auto-win
+    if (key == 32)
+        this.goalFound = true;
+    */
+
 };
 
 HackScene.prototype.onTap = function(x,y)
@@ -490,16 +523,21 @@ HackScene.prototype.onTap = function(x,y)
             var hackEnd = new HackEndStatus(false, false);
             this.endHackCallBack(hackEnd);
         }
-        else
+        else if (this.hackingFullyBacktraced == true)
         {
             var hackEnd = new HackEndStatus(false, true);
             this.endHackCallBack(hackEnd);
-        }  
+        }
+        else if (this.goalFound == true)
+        {
+            var hackEnd = new HackEndStatus(true, false);
+            this.endHackCallBack(hackEnd);
+        } 
     }
 
-    /*
-        //exiting with victory prompt
-    if ((this.goalFound) && (x > this.width - 40) && (x < this.width - 10) && (y > 10) && (y < 40))
+    
+    //exiting with victory prompt
+    if ((this.goalFound) && (x > 300) && (x < 800) && (y > (this.height/2 - 100)) && (y < (this.height/2 + 100)))
     {
         var _this = this;
         this.music.fade(1,0,3000,function(){
@@ -509,7 +547,6 @@ HackScene.prototype.onTap = function(x,y)
         var hackEnd = new HackEndStatus(true, false);
         this.endHackCallBack(hackEnd);
     }
-    */
 
 };
 
