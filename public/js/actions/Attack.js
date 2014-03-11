@@ -76,30 +76,35 @@ Attack.prototype.process = function(complete){
             return sux;
         }
 
-        if( this.attacker.class != undefined && this.weapon.hasTag( this.attacker.class ) ) {
+        if( this.attacker.class != undefined && this.weapon != null && this.weapon.hasTag( this.attacker.class ) ) {
             var extraDam = Utilities.randRangeInt( 0, 5 );
             var extraOff = Utilities.randRangeInt( 0 , 3 );
 
             if( extraDam + extraOff > 4 ) {
                 switch( this.attacker.class ) {
                     case 'samurai': {
-                        this.attacker.level.scene.showInfoText( this.attacker.name + " feels at one with " + this.weapon.name );
+                        this.attacker.level.scene.showInfoText( this.attacker.name + " feel at one with " + this.weapon.name );
                         damage += extraDam;
                         offense += extraOff;
                     }
                     break;
                     case 'hacker': {
-                        this.attacker.level.scene.showInfoText( this.attacker.name + " exploits a world glitch with " + this.weapon.name );
+                        this.attacker.level.scene.showInfoText( this.attacker.name + " exploit a world glitch with " + this.weapon.name );
                         this.attacker.onHeal( extraDam+extraOff );
                     }
                     break;
                     case 'scientist': {
-                        this.attacker.level.scene.showInfoText( this.attacker.name + " generates a space time manifold with " + this.weapon.name );
+                        this.attacker.level.scene.showInfoText( this.attacker.name + " generate a space time manifold with " + this.weapon.name );
                         this.attacker.camoCount = 5;
                     }
                     break;
                 }
             }
+        }
+
+        if( this.weapon != null && this.weapon.hasTag("fleshflayer") && this.defender.tags.indexOf("fleshy") != -1 ) {
+            this.attacker.level.scene.showInfoText( this.attacker.name + ' strike an artery with' + this.weapon.name );
+            this.defender.bleeding = true;
         }
 
         var offSux = rollDice(offense)
