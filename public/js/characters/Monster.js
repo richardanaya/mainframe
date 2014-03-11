@@ -176,7 +176,8 @@ Monster.List = {
         health: 4,
         image_0 : "ninja_1",
         image_1 : "ninja_1",
-        levels: [900,800,700,600,500,400,300,200,100,0]
+        levels: [900,800,700,600,500,400,300,200,100,0],
+        canSeeThroughStealth: true,
     },
     cyborg : {
         name : "Cyborg",
@@ -237,6 +238,10 @@ Monster.load = function(name){
     p.damage = pi.damage;
     p.image_idle_0 = Resources.getImage(pi.image_0);
     p.image_idle_1 = Resources.getImage(pi.image_1);
+
+    if( pi.canSeeThroughStealth ) { 
+        p.canSeeThroughStealth = true;
+    }
     return p;
 }
 
@@ -283,8 +288,13 @@ Monster.prototype.think = function(){
     var result = [];
     var p = this.level.scene.player;
     var curTile = this.getCurrentTile();
+
+    if( p.camoCount > 0  && !this.canSeeThroughStealth ) {
+        this.lastKnownPlayerLocation = null;
+        return result;
+    }
     // if we're not standing a on a valid tile, or it hasn't been explored yet sleep
-    if( curTile != null && curTile != undefined && curTile.explored ) {
+    else if( curTile != null && curTile != undefined && curTile.explored ) {
        if( curTile.room != p.getCurrentTile().room ) {
             if( p.aggro == this ) p.aggro = false;
             // if we've seen the player before, try and find them at that location

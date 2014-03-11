@@ -24,5 +24,7 @@ Move.prototype.process = function(complete){
         this.obj.onHeal( this.obj.passiveRegen );
     }
 
+    this.obj.camoCount = Math.max( 0, this.obj.camoCount );
+
     complete();
 };

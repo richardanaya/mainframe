@@ -84,6 +84,8 @@ Player.prototype.setupHacker = function(){
     g.equipped = true;
     this.addToInventory(g);
 
+    this.canCamo = true;
+
     this.maxHealth = 100;
     this.health = 100;
 }
@@ -154,6 +156,12 @@ Player.prototype.getInventoryWithTag = function(t){
 
 Player.prototype.pickup = function(o){
     this.moves.push(new Pickup(this,o));
+}
+
+Player.prototype.wait = function() {
+    if( this.canCamo ) {
+        this.moves.push( new Camo( this ) );
+    }
 }
 
 Player.prototype.explore = function(){
