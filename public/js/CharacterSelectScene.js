@@ -30,7 +30,7 @@ CharacterSelectScene.prototype.update = function(delta){
 
     if(this.character == 0){
         this.ctx.fillRect(cx+20,cy+20,120,120);
-        text = "Street Samurai - A mysterious warrior experienced in martial combat.  Highest strength, and passive health regeneration, and can counter attack.  Recommended for first time players."
+        text = "Street Samurai - A mysterious warrior experienced in martial combat.  Highest strength, passive health regeneration, and can deliver multiple counter attacks to nearby enemies.  Recommended for first time players."
     }
     else if(this.character == 1){
         this.ctx.fillRect(cx+180,cy+20,120,120);
