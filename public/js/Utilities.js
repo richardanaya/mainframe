@@ -158,3 +158,7 @@ Utilities.doLineSegmentIntersectPoints = function( p1, p2, q1, q2 ) {
 Utilities.makeLineSegment = function( p1, p2 ) {
 	return [p1,p2];
 }
+
+Utilities.lerp = function( p1, p2, t ) {
+	return p1 + t * ( p2 - p1 );
+}

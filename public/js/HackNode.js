@@ -80,12 +80,12 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 				
 				var randomNumber = Math.ceil(Math.random()*100)
 				if (randomNumber < this.mainframeDetectionChancePerc)
-					this.hackingScene.mainframeEnmity = Math.min((this.hackingScene.mainframeEnmity + this.enmityGainIfDetected),
+					this.hackingScene.mainframeEnmity = Math.min((this.hackingScene.mainframeEnmity + this.enmityGainIfDetected + this.hackingScene.programEnmityModifier),
 																 100.0);
 				
 			}
 
-			this.hackingProgress += delta;
+			this.hackingProgress += (delta * this.hackingScene.programNodeHackSpeedModifier);
 
 			if (this.hackingProgress >= this.hackingDifficultyInSec)
 			{
@@ -189,10 +189,8 @@ HackNode.prototype.drawBacktraceHighlights = function(delta)
 			if (this.connectedTo[i].hostile == true)
 				fullyBacktraced = true;
 
-			this.hackingScene.drawBacktraceLines(this.gridXPos,
-												 this.gridYPos,
-												 this.connectedTo[i].gridXPos,
-												 this.connectedTo[i].gridYPos,
+			this.hackingScene.drawBacktraceLines(this,
+												 this.connectedTo[i],
 												 fullyBacktraced);
 		}
 	}

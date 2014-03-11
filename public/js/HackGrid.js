@@ -148,7 +148,7 @@ HackGrid.prototype.makeMainframe = function( node )
 {
     node.type = HackNodeType.Mainframe;
     node.hostile = true;
-    node.hackingDifficultyInSec = 30.0;
+    node.hackingDifficultyInSec = 45.0;
     node.mainframeDetectionChancePerc = 100.0;
     node.enmityGainIfDetected = 100.0;
     this.mainframeNode = node;
@@ -158,7 +158,6 @@ HackGrid.prototype.makePlayer = function( node )
 {
     node.type = HackNodeType.Player;
     node.hacked = true;
-    node.backtracePercentProgress = 100.0;
     this.playerNode = node;
 }
 
