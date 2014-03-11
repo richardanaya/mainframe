@@ -189,10 +189,8 @@ HackNode.prototype.drawBacktraceHighlights = function(delta)
 			if (this.connectedTo[i].hostile == true)
 				fullyBacktraced = true;
 
-			this.hackingScene.drawBacktraceLines(this.gridXPos,
-												 this.gridYPos,
-												 this.connectedTo[i].gridXPos,
-												 this.connectedTo[i].gridYPos,
+			this.hackingScene.drawBacktraceLines(this,
+												 this.connectedTo[i],
 												 fullyBacktraced);
 		}
 	}

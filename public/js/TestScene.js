@@ -399,12 +399,11 @@ TestScene.prototype.listOptions = function(){
 TestScene.prototype.onKeyDown = function(key){
     if(this.mode == "play"){
         this.graph = this.level.getGraph();
-        /*
+        
         if(key == 72){
-            this.game.changeScene(new HackScene(this.game, this.scene, 1));
+          // this.game.changeScene(new HackScene(this.game, this.scene, 1, []));
         }
-        */
-        if(key == 37 || key == 65){
+        else if(key == 37 || key == 65){
             this.player.moveLeft();
         }
         else if(key == 38 || key == 87){

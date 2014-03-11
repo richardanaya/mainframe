@@ -644,32 +644,50 @@ HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)
     this.ctx.globalAlpha = 1;
 };
 
-HackScene.prototype.drawBacktraceLines = function(x1,y1, x2, y2, nodeFullyBacktraced)
+HackScene.prototype.drawBacktraceLines = function( node1, node2, nodeFullyBacktraced)
 {
     this.ctx.globalAlpha = 0.4;
     this.ctx.lineWidth = 25;
     
-    if(nodeFullyBacktraced == true)
+    var x1 = node1.gridXPos * this.squareSize;
+    var y1 = node1.gridYPos * this.squareSize;
+    var x2 = node2.gridXPos * this.squareSize;
+    var y2 = node2.gridYPos * this.squareSize;
+
+    if( node1.hostile && node2.hostile )
     {
-        
         this.ctx.strokeStyle = "red";
         this.ctx.beginPath();
-        this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
-                                this.upLeftGridCornerY + (y1 * this.squareSize) + (0.5 * this.squareSize));
-        this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
-                                this.upLeftGridCornerY + (y2 * this.squareSize) + (0.5 * this.squareSize));
+        this.ctx.moveTo(this.upLeftGridCornerX + (x1) + (0.5 * this.squareSize), 
+                                this.upLeftGridCornerY + (y1) + (0.5 * this.squareSize));
+        this.ctx.lineTo(this.upLeftGridCornerX + (x2) + (0.5 * this.squareSize), 
+                                this.upLeftGridCornerY + (y2) + (0.5 * this.squareSize));
         this.ctx.stroke();
         
     }
-    else if(nodeFullyBacktraced == false)
+    else
     {
-        this.ctx.strokeStyle = "orange";
+        this.ctx.strokeStyle = "red";
+
+        var perc = 0;
+        if( node1.hostile )
+        {
+            perc = Math.min( 1, node2.backtracePercentProgress/100 );
+            x2 = Utilities.lerp( x1, x2, perc );
+            y2 = Utilities.lerp( y1, y2, perc );
+        }
+        else if( node2.hostile )
+        {
+            perc = Math.min(1, node1.backtracePercentProgress/100 );
+            x1 = Utilities.lerp( x2, x1, perc );
+            y1 = Utilities.lerp( y2, y1, perc );
+        }
 
         this.ctx.beginPath();
-        this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
-                                this.upLeftGridCornerY + (y1 * this.squareSize) + (0.5 * this.squareSize));
-        this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
-                                this.upLeftGridCornerY + (y2 * this.squareSize) + (0.5 * this.squareSize));
+        this.ctx.moveTo(this.upLeftGridCornerX + (x1) + (0.5 * this.squareSize), 
+                                this.upLeftGridCornerY + (y1) + (0.5 * this.squareSize));
+        this.ctx.lineTo(this.upLeftGridCornerX + (x2) + (0.5 * this.squareSize), 
+                                this.upLeftGridCornerY + (y2) + (0.5 * this.squareSize));
         this.ctx.stroke();
     }
 
