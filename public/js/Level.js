@@ -268,6 +268,8 @@ Level.prototype.designRooms = function(height) {
     var upElevatorPos = this.getRandomWall(startRoom);
     this.addObjectTo(upElevatorPos.x,upElevatorPos.y,new UpElevator());
     this.getTileAt(upElevatorPos.x,upElevatorPos.y).type = Level.Types.Floor;*/
+
+
     var endRoom = this.getRoomByDepth(this.maxRoomDepth);
     var downElevatorPos = this.getRandomWall(endRoom);
     this.addObjectTo(downElevatorPos.x,downElevatorPos.y,new DownElevator());

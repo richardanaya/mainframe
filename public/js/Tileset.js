@@ -437,7 +437,7 @@ Tileset.createMainframeTileset = function() {
             vertical: [Utilities.createImage('images/tilesets/mainframe/walls/wall_straight_ns.png')],
             horizontal: [
                 Utilities.createImage('images/tilesets/mainframe/walls/wall_straight_ew01.png'),
-                Utilities.createImage('images/tilesets/mainframe/walls/wall_straight_ew02.png')
+                Utilities.createImage('images/tilesets/mainframe/walls/wall_straight_ew01.png')
             ]
         },
         tjoins: {
