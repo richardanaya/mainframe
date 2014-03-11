@@ -49,19 +49,6 @@ Monster.List = {
         image_1 : "MutantRatMan2",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    robot : {
-        name : "Robot",
-        strength : 2,
-        accuracy : 0,
-        mind : 0,
-        defence : 1,
-        armor : 1,
-        damage : 1,
-        health: 5,
-        image_0 : "robot_1",
-        image_1 : "robot_2",
-        levels: [900,800,700,600,500,400,300,200,100,0]
-    },
     businessman : {
         name : "Businessman",
         strength : 10,
@@ -73,33 +60,6 @@ Monster.List = {
         health: 5,
         image_0 : "businessman_1",
         image_1 : "businessman_2",
-        levels: [900,800,700,600,500,400,300,200,100,0]
-    },
-    bandit : {
-        name : "Bandit",
-        strength : 10,
-        accuracy : 0,
-        mind : 0,
-        defence : 2,
-        armor : 1,
-        damage : 1,
-        health: 5,
-        image_0 : "bandit",
-        image_1 : "bandit",
-        levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-    ,
-    crab_bot : {
-        name : "Crab Bot",
-        strength : 10,
-        accuracy : 0,
-        mind : 0,
-        defence : 2,
-        armor : 1,
-        damage : 1,
-        health: 5,
-        image_0 : "crab_bot_1",
-        image_1 : "crab_bot_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     mutant_roach : {
@@ -114,10 +74,46 @@ Monster.List = {
         image_0 : "MutantRoach1",
         image_1 : "MutantRoach1",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-
-
-    ,
+    },
+    bandit : {
+        name : "Bandit",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "bandit",
+        image_1 : "bandit",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    robot : {
+        name : "Robot",
+        strength : 2,
+        accuracy : 0,
+        mind : 0,
+        defence : 1,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "robot_1",
+        image_1 : "robot_2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    crab_bot : {
+        name : "Crab Bot",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "crab_bot_1",
+        image_1 : "crab_bot_2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
     robot_guard : {
         name : "Robot Guard",
         strength : 10,
@@ -131,7 +127,6 @@ Monster.List = {
         image_1 : "RobotGuard2",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-
     sentry_1 : {
         name : "Sentry",
         strength : 10,
@@ -145,7 +140,6 @@ Monster.List = {
         image_1 : "Sentry2_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-
     sentry_2 : {
         name : "Sentry",
         strength : 10,
@@ -158,9 +152,7 @@ Monster.List = {
         image_0 : "Sentry3_1",
         image_1 : "Sentry3_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-    ,
-
+    },
     sentry_3 : {
         name : "Sentry",
         strength : 10,
@@ -173,10 +165,7 @@ Monster.List = {
         image_0 : "SentryBot1_1",
         image_1 : "SentryBot1_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-
-    ,
-
+    },
     sentry_cat : {
         name : "Sentry Cat",
         strength : 10,
@@ -189,10 +178,7 @@ Monster.List = {
         image_0 : "SentryCat_1",
         image_1 : "SentryCat_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-
-    ,
-
+    },
     ninja : {
         name : "Ninja",
         strength : 10,
@@ -205,9 +191,7 @@ Monster.List = {
         image_0 : "ninja_1",
         image_1 : "ninja_1",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-    ,
-
+    },
     cyborg : {
         name : "Cyborg",
         strength : 10,
@@ -220,10 +204,7 @@ Monster.List = {
         image_0 : "cyborg_1",
         image_1 : "cyborg_1",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-
-    ,
-
+    },
     greygoo : {
         name : "Grey Goo",
         strength : 10,
