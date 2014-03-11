@@ -20,8 +20,8 @@ Pickupable.prototype.onAction = function(action){
         this.level.scene.showDialog(this.description,this.image);
     }
     if(action == "trash"){
-        this.level.scene.player.removeInventory(this);
-        this.level.scene.showInfoText(this.name+" trashed.");
+        this.player.removeInventory(this);
+        this.player.level.scene.showInfoText(this.name+" trashed.");
         this.player.level.scene.inventoryDialog.show();
     }
     if(action == "throw"){
@@ -408,8 +408,11 @@ Pickupable.load = function(name){
     p.read_on_pickup = pi.read_on_pickup;
     if(pi.tags){ p.tags = p.tags.concat(pi.tags); }
     if(pi.actions){ p.actions = pi.actions;}
-    p.actions.push("trash")
+
     if(pi.damage) {p.damage = pi.damage; }
+    if(p.actions.indexOf("trash")==-1){
+        p.actions.push("trash")
+    }
     p.image = Resources.getImage(pi.image);
     return p;
 }
