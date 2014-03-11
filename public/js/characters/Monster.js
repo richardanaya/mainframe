@@ -257,26 +257,26 @@ Monster.load = function(name){
 }
 
 Monster.prototype.think = function(){
-
+    //get player
     var p = this.level.scene.player;
+
+    //get a* direction to go
     var start = this.level.scene.graph.nodes[this.x][this.y];
     var end = this.level.scene.graph.nodes[p.x][p.y];
     var result = astar.search(this.level.scene.graph.nodes, start, end);
-    /*var xOffset = (this.autoMoveX-this.x);
-     if(xOffset != 0){ xOffset /= Math.abs(this.autoMoveX-this.x);}
-     var yOffset = (this.autoMoveY-this.y);
-     if(yOffset != 0){ yOffset /= Math.abs(this.autoMoveY-this.y);}*/
 
-    /*
-     */
 
     if(result.length > 0){
+        //get next position a* thinks we should go
         var rx = result[0].x;
         var ry = result[0].y;
+
+        //if player is there attack
         if(rx == p.x && ry == p.y){
             this.attack(p,null);
         }
         else {
+            //move toward the player
             this.move(result[0].x,result[0].y);
         }
     }

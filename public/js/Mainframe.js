@@ -35,7 +35,9 @@ Mainframe.prototype.GetLevel = function(height){
         level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
         level.tileset = Tileset.createOfficeTileset();
 
-        for(var x = 1; x< width-1; x++ ){
+
+
+       for(var x = 1; x< width-1; x++ ){
             for(var y = 1; y< height-1; y++ ){
                 level.tiles[ Utilities.positionToIndex(x,y,level.width) ] = generator.createTile( Level.Types.Floor, level.tileset.floors[0], x, y );
                 //level.tiles[ Utilities.positionToIndex(x,y,level.width) ].image = Resources.getImage("Floor3Purple");
@@ -43,14 +45,17 @@ Mainframe.prototype.GetLevel = function(height){
         }
 
 
-
+        //spawn elevator
         var de = new DownElevator();
         level.addObjectTo(8,1,de);
         de.image = Resources.getImage("stairs");
 
-        for(var p in Monster.List){
-            level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Monster.load(p));
-        }
+        level.addObjectTo(3,3,Monster.load('rat'));
+
+        //spawn all items
+        /*for(var p in Pickupable.Items){
+            level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(p));
+        }*/
 
         generator.postProcess( level );
 

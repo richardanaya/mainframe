@@ -145,6 +145,120 @@ Pickupable.Items = {
         image : "item_cricket_bat",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
+    "golf_club" : {
+        name: "Golf Club",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 2,
+        image : "item_golf_club",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "samurai_sword" : {
+        name: "Samurai Sword",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 2,
+        image : "item_samurai_sword",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+    ,
+    "pipe" : {
+        name: "Pipe",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 2,
+        image : "item_pipe",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+    ,
+    "butterfly_knife" : {
+        name: "Butterfly Knife",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 2,
+        image : "item_butterfly_knife",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+    ,
+    "cobra" : {
+        name: "Cobra",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 2,
+        image : "item_cobra",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+    ,
+    "boxing gloves" : {
+        name: "Boxing Gloves",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 2,
+        image : "item_boxing_gloves",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+    ,
+    "chain" : {
+        name: "Chain",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 2,
+        image : "item_chain",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+
+    ,
+    "laser_whip" : {
+        name: "Laser Whip",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 2,
+        image : "item_laser_whip",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+    ,
+    "taser" : {
+        name: "Taser",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 2,
+        image : "item_taser",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+    ,
     "gun" : {
         name: "Gun",
         description: "A trusty gun",
@@ -156,6 +270,78 @@ Pickupable.Items = {
         image : "gun",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
+
+    "shotgun" : {
+        name: "Shotgun",
+        description: "",
+        damage: 3,
+        tags: ["ranged","weapon","spread"],
+        actions: ["equip"],
+        equip_slot: "ranged",
+        image : "item_shotgun",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+
+
+    "pulse_laser" : {
+        name: "Pulse Laser",
+        description: "",
+        damage: 3,
+        tags: ["ranged","weapon","laser"],
+        actions: ["equip"],
+        equip_slot: "ranged",
+        image : "item_pulse_laser",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+
+    "flachette_gun" : {
+        name: "Flachette Gun",
+        description: "",
+        damage: 3,
+        tags: ["ranged","weapon","bullet"],
+        actions: ["equip"],
+        equip_slot: "ranged",
+        image : "item_flachette_gun",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+
+
+    "uzi" : {
+        name: "Uzi",
+        description: "",
+        damage: 3,
+        tags: ["ranged","weapon","spread"],
+        actions: ["equip"],
+        equip_slot: "ranged",
+        image : "item_uzi",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+
+
+    "mini_gun" : {
+        name: "Mini Gun",
+        description: "",
+        damage: 3,
+        tags: ["ranged","weapon","spread"],
+        actions: ["equip"],
+        equip_slot: "ranged",
+        image : "item_mini_gun",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+
+
+    "plasma_lance" : {
+        name: "Plasma Lance",
+        description: "",
+        damage: 3,
+        tags: ["ranged","weapon","plasma"],
+        actions: ["equip"],
+        equip_slot: "ranged",
+        image : "item_plasma_lance",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+
+
     "lab_note_1000" : {
         name: "Lab Note",
         description: "[CASCORP - Cybernetic and Artificial Systems Corporation]\n[System Administrator’s Note]\n[Date] 3/6/36 19:27\nWe have been seeing large usage spikes in our engineering services again. Mr. Yanatobi says not to worry, will run more diagnostics next week.\n[Published by Akimoto Nara]",
@@ -336,7 +522,7 @@ Pickupable.Items = {
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "rig_0" : {
-        name: "HaxMark 5",
+        name: "HaxMark 5 Computer",
         description: "You find a computer rig for accessing networks with (2 program capacity)",
         read_on_pickup: true,
         tags: ["rig"],
@@ -344,6 +530,30 @@ Pickupable.Items = {
         actions: ["equip","look at"],
         equip_slot: "rig",
         image : "rig_0",
+        floor_name: "computer rig",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "rig_1" : {
+        name: "Ed's Eyes Computer",
+        description: "You find a computer rig for accessing networks with (3 program capacity)",
+        read_on_pickup: true,
+        tags: ["rig"],
+        max_programs: 3,
+        actions: ["equip","look at"],
+        equip_slot: "rig",
+        image : "rig_1",
+        floor_name: "computer rig",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "rig_2" : {
+        name: "Ono Sendai Cyberspace 7 Computer",
+        description: "You find a computer rig for accessing networks with (4 program capacity)",
+        read_on_pickup: true,
+        tags: ["rig"],
+        max_programs: 4,
+        actions: ["equip","look at"],
+        equip_slot: "rig",
+        image : "rig_2",
         floor_name: "computer rig",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },

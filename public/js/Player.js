@@ -63,7 +63,7 @@ Player.prototype.setupHacker = function(){
 Player.prototype.setupSamurai = function(){
     this.image_idle_0 = Resources.getImage("street_samurai_1");
     this.image_idle_1 = Resources.getImage("street_samurai_2");
-    var g = Pickupable.load("gun");
+    var g = Pickupable.load("shotgun");
     g.equipped = true;
     this.addToInventory(g);
     this.useRanged(g);

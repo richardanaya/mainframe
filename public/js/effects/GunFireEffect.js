@@ -47,6 +47,36 @@ GunFireEffect.prototype.update = function(delta){
             this.ctx.stroke();
             this.ctx.globalAlpha = 1;
         }
+        if(this.bullet == "spread"){
+            for(var i = 0; i < 5; i++){
+                var t = (this.time+Math.random() *.25)/.5
+                var bpx = (this.ex-this.sx)*t;
+                var bpy = (this.ey-this.sy)*t;
+                this.ctx.globalAlpha = .5;
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.sx+bpx, this.sy+bpy);
+                //this.ctx.lineTo(ex,ey);
+                this.ctx.lineTo(this.sx+bpx+(this.ex-this.sx) *.1+(50*Math.random()-25), this.sy+bpy+(this.ey-this.sy) *.1+(50*Math.random()-25));
+                this.ctx.lineWidth = 10;
+                this.ctx.stroke();
+                this.ctx.lineWidth = 3;
+                this.ctx.stroke();
+                this.ctx.globalAlpha = 1;
+            }
+        }
+        if(this.bullet == "plasma"){
+            this.ctx.globalAlpha = .5;
+            this.ctx.beginPath();
+            this.ctx.setLineDash([1,1]);
+            this.ctx.moveTo(this.sx, this.sy);
+            this.ctx.lineTo(this.ex, this.ey);
+            this.ctx.lineWidth = 10;
+            this.ctx.stroke();
+            this.ctx.lineWidth = 3;
+            this.ctx.stroke();
+            this.ctx.globalAlpha = 1;
+
+        }
     }
     else{
         this.scene.effects.splice(this.scene.effects.indexOf(this),1);

@@ -27,6 +27,18 @@ Attack.prototype.process = function(complete){
 
             this.attacker.level.scene.effects.push(new GunFireEffect(this.attacker.level.scene,this.attacker,this.defender,"yellow","bullet"));
         }
+        if(this.weapon.hasTag("laser")){
+
+            this.attacker.level.scene.effects.push(new GunFireEffect(this.attacker.level.scene,this.attacker,this.defender,"red","laser"));
+        }
+        if(this.weapon.hasTag("spread")){
+
+            this.attacker.level.scene.effects.push(new GunFireEffect(this.attacker.level.scene,this.attacker,this.defender,"yellow","spread"));
+        }
+        if(this.weapon.hasTag("plasma")){
+
+            this.attacker.level.scene.effects.push(new GunFireEffect(this.attacker.level.scene,this.attacker,this.defender,"skyblue","plasma"));
+        }
     }
     else {
         new Howl({
