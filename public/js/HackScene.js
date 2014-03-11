@@ -36,8 +36,7 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
     this.upLeftGridCornerY = 0;
     this.gridObjectSize = 0;
     this.gridObjectPadding = 1;
-    this.grid = HackGridGenerator.generate( 10, 10, this, this.difficulty );
-
+    
     this.sound = new Howl(
     {
         urls: ['sounds/sfx_general/sfx_computer_on.mp3'],
@@ -51,6 +50,20 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
             autoplay: true,
             loop: true
     });
+
+    this.programDetectionModifier = 0.0;
+
+    this.initializePassivePrograms();
+
+    this.grid = HackGridGenerator.generate( 10, 10, this, this.difficulty );
+
+    /*
+    for (var i = 0; i < this.grid.nodes.length; i++)
+    {
+        console.log(this.grid.nodes[i - 1]);
+    }
+    */
+    
 };
 
 HackScene.prototype = Object.create(Scene.prototype);
@@ -250,9 +263,6 @@ HackScene.prototype.update = function(delta){
             var hackableDescription = "";
             var nodeIsHackable = this.selectedNode.isHackable();
 
-            if (this.selectedNode.type == "goal")
-                nodeIsHackable = true;
-
             if (nodeIsHackable == true)
                 hackableDescription = "Currently Hackable";
             else
@@ -270,9 +280,11 @@ HackScene.prototype.update = function(delta){
 
             this.ctx.fillStyle = "white";
 
-            if (nodeIsHackable == true)
+            if ((nodeIsHackable == true) && (this.selectedNode.type != "mainframe"))
                 this.ctx.fillText("Detection Chance: " + this.selectedNode.mainframeDetectionChancePerc + "%", 30, 210);
-            //now I need to draw a button to actually initiate hack.
+            else if ((nodeIsHackable == true) && (this.selectedNode.type == "mainframe"))
+                this.ctx.fillText("Detection Chance: " + 100 + "%", 30, 210);
+
 
             if (this.playerActivelyHacking == true)
             {
@@ -286,8 +298,7 @@ HackScene.prototype.update = function(delta){
                 this.ctx.fillText("HACKING IN PROGRESS", 65, this.height - 325);
             }
 
-            if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
-                ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable())))
+            if ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable()))
             {
                 //if I ever change this position, I also need to change the hardcoded button in onTap()
                 this.ctx.fillStyle = "lightgreen";
@@ -418,7 +429,7 @@ HackScene.prototype.onKeyDown = function(key)
     
     if ((key == 32) && (this.selectedNode != null) && (this.playerActivelyHacking == false))
     {
-        if ((this.selectedNode.isHackable()) || (this.selectedNode.type == "goal"))
+        if (this.selectedNode.isHackable())
             this.grid.hackNode(this.selectedNode);
     }
     
@@ -475,8 +486,7 @@ HackScene.prototype.onTap = function(x,y)
 
         if ((x > 30) && (x < 370) && (y > this.height - 370) && (y < this.height - 300))
         {
-            if (((this.playerActivelyHacking != true) && (this.selectedNode.type == "goal")) ||
-            ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable())))
+            if ((this.playerActivelyHacking != true) && (this.selectedNode.isHackable()))
             {
                 this.grid.hackNode(this.selectedNode);
             }
@@ -791,3 +801,15 @@ HackScene.prototype.isProgramConsumed = function(programNumber)
 
     return programIsConsumed;
 };
+
+
+HackScene.prototype.initializePassivePrograms = function()
+{
+    for (var i = 0; i < this.programs.length; i++)
+    {
+        if (this.programs[i - 1] == "Net Ninja")
+        {
+            this.programDetectionModifier = -5.0;
+        }
+    }
+}

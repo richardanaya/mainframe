@@ -161,6 +161,7 @@ HackGridGenerator.setupNodes = function ( hackGrid )
 
 HackGridGenerator.createNode = function( hackGrid, at, nodeType, from ) {
     var node = new HackNode( at.x, at.y, HackNodeType.Neutral, hackGrid.scene );
+    hackGrid.makeNeutral(node);
     return node;
 }
 

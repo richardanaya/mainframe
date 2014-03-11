@@ -15,7 +15,7 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	this.activelyBeingHacked = false;
 	this.hackingProgress = 0.0;
 	this.hackingDifficultyInSec = 4.0;
-	this.mainframeDetectionChancePerc = 25.0;
+	this.mainframeDetectionChancePerc = 0.0;
 	this.enmityGainIfDetected = 10.0;
 	this.connectedTo = [];
 	this.hackingScene = scene;
@@ -28,14 +28,14 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	this.mainframeImage = Resources.getImage("mainframe_node");
 	this.midHackNeutralImage = Resources.getImage("neutral_node_mid_hack");
 	this.playerImage = Resources.getImage("entry_node");
-	this.hackedImage = Resources.getImage("hacked_node");
+	this.hackedImage = Resources.getImage("neutral_node_hacked");
 	this.dataCacheImage = Resources.getImage("datacache_node");
-	this.hackedEmptyDataCacheImage = Resources.getImage("datacache_hack_empty");
-	this.midHackDataCacheImage = Resources.getImage("datacache_mid_hack");
-	this.trueDataCacheImage = Resources.getImage("datacache_true");
+	this.hackedEmptyDataCacheImage = Resources.getImage("datacache_node_false");
+	this.midHackDataCacheImage = Resources.getImage("datacache_node_mid_hack");
+	this.trueDataCacheImage = Resources.getImage("datacache_node_true");
+	this.angryMainframe = Resources.getImage("mainframe_node_angry");
 
-
-
+	/*
 	if (this.type == "mainframe")
 	{
 		this.hostile = true;
@@ -56,6 +56,7 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 		this.mainframeDetectionChancePerc = 80.0;
 		this.enmityGainIfDetected = 25.00;
 	}
+	*/
 
 };
 
@@ -161,8 +162,11 @@ HackNode.prototype.update = function(delta)
     	image = this.trueDataCacheImage;
     else if ((this.type == "goal") && (this.activelyBeingHacked == true))
         image = this.midHackDataCacheImage;
-    else if (this.type == "mainframe")
+    else if ((this.type == "mainframe") && (this.activelyBeingHacked == false))
         image = this.mainframeImage;
+    else if ((this.type == "mainframe") && (this.activelyBeingHacked == true))
+        image = this.angryMainframe;
+    
   
 	this.hackingScene.drawImageAtGridPos(this.gridXPos, this.gridYPos, image);
 };
