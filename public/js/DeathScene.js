@@ -2,7 +2,7 @@ var DeathScene = function(game,music){
     this.game = game;
     this.music = music;
     this.music = new Howl({
-        urls: ['sounds/GameOver.ogg','sounds/GameOver.mp3'],
+        urls: ['sounds/GameOver2.ogg','sounds/GameOver2.mp3'],
     }).play();
     this.time = 0;
     var _this = this;
