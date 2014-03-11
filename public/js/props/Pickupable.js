@@ -259,6 +259,7 @@ Pickupable.Items = {
         equip_slot: "melee",
         damage: 2,
         image : "item_taser",
+        stunChance: 0.5,
         levels: [900,800,700,600,500,400,300,200,100,0]
     }
 
@@ -650,6 +651,8 @@ Pickupable.load = function(name){
     if(pi.actions){
         p.actions = pi.actions;
     }
+
+    p.stunChance = pi.stunChance == undefined ? 0 : pi.stunChance;
 
     if(pi.damage) {p.damage = pi.damage; }
     if(p.actions.indexOf("trash")==-1){
