@@ -17,7 +17,13 @@ Pickup.prototype.process = function(complete){
                 programs.push(Pickupable.Items[items[i].id].program_name);
             }
         }
+        var music = this.player.level.scene.music;
+        music.fade(1,0,3000,function(){
+            music.stop();
+        });
         this.player.level.scene.game.changeScene(new HackScene(this.game, this.scene, 1, programs, function(result){
+            music.play();
+            music.fade(0,1,3000);
             _this.player.level.scene.game.changeScene(_this.player.level.scene);
             complete();
         }));
