@@ -134,13 +134,17 @@ TestScene.prototype.loadLevel = function(height){
                 }).play();
             }
         }
+
+        if( _this.player.onLevelDone != undefined ) {
+            _this.player.onLevelDone( _this );
+        }
     }
 
     if(height == 1000 && oldHeight>=height){
         done();
     }
     else {
-        this.game.changeScene(new ElevatorScene(this.game,done,oldHeight,height,this.player.image_idle_0))
+        this.game.changeScene(new ElevatorScene(this.game,done,oldHeight,height,this.player.image_idle_0, this.player.allyImage))
     }
 };
 

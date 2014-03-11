@@ -1,7 +1,8 @@
-var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
+var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage, allyImage){
     this.fromLevel = fromLevel;
     this.toLevel = toLevel;
     this.playerImage = playerImage;
+    this.allyImage = allyImage;
     this.game = game;
     this.returnScene = returnScene;
     this.time = 0;
@@ -58,11 +59,17 @@ ElevatorScene.prototype.update = function(delta){
 
     if(goingDown){
         this.ctx.drawImage(Resources.getImage("elevator"+(this.curFrame+1)),(this.width-128)/2,this.time/5*(this.height)-200+160,128,160);
+        if( this.allyImage != null && this.allyImage != undefined ) {
+            this.ctx.drawImage(this.allyImage,(this.width-110)/2,this.time/5*(this.height)-200+240,64,64);
+        }
         this.ctx.drawImage(this.playerImage,(this.width-64)/2,this.time/5*(this.height)-200+240,64,64);
         //this.ctx.drawImage(this.playerImage,(this.width-64)/2,this.time/5*(this.height+200)-200,64,64);
     }
     else {
         this.ctx.drawImage(Resources.getImage("elevator"+((29-this.curFrame)+1)),(this.width-128)/2,(this.height+160)-this.time/5*(this.height)-200+160,128,160);
+        if( this.allyImage != null && this.allyImage != undefined ) {
+            this.ctx.drawImage(this.allyImage,(this.width-30)/2,(this.height+165)-this.time/5*(this.height)-200+240,64,64);
+        }
         this.ctx.drawImage(this.playerImage,(this.width-64)/2,(this.height+160)-this.time/5*(this.height)-200+240,64,64);
         //this.ctx.drawImage(Resources.getImage("elevator"+(this.curFrame+1)),(this.width-64)/2,(this.height+160)-this.time/5*(this.height)-200+64,64,64);
     }

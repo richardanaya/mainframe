@@ -22,6 +22,9 @@ var Player = function(){
     this.rangedWeapon = null;
     this.meleeWeapon = null;
 
+    this.deployed = false;
+    this.aggro = null;
+
 
     this.god = false;
     var _this = this;
@@ -38,15 +41,27 @@ Player.prototype.onDie = function(){
     this.level.scene.onDie();
 }
 
-Player.prototype.setupScientist = function(){
+Player.prototype.setupScientist = function( level ){
     this.image_idle_0 = Resources.getImage("scientist_1");
     this.image_idle_1 = Resources.getImage("scientist_2");
+    this.allyImage = Resources.getImage("sop13_1");
     var g = Pickupable.load("rig_0");
     g.equipped = true;
     this.addToInventory(g);
+
+    g = Pickupable.load("sop13");
+    g.equipped = true;
+    this.addToInventory(g);
+    this.deployed = true;
     
-    this.maxHealth = 75;
-    this.health = 75;
+    this.maxHealth = 10;
+    this.health = 10;
+    this.strength = 0;
+    this.defense = 0;
+
+    this.onLevelDone = function( scene ) {
+        scene.level.tryPlaceNextTo( this.x, this.y, Monster.load( "sop13" ) );
+    }
 }
 
 Player.prototype.setupHacker = function(){

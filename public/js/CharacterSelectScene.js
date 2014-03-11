@@ -133,7 +133,7 @@ CharacterSelectScene.prototype.onKeyDown = function(k){
             p.setupHacker();
         }
         if(this.character == 2){
-            p.setupScientist();
+            p.setupScientist( this );
         }
         new Howl({
             urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],

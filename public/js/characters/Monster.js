@@ -203,6 +203,19 @@ Monster.List = {
         image_0 : "greygoo_1",
         image_1 : "greygoo_1",
         levels: [400,300,200,100,0]
+    },
+    sop13: {
+        name: "SOP13",
+        strength: 10,
+        defense: 100,
+        armor: 100,
+        damage: 1,
+        health: 100,
+        mind: 0,
+        image_0: "SOP13_1",
+        image_1: "SOP13_2",
+        levels: [],
+        tags: ["solid","ally"]
     }
 }
 
@@ -217,7 +230,9 @@ Monster.load = function(name){
     p.mind = pi.mind;
     p.defence = pi.defence;
     p.health = pi.health;
-    if(pi.tags){ p.tags = p.tags.concat(pi.tags); }
+    if(pi.tags) { 
+        p.tags = pi.tags;
+    }
     p.armor = pi.armor;
     p.damage = pi.damage;
     p.image_idle_0 = Resources.getImage(pi.image_0);
@@ -231,13 +246,47 @@ Monster.prototype.getPathTo = function( target ) {
     return astar.search(this.level.scene.graph.nodes, start, end);
 }
 
+Monster.prototype.friendlyThink = function() {
+    var p = this.level.scene.player;
+    result = [];
+    if( p.aggro != null ) {
+        result = this.getPathTo( p.aggro );
+    }
+    else
+    {
+        result = this.getPathTo( p );
+    }
+
+    if(result.length > 0){
+        //get next position a* thinks we should go
+        var rx = result[0].x;
+        var ry = result[0].y;
+
+        //if player is there attack
+        if(p.aggro != null && rx == p.aggro.x && ry == p.aggro.y){
+            this.attack(p.aggro,null);
+        }
+        else {
+            //move toward the player
+            this.move(result[0].x,result[0].y);
+        }
+    }
+
+    return this.moves;
+}
+
 Monster.prototype.think = function(){
+    if( this.tags.indexOf( "ally" ) != -1 ) {
+        return this.friendlyThink();
+    }
+
     var result = [];
     var p = this.level.scene.player;
     var curTile = this.getCurrentTile();
     // if we're not standing a on a valid tile, or it hasn't been explored yet sleep
     if( curTile != null && curTile != undefined && curTile.explored ) {
        if( curTile.room != p.getCurrentTile().room ) {
+            if( p.aggro == this ) p.aggro = false;
             // if we've seen the player before, try and find them at that location
             if( ++this.timeLost <= this.lostWait ) {
                 if( this.timeLost <= 2 ) {
@@ -264,6 +313,7 @@ Monster.prototype.think = function(){
             this.timeLost = 0;
             this.lastKnownPlayerLocation = { x:p.x, y:p.y };
             result = this.getPathTo( p );
+            p.aggro = this;
         }
     }
     

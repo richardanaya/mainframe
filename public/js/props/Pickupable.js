@@ -18,6 +18,7 @@ Pickupable.prototype.onObjectEnter = function(o){
 Pickupable.prototype.onAction = function(action){
     var _this = this;
     if(action == "look at"){
+        if( this.level == null || this.level == undefined ) this.level = this.player.level;
         this.level.scene.showDialog(this.description,this.image);
     }
     if(action == "trash"){
@@ -619,6 +620,14 @@ Pickupable.Items = {
         image : "program_4",
         floor_name: "Driver Corrupt program",
         levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    "sop13" : {
+        name: "SOP13 Drone",
+        description: "Security Oriented Protection Drone Rev 13.  Every scientists best friend, the perfect companion except she barks at the pizza delivery boy.",
+        tags: ["ally"],
+        actions: ["look at"],
+        image : "sop13_1",
+        levels: []
     }
 }
 

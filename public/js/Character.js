@@ -48,6 +48,7 @@ Character.prototype.onDamage = function(d){
 }
 
 Character.prototype.onDie = function(){
+    if( this == this.level.scene.player.aggro ) this.level.scene.player.aggro = null;
     this.level.scene.showInfoText(this.name+" died.");
     this.level.removeObject(this);
 };

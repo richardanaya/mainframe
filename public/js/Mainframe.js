@@ -138,6 +138,8 @@ Mainframe.prototype.start = function(){
     Resources.addImage("robot_idle_1","images/robot_2.png");
     Resources.addImage("keycard","images/keycard.png");
     Resources.addImage("fowoverlay","images/fogofwar.png");
+    Resources.addImage("sop13_1","images/SOP13_1.png");
+    Resources.addImage("sop13_2","images/SOP13_2.png");
 
     for(var i = 1 ; i <= 30; i++){
         var s = i+"";
