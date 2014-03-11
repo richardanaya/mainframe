@@ -10,5 +10,5 @@ DownElevator.prototype = Object.create(GameObject.prototype);
 
 DownElevator.prototype.onObjectEnter = function(o){
     if(o.tags.indexOf('player') == -1){ return; }
-    this.level.scene.loadLevel(this.level.scene.currentHeight-100);
+    this.level.scene.loadLevel(this.level.scene.currentHeight-900);
 }

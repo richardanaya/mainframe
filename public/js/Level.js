@@ -325,14 +325,7 @@ Level.prototype.getRandomFreeTile = function(room) {
 };
 
 Level.prototype.getRandomWall = function(room) {
-     var f = function(){
-         return {x:Utilities.randRangeInt( room.x, room.x+room.width-1 ), y:room.y-1};
-    };
-    var p = f();
-    /*while(this.getNeighborsByType(p.x, p.y,Level.Types.Floor)==0){
-        p = f();
-    }*/
-    return p;
+    return {x:Utilities.randRangeInt( room.x+1, room.x+room.width-3 ), y:room.y-1 };
 };
 
 Level.prototype.isWithinRoom = function(room,x,y) {
