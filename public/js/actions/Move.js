@@ -20,5 +20,9 @@ Move.prototype.process = function(complete){
         this.obj.level.refreshLights( [this.obj.light] );
     }
 
+    if( this.obj.passiveRegen > 0 && this.obj.health < this.obj.maxHealth) {
+        this.obj.onHeal( this.obj.passiveRegen );
+    }
+
     complete();
 };

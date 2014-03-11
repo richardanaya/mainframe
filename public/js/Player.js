@@ -11,6 +11,7 @@ var Player = function(){
     this.defence = 9;
     this.armor = 0;
     this.damage = 5;
+    this.passiveRegen = 0;
 
     this.accuracy = 10;
     this.mind = 10;
@@ -71,7 +72,15 @@ Player.prototype.setupHacker = function(){
     g.equipped = true;
     this.addToInventory(g);
     this.useRanged(g);
-    var g = Pickupable.load("rig_0");
+    var g = Pickupable.load("rig_1");
+    g.equipped = true;
+    this.addToInventory(g);
+
+    g = Pickupable.load("program_0");
+    g.equipped = true;
+    this.addToinventory(g);
+
+    g = Pickupable.load("program_1");
     g.equipped = true;
     this.addToInventory(g);
 
@@ -92,6 +101,7 @@ Player.prototype.setupSamurai = function(){
     this.useMelee(g);
     this.canCounter = true;
 
+    this.passiveRegen = 1;
     this.maxHealth = 125;
     this.health = 125;
     
