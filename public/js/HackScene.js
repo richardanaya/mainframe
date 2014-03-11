@@ -5,6 +5,7 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
 
     this.goalFound = false;
 
+    //don't forget to swap out these two for live
     this.programs = ["Net Ninja", "Network Warrior", "Bit Shifter", "SUDO Inspect"]
     //this.programs = programs
 
@@ -57,12 +58,12 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
 
     this.grid = HackGridGenerator.generate( 10, 10, this, this.difficulty );
 
-    /*
+    
     for (var i = 0; i < this.grid.nodes.length; i++)
     {
-        console.log(this.grid.nodes[i - 1]);
+        console.log(this.grid.nodes[i].mainframeDetectionChancePerc);
     }
-    */
+    
     
 };
 
