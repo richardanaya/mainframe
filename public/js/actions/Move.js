@@ -24,6 +24,11 @@ Move.prototype.process = function(complete){
         this.obj.onHeal( this.obj.passiveRegen );
     }
 
+    if( this.obj.bleeding ) {
+        this.obj.level.scene.showInfoText( this.obj.name + ' is bleeding.' );
+        this.obj.onDamage( 2 );
+    }
+
     this.obj.camoCount = Math.max( 0, this.obj.camoCount );
 
     complete();

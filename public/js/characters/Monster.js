@@ -34,6 +34,7 @@ Monster.List = {
         mind : 0,
         image_0 : "rat_1",
         image_1 : "rat_2",
+        tags: ["solid","monster","fleshy"],
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     rat_man : {
@@ -45,6 +46,7 @@ Monster.List = {
         health: 5,
         accuracy : 0,
         mind : 0,
+        tags : ["solid","monster","fleshy"],
         image_0 : "MutantRatMan1",
         image_1 : "MutantRatMan2",
         levels: [900,800,700,600,500,400,300,200,100,0]
@@ -58,6 +60,7 @@ Monster.List = {
         health: 5,
         accuracy : 4,
         mind : 0,
+        tags : ["solid","monster","fleshy"],
         image_0 : "businessman_1",
         image_1 : "businessman_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
@@ -84,6 +87,7 @@ Monster.List = {
         health: 3,
         accuracy : 0,
         mind : 0,
+        tags : ["solid","monster","fleshy"],
         image_0 : "bandit",
         image_1 : "bandit",
         levels: [900,800,700,600,500,400,300,200,100,0]
@@ -96,6 +100,7 @@ Monster.List = {
         armor : 3,
         damage : 3,
         health: 5,
+        tags : ["solid","monster","robo"],
         image_0 : "robot_1",
         image_1 : "robot_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
@@ -109,6 +114,7 @@ Monster.List = {
         health: 10,
         accuracy : 0,
         mind : 0,
+        tags : ["solid","monster","robo"],
         image_0 : "RobotGuard1",
         image_1 : "RobotGuard2",
         levels: [900,800,700,600,500,400,300,200,100,0]
@@ -124,6 +130,7 @@ Monster.List = {
         mind : 0,
         image_0 : "Sentry2_1",
         image_1 : "Sentry2_2",
+        tags : ["solid","monster","robo"],
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     sentry_2 : {
@@ -137,6 +144,7 @@ Monster.List = {
         mind : 0,
         image_0 : "Sentry3_1",
         image_1 : "Sentry3_2",
+        tags : ["solid","monster","robo"],
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     sentry_3 : {
@@ -150,6 +158,7 @@ Monster.List = {
         health: 20,
         image_0 : "SentryBot1_1",
         image_1 : "SentryBot1_2",
+        tags : ["solid","monster","robo"],
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     sentry_cat : {
@@ -163,6 +172,7 @@ Monster.List = {
         health: 1,
         image_0 : "SentryCat_1",
         image_1 : "SentryCat_2",
+        tags : ["solid","monster","robo"],
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     ninja : {
@@ -190,6 +200,7 @@ Monster.List = {
         mind : 0,
         image_0 : "cyborg_1",
         image_1 : "cyborg_1",
+        tags : ["solid","monster","fleshy","robo"],
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     greygoo : {
@@ -288,6 +299,11 @@ Monster.prototype.think = function(){
     var result = [];
     var p = this.level.scene.player;
     var curTile = this.getCurrentTile();
+
+    if( --this.stunCount > 0 ) {
+        this.level.scene.showInfoText( this.name + ' is stunned!' );
+        return result;
+    }
 
     if( p.camoCount > 0  && !this.canSeeThroughStealth ) {
         this.lastKnownPlayerLocation = null;

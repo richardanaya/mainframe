@@ -39,6 +39,11 @@ Attack.prototype.process = function(complete){
 
             this.attacker.level.scene.effects.push(new GunFireEffect(this.attacker.level.scene,this.attacker,this.defender,"skyblue","plasma"));
         }
+        if(this.weapon.stunChance != undefined && this.weapon.stunChance > 0 ) {
+            if( Math.random() < this.weapon.stunChance ) {
+                this.defender.stunCount = 2;
+            }
+        }
     }
     else {
         new Howl({
@@ -53,7 +58,7 @@ Attack.prototype.process = function(complete){
         this.defender.type = Level.Types.Floor;
         this.defender.image = this.attacker.level.tileset.smashedProp[0];
     }
-    else {
+    else if( this.attacker.stunCount <= 0 ) {
         var damage = this.attacker.getDamage(this.weapon);
         var offense = this.attacker.getOffense();
         var defence = this.defender.getDefence();
@@ -71,17 +76,59 @@ Attack.prototype.process = function(complete){
             return sux;
         }
 
+        if( this.attacker.class != undefined && this.weapon != null && this.weapon.hasTag( this.attacker.class ) ) {
+            var extraDam = Utilities.randRangeInt( 0, 5 );
+            var extraOff = Utilities.randRangeInt( 0 , 3 );
+
+            if( extraDam + extraOff > 4 ) {
+                switch( this.attacker.class ) {
+                    case 'samurai': {
+                        this.attacker.level.scene.showInfoText( this.attacker.name + " feel at one with " + this.weapon.name );
+                        damage += extraDam;
+                        offense += extraOff;
+                    }
+                    break;
+                    case 'hacker': {
+                        this.attacker.level.scene.showInfoText( this.attacker.name + " exploit a world glitch with " + this.weapon.name );
+                        this.attacker.onHeal( extraDam+extraOff );
+                    }
+                    break;
+                    case 'scientist': {
+                        this.attacker.level.scene.showInfoText( this.attacker.name + " generate a space time manifold with " + this.weapon.name );
+                        this.attacker.camoCount = 5;
+                    }
+                    break;
+                }
+            }
+        }
+
         var offSux = rollDice(offense)
         var defSux = rollDice(defence)
         var hits = offSux - defSux;
 
         if( offSux == offense ) {
-            this.attacker.level.scene.showInfoText( this.attacker.name + ' struck masterfully dealing ' + this.attacker.damage*2 + ' damage' );
+            this.attacker.level.scene.showInfoText( this.attacker.name + ' struck masterfully dealing ' + damage*2 + ' damage' );
+            this.defender.onDamage( damage*2 );
         }
         else if( hits <= 0 ){
             this.attacker.level.scene.showInfoText( this.attacker.name + ' missed ' + this.defender.name );
         }
         else {
+            if( this.weapon != null && this.weapon.hasTag("fleshflayer") && this.defender.tags.indexOf("fleshy") != -1 && Math.random() < 0.25 ) {
+                this.attacker.level.scene.showInfoText( this.attacker.name + ' strike an artery with' + this.weapon.name );
+                this.defender.bleeding = true;
+            }
+
+            if( this.weapon != null && this.weapon.hasTag("robokiller") && this.defender.tags.indexOf("robo") != -1 && Math.random() < 0.25 ) {
+                this.attacker.level.scene.showInfoText( this.attacker.name + ' cause a malfunction in' + this.defender.name );
+                this.defender.stunCount = 5;
+            }
+
+            if( this.weapon != null && Math.random() < this.weapon.stunChance ) {
+                this.attacker.level.scene.showInfoText( this.attacker.name + ' daze ' + this.defender.name );
+                this.defender.stunCount = 5;
+            }
+
             var dam = rollDice(damage)+1 - rollDice(armor);
             dam = Math.max(0,dam);
             this.attacker.level.scene.showInfoText( this.attacker.name + ' hit ' + this.defender.name + ' for ' + dam );

@@ -132,7 +132,7 @@ Pickupable.Items = {
         tags: ["melee","weapon"],
         actions: ["equip"],
         equip_slot: "melee",
-        damage: 2,
+        damage: 1,
         image : "bat",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
@@ -154,7 +154,8 @@ Pickupable.Items = {
         tags: ["melee","weapon"],
         actions: ["equip"],
         equip_slot: "melee",
-        damage: 2,
+        damage: 1,
+        stunChance: 0.25,
         image : "item_golf_club",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
@@ -162,10 +163,10 @@ Pickupable.Items = {
         name: "Samurai Sword",
         description: "",
         read_on_pickup: true,
-        tags: ["melee","weapon"],
+        tags: ["melee","weapon","samurai","fleshflayer"],
         actions: ["equip"],
         equip_slot: "melee",
-        damage: 2,
+        damage: 3,
         image : "item_samurai_sword",
         levels: [900,800,700,600,500,400,300,200,100,0]
     }
@@ -186,7 +187,7 @@ Pickupable.Items = {
         name: "Butterfly Knife",
         description: "",
         read_on_pickup: true,
-        tags: ["melee","weapon"],
+        tags: ["melee","weapon","fleshflayer"],
         actions: ["equip"],
         equip_slot: "melee",
         damage: 2,
@@ -203,6 +204,7 @@ Pickupable.Items = {
         actions: ["equip"],
         equip_slot: "melee",
         damage: 2,
+        stunChance: 0.1,        
         image : "item_cobra",
         levels: [900,800,700,600,500,400,300,200,100,0]
     }
@@ -215,7 +217,8 @@ Pickupable.Items = {
         tags: ["melee","weapon"],
         actions: ["equip"],
         equip_slot: "melee",
-        damage: 2,
+        damage: 1,
+        stunChance: 0.3,
         image : "item_boxing_gloves",
         levels: [900,800,700,600,500,400,300,200,100,0]
     }
@@ -229,17 +232,16 @@ Pickupable.Items = {
         actions: ["equip"],
         equip_slot: "melee",
         damage: 2,
+        stunChance: 0.4,
         image : "item_chain",
         levels: [900,800,700,600,500,400,300,200,100,0]
     }
-
-
     ,
     "laser_whip" : {
         name: "Laser Whip",
         description: "",
         read_on_pickup: true,
-        tags: ["melee","weapon"],
+        tags: ["melee","weapon","robokiller","scientist"],
         actions: ["equip"],
         equip_slot: "melee",
         damage: 2,
@@ -252,11 +254,12 @@ Pickupable.Items = {
         name: "Taser",
         description: "",
         read_on_pickup: true,
-        tags: ["melee","weapon"],
+        tags: ["melee","weapon","robokiller"],
         actions: ["equip"],
         equip_slot: "melee",
         damage: 2,
         image : "item_taser",
+        stunChance: 0.5,
         levels: [900,800,700,600,500,400,300,200,100,0]
     }
 
@@ -265,7 +268,7 @@ Pickupable.Items = {
         name: "Gun",
         description: "A trusty gun",
         read_on_pickup: true,
-        damage: 3,
+        damage: 2,
         tags: ["ranged","weapon","bullet"],
         actions: ["equip"],
         equip_slot: "ranged",
@@ -288,8 +291,8 @@ Pickupable.Items = {
     "pulse_laser" : {
         name: "Pulse Laser",
         description: "",
-        damage: 3,
-        tags: ["ranged","weapon","laser"],
+        damage: 4,
+        tags: ["ranged","weapon","laser","scientist","robokiller"],
         actions: ["equip"],
         equip_slot: "ranged",
         image : "item_pulse_laser",
@@ -300,7 +303,7 @@ Pickupable.Items = {
         name: "Flachette Gun",
         description: "",
         damage: 3,
-        tags: ["ranged","weapon","bullet"],
+        tags: ["ranged","weapon","bullet","hacker","fleshflayer"],
         actions: ["equip"],
         equip_slot: "ranged",
         image : "item_flachette_gun",
@@ -312,7 +315,7 @@ Pickupable.Items = {
         name: "Uzi",
         description: "",
         damage: 3,
-        tags: ["ranged","weapon","spread"],
+        tags: ["ranged","weapon","spread","hacker","fleshflayer"],
         actions: ["equip"],
         equip_slot: "ranged",
         image : "item_uzi",
@@ -323,7 +326,7 @@ Pickupable.Items = {
     "mini_gun" : {
         name: "Mini Gun",
         description: "",
-        damage: 3,
+        damage: 5,
         tags: ["ranged","weapon","spread"],
         actions: ["equip"],
         equip_slot: "ranged",
@@ -335,8 +338,8 @@ Pickupable.Items = {
     "plasma_lance" : {
         name: "Plasma Lance",
         description: "",
-        damage: 3,
-        tags: ["ranged","weapon","plasma"],
+        damage: 6,
+        tags: ["ranged","weapon","plasma","scientist"],
         actions: ["equip"],
         equip_slot: "ranged",
         image : "item_plasma_lance",
@@ -648,6 +651,8 @@ Pickupable.load = function(name){
     if(pi.actions){
         p.actions = pi.actions;
     }
+
+    p.stunChance = pi.stunChance == undefined ? 0 : pi.stunChance;
 
     if(pi.damage) {p.damage = pi.damage; }
     if(p.actions.indexOf("trash")==-1){
