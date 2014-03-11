@@ -4,6 +4,7 @@ var DeathScene = function(game,music){
     this.music = new Howl({
         urls: ['sounds/GameOver2.ogg','sounds/GameOver2.mp3'],
     }).play();
+    this.music.fade(0,1,1000);
     this.time = 0;
     var _this = this;
 
