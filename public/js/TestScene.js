@@ -409,7 +409,7 @@ TestScene.prototype.onKeyDown = function(key){
         this.graph = this.level.getGraph();
         
         if(key == 72){
-          //this.game.changeScene(new HackScene(this.game, this.scene, 1, []));
+          this.game.changeScene(new HackScene(this.game, this.scene, 1, []));
         }
         else if(key == 37 || key == 65){
             this.player.moveLeft();

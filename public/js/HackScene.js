@@ -26,6 +26,7 @@ var HackScene = function(game, returnScene, difficulty, programs, endHackCallBac
     this.mainframeEnmity = 0.0;
     this.time = 0;
     this.playerActivelyHacking = false;
+    this.lastHackAttemptNode = null;
     this.hackingFullyBacktraced = false;
     this.selectedNode = null;
     
@@ -295,8 +296,10 @@ HackScene.prototype.update = function(delta){
                 this.ctx.fillStyle = "lightgreen";
                 this.ctx.fillRect(30,this.height - 370,340,70);
 
+                var perc = (this.lastHackAttemptNode.hackingProgress/this.lastHackAttemptNode.hackingDifficultyInSec); 
+
                 this.ctx.fillStyle = "green";
-                this.ctx.fillRect(30,this.height - 370, (this.selectedNode.hackingProgress/this.selectedNode.hackingDifficultyInSec)* 340,70);
+                this.ctx.fillRect(30,this.height - 370, perc* 340,70);
 
                 this.ctx.fillStyle = "black";
                 this.ctx.fillText("HACKING IN PROGRESS", 65, this.height - 325);
@@ -656,43 +659,57 @@ HackScene.prototype.drawBacktraceLines = function( node1, node2, nodeFullyBacktr
 
     if( node1.hostile && node2.hostile )
     {
-        this.ctx.strokeStyle = "red";
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.upLeftGridCornerX + (x1) + (0.5 * this.squareSize), 
-                                this.upLeftGridCornerY + (y1) + (0.5 * this.squareSize));
-        this.ctx.lineTo(this.upLeftGridCornerX + (x2) + (0.5 * this.squareSize), 
-                                this.upLeftGridCornerY + (y2) + (0.5 * this.squareSize));
-        this.ctx.stroke();
-        
+        this.drawTraceLine( node1, node2, "red", 1 );
     }
     else
     {
-        this.ctx.strokeStyle = "red";
-
-        var perc = 0;
         if( node1.hostile )
         {
-            perc = Math.min( 1, node2.backtracePercentProgress/100 );
-            x2 = Utilities.lerp( x1, x2, perc );
-            y2 = Utilities.lerp( y1, y2, perc );
+            perc = Math.min( 1, node2.backtracePercentProgress/100 );       
+            this.drawTraceLine( node1, node2, "red", perc );
         }
         else if( node2.hostile )
         {
             perc = Math.min(1, node1.backtracePercentProgress/100 );
-            x1 = Utilities.lerp( x2, x1, perc );
-            y1 = Utilities.lerp( y2, y1, perc );
+            this.drawTraceLine( node2, node1, "red", perc );
         }
-
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.upLeftGridCornerX + (x1) + (0.5 * this.squareSize), 
-                                this.upLeftGridCornerY + (y1) + (0.5 * this.squareSize));
-        this.ctx.lineTo(this.upLeftGridCornerX + (x2) + (0.5 * this.squareSize), 
-                                this.upLeftGridCornerY + (y2) + (0.5 * this.squareSize));
-        this.ctx.stroke();
     }
 
     this.ctx.globalAlpha = 1;
 };
+
+HackScene.prototype.updateHackingLines = function() {
+    if( this.lastHackAttemptNode == null || this.lastHackAttemptNode == undefined || this.lastHackAttemptNode.hacked == true ) return;
+
+    var perc = (this.lastHackAttemptNode.hackingProgress/this.lastHackAttemptNode.hackingDifficultyInSec); 
+    for( var i = 0; i < this.lastHackAttemptNode.connectedTo.length; ++i ) {
+        var connode = this.lastHackAttemptNode.connectedTo[i];
+        if( connode.hacked ) {
+            this.drawTraceLine( connode, this.lastHackAttemptNode, "green", perc );
+        }
+    }
+}
+
+HackScene.prototype.drawTraceLine = function( node1, node2, color, perc ) {
+    this.ctx.globalAlpha = 0.4;
+    this.ctx.lineWidth = 25;
+    
+    var x1 = node1.gridXPos * this.squareSize;
+    var y1 = node1.gridYPos * this.squareSize;
+    var x2 = node2.gridXPos * this.squareSize;
+    var y2 = node2.gridYPos * this.squareSize;
+
+    x2 = Utilities.lerp( x1, x2, perc );
+    y2 = Utilities.lerp( y1, y2, perc );        
+
+    this.ctx.strokeStyle = color;
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.upLeftGridCornerX + (x1) + (0.5 * this.squareSize), 
+                            this.upLeftGridCornerY + (y1) + (0.5 * this.squareSize));
+    this.ctx.lineTo(this.upLeftGridCornerX + (x2) + (0.5 * this.squareSize), 
+                            this.upLeftGridCornerY + (y2) + (0.5 * this.squareSize));
+    this.ctx.stroke();
+}
 
 HackScene.prototype.drawBox = function(x,y,width,height)
 {

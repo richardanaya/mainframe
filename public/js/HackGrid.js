@@ -99,6 +99,7 @@ HackGrid.prototype.hackNode = function(node)
 {
 	node.activelyBeingHacked = true;
 	this.scene.playerActivelyHacking = true;
+    this.scene.lastHackAttemptNode = node;
 }
 
 HackGrid.prototype.isValidGridPoint = function( x,y )
