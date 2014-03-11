@@ -47,57 +47,42 @@ Attack.prototype.process = function(complete){
         }).play();
     }
 
-
-
-
     var damage = this.attacker.getDamage(this.weapon);
     var offense = this.attacker.getOffense();
     var defence = this.defender.getDefence();
     var armor = this.defender.getArmor();
 
-    var rollDice = function(num,difficulty){
+    var rollDice = function(num){
+        difficulty = 8;
         var sux = 0;
         for(var i = 0; i < num; i++){
-            var res = Math.floor(Math.random()*10)+1;
-            if(res >=difficulty){
+            var res = Math.floor(Math.random()*12)+1;
+            if(res >= difficulty){
                 sux++;
-            }
-            if(res == 1){
-                sux--;
             }
         }
         return sux;
     }
 
-    var offSux = rollDice(offense,8)
-    var defSux = rollDice(defence,8)
+    var offSux = rollDice(offense)
+    var defSux = rollDice(defence)
+    var hits = offSux - defSux;
 
-
-    if(offSux < 0){
-        this.attacker.level.scene.showInfoText("Critical failure for attacker");
+    if( offSux == offense ) {
+        this.attacker.level.scene.showInfoText( this.attacker.name + ' struck masterfully dealing ' + this.attacker.damage*2 + ' damage' );
     }
-    else if(offSux < defSux ){
-        this.attacker.level.scene.showInfoText("You missed");
+    else if( defSux == defence && this.defender.canCounter ) {
+        var counterDamage = rollDice(defSux/2);
+        this.attacker.level.scene.showInfoText( this.defender.name + ' countered ' + this.attacker.name + ' for ' + counterDamage + ' damage' );
+        this.attacker.onDamage( counterDamage );
     }
-    else if(offSux >= defSux){
-
-        var damSux = Math.max(rollDice((offSux-defSux)+damage,8),0);
-        var armSux = Math.max(rollDice(armor,8),0);
-        var dam = Math.max(0,damSux - armSux);
-        if(dam == 0){
-            this.attacker.level.scene.showInfoText("Your attack hits weak");
-        }
-        else if(defSux<0){
-            this.attacker.level.scene.showInfoText("Critical failure for defender");
-            this.defender.onDamage(dam*2);
-        }
-        else {
-            this.defender.onDamage(dam);
-            this.attacker.level.scene.showInfoText("You hit for "+dam);
-        }
+    else if( hits <= 0 ){
+        this.attacker.level.scene.showInfoText( this.attacker.name + ' missed ' + this.defender.name );
     }
     else {
-        console.log("???s")
+        var dam = rollDice(damage)+1 - rollDice(armor);
+        this.attacker.level.scene.showInfoText( this.attacker.name + ' hit ' + this.defender.name + ' for ' + dam );
+        this.defender.onDamage( dam );
     }
 
 

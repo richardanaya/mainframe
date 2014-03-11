@@ -50,7 +50,7 @@ Mainframe.prototype.GetLevel = function(height){
         level.addObjectTo(8,1,de);
         de.image = Resources.getImage("stairs");
 
-        level.addObjectTo(3,3,Monster.load('rat'));
+        level.addObjectTo(3,3,Monster.load('rat_man'));
 
         //spawn all items
         /*for(var p in Pickupable.Items){

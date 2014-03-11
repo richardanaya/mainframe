@@ -7,7 +7,7 @@ var Monster = function(){
     this.image_idle_1 = Resources.images.robot_idle_1;
     this.tags = ["solid","monster"];
     this.name = "Robot";
-    this.strength = 10;
+    this.strength = 1;
     this.accuracy = 0;
     this.mind = 0;
     this.defence = 6;
@@ -23,30 +23,43 @@ var Monster = function(){
 Monster.prototype = Object.create(Character.prototype);
 
 Monster.List = {
-    robot : {
-        name : "Robot",
-        strength : 10,
+    rat : {
+        name : "Rat",
+        strength : 5,
+        defence : 3,
+        armor : 0,
+        damage : 1,
+        health: 5,
         accuracy : 0,
         mind : 0,
-        defence : 2,
+        image_0 : "rat_1",
+        image_1 : "rat_2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    rat_man : {
+        name : "Rat Man",
+        strength : 6,
+        defence : 3,
+        armor : 0,
+        damage : 1,
+        health: 5,
+        accuracy : 0,
+        mind : 0,
+        image_0 : "MutantRatMan1",
+        image_1 : "MutantRatMan2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+    robot : {
+        name : "Robot",
+        strength : 2,
+        accuracy : 0,
+        mind : 0,
+        defence : 1,
         armor : 1,
         damage : 1,
         health: 5,
         image_0 : "robot_1",
         image_1 : "robot_2",
-        levels: [900,800,700,600,500,400,300,200,100,0]
-    },
-    rat : {
-        name : "Rat",
-        strength : 10,
-        accuracy : 0,
-        mind : 0,
-        defence : 2,
-        armor : 1,
-        damage : 1,
-        health: 5,
-        image_0 : "rat_1",
-        image_1 : "rat_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     businessman : {
@@ -61,8 +74,7 @@ Monster.List = {
         image_0 : "businessman_1",
         image_1 : "businessman_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-    ,
+    },
     bandit : {
         name : "Bandit",
         strength : 10,
@@ -89,23 +101,7 @@ Monster.List = {
         image_0 : "crab_bot_1",
         image_1 : "crab_bot_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-    ,
-    rat_man : {
-        name : "Rat Man",
-        strength : 10,
-        accuracy : 0,
-        mind : 0,
-        defence : 2,
-        armor : 1,
-        damage : 1,
-        health: 5,
-        image_0 : "MutantRatMan1",
-        image_1 : "MutantRatMan2",
-        levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-
-    ,
+    },
     mutant_roach : {
         name : "Mutant Roach",
         strength : 10,

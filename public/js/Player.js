@@ -8,11 +8,12 @@ var Player = function(){
     this.inventory = [];
     this.name = "You";
     this.strength = 10;
+    this.defence = 9;
+    this.armor = 0;
+    this.damage = 5;
+
     this.accuracy = 10;
     this.mind = 10;
-    this.defence = 10;
-    this.armor = 0;
-    this.damage = 2;
 
     this.image = Resources.images.player;
     this.isAutoMoving = false;
@@ -39,7 +40,6 @@ Player.prototype.setupScientist = function(){
     var g = Pickupable.load("rig_0");
     g.equipped = true;
     this.addToInventory(g);
-    this.mind = 12;
 }
 
 Player.prototype.onDie = function(){
@@ -56,8 +56,6 @@ Player.prototype.setupHacker = function(){
     var g = Pickupable.load("rig_0");
     g.equipped = true;
     this.addToInventory(g);
-    this.accuracy = 11;
-    this.mind = 11;
 }
 
 Player.prototype.setupSamurai = function(){
@@ -71,8 +69,7 @@ Player.prototype.setupSamurai = function(){
     g.equipped = true;
     this.addToInventory(g);
     this.useMelee(g);
-    this.strength = 11;
-    this.accuracy = 11;
+    this.canCounter = true;
 }
 
 Player.prototype.useMelee = function(w){

@@ -4,8 +4,8 @@ var Character = function(){
     this.tags = [];
     this.thinks = true;
     this.flipped = 0;
-    this.maxHealth = 15;
-    this.health = 15;
+    this.maxHealth = 25;
+    this.health = 25;
     this.effects = [];
     this.strength = 0;
     this.accuracy = 0;
@@ -13,6 +13,8 @@ var Character = function(){
     this.mind = 0;
     this.armor = 0;
     this.damage = 0;
+
+    this.canCounter = false;
 }
 
 Character.prototype = Object.create(GameObject.prototype);
