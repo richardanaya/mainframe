@@ -73,6 +73,43 @@ Mainframe.prototype.GetLevel = function(height){
 
         return level;
     }
+
+    if(height == -100){
+        var level = new Level();
+        var width = 14;
+        var height = 12;
+        level.width = width;
+        level.height = height;
+        level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
+        level.tileset = Tileset.createOfficeTileset();
+
+
+
+
+        for(var x = 1; x< width-1; x++ ){
+            for(var y = 1; y< height-1; y++ ){
+                level.tiles[ Utilities.positionToIndex(x,y,level.width) ] = generator.createTile( Level.Types.Floor, level.tileset.floors[0], x, y );
+                //level.tiles[ Utilities.positionToIndex(x,y,level.width) ].image = Resources.getImage("Floor3Purple");
+            }
+        }
+
+        //spawn all items
+        /*for(var p in Pickupable.Items){
+         level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(p));
+         }*/
+
+        generator.postProcess( level );
+
+        for(var x = 0; x< width; x++ ){
+            for(var y = 0; y< height; y++ ){
+                if(level.tiles[ Utilities.positionToIndex(x,y,level.width) ]){
+                    level.tiles[ Utilities.positionToIndex(x,y,level.width) ].explored = true;
+                }
+            }
+        }
+
+        return level;
+    }
     var tileSet = null;
     /*if(height<=900 && height >=700){
         tileSet = Tileset.createOfficeTileset();
@@ -104,7 +141,7 @@ Mainframe.prototype.GetLevel = function(height){
         //create mainframe block
     }
     var level = generator.generateLevel( 50, 50, tileSet, height );
-    level.designRooms(this.currentHeight);
+    level.designRooms(height);
     return level;
 };
 

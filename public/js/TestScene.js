@@ -89,7 +89,13 @@ TestScene.prototype.loadLevel = function(height){
         _this.player.stopAutoMove();
         _this.level = _this.game.GetLevel(height);
 
-        _this.level.addObjectTo( _this.level.center.x, _this.level.center.y, _this.player );
+        if(height == -100){
+            _this.level.addObjectTo( _this.level.center.x, _this.level.center.y+3, _this.player );
+        }
+        else{
+            _this.level.addObjectTo( _this.level.center.x, _this.level.center.y, _this.player );
+        }
+
         _this.player.explore();
         _this.level.refreshLights( [_this.player.light] );
 
@@ -101,6 +107,16 @@ TestScene.prototype.loadLevel = function(height){
         if(height == 1000 && oldHeight >= height){
             _this.music = new Howl({
                 urls: ['sounds/Rooftop.ogg','sounds/Rooftop.mp3'],
+                loop: true
+            }).play();
+            _this.music.fade(0,1,3000);
+            if(Flags.flag("intro")){
+                _this.showDialog("You wake up to the sound of rain.  What happened? You feel a burning sensation at the base of your neck. You reach back and find blood at your neckport and realize you have no memory of how you arrived at the top of this building. You see a single exit. It appears to lead downwards, into the tower.",_this.player.image_idle_0,_this.player.image_idle_1)
+            }
+        }
+        if(height == -100 ){
+            _this.music = new Howl({
+                urls: ['sounds/BossFight.ogg','sounds/BossFight.mp3'],
                 loop: true
             }).play();
             _this.music.fade(0,1,3000);
@@ -181,9 +197,17 @@ TestScene.prototype.update = function(delta){
         for(var y = 0; y < this.level.width; y++){
             var t = this.level.tiles[this.level.width*y+x];
 			if( t != null && t != undefined && t.image != undefined && t.image != null && (t.explored||this.player.god) ) {
-            	this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
+                if(this.currentHeight != -100){
+                    this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
+                }
+                else {
+                    if(x == 0 && y ==0){
+                        this.ctx.drawImage(Resources.getImage("final_boss_room"),x*this.size ,y*this.size,this.size*14 ,this.size*12  );
+                    }
+                }
+
                 this.ctx.globalAlpha = Math.max( 0.7-t.brightness, 0.3 );
-                if(!this.player.god){
+                if(!this.player.god && this.currentHeight != -100){
                     this.ctx.drawImage(Resources.getImage('fowoverlay'),x*this.size ,y*this.size,this.size ,this.size  );
                 }
                 this.ctx.globalAlpha = 1;
