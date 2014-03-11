@@ -366,7 +366,7 @@ TestScene.prototype.listOptions = function(){
     var pickup_targets = this.level.getObjectsByTypeOnTile(this.player.x,this.player.y,"item");
     if(pickup_targets.length>0){
         if(pickup_targets[0].id && Pickupable.Items[pickup_targets[0].id].floor_name){
-            this.showInfoText("You are standing by a "+Pickupable.Items[pickup_targets[0].id].floor_name);
+            this.showInfoText("You are standing by a "+Pickupable.Items[pickup_targets[pickup_targets.length-1].id].floor_name);
         }
         else {
             this.showInfoText("You are standing by something");
