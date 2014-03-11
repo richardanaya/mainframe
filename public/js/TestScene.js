@@ -371,7 +371,7 @@ TestScene.prototype.hearAmbient = function(ambientTiles){
             loop: true,
             volume:.5
         }).play();
-        s.fade(0,.2,2000);
+        s.fade(0,.4,2000);
         this.ambientSounds.push({tile:ambientTiles[i],sound:s});
     }
     for(var i = 0 ; i < soundsToTurnOff.length; i++){

@@ -10,6 +10,13 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage){
         urls: ['sounds/Elevator.ogg','sounds/Elevator.mp3'],
         loop: true
     }).play();
+    new Howl({
+        urls: ['sounds/sfx_general/sfx_elevator_start.mp3']
+    }).play();
+    this.bgmusic = new Howl({
+        urls: ['sounds/sfx_general/sfx_elevator_run_lp.mp3'],
+        loop: true
+    }).play();
     this.music.fade(0,.2,1000);
     this.mode = "play";
     this.animTime = 0;
@@ -73,7 +80,13 @@ ElevatorScene.prototype.update = function(delta){
             this.showDialog();
         }
         if(this.time >= (goingDown?5 :7) ){
-            this.music.fade(.2,0,1000);
+            var _this = this;
+            this.music.fade(.2,0,1000,function(){_this.music.stop()});
+            this.bgmusic.fade(.2,0,1000,function(){_this.music.stop()});
+            new Howl({
+                urls: ['sounds/sfx_general/sfx_elevator_stop.mp3'],
+                volume: 1
+            }).play();
             this.returnScene();
         }
     }
@@ -118,7 +131,13 @@ ElevatorScene.prototype.showDialog = function(){
 
 ElevatorScene.prototype.onKeyDown = function(key){
     if(this.mode == "play") {
-        this.music.fade(.2,0,1000);
+        var _this = this;
+        this.music.fade(.2,0,1000,function(){_this.music.stop()});
+        this.bgmusic.fade(.2,0,1000,function(){_this.music.stop()});
+        new Howl({
+            urls: ['sounds/sfx_general/sfx_elevator_stop.mp3'],
+            volume: 1
+        }).play();
         this.returnScene();
     }
     else {
@@ -128,7 +147,13 @@ ElevatorScene.prototype.onKeyDown = function(key){
 
 ElevatorScene.prototype.onTap = function(x,y){
     if(this.mode == "play") {
-        this.music.fade(.2,0,1000);
+        var _this = this;
+        this.music.fade(.2,0,1000,function(){_this.music.stop()});
+        this.bgmusic.fade(.2,0,1000,function(){_this.music.stop()});
+        new Howl({
+            urls: ['sounds/sfx_general/sfx_elevator_stop.mp3'],
+            volume: 1
+        }).play();
         this.returnScene();
     }
     else {
