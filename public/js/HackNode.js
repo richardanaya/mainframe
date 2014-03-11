@@ -72,11 +72,11 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 		{
 			if (this.hackingProgress == 0.0)
 			{	
-				/*
+				
 				var date = new Date();
 				console.log("Hack start time: " +date.getMinutes() + " min, " + date.getSeconds() + 
 									"sec, " + date.getMilliseconds() + " milliSec");
-				*/
+				
 
 				var randomNumber = Math.ceil(Math.random()*100)
 				if (randomNumber < this.mainframeDetectionChancePerc)
@@ -98,11 +98,11 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 					//console.log("found the true data cache!");
 				}
 
-				/*
+				
 				var date = new Date();
 				console.log("Hack end time: " +date.getMinutes() + " min, " + date.getSeconds() + 
 									"sec, " + date.getMilliseconds() + " milliSec");
-				*/
+				
 			}
 		}
 
