@@ -36,25 +36,173 @@ Monster.List = {
         strength : 10,
         accuracy : 0,
         mind : 0,
-        health: 2,
-        defence : 6,
+        defence : 2,
         armor : 1,
         damage : 1,
+        health: 5,
         image_0 : "rat_1",
         image_1 : "rat_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    yakuza : {
+    businessman : {
         name : "Businessman",
         strength : 10,
         accuracy : 0,
         mind : 0,
-        health: 5,
-        defence : 6,
+        defence : 2,
         armor : 1,
         damage : 1,
+        health: 5,
         image_0 : "businessman_1",
         image_1 : "businessman_2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+    ,
+    bandit : {
+        name : "Bandit",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "bandit",
+        image_1 : "bandit",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+    ,
+    crab_bot : {
+        name : "Crab Bot",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "crab_bot_1",
+        image_1 : "crab_bot_2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+    ,
+    rat_man : {
+        name : "Rat Man",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "MutantRatMan1",
+        image_1 : "MutantRatMan2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+    ,
+    mutant_roach : {
+        name : "Mutant Roach",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "MutantRoach1",
+        image_1 : "MutantRoach1",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+
+    ,
+    robot_guard : {
+        name : "Robot Guard",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "RobotGuard1",
+        image_1 : "RobotGuard2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+
+    sentry_1 : {
+        name : "Sentry",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "Sentry2_1",
+        image_1 : "Sentry2_2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    },
+
+    sentry_2 : {
+        name : "Sentry",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "Sentry3_1",
+        image_1 : "Sentry3_2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+    ,
+
+    sentry_3 : {
+        name : "Sentry",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "SentryBot1_1",
+        image_1 : "SentryBot1_2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+    ,
+
+    sentry_cat : {
+        name : "Sentry Cat",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "SentryCat_1",
+        image_1 : "SentryCat_2",
+        levels: [900,800,700,600,500,400,300,200,100,0]
+    }
+
+    ,
+
+    ninja : {
+        name : "Ninja",
+        strength : 10,
+        accuracy : 0,
+        mind : 0,
+        defence : 2,
+        armor : 1,
+        damage : 1,
+        health: 5,
+        image_0 : "ninja_1",
+        image_1 : "ninja_1",
         levels: [900,800,700,600,500,400,300,200,100,0]
     }
 }
