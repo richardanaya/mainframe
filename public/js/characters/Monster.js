@@ -249,6 +249,7 @@ Monster.load = function(name){
     p.mind = pi.mind;
     p.defence = pi.defence;
     p.health = pi.health;
+    if(pi.tags){ p.tags = p.tags.concat(pi.tags); }
     p.armor = pi.armor;
     p.damage = pi.damage;
     p.image_idle_0 = Resources.getImage(pi.image_0);
