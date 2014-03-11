@@ -2,10 +2,13 @@ var StartScene = function(game){
     this.game = game;
     this.time = 0;
     var _this = this;
+    this.preventSplash = false;
     this.music = new Howl({
         urls: ['sounds/Menu.mp3'],
         onend: function(){
-            _this.game.changeScene(new SplashScene(_this.game));
+            if(!_this.preventSplash){
+                _this.game.changeScene(new SplashScene(_this.game));
+            }
         }
     }).play();
 
@@ -34,11 +37,12 @@ StartScene.prototype.update = function(delta){
 
 StartScene.prototype.onKeyDown = function(key){
     //this.music.fade(1,0,1000);
-
+    this.preventSplash = true;
     this.game.changeScene(new CharacterSelectScene(this.game,this.music));
 };
 
 StartScene.prototype.onTap = function(x,y){
     //this.music.fade(1,0,1000);
+    this.preventSplash = true;
     this.game.changeScene(new CharacterSelectScene(this.game,this.music));
 };

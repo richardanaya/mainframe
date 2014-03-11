@@ -22,6 +22,7 @@ SplashScene.prototype.update = function(delta){
     if(this.time >6){
         //this.music.fade(1,0,1000);
         this.game.changeScene(new StartScene(this.game,this.music));
+        return;
     }
     this.ctx.drawImage(Resources.getImage("winners"),0,0,window.innerWidth,window.innerHeight);
     this.ctx.globalAlpha = 1;
