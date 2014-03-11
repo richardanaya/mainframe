@@ -30,6 +30,7 @@ Pickup.prototype.process = function(complete){
                 var g = Pickupable.loadRandomEpicLootItem();
                 _this.obj.level.scene.showInfoText( "Holy smokes it's an epic " + g.name );
                 _this.player.addToInventory( g );
+                _this.obj.level.removeObject( _this.obj );
             }
             else if( result.backtraced ) {
                 _this.player.onDamage( _this.player.maxHealth / 2 );

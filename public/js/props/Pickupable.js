@@ -673,5 +673,7 @@ Pickupable.getEpicItems = function() {
 
 Pickupable.loadRandomEpicLootItem = function() {
     var epicItems = Pickupable.getEpicItems();
-    return Pickupable.load( epicItems[ Utilities.randRangeInt(0,epicItems.length) ] );
+    var randIndex = Utilities.randRangeInt(0,epicItems.length);
+    var randItemKey = epicItems[ randIndex ];
+    return Pickupable.load( randItemKey );
 }
