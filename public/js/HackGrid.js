@@ -105,3 +105,82 @@ HackGrid.prototype.isValidGridPoint = function( x,y )
 {
     return ( x >= this.minGridX && x <= this.maxGridX && y >= this.minGridY && y <= this.maxGridY );
 }
+
+HackGrid.prototype.getRandomNode = function()
+{
+    return this.nodes[ Utilities.randRangeInt( 0, this.nodes.length ) ];
+}
+
+HackGrid.prototype.getRandomNodeInRange = function( from, min, max, maxFailures )
+{
+    return this.getRandomNodeDelegate( function( node ) {
+        if( node.type != HackNodeType.Neutral ) return false;
+        var path = HackGridUtilities.getPath( from, node );
+        if( path.length >= min && path.length <= max ) return true;
+        return false;
+    }, maxFailures );
+}
+
+HackGrid.prototype.getRandomNeutralNode = function()
+{
+    return this.getRandomNodeDelegate( function( node ) {
+        return node.type == HackNodeType.Neutral;
+    });
+}
+
+HackGrid.prototype.getRandomNodeDelegate = function( delegate, maxFailures )
+{
+    if( maxFailures == undefined ) var maxFailures = 500;
+    var randNode = null;
+    for( var i = 0; i < maxFailures; ++i )
+    {
+        randNode = this.getRandomNode();
+        if( delegate( randNode ) )
+        {
+            return randNode;
+        }
+    }
+
+    return randNode;
+}
+
+HackGrid.prototype.makeMainframe = function( node )
+{
+    node.type = HackNodeType.Mainframe;
+    node.hostile = true;
+    node.backtracePercentProgress = 100.0;
+    node.hackingDifficultyInSec = 120.00;
+    node.mainframeDetectionChancePerc = 100.0;
+    node.enmityGainIfDetected = 100.00;
+    this.mainframeNode = node;
+}
+
+HackGrid.prototype.makePlayer = function( node )
+{
+    node.type = HackNodeType.Player;
+    node.hacked = true;
+    this.playerNode = node;
+}
+
+HackGrid.prototype.makeTrueDataCache = function( node )
+{
+    node.hackingDifficultyInSec = 10.0;
+    node.mainframeDetectionChancePerc = 80.0;
+    node.enmityGainIfDetected = 25.00;
+    node.isTrueDataCache = true;
+    this.trueDataCacheNode = node;
+    node.type = "goal";
+}
+
+HackGrid.prototype.makeFakeDataCache = function( node )
+{
+    node.hackingDifficultyInSec = 10.0;
+    node.mainframeDetectionChancePerc = 80.0;
+    node.enmityGainIfDetected = 25.00;
+    node.type = "goal";
+}
+
+HackGrid.prototype.makeNeutral = function( node )
+{
+    node.type = HackNodeType.Neutral;
+}

@@ -21,7 +21,19 @@ var HackNode = function(gridXPos, gridYPos, type, scene)
 	this.hackingScene = scene;
 	this.localBacktraceComplete = false;
 	this.backtracePercentProgress = 0.0;
-	this.theSecretDataCache = false;
+	this.isTrueDataCache = false;
+
+	this.neutralImage = Resources.getImage("neutral_node");
+	this.mainframeImage = Resources.getImage("mainframe_node");
+	this.midHackNeutralImage = Resources.getImage("neutral_node_mid_hack");
+	this.playerImage = Resources.getImage("entry_node");
+	this.hackedImage = Resources.getImage("hacked_node");
+	this.dataCacheImage = Resources.getImage("datacache_node");
+	this.hackedEmptyDataCacheImage = Resources.getImage("datacache_hack_empty");
+	this.midHackDataCacheImage = Resources.getImage("datacache_mid_hack");
+	this.trueDataCacheImage = Resources.getImage("datacache_true");
+
+
 
 	if (this.type == "mainframe")
 	{
@@ -52,7 +64,7 @@ HackNode.prototype.getGridPos = function() {
 
 HackNode.prototype.hackingSimulationUpdate = function(delta)
 {
-	if (!this.hackingScene.hackingFullyBacktraced)
+	if ((this.hackingScene.hackingFullyBacktraced == false) && (this.hackingScene.goalFound == false))
 	{
 		if (this.activelyBeingHacked == true)
 		{
@@ -77,6 +89,12 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 				this.hacked = true;
 				this.activelyBeingHacked = false;
 				this.hackingScene.playerActivelyHacking = false;
+
+				if (this.isTrueDataCache == true)
+				{
+					this.hackingScene.goalFound = true;
+					console.log("found the true data cache!");
+				}
 
 				/*
 				var date = new Date();
@@ -120,26 +138,28 @@ HackNode.prototype.hackingSimulationUpdate = function(delta)
 
 HackNode.prototype.update = function(delta)
 {
-	var color = "purple";
-
+	var image = this.neutralImage;
+	
     if(this.type == "player")
-        color = "green";
+        image = this.playerImage;
     else if ((this.type == "neutral") && (this.hacked == true))
-        color = "green";
+        image = this.hackedImage;
     else if ((this.type == "neutral") && (this.activelyBeingHacked == true))
-        color = "lightgreen";
+        image = this.midHackNeutralImage;
     else if (this.type == "neutral")
-        color = "white";
-    else if ((this.type == "goal") && (this.hacked == true))
-        color = "purple";
+        image = this.neutralImage;
+    else if ((this.type == "goal") && (this.activelyBeingHacked == false) && (this.hacked == false))
+        image = this.dataCacheImage;
+    else if ((this.type == "goal") && (this.hacked == true) && (this.isTrueDataCache == false))
+        image = this.hackedEmptyDataCacheImage;
+    else if ((this.type == "goal") && (this.hacked == true) && (this.isTrueDataCache == true))
+    	image = this.trueDataCacheImage;
     else if ((this.type == "goal") && (this.activelyBeingHacked == true))
-        color = "blue";
-    else if (this.type == "goal")
-        color = "yellow";
+        image = this.midHackDataCacheImage;
     else if (this.type == "mainframe")
-        color = "red";
-
-	this.hackingScene.drawCircleAtGridPos(this.gridXPos, this.gridYPos, color);
+        image = this.mainframeImage;
+  
+	this.hackingScene.drawImageAtGridPos(this.gridXPos, this.gridYPos, image);
 };
 
 HackNode.prototype.drawBacktraceHighlights = function(delta)
@@ -164,10 +184,8 @@ HackNode.prototype.drawBacktraceHighlights = function(delta)
 												 this.connectedTo[i].gridXPos,
 												 this.connectedTo[i].gridYPos,
 												 fullyBacktraced);
-			
 		}
 	}
-
 };
 
 
