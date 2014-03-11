@@ -1,10 +1,14 @@
 var StartScene = function(game){
     this.game = game;
     this.time = 0;
+    var _this = this;
     this.music = new Howl({
         urls: ['sounds/Menu.mp3'],
-        loop: true
+        onend: function(){
+            _this.game.changeScene(new SplashScene(_this.game));
+        }
     }).play();
+
 };
 
 StartScene.prototype = Object.create(Scene.prototype);
