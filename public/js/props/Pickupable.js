@@ -235,21 +235,7 @@ Pickupable.Items = {
         stunChance: 0.4,
         image : "item_chain",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-    ,
-    "laser_whip" : {
-        name: "Laser Whip",
-        description: "",
-        read_on_pickup: true,
-        tags: ["melee","weapon","robokiller","scientist"],
-        actions: ["equip"],
-        equip_slot: "melee",
-        damage: 2,
-        image : "item_laser_whip",
-        levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-
-    ,
+    },
     "taser" : {
         name: "Taser",
         description: "",
@@ -261,9 +247,7 @@ Pickupable.Items = {
         image : "item_taser",
         stunChance: 0.5,
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-
-    ,
+    },
     "gun" : {
         name: "Gun",
         description: "A trusty gun",
@@ -286,8 +270,6 @@ Pickupable.Items = {
         image : "item_shotgun",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-
-
     "pulse_laser" : {
         name: "Pulse Laser",
         description: "",
@@ -309,8 +291,6 @@ Pickupable.Items = {
         image : "item_flachette_gun",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-
-
     "uzi" : {
         name: "Uzi",
         description: "",
@@ -321,29 +301,47 @@ Pickupable.Items = {
         image : "item_uzi",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-
-
     "mini_gun" : {
         name: "Mini Gun",
-        description: "",
+        description: "DAM:5 - RANGED - EPIC",
         damage: 5,
-        tags: ["ranged","weapon","spread"],
+        tags: ["ranged","weapon","spread","epic"],
         actions: ["equip"],
         equip_slot: "ranged",
         image : "item_mini_gun",
-        levels: [900,800,700,600,500,400,300,200,100,0]
+        levels: []
     },
-
-
     "plasma_lance" : {
         name: "Plasma Lance",
-        description: "",
+        description: "DAM:6 - RANGED - EPIC",
         damage: 6,
-        tags: ["ranged","weapon","plasma","scientist"],
+        tags: ["ranged","weapon","plasma","scientist","epic"],
         actions: ["equip"],
         equip_slot: "ranged",
         image : "item_plasma_lance",
-        levels: [900,800,700,600,500,400,300,200,100,0]
+        levels: []
+    },
+    "masamune" : {
+        name: "Legendary Masamune",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon","samurai","fleshflayer","epic"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 6,
+        image : "item_masamune",
+        levels: []
+    },
+    "laser_whip" : {
+        name: "Laser Whip",
+        description: "",
+        read_on_pickup: true,
+        tags: ["melee","weapon","robokiller","hacker","epic"],
+        actions: ["equip"],
+        equip_slot: "melee",
+        damage: 6,
+        image : "item_laser_whip",
+        levels: []
     },
 
     "janitors_note" : {
@@ -660,4 +658,20 @@ Pickupable.load = function(name){
     }
     p.image = Resources.getImage(pi.image);
     return p;
+}
+
+Pickupable.getEpicItems = function() {
+   var result = [];
+    for( var key in Pickupable.Items ) {
+        var item = Pickupable.Items[key];
+        if( item != null && item != undefined && item.tags != undefined && item.tags != null && item.tags.indexOf( "epic" ) != -1  )
+            result.push( key );
+    }
+
+    return result;
+}
+
+Pickupable.loadRandomEpicLootItem = function() {
+    var epicItems = Pickupable.getEpicItems();
+    return Pickupable.load( epicItems[ Utilities.randRangeInt(0,epicItems.length) ] );
 }

@@ -21,9 +21,21 @@ Pickup.prototype.process = function(complete){
         music.fade(1,0,3000,function(){
             music.stop();
         });
+
+        var _this = this;
         this.player.level.scene.game.changeScene(new HackScene(this.game, this.scene, 1, programs, function(result){
             music.play();
             music.fade(0,1,3000);
+            if( result.foundCache ) {
+                var g = Pickupable.loadRandomEpicLootItem();
+                _this.obj.level.scene.showInfoText( "Holy smokes it's an epic " + g.name );
+                _this.player.addToInventory( g );
+            }
+            else if( result.backtraced ) {
+                _this.player.onDamage( _this.player.maxHealth / 2 );
+                _this.obj.level.scene.showInfoText( "You suffer a painful seizure as a result of feedback from the uplink." );
+            }
+
             _this.player.level.scene.game.changeScene(_this.player.level.scene);
             complete();
         }));
