@@ -78,7 +78,7 @@ Player.prototype.setupHacker = function(){
 
     g = Pickupable.load("program_0");
     g.equipped = true;
-    this.addToinventory(g);
+    this.addToInventory(g);
 
     g = Pickupable.load("program_1");
     g.equipped = true;
