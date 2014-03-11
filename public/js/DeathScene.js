@@ -9,7 +9,7 @@ var DeathScene = function(game,music){
     var _this = this;
 
     window.setTimeout(function(){_this.enable = true},1000);
-    var quotes = [ '"Mess with best, die like the rest."','"Time To Die"','"If this were a virus, you\'d be dead now."'];
+    var quotes = [ '"Mess with best, die like the rest."','"Time To Die"','"If this were a virus, you\'d be dead now."','"You didn\'t live, but then again, who does"'];
     this.q = quotes[Math.floor(Math.random()*quotes.length)]
 };
 
@@ -40,6 +40,8 @@ DeathScene.prototype.update = function(delta){
         }
         context.fillText(line, x, y);
     }
+
+    this.ctx.drawImage(Resources.getImage("death"),(window.innerWidth-256)/2,(window.innerHeight-256)/2-200,256,256);
 
     this.ctx.font = "36px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
