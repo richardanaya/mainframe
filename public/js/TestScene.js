@@ -68,6 +68,7 @@ var TestScene = function(game,player){
     this.inventoryDialog.scene = this;
     this.effects = [];
     this.loadLevel(this.currentHeight)
+    this.ambientSounds = [];
 };
 
 TestScene.prototype = Object.create(Scene.prototype);
@@ -77,7 +78,10 @@ TestScene.prototype.loadLevel = function(height){
     var oldHeight = this.currentHeight;
     var _this = this;
     if(_this.music){
-        _this.music.fade(1,0,3000);
+        var song = _this.music;
+        _this.music.fade(1,0,3000,function(){
+            song.stop();
+        });
     }
 
     var done = function(){
@@ -108,7 +112,7 @@ TestScene.prototype.loadLevel = function(height){
             if(Level.isOfficeHeight(height)) {
                 _this.music = new Howl({
                     urls: ['sounds/Corporate.ogg','sounds/Corporate.mp3'],
-                    loop: true
+                    loop: true,
                 }).play();
             }
             else if(Level.isLabHeight(height)) {
@@ -299,7 +303,8 @@ TestScene.prototype.processAllMoves = function(){
             //When done
             _this.centerViewAroundPlayer();
             var options_changed = _this.listOptions();
-            this.graph = _this.level.getGraph();
+            _this.updateAmbient();
+            _this.graph = _this.level.getGraph();
             if(_this.player.autoMove() && !options_changed){
                 setTimeout(function(){
                     _this.processAllMoves();
@@ -312,6 +317,49 @@ TestScene.prototype.processAllMoves = function(){
     process(0);
 }
 
+TestScene.prototype.updateAmbient = function(){
+    var tiles = this.level.getNeighborTiles(this.player.x,this.player.y);
+    var ambientTiles = [];
+    for(var i = 0; i < tiles.length; i++){
+        var tile = tiles[i];
+        if(tile.ambient){
+            ambientTiles.push(tile);
+        }
+    }
+    this.hearAmbient(ambientTiles);
+}
+
+TestScene.prototype.hearAmbient = function(ambientTiles){
+    var soundsToTurnOff = [];
+    for(var i = 0 ; i < this.ambientSounds.length; i++){
+        var ix = ambientTiles.indexOf(this.ambientSounds[i])
+        if(ix == -1){
+           soundsToTurnOff.push(this.ambientSounds[i]);
+           this.fadeOutAndStopSound(this.ambientSounds[i].sound,.2,0,2000);
+        }
+        else {
+            ambientTiles.splice(ix,1);
+        }
+    }
+    for(var i = 0 ; i < ambientTiles.length ; i++){
+        var s = new Howl({
+            urls: [ambientTiles[i].ambient],
+            loop: true,
+            volume:.5
+        }).play();
+        s.fade(0,.2,2000);
+        this.ambientSounds.push({tile:ambientTiles[i],sound:s});
+    }
+    for(var i = 0 ; i < soundsToTurnOff.length; i++){
+        this.ambientSounds.splice(this.ambientSounds.indexOf(soundsToTurnOff[i]),1);
+    }
+}
+
+TestScene.prototype.fadeOutAndStopSound = function(s,vs,ve,d){
+    s.fade(vs,ve,d,function(){
+        s.stop();
+    })
+}
 
 TestScene.prototype.listOptions = function(){
     var options_changed = false;
@@ -414,11 +462,19 @@ TestScene.prototype.onTap = function(x,y){
 
         if(this.inventoryButton.isWithin(x,y)){
             if(this.inventoryDialog.visible){
+                new Howl({
+                    urls: ["sounds/sfx_ui/sfx_ui_popdown.mp3"],
+                    volume:.5
+                }).play();
                 this.inventoryDialog.hide();
                 this.mode = "play";
                 return;
             }
             else {
+                new Howl({
+                    urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+                    volume:.5
+                }).play();
                 this.mode = "inventory";
                 this.inventoryDialog.show();
                 return;
@@ -428,12 +484,22 @@ TestScene.prototype.onTap = function(x,y){
         var _this = this;
         if(this.rangedButton.isWithin(x,y)){
             if(this.player.rangedWeapon){
+                new Howl({
+                    urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+                    volume:.5
+                }).play();
                 this.showInfoText("Tap on what you would like to shoot.")
                 this.select(function(x,y,obj){
                     if(x!=-1&&y!=-1){
                         _this.player.rangeAttackTarget(x,y,obj);
                     }
                 });
+            }
+            else {
+                new Howl({
+                    urls: ["sounds/sfx_ui/sfx_ui_negative1_1.mp3"],
+                    volume:.5
+                }).play();
             }
             return;
         }
@@ -462,6 +528,10 @@ TestScene.prototype.onTap = function(x,y){
     }
     else if(this.mode == "select"){
         if(this.cancelButton.isWithin(x,y)){
+            new Howl({
+                urls: ["sounds/sfx_ui/sfx_ui_popdown.mp3"],
+                volume:.5
+            }).play();
             this.mode = "play";
             return;
         }

@@ -69,6 +69,13 @@ Tileset.createOfficeTileset = function() {
 		Utilities.createImage('images/tilesets/office/props/prop04.png'),
 	];
 
+    result.propSounds = [
+        null,
+        "sounds/sfx_ambience/sfx_ambience_stereo_lp_7.mp3",
+        null,
+        null
+    ];
+
 	result.doors = {
 		vertical: [Utilities.createImage('images/tilesets/office/doors/door_v.png')],
 		horizontal: [Utilities.createImage('images/tilesets/office/doors/door_h.png')],
@@ -99,6 +106,7 @@ Tileset.createOfficeTileset = function() {
 						if( level.tiles[index].type != Level.Types.Wall && level.tiles[index].noblock == false ) {
 							level.tiles[index].type = Level.Types.Prop;
 							level.tiles[index].image = level.tileset.props[propType];
+                            level.tiles[index].ambient = level.tileset.propSounds[propType];
 
 							if( propType == 2 ) { //lamp
 								var light = new Light( '['+x+','+y+']',x,y,1,0.2);
@@ -188,6 +196,13 @@ Tileset.createLabTileset = function() {
         Utilities.createImage('images/tilesets/lab/props/prop02.png'),
         Utilities.createImage('images/tilesets/lab/props/prop03.png'),
         Utilities.createImage('images/tilesets/lab/props/prop04.png'),
+    ];
+
+    result.propSounds = [
+        null,
+        "sounds/sfx_general/sfx_object_hum_lp_6.mp3",
+        null,
+        null
     ];
 
     result.doors = {
@@ -305,6 +320,12 @@ Tileset.createBasementTileset = function() {
         Utilities.createImage('images/tilesets/basement/props/prop01.png'),
         Utilities.createImage('images/tilesets/basement/props/prop02.png'),
         Utilities.createImage('images/tilesets/basement/props/prop03.png'),
+    ];
+
+    result.propSounds = [
+        "sounds/sfx_ambience/sfx_ambience_stereo_lp_4.mp3",
+        "sounds/sfx_ambience/sfx_ambience_stereo_lp_5.mp3",
+        "sounds/sfx_ambience/sfx_ambience_stereo_lp_8.mp3"
     ];
 
     result.doors = {
@@ -425,6 +446,12 @@ Tileset.createMainframeTileset = function() {
         Utilities.createImage('images/tilesets/mainframe/props/prop01.png'),
         Utilities.createImage('images/tilesets/mainframe/props/prop02.png'),
         Utilities.createImage('images/tilesets/mainframe/props/prop03.png')
+    ];
+
+    result.propSounds = [
+        null,
+        null,
+        null
     ];
 
     result.doors = {

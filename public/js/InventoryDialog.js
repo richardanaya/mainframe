@@ -132,6 +132,10 @@ InventoryDialog.prototype.onTap = function(x,y){
         for(var i = 0 ; i < this.actionButtons.length; i++){
             var b = this.actionButtons[i];
             if(b.isWithin(x,y)){
+                new Howl({
+                    urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+                    volume:.5
+                }).play();
                 this.mode = "normal"
                 this.actingInventory.onAction(this.actions[i]);
                 return;
@@ -165,5 +169,9 @@ InventoryDialog.prototype.onInventoryTouch = function(i,but){
         b.width = 200;
         this.actionButtons.push(b);
     }
+    new Howl({
+        urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+        volume:.5
+    }).play();
     this.mode = "action";
 }

@@ -78,11 +78,6 @@ CharacterSelectScene.prototype.update = function(delta){
 };
 
 
-CharacterSelectScene.prototype.onKeyDown = function(key){
-    this.music.fade(1,0,1000);
-    this.game.changeScene(new TestScene(this.game));
-};
-
 CharacterSelectScene.prototype.drawBox = function(x,y,width,height){
     x = Math.floor(x);
     y = Math.floor(y);
@@ -140,6 +135,10 @@ CharacterSelectScene.prototype.onKeyDown = function(k){
         if(this.character == 2){
             p.setupScientist();
         }
+        new Howl({
+            urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+            volume:.5
+        }).play();
         this.game.changeScene(new TestScene(this.game,p));
     }
 }
@@ -168,14 +167,25 @@ CharacterSelectScene.prototype.onTap = function(x,y){
         if(this.character == 2){
             p.setupScientist();
         }
+        new Howl({
+            urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+            volume:.5
+        }).play();
         this.game.changeScene(new TestScene(this.game,p));
     }
     if(Utilities.isPointInRectangle(x,y,cx,cy+480,480,60)){
         this.music.fade(1,0,1000);
+        new Howl({
+            urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+            volume:.5
+        }).play();
         this.game.changeScene(new CreditsScene(this.game));
     }
     if(Utilities.isPointInRectangle(x,y,cx+260,cy+410,220,60)){
-
+        new Howl({
+            urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+            volume:.5
+        }).play();
         this.game.changeScene(new HelpScene(this.game,this.music));
     }
 };

@@ -32,6 +32,7 @@ StartScene.prototype.update = function(delta){
 
 StartScene.prototype.onKeyDown = function(key){
     //this.music.fade(1,0,1000);
+
     this.game.changeScene(new CharacterSelectScene(this.game,this.music));
 };
 
