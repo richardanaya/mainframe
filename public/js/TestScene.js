@@ -69,6 +69,9 @@ var TestScene = function(game,player){
     this.effects = [];
     this.loadLevel(this.currentHeight)
     this.ambientSounds = [];
+
+    this.endGame0 = new Button(this,0,0);
+    this.endGame1 = new Button(this,0,0);
 };
 
 TestScene.prototype = Object.create(Scene.prototype);
@@ -314,6 +317,33 @@ TestScene.prototype.update = function(delta){
     if(this.mode == "dialog"){
         this.dialog.update(delta);
         this.dialog.render();
+        if(this.mainframeUnplugged){
+            var w = window.innerWidth*3/4;
+            var h = window.innerHeight*3/4;
+            var x = (this.width-w)/2;
+            var y = (this.height-h)/2;
+            this.endGame0.x = x+20;
+            this.endGame0.y = 170;
+            this.endGame0.width = w-100;
+            this.endGame0.height = 50;
+            this.endGame1.x = x+20;
+            this.endGame1.y = 230;
+            this.endGame1.width = w-100;
+            this.endGame1.height = 50;
+            this.endGame0.render();
+            this.endGame1.render();
+            this.ctx.fillStyle = "white"
+            this.ctx.fillText("Destroy Mainframe",x+50,202);
+            if(this.player.class == "samurai"){
+                this.ctx.fillText("Release mainframe from AI dubbing machine",x+50,262);
+            }
+            else if(this.player.class == "hacker"){
+                this.ctx.fillText("Release mainframe onto digital web",x+50,262);
+            }
+            else if(this.player.class == "scientist"){
+                this.ctx.fillText("Become Mainframe",x+50,262);
+            }
+        }
     }
 
     if(this.mode == "inventory"){
@@ -340,6 +370,7 @@ TestScene.prototype.processAllMoves = function(){
             _this.centerViewAroundPlayer();
             var options_changed = _this.listOptions();
             _this.updateAmbient();
+            _this.checkTriggers();
             _this.graph = _this.level.getGraph();
             if(_this.player.autoMove() && !options_changed){
                 setTimeout(function(){
@@ -384,7 +415,7 @@ TestScene.prototype.hearAmbient = function(ambientTiles){
             loop: true,
             volume:.5
         }).play();
-        s.fade(0,.2,2000);
+        s.fade(0,.4,2000);
         this.ambientSounds.push({tile:ambientTiles[i],sound:s});
     }
     for(var i = 0 ; i < soundsToTurnOff.length; i++){
@@ -396,6 +427,48 @@ TestScene.prototype.fadeOutAndStopSound = function(s,vs,ve,d){
     s.fade(vs,ve,d,function(){
         s.stop();
     })
+}
+
+TestScene.prototype.checkTriggers = function(){
+    if(this.currentHeight == -100){
+        if(this.player.y <= 5 ){
+            if(!this.mainframeEncountered){
+                var _this = this;
+                _this.showDialog("Well well well.. look who it is",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                    _this.showDialog("This ends here now",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                        _this.showDialog("Ah, humanity, Like a moth to the flame.  You cannot comprehend what you are against. You will die here now!",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                            _this.level.addObjectTo(1,4,Monster.load("sentry_2"))
+                            _this.level.addObjectTo(1,9,Monster.load("sentry_2"))
+                            _this.level.addObjectTo(12,4,Monster.load("sentry_2"))
+                            _this.level.addObjectTo(12,9,Monster.load("sentry_2"))
+                            _this.mainframeEncountered = true;
+                        })
+                    })
+                })
+            }
+        }
+        if(this.mainframeEncountered && this.level.getAllObjectsByType("monster").length == 0){
+            if(!this.mainframeBeaten){
+                this.mainframeBeaten = true;
+                this.showDialog("Noo  .... stop.. don't hurt them.  Please..",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"));
+            }
+        }
+        if(this.mainframeBeaten && this.player.y == 1 && (this.player.x == 6 || this.player.x == 7)){
+            this.mainframeUnplugged = true;
+            if(this.player.class == "samurai"){
+                this.showDialog("*you approach the wired coils behind mainframe*\nWhat do I do?");
+                this.mode = "dialog";
+            }
+            if(this.player.class == "hacker"){
+                this.showDialog("*you approach the wired coils behind mainframe*\nWhat do I do?");
+                this.mode = "dialog";
+            }
+            if(this.player.class == "scientist"){
+                this.showDialog("*you approach the wired coils behind mainframe*\nWhat do I do?");
+                this.mode = "dialog";
+            }
+        }
+    }
 }
 
 TestScene.prototype.listOptions = function(){
@@ -476,7 +549,13 @@ TestScene.prototype.onKeyDown = function(key){
         this.processAllMoves();
     }
     else if(this.mode == "dialog"){
+        if(this.mainframeUnplugged){
+            return;
+        }
         this.mode = "play";
+        if(this.dialogComplete){
+            this.dialogComplete();
+        }
     }
     else if(this.mode == "inventory"){
         this.mode = "play";
@@ -562,6 +641,47 @@ TestScene.prototype.onTap = function(x,y){
         }
     }
     else if(this.mode == "dialog"){
+        if(this.mainframeUnplugged){
+            if(this.endGame0.isWithin(x,y)){
+                var _this = this;
+                this.mainframeUnplugged = false;
+                _this.showDialog("Nooo... I am defeated",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                    _this.music.fade(1,0,1000,function(){
+                        _this.music.stop();
+                        _this.game.changeScene(new CreditsScene(_this.game));
+                    });
+                });
+            }
+            if(this.endGame1.isWithin(x,y)){
+                var _this = this;
+                this.mainframeUnplugged = false;
+                if(this.player.class == "samurai"){
+                    _this.showDialog("*you hack against the wires and machines until you pull the frail body of a woman out from its insides*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                        _this.music.fade(1,0,1000,function(){
+                            _this.music.stop();
+                            _this.game.changeScene(new CreditsScene(_this.game));
+                        });
+                    });
+                }
+                else if(this.player.class == "hacker"){
+                    _this.showDialog("You.. you're letting me free?  ,, Thank you",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                        _this.music.fade(1,0,1000,function(){
+                            _this.music.stop();
+                            _this.game.changeScene(new CreditsScene(_this.game));
+                        });
+                    });
+                }
+                else if(this.player.class == "scientist"){
+                    _this.showDialog("*you grab the wires and splice them to your rig as your brain downloads into*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                        _this.music.fade(1,0,1000,function(){
+                            _this.music.stop();
+                            _this.game.changeScene(new CreditsScene(_this.game));
+                        });
+                    });
+                }
+            }
+            return;
+        }
         this.mode = "play";
         if(this.dialogComplete){
             this.dialogComplete();

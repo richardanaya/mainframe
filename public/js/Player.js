@@ -42,7 +42,8 @@ Player.prototype.onDie = function(){
     this.level.scene.onDie();
 }
 
-Player.prototype.setupScientist = function( level ){
+Player.prototype.setupScientist = function(){
+    this.class = "scientist";
     this.image_idle_0 = Resources.getImage("scientist_1");
     this.image_idle_1 = Resources.getImage("scientist_2");
     this.allyImage = Resources.getImage("sop13_1");
@@ -66,6 +67,7 @@ Player.prototype.setupScientist = function( level ){
 }
 
 Player.prototype.setupHacker = function(){
+    this.class = "hacker";
     this.image_idle_0 = Resources.getImage("hacker_1");
     this.image_idle_1 = Resources.getImage("hacker_2");
     var g = Pickupable.load("gun");
@@ -91,6 +93,7 @@ Player.prototype.setupHacker = function(){
 }
 
 Player.prototype.setupSamurai = function(){
+    this.class = "samurai";
     this.image_idle_0 = Resources.getImage("street_samurai_1");
     this.image_idle_1 = Resources.getImage("street_samurai_2");
     var g = Pickupable.load("shotgun");

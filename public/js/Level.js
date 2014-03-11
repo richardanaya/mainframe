@@ -244,6 +244,16 @@ Level.prototype.getObjectsByTypeOnTile = function(x,y,type){
     return o;
 }
 
+Level.prototype.getAllObjectsByType = function(type){
+    var o = [];
+    for(var i = 0 ; i < this.allObjects.length; i++){
+        if(this.allObjects[i].tags.indexOf(type)!=-1){
+            o.push(this.allObjects[i]);
+        }
+    }
+    return o;
+}
+
 Level.prototype.update = function() {
 }
 
