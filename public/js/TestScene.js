@@ -762,7 +762,7 @@ TestScene.prototype.showDialog = function(text, img0, img1, onComplete){
 
 TestScene.prototype.showInfoText = function(text){
     this.infoText.push({text:text.toUpperCase(),time:this.time});
-    if(this.infoText.length > 3){
+    if(this.infoText.length > 5){
         this.infoText.splice(0,1);
     }
 }

@@ -300,6 +300,11 @@ Monster.prototype.think = function(){
     var p = this.level.scene.player;
     var curTile = this.getCurrentTile();
 
+    if( --this.stunCount > 0 ) {
+        this.level.scene.showInfoText( this.name + ' is stunned!' );
+        return result;
+    }
+
     if( p.camoCount > 0  && !this.canSeeThroughStealth ) {
         this.lastKnownPlayerLocation = null;
         return result;

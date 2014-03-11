@@ -58,7 +58,7 @@ Attack.prototype.process = function(complete){
         this.defender.type = Level.Types.Floor;
         this.defender.image = this.attacker.level.tileset.smashedProp[0];
     }
-    else {
+    else if( this.attacker.stunCount <= 0 ) {
         var damage = this.attacker.getDamage(this.weapon);
         var offense = this.attacker.getOffense();
         var defence = this.defender.getDefence();
@@ -102,9 +102,14 @@ Attack.prototype.process = function(complete){
             }
         }
 
-        if( this.weapon != null && this.weapon.hasTag("fleshflayer") && this.defender.tags.indexOf("fleshy") != -1 ) {
+        if( this.weapon != null && this.weapon.hasTag("fleshflayer") && this.defender.tags.indexOf("fleshy") != -1 && Math.random() < 0.25 ) {
             this.attacker.level.scene.showInfoText( this.attacker.name + ' strike an artery with' + this.weapon.name );
             this.defender.bleeding = true;
+        }
+
+        if( this.weapon != null && this.weapon.hasTag("robokiller") && this.defender.tags.indexOf("robo") != -1 && Math.random() < 0.25 ) {
+            this.attacker.level.scene.showInfoText( this.attacker.name + ' cause a malfunction in' + this.defender.name );
+            this.defender.stunCount = 5;
         }
 
         var offSux = rollDice(offense)
