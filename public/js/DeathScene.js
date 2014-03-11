@@ -53,7 +53,7 @@ DeathScene.prototype.update = function(delta){
     this.ctx.font = "14px 'Press Start 2P'";
 
     this.ctx.globalAlpha = 1;
-    this.ctx.fillText(this.q, (this.width-this.ctx.measureText(this.q).width)/2, this.height/2+50);
+    this.ctx.fillText(this.q, (this.width-this.ctx.measureText(this.q).width)/2, this.height/2+50+50);
 
 };
 
