@@ -701,6 +701,10 @@ TestScene.prototype.onTap = function(x,y){
                 var _this = this;
                 this.mainframeUnplugged = false;
                 if(this.player.class == "samurai"){
+                    this.music.fade(1,0,1000)
+                    this.music = new Howl({
+                        urls: ['sounds/EndChoice1.ogg','sounds/EndChoice1.mp3']
+                    }).play();
                     _this.showDialog("*you hack against the wires and machines until you pull the frail body of a woman out from its insides*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
                         _this.music.fade(1,0,1000,function(){
                             _this.music.stop();

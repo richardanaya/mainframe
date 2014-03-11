@@ -12,11 +12,13 @@ var ElevatorScene = function(game,returnScene,fromLevel,toLevel, playerImage, al
         loop: true
     }).play();
     new Howl({
-        urls: ['sounds/sfx_general/sfx_elevator_start.mp3']
+        urls: ['sounds/sfx_general/sfx_elevator_start.mp3'],
+        volume:.5
     }).play();
     this.bgmusic = new Howl({
         urls: ['sounds/sfx_general/sfx_elevator_run_lp.mp3'],
-        loop: true
+        loop: true,
+        volume:.5
     }).play();
     this.music.fade(0,.2,1000);
     this.mode = "play";
@@ -89,10 +91,10 @@ ElevatorScene.prototype.update = function(delta){
         if(this.time >= (goingDown?5 :7) ){
             var _this = this;
             this.music.fade(.2,0,1000,function(){_this.music.stop()});
-            this.bgmusic.fade(.2,0,1000,function(){_this.music.stop()});
+            this.bgmusic.fade(.5,0,1000,function(){_this.music.stop()});
             new Howl({
                 urls: ['sounds/sfx_general/sfx_elevator_stop.mp3'],
-                volume: 1
+                volume:.5
             }).play();
             this.returnScene();
         }
@@ -140,10 +142,10 @@ ElevatorScene.prototype.onKeyDown = function(key){
     if(this.mode == "play") {
         var _this = this;
         this.music.fade(.2,0,1000,function(){_this.music.stop()});
-        this.bgmusic.fade(.2,0,1000,function(){_this.music.stop()});
+        this.bgmusic.fade(.5,0,1000,function(){_this.music.stop()});
         new Howl({
             urls: ['sounds/sfx_general/sfx_elevator_stop.mp3'],
-            volume: 1
+            volume:.5
         }).play();
         this.returnScene();
     }
@@ -156,10 +158,10 @@ ElevatorScene.prototype.onTap = function(x,y){
     if(this.mode == "play") {
         var _this = this;
         this.music.fade(.2,0,1000,function(){_this.music.stop()});
-        this.bgmusic.fade(.2,0,1000,function(){_this.music.stop()});
+        this.bgmusic.fade(.5,0,1000,function(){_this.music.stop()});
         new Howl({
             urls: ['sounds/sfx_general/sfx_elevator_stop.mp3'],
-            volume: 1
+            volume:.5
         }).play();
         this.returnScene();
     }
