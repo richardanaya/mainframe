@@ -50,6 +50,12 @@ Mainframe.prototype.GetLevel = function(height){
         level.addObjectTo(8,1,de);
         de.image = Resources.getImage("stairs");
 
+        level.addObjectTo(3,3,Monster.load('rat'));
+        level.addObjectTo(7,7,Pickupable.load('janitors_note'));
+        level.addObjectTo(8,8,Pickupable.load('hackable_safe'));
+        /*
+
+         level.addObjectTo(7,7,Pickupable.Items('hackable_save'));*/
         //spawn all items
         /*for(var p in Pickupable.Items){
             level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(p));

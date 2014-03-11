@@ -8,7 +8,7 @@ Pickup.prototype = Object.create(Action.prototype);
 Pickup.prototype.process = function(complete){
     if(!this.isObjectStillInPlay(this.obj)){ complete();return; }
 
-    if(this.obj.id == "hackable_computer"){
+    if(this.obj.id == "hackable_safe"){
         var _this = this;
         var programs = [];
         var items = this.player.getInventoryWithTag("program");

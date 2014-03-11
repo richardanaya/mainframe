@@ -5,6 +5,7 @@ var Pickupable = function(){
     this.tags = ["item"];
     this.id = "";
     this.equipped = false;
+    this.actions = [];
 }
 
 
@@ -341,7 +342,14 @@ Pickupable.Items = {
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
 
-
+    "janitors_note" : {
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation]\n[Janitorial Staff]\,\nNotice to janitorial crew. Bioenhancment liquids have been placed in the safe for worker use.  You all know the code. Be sure not to drink too much, you all remember what happened last time. I don't want to be sending anyone down to lab to pump their guts.\n Has anyone noticed how quiet the building has been today?\nSahe",
+        read_on_pickup: true,
+        actions: ["look at"],
+        image : "lab_note",
+        floor_name : "scrap of paper"
+    },
     "lab_note_1000" : {
         name: "Lab Note",
         description: "[CASCORP - Cybernetic and Artificial Systems Corporation]\n[System Administrator’s Note]\n[Date] 3/6/36 19:27\nWe have been seeing large usage spikes in our engineering services again. Mr. Yanatobi says not to worry, will run more diagnostics next week.\n[Published by Akimoto Nara]",
@@ -434,7 +442,8 @@ Pickupable.Items = {
         name: "Keycard",
         image : "keycard",
         actions: ["look at"],
-        description: "A keycard that looks like it can be used at corporate level"
+        read_on_pickup: true,
+        description: "A keycard that looks like it can be used at corporate level.  Perhaps this can open something?"
     },
     "juice_0" : {
         name: "MuscleBoost",
@@ -513,11 +522,10 @@ Pickupable.Items = {
         description: "An electric cigarette. A smoke break would be nice right now.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "hackable_computer" : {
+    "hackable_safe" : {
         name: "Hackable Computer",
-        image : "hackable_computer_office",
-        actions: ["use"],
-        floor_name: "computer you can hack",
+        image : "hackable_safe",
+        floor_name: "A computer gaurded safe",
         description: "",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
@@ -628,7 +636,9 @@ Pickupable.load = function(name){
     p.description = pi.description;
     p.read_on_pickup = pi.read_on_pickup;
     if(pi.tags){ p.tags = p.tags.concat(pi.tags); }
-    if(pi.actions){ p.actions = pi.actions;}
+    if(pi.actions){
+        p.actions = pi.actions;
+    }
 
     if(pi.damage) {p.damage = pi.damage; }
     if(p.actions.indexOf("trash")==-1){

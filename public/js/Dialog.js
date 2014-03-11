@@ -30,7 +30,7 @@ Dialog.prototype.render = function(){
 
         this.scene.ctx.fillStyle = "white";
 
-        this.scene.ctx.font = "16px 'Press Start 2P'";
+        this.scene.ctx.font = "10px 'Press Start 2P'";
         function wrapText(context, text, x, y, maxWidth, lineHeight) {
             var paragraphs = text.split('\n');
             for(var i = 0; i < paragraphs.length; i++){

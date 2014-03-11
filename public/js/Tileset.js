@@ -275,14 +275,14 @@ Tileset.createLabTileset = function() {
 Tileset.createBasementTileset = function() {
     var result = new Tileset();
     result.floors = [
-        Utilities.createImage( 'images/basement/lab/floors/floor01.png' ),
-        Utilities.createImage( 'images/basement/lab/floors/floor02.png' ),
+        Utilities.createImage( 'images/tilesets/basement/floors/floor01.png' ),
+        Utilities.createImage( 'images/tilesets/basement/floors/floor02.png' ),
     ];
 
     result.edging = {
         north: 			[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_top.png' )],
         northeast: 		[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_topright.png' )],
-        east: 			[Utilities.createImage( 'images/tilesets/lab/floors/floor_shadow_right.png' )],
+        east: 			[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_right.png' )],
         southeast: 		[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_bottomright.png' )],
         south: 			[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_bottom.png' )],
         southwest: 		[Utilities.createImage( 'images/tilesets/basement/floors/floor_shadow_bottomleft.png' )],
@@ -309,7 +309,7 @@ Tileset.createBasementTileset = function() {
             vertical: [Utilities.createImage('images/tilesets/basement/walls/wall_straight_ns.png')],
             horizontal: [
                 Utilities.createImage('images/tilesets/basement/walls/wall_straight_ew01.png'),
-                Utilities.createImage('images/tilesets/basement/walls/wall_straight_ew02.png')
+                Utilities.createImage('images/tilesets/basement/walls/wall_straight_ew01.png')
             ]
         },
         tjoins: {
@@ -326,7 +326,7 @@ Tileset.createBasementTileset = function() {
         Utilities.createImage('images/tilesets/basement/props/prop03.png'),
     ];
 
-    result.smashedProp = [Utilities.createImage( 'images/basement/lab/floors/floor01.png' )],
+    result.smashedProp = [Utilities.createImage( 'images/tilesets/basement/floors/floor01.png' )],
 
     result.propSounds = [
         "sounds/sfx_ambience/sfx_ambience_stereo_lp_4.mp3",
@@ -342,51 +342,31 @@ Tileset.createBasementTileset = function() {
     result.doPropPass = function( level ) {
         for( var roomIndex = 0; roomIndex < level.rooms.length; roomIndex++ ) {
             var room = level.rooms[roomIndex];
-            var rand = Math.random();
-            if( rand < 0.7 ) {
-                var area = room.width * room.height;
-                var numClutterChances = Math.round( area * 0.1 );
-                for( var i = 0; i < 10; i++ ) {
-                    if( Math.random() < 1 ) {
-                        var x = Utilities.randRangeInt( room.x+1, room.x+room.width-1 );
-                        var y = Utilities.randRangeInt( room.y+1, room.y+room.height-1 );
+            var area = room.width * room.height;
+            var numClutterChances = Math.round( area * 0.1 );
+            for( var i = 0; i < 10; i++ ) {
+                if( Math.random() < 1 ) {
+                    var x = Utilities.randRangeInt( room.x+1, room.x+room.width-1 );
+                    var y = Utilities.randRangeInt( room.y+1, room.y+room.height-1 );
 
-                        var choice = Math.random();
-                        var propType = 0;
-                        if( choice < 0.05 ) {
-                            propType = 2;
-                        }
-                        else if( choice < 0.45 ) {
-                            propType = 1
-                        }
-
-                        var index = Utilities.positionToIndex(x,y,level.width);
-                        if( level.tiles[index].type != Level.Types.Wall && level.tiles[index].noblock == false ) {
-                            level.tiles[index].type = Level.Types.Prop;
-                            level.tiles[index].image = level.tileset.props[propType];
-
-                            if( propType == 2 ) { //lamp
-                                var light = new Light( '['+x+','+y+']',x,y,1,0.2);
-                                light.room = room;
-                                level.lights.push( light );
-                            }
-                        }
+                    var choice = Math.random();
+                    var propType = 0;
+                    if( choice < 0.05 ) {
+                        propType = 2;
                     }
-                }
-            }
-            else {
-                // solarium
-                for( var x = room.x; x < room.x+room.width; x++ ) {
-                    if( Math.random() > 0.8 ) {
-                        var index = Math.max(0,(room.y-1))*level.width+x;
-                        if( level.tiles[index].type == Level.Types.Wall && level.tiles[index].wallType == Level.WallTypes.Straight ) {
-                            var light = new Light( '['+x+','+room.y+']',x,room.y,1,0.2);
+                    else if( choice < 0.45 ) {
+                        propType = 1
+                    }
+
+                    var index = Utilities.positionToIndex(x,y,level.width);
+                    if( level.tiles[index].type != Level.Types.Wall && level.tiles[index].noblock == false ) {
+                        level.tiles[index].type = Level.Types.Prop;
+                        level.tiles[index].image = level.tileset.props[propType];
+
+                        if( propType == 2 ) { //lamp
+                            var light = new Light( '['+x+','+y+']',x,y,1,0.2);
                             light.room = room;
                             level.lights.push( light );
-
-                            level.tiles[index].image = level.tileset.walls.straights.horizontal[1];
-                            index = Math.max(1,(room.y))*level.width+x;
-                            level.tiles[index].image = level.tileset.floors[4];
                         }
                     }
                 }
