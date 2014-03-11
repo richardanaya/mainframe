@@ -194,6 +194,8 @@ HackNode.prototype.drawBacktraceHighlights = function(delta)
 												 fullyBacktraced);
 		}
 	}
+
+	this.hackingScene.updateHackingLines();
 };
 
 

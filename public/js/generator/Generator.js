@@ -308,6 +308,7 @@ Generator.prototype.createTile = function( type, img, x, y, room ) {
 		, explored: false
 		, room: room 
 		, brightness: 0
+		, isVisible: function() { return brightness > 0; }
 	};
 }
 

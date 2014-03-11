@@ -389,8 +389,16 @@ TestScene.prototype.listOptions = function(){
         this.attackButton.show();
     }
     else {
-        this.attackButton.hide();
-        this.attack_target = null;
+        var props = this.level.getOrdinalNeighborsByType(this.player.x,this.player.y,Level.Types.Prop);
+        if( props.length>0 ) {
+                this.attack_target = props[0];
+                this.attackButton.image = this.attack_target.image;
+                this.attackButton.show();
+        }
+        else {
+            this.attackButton.hide();
+            this.attack_target = null;
+        }
     }
     return options_changed;
 }
@@ -401,7 +409,7 @@ TestScene.prototype.onKeyDown = function(key){
         this.graph = this.level.getGraph();
         
         if(key == 72){
-          //this.game.changeScene(new HackScene(this.game, this.scene, 1, []));
+          this.game.changeScene(new HackScene(this.game, this.scene, 1, []));
         }
         else if(key == 37 || key == 65){
             this.player.moveLeft();

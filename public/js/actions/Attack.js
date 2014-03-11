@@ -47,57 +47,52 @@ Attack.prototype.process = function(complete){
         }).play();
     }
 
-
-
-
-    var damage = this.attacker.getDamage(this.weapon);
-    var offense = this.attacker.getOffense();
-    var defence = this.defender.getDefence();
-    var armor = this.defender.getArmor();
-
-    var rollDice = function(num,difficulty){
-        var sux = 0;
-        for(var i = 0; i < num; i++){
-            var res = Math.floor(Math.random()*10)+1;
-            if(res >=difficulty){
-                sux++;
-            }
-            if(res == 1){
-                sux--;
-            }
-        }
-        return sux;
-    }
-
-    var offSux = rollDice(offense,8)
-    var defSux = rollDice(defence,8)
-
-
-    if(offSux < 0){
-        this.attacker.level.scene.showInfoText("Critical failure for attacker");
-    }
-    else if(offSux < defSux ){
-        this.attacker.level.scene.showInfoText("You missed");
-    }
-    else if(offSux >= defSux){
-
-        var damSux = Math.max(rollDice((offSux-defSux)+damage,8),0);
-        var armSux = Math.max(rollDice(armor,8),0);
-        var dam = Math.max(0,damSux - armSux);
-        if(dam == 0){
-            this.attacker.level.scene.showInfoText("Your attack hits weak");
-        }
-        else if(defSux<0){
-            this.attacker.level.scene.showInfoText("Critical failure for defender");
-            this.defender.onDamage(dam*2);
-        }
-        else {
-            this.defender.onDamage(dam);
-            this.attacker.level.scene.showInfoText("You hit for "+dam);
-        }
+    // smash props so they don't accidentally block your path
+    if( this.defender.type != undefined && this.defender.type == Level.Types.Prop ) {
+        this.attacker.level.scene.showInfoText( this.attacker.name + ' smash the nearby furniture.' );
+        this.defender.type = Level.Types.Floor;
+        this.defender.image = this.attacker.level.tileset.smashedProp[0];
     }
     else {
-        console.log("???s")
+        var damage = this.attacker.getDamage(this.weapon);
+        var offense = this.attacker.getOffense();
+        var defence = this.defender.getDefence();
+        var armor = this.defender.getArmor();
+
+        var rollDice = function(num){
+            difficulty = 8;
+            var sux = 0;
+            for(var i = 0; i < num; i++){
+                var res = Math.floor(Math.random()*12)+1;
+                if(res >= difficulty){
+                    sux++;
+                }
+            }
+            return sux;
+        }
+
+        var offSux = rollDice(offense)
+        var defSux = rollDice(defence)
+        var hits = offSux - defSux;
+
+        if( offSux == offense ) {
+            this.attacker.level.scene.showInfoText( this.attacker.name + ' struck masterfully dealing ' + this.attacker.damage*2 + ' damage' );
+        }
+        else if( hits <= 0 ){
+            this.attacker.level.scene.showInfoText( this.attacker.name + ' missed ' + this.defender.name );
+        }
+        else {
+            var dam = rollDice(damage)+1 - rollDice(armor);
+            dam = Math.max(0,dam);
+            this.attacker.level.scene.showInfoText( this.attacker.name + ' hit ' + this.defender.name + ' for ' + dam );
+            this.defender.onDamage( dam );
+
+            if( this.defender.canCounter && Math.random() < 0.25 ) {
+                var counterDamage = rollDice(1)+1;
+                this.attacker.level.scene.showInfoText( this.defender.name + ' countered ' + this.attacker.name + ' for ' + counterDamage + ' damage' );
+                this.attacker.onDamage( counterDamage );
+            }
+        }
     }
 
 

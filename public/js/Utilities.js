@@ -115,6 +115,11 @@ Utilities.isPointInRectangle = function(x,y,rx,ry,w,h){
     return (x>=rx && x< rx+w && y>= ry && y <ry+h);
 }
 
+Utilities.distanceSqr = function( from, to ) {
+	var diff = { x: to.x-from.x, y: to.y-from.y };
+	return diff.x*diff.x+diff.y*diff.y;
+}
+
 // vector utils
 Utilities.isPointOnLine = function( lineSegment, test ) {
 	return (test.x <= Math.max(lineSegment[0].x, lineSegment[1].x) && test.x >= Math.min(lineSegment[0].x, lineSegment[1].x) &&
