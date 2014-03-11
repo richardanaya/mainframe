@@ -71,11 +71,6 @@ Attack.prototype.process = function(complete){
     if( offSux == offense ) {
         this.attacker.level.scene.showInfoText( this.attacker.name + ' struck masterfully dealing ' + this.attacker.damage*2 + ' damage' );
     }
-    else if( defSux == defence && this.defender.canCounter ) {
-        var counterDamage = rollDice(defSux/2);
-        this.attacker.level.scene.showInfoText( this.defender.name + ' countered ' + this.attacker.name + ' for ' + counterDamage + ' damage' );
-        this.attacker.onDamage( counterDamage );
-    }
     else if( hits <= 0 ){
         this.attacker.level.scene.showInfoText( this.attacker.name + ' missed ' + this.defender.name );
     }
@@ -84,6 +79,11 @@ Attack.prototype.process = function(complete){
         dam = Math.max(0,dam);
         this.attacker.level.scene.showInfoText( this.attacker.name + ' hit ' + this.defender.name + ' for ' + dam );
         this.defender.onDamage( dam );
+
+        if( this.defender.canCounter && rollDice(1) > 0 ) {
+            this.attacker.level.scene.showInfoText( this.defender.name + ' countered ' + this.attacker.name + ' for ' + counterDamage + ' damage' );
+            this.attacker.onDamage( rollDice(1)+1 );
+        }
     }
 
 

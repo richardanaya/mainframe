@@ -34,16 +34,18 @@ var Player = function(){
 
 Player.prototype = Object.create(Character.prototype);
 
+Player.prototype.onDie = function(){
+    this.level.scene.onDie();
+}
+
 Player.prototype.setupScientist = function(){
     this.image_idle_0 = Resources.getImage("scientist_1");
     this.image_idle_1 = Resources.getImage("scientist_2");
     var g = Pickupable.load("rig_0");
     g.equipped = true;
     this.addToInventory(g);
-}
-
-Player.prototype.onDie = function(){
-    this.level.scene.onDie();
+    
+    this.health = 150;
 }
 
 Player.prototype.setupHacker = function(){
@@ -70,6 +72,7 @@ Player.prototype.setupSamurai = function(){
     this.addToInventory(g);
     this.useMelee(g);
     this.canCounter = true;
+    
 }
 
 Player.prototype.useMelee = function(w){
