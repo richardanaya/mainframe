@@ -19,6 +19,11 @@ Pickupable.prototype.onAction = function(action){
     if(action == "look at"){
         this.level.scene.showDialog(this.description,this.image);
     }
+    if(action == "trash"){
+        this.level.scene.player.removeInventory(this);
+        this.level.scene.showInfoText(this.name+" trashed.");
+        this.player.level.scene.inventoryDialog.show();
+    }
     if(action == "throw"){
         this.level.scene.showInfoText("What do you want to throw at?");
         this.level.scene.select(function(x,y,obj){
@@ -141,88 +146,88 @@ Pickupable.Items = {
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "lab_note_1000" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation]\n[System Administrator’s Note]\n[Date] 3/6/36 19:27\nWe have been seeing large usage spikes in our engineering services again. Mr. Yanatobi says not to worry, will run more diagnostics next week.\n[Published by Akimoto Nara]",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
         floor_name : "scrap of paper"
     },
     "lab_note_900" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation] \nStage 1 Report\n[Date] 3/4/36 15:43\n[Test Subject] NU-11\n[Heart Rate] 160 BPM\n[Psychological Status] Unconscious\n[Summary] Subject has undergone the first stage of computer transfusion, and appears to be in a state of shock. Unlike previous subjects, she appears to have survived the transmission, but vital signs are volatile and must be monitored at all times. Second transfusion is scheduled to take place as soon as possible, once approval is gained by the board. If the subject survives, we will have our first chance to imprint her mind patterns into the Mainframe AI.",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
         floor_name : "scrap of paper"
     },
     "lab_note_800" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation] \n[To] All CASCORP Employees\n[Sent] 3/8/36 11:34\n[Subject] Research Department Error\n[Contents]\nDear valued CASCORP Employees,\nAs you may have heard, there is a rumour circulating that the Research Department may have accidentally released experimental subjects, but we would like to dispel those rumours. The Research Department is currently experiencing some technical issues, but once we resume communications with our labs, we will assure you that nothing has escaped the lower floors of the building. Your safety is of utmost importance to us, so for your own protection we have placed the upper floors under lockdown. Thank you for your cooperation.\nYour CEO,\n	Mr. Yanatobi",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
         floor_name : "scrap of paper"
     },
     "lab_note_700" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation]\nStage 2 Report\n[Date] 3/5/36 18:21\n[Test Subject] NU-11\n[Heart Rate] 75 BPM\n[Psychological Status] Stable\n[Summary] Subject has recovered from transfusions and seems to be adjusting to the AI imprinting. Additional tests will be run before the subject can be connected to the mainframe. Subject appears mentally stable, has successfully answered questions and completed simple tasks within our computer network. Subject also passed psychological tests earlier today, so it is only a matter of time before we connect NU-11 to the entire CASCORP network.",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
         floor_name : "scrap of paper"
     },
     "lab_note_600" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation] \n[To] Sayo Kasahara, Financial Advisor\n[Date] 2/25/36 13:41\n[Subject] Additional Funds for Research\n[Contents]\nDear Kasahara-san\nWe have very much appreciated the funds that we have already been granted by the financial board to conduct our research on nanotechnology. However, the money has depleted faster than we imagined, so we ask from your generosity that our grant is extended. Our research into nanoviruses is the next frontier of modern warfare, allowing greater precision without the messy aftermath of chemical and nuclear weapons. The technology is still extremely volatile, and we need more time to develop an effective and lethal nanovirus.\nThank you for your consideration,\n	Kei Kitao",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
         floor_name : "scrap of paper"
     },
     "lab_note_500" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation] \nTests for Clinical Insanity and Mental Incompetence\n[Date] 3/4/36 12:57\n[Test Subject] NU - 11\n[Psychological Tests Administered by Jiro Izanagi, Phd]\n[Notes] Subject responds to questions, appears dazed and confused but demonstrates rational thinking and clear-mindedness. Complains about inaudible noises and the subject has delineated that she is in pain, but appears to be handling the situation appropriately. Shows little empathy or feeling, most accurately can be described as emotionally distant. Scientist attribute this to the AI imprinting, and should be no cause for worry.\n[Subject NU-11 Passed Inspection]",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
         floor_name : "scrap of paper"
     },
     "lab_note_400" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation] \n[To] Akimoto Nara, System Administrator\n[Sent] 3/5/36 10:23\n[Subject] Mainframe Access\n[Contents]\nAkimoto-san,\nThe recently implemented Mainframe-AI is requesting access to Research Department. Normally only the scientists directly involved with projects are given direct access, but with the new Mainframe I am unsure whether an exception should be made. I will await your reply before taking any action.\nSincerely,\n	Kei Kitao",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
         floor_name : "scrap of paper"
     },
     "lab_note_300" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation] \n[To] Kei Kitao, Assistant Research Coordinator\n[Sent] 3/5/36 10:23\n[Subject] Re: Mainframe Access\n[Contents]\nHello Kitao-san,\nIf the Mainframe has passed psychological inspection, then surely it is ready for widespread use within the corporation. Give it full access to files and functions unless anyone above me says otherwise. I forwarded your message to Security, and they will contact you directly if they have any objections.\nSincerely,\n	Akimoto Nara",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
         floor_name : "scrap of paper"
     },
     "lab_note_200" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation] \n[To] Kei Kitao, Assistant Research Coordinator\n[Sent] Message not sent; message saved to drafts folder\n[Subjects] Re: Fwd: Mainframe Access\n[Contents]\nKitao-san,\nThank you for asking about the Mainframe’s privileges. Unlike what our System Administrator told you, we advise you to immediately disconnect the Mainframe from all Research computers. The Mainframe is not yet verified to be bug-free and we need to be 100% sure that the Mainframe is stable enough to have access to some of the most dangerous materials in this corporation. Thank you for your email and we hope that this response reaches y\n[Message not sent; message saved to drafts folder] ",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
         floor_name : "scrap of paper"
     },
     "lab_note_100" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation] \nPre-Experiment Questionnaire - NU-11\n[Name] Satoru Hayashi\n[Age] 22\n[Sex] Female\n[Occupation] Student at Tokyo University of Engineering\n[Medication] Asthma medication, prescribed sleep pills taken occasionally\n[Does your family have a history of heart disease?] No\n[Have you ever had depression or other mental illness?] No\n[Is there anything you would like the staff to know before we begin?] No",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
         floor_name : "scrap of paper"
     },
     "lab_note_0" : {
-        name: "Lab Note: Sys Admin",
-        description: "[System Administrators Note] We've been seeing large usage spikes in our engineering services again.  Mr. Yanatobi says not worry, will run more diagnostics next week",
+        name: "Lab Note",
+        description: ".. what have we done",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
@@ -402,7 +407,8 @@ Pickupable.load = function(name){
     p.description = pi.description;
     p.read_on_pickup = pi.read_on_pickup;
     if(pi.tags){ p.tags = p.tags.concat(pi.tags); }
-    if(pi.actions){ p.actions = pi.actions; }
+    if(pi.actions){ p.actions = pi.actions;}
+    p.actions.push("trash")
     if(pi.damage) {p.damage = pi.damage; }
     p.image = Resources.getImage(pi.image);
     return p;

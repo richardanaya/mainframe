@@ -8,6 +8,8 @@ var DeathScene = function(game,music){
     var _this = this;
 
     window.setTimeout(function(){_this.enable = true},3000);
+    var quotes = [ '"Mess with best, die like the rest."','"Time To Die"','"If this were a virus, you\'d be dead now."'];
+    this.q = quotes[Math.floor(Math.random()*quotes.length)]
 };
 
 DeathScene.prototype = Object.create(Scene.prototype);
@@ -46,10 +48,9 @@ DeathScene.prototype.update = function(delta){
     this.ctx.fillText("YOU DIED", (this.width-this.ctx.measureText("YOU DIED").width)/2, this.height/2);
 
     this.ctx.font = "14px 'Press Start 2P'";
-    var quotes = [ '"Mess with best, die like the rest."'];
-    var q = quotes[Math.floor(Math.random()*quotes.length)]
+
     this.ctx.globalAlpha = 1;
-    this.ctx.fillText(q, (this.width-this.ctx.measureText(q).width)/2, this.height/2+50);
+    this.ctx.fillText(this.q, (this.width-this.ctx.measureText(this.q).width)/2, this.height/2+50);
 
 };
 
