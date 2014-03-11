@@ -81,6 +81,7 @@ Attack.prototype.process = function(complete){
     }
     else {
         var dam = rollDice(damage)+1 - rollDice(armor);
+        dam = Math.max(0,dam);
         this.attacker.level.scene.showInfoText( this.attacker.name + ' hit ' + this.defender.name + ' for ' + dam );
         this.defender.onDamage( dam );
     }
