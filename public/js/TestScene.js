@@ -53,8 +53,10 @@ var TestScene = function(game,player){
 
     this.pickupButton = new Button(this,0,100);
     this.pickupButton.visible = false;
-    this.attackButton = new Button(this,0,220,"red");
+    this.attackButton = new Button(this,0,330,"red");
     this.attackButton.visible = false;
+    this.attackButton.render();
+    this.specialAttackButton = new Button(this,0,330);
     this.inventoryButton = new Button(this,0,0);
     this.inventoryButton.image = Resources.getImage("inventory");
     this.rangedButton = new Button(this,0,0);
@@ -271,12 +273,25 @@ TestScene.prototype.update = function(delta){
         this.effects[i].update(delta);
     }
 
+
+    this.ctx.font = "16px 'Press Start 2P'";
+    this.ctx.fillStyle = "white";
     this.pickupButton.update(delta);
     this.pickupButton.render();
     this.pickupButton.x = this.width-this.attackButton.width-10;
     this.attackButton.update(delta);
     this.attackButton.render();
     this.attackButton.x = this.width-this.attackButton.width-10;
+    if(this.mindHack){
+        this.specialAttackButton.x = this.width-this.attackButton.width-10-50-20;
+        this.specialAttackButton.y = this.attackButton.y+ 105;
+        this.specialAttackButton.width = 200;
+        this.specialAttackButton.height = 50;
+        this.specialAttackButton.render();
+        this.ctx.fillStyle = "white";
+        this.ctx.fillText("Mind Hack",this.width-this.attackButton.width-10+-45,this.attackButton.y+ 105+35);
+    }
+
     this.inventoryButton.x = this.width-this.attackButton.width-10;
     this.inventoryButton.y = this.height-this.attackButton.height-50;
     this.inventoryButton.render();
@@ -292,8 +307,6 @@ TestScene.prototype.update = function(delta){
     }
 
 
-
-    this.ctx.font = "16px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
 
     this.ctx.fillText("HP",25,40)
@@ -491,14 +504,19 @@ TestScene.prototype.listOptions = function(){
         this.pickupButton.hide();
         this.pickup_target = null;
     }
+    this.mindHack = false;
     var attack_targets = this.level.getNeighborObjectsByType(this.player.x,this.player.y,"monster");
     if(attack_targets.length>0){
         if(this.attack_target != attack_targets[0]){ options_changed = true;}
         this.attack_target = attack_targets[0];
         this.attackButton.image = this.attack_target.image;
         this.attackButton.show();
+        if(this.attack_target.hasTag("robo") && this.player.hasInventoryWithTagEquipped("rig")){
+            this.mindHack = true;
+        }
     }
     else {
+
         if(pickup_targets.length==0){
             var props = this.level.getOrdinalNeighborsByType(this.player.x,this.player.y,Level.Types.Prop);
             if( props.length>0 ) {
@@ -586,6 +604,33 @@ TestScene.prototype.onTap = function(x,y){
             if(this.attackButton.isWithin(x,y)){
                 this.attackNearestTarget();
                 return;
+            }
+            if(this.mindHack && this.specialAttackButton.isWithin(x,y)){
+                var _this = this;
+                var programs = [];
+                var items = this.player.getInventoryWithTag("program");
+                for(var i = 0 ; i < items.length ; i++){
+                    if(items[i].equipped){
+                        programs.push(Pickupable.Items[items[i].id].program_name);
+                    }
+                }
+                var music = this.player.level.scene.music;
+                music.fade(1,0,3000,function(){
+                    music.stop();
+                });
+                this.player.level.scene.game.changeScene(new HackScene(this.game, this.scene, 1, programs, function(result){
+                    if(result.foundCache && !result.backtraced){
+                        _this.showInfoText(_this.attack_target.name+" was mindhacked!");
+                        _this.attack_target.stunCount = 5;
+                    }
+                    if(result.backtraced){
+                        _this.showInfoText("You feel woozy from fried neurons");
+                        _this.player.onDamage(Math.floor(_this.player.maxHealth/2));
+                    }
+                    music.play();
+                    music.fade(0,1,3000);
+                    _this.player.level.scene.game.changeScene(_this.player.level.scene);
+                }));
             }
         }
 

@@ -9,7 +9,7 @@ var DeathScene = function(game,music){
     var _this = this;
 
     window.setTimeout(function(){_this.enable = true},1000);
-    var quotes = [ '"Mess with best, die like the rest."','"Time To Die"','"If this were a virus, you\'d be dead now."','"You didn\'t live, but then again, who does"'];
+    var quotes = [ '"Mess with best, die like the rest."','"Time To Die"','"If this were a virus, you\'d be dead now."','"You didn\'t live, but then again, who does"','"You have no chance to survive make your time"'];
     this.q = quotes[Math.floor(Math.random()*quotes.length)]
 };
 

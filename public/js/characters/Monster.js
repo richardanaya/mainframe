@@ -186,6 +186,7 @@ Monster.List = {
         health: 4,
         image_0 : "ninja_1",
         image_1 : "ninja_1",
+        tags : ["solid","monster","fleshy"],
         levels: [900,800,700,600,500,400,300,200,100,0],
         canSeeThroughStealth: true,
     },
@@ -243,7 +244,7 @@ Monster.load = function(name){
     p.defence = pi.defence;
     p.health = pi.health;
     if(pi.tags) { 
-        p.tags = pi.tags;
+        p.tags = p.tags.concat(pi.tags);
     }
     p.armor = pi.armor;
     p.damage = pi.damage;

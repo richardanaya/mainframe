@@ -130,6 +130,7 @@ CreditsScene.prototype.update = function(delta){
     this.ctx.fillText("Thanks to Sophie - the best dog ever",(window.innerWidth-710)/2,(window.innerHeight-200)/2+2700-t*speed);
     this.ctx.fillText("Thanks to Hank Smith for the delicious steak and caffeine",(window.innerWidth-710)/2,(window.innerHeight-200)/2+2730-t*speed);
     this.ctx.fillText("Thanks to /u/Hellisothersheeple for our megacorp name",(window.innerWidth-710)/2,(window.innerHeight-200)/2+2760-t*speed);
+    this.ctx.fillText("Thanks to Irka for insights into psychopathic AIs",(window.innerWidth-710)/2,(window.innerHeight-200)/2+2760-t*speed);
 };
 
 CreditsScene.prototype.drawPerson = function(x,y,icon,name, group, role, saying){

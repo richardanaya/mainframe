@@ -123,6 +123,15 @@ Player.prototype.useRanged = function(w){
     }
 }
 
+Player.prototype.hasInventoryWithTagEquipped = function(t){
+    for(var i = 0 ; i < this.inventory.length; i++){
+        if(this.inventory[i].equipped && this.inventory[i].hasTag(t)){
+            return true;
+        }
+    }
+    return false;
+}
+
 Player.prototype.move = function(x,y){
     if(this.level.isPointWithin(x,y) ){
         var t = this.level.getTileAt(x,y);
