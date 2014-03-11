@@ -148,9 +148,9 @@ HackGrid.prototype.makeMainframe = function( node )
 {
     node.type = HackNodeType.Mainframe;
     node.hostile = true;
-    node.hackingDifficultyInSec = 60.00;
+    node.hackingDifficultyInSec = 30.0;
     node.mainframeDetectionChancePerc = 100.0;
-    node.enmityGainIfDetected = 100.00;
+    node.enmityGainIfDetected = 100.0;
     this.mainframeNode = node;
 }
 
@@ -164,9 +164,9 @@ HackGrid.prototype.makePlayer = function( node )
 
 HackGrid.prototype.makeTrueDataCache = function( node )
 {
-    node.hackingDifficultyInSec = 2.0;
+    node.hackingDifficultyInSec = 6.0;
     node.mainframeDetectionChancePerc = 80.0 + this.scene.programDetectionModifier;
-    node.enmityGainIfDetected = 25.00;
+    node.enmityGainIfDetected = 25.0;
     node.isTrueDataCache = true;
     this.trueDataCacheNode = node;
     node.type = "goal";
@@ -174,9 +174,9 @@ HackGrid.prototype.makeTrueDataCache = function( node )
 
 HackGrid.prototype.makeFakeDataCache = function( node )
 {
-    node.hackingDifficultyInSec = 2.0;
+    node.hackingDifficultyInSec = 6.0;
     node.mainframeDetectionChancePerc = 80.0 + this.scene.programDetectionModifier;
-    node.enmityGainIfDetected = 25.00;
+    node.enmityGainIfDetected = 25.0;
     node.type = "goal";
 }
 
@@ -184,4 +184,5 @@ HackGrid.prototype.makeNeutral = function( node )
 {
     node.type = HackNodeType.Neutral;
     node.mainframeDetectionChancePerc = 25.0 + this.scene.programDetectionModifier;
+    node.hackingDifficultyInSec = 3.0;
 }
