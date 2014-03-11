@@ -110,3 +110,9 @@ Character.prototype.getDamage = function(weapon){
 Character.prototype.getArmor = function(){
     return this.armor;
 };
+
+Character.prototype.getCurrentTile = function(){
+    if( this.x != undefined && this.y != undefined ) {
+        return this.level.getTileAt(this.x, this.y);
+    }    
+}

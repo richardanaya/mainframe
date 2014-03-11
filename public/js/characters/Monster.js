@@ -13,6 +13,11 @@ var Monster = function(){
     this.defence = 6;
     this.armor = 1;
     this.damage = 1;
+
+    // AI
+    this.timeLost = 0;
+    this.lostWait = 3; // if we lost sight of the player how long does that "disable" us to give them a chance to get away?
+    this.playerLastKnownLocation = null;
 };
 
 Monster.prototype = Object.create(Character.prototype);
@@ -256,16 +261,56 @@ Monster.load = function(name){
     return p;
 }
 
-Monster.prototype.think = function(){
-    //get player
-    var p = this.level.scene.player;
-
-    //get a* direction to go
+Monster.prototype.getPathTo = function( target ) {
     var start = this.level.scene.graph.nodes[this.x][this.y];
-    var end = this.level.scene.graph.nodes[p.x][p.y];
-    var result = astar.search(this.level.scene.graph.nodes, start, end);
+    var end = this.level.scene.graph.nodes[target.x][target.y];
+    return astar.search(this.level.scene.graph.nodes, start, end);
+}
 
-
+Monster.prototype.think = function(){
+    var result = [];
+    var p = this.level.scene.player;
+    var curTile = this.getCurrentTile();
+    // if we're not standing a on a valid tile, or it hasn't been explored yet sleep
+    if( curTile != null && curTile != undefined && curTile.explored ) {
+       if( curTile.room != p.getCurrentTile().room ) {
+            console.log( "Not With Player!" );
+            // if we've seen the player before, try and find them at that location
+            if( ++this.timeLost <= this.lostWait ) {
+                console.log( "Is Lost!" );
+                if( this.timeLost <= 2 ) {
+                    console.log( "but i can hear him..." );
+                    this.lastKnownPlayerLocation = { x: p.x, y:p.y };
+                }
+            }
+            else if( this.lastKnownPlayerLocation != null ) {
+                console.log( "I saw him somewhere though" );
+                // if we are at the last known location, and we still can't see the player, go back to sleep.    
+                if( this.x == this.lastKnownPlayerLocation.x && this.y == this.lastKnownPlayerLocation.y ) {
+                    console.log( "I've arrived but I don't see him" );
+                    this.lastKnownPlayerLocation = null;
+                    return result;
+                }
+                else { // if we can't see the player, but we know where we last saw them, move towards that
+                    console.log( "I'm going to go where I saw him." );
+                    result = this.getPathTo( this.lastKnownPlayerLocation );
+                }
+            }
+            else
+            {
+                console.log( "I haven't seen him." );
+                return result;
+            }
+        }
+        else {
+            console.log( "I see him!." );
+            // we can see the player, so store their last known location
+            this.timeLost = 0;
+            this.lastKnownPlayerLocation = { x:p.x, y:p.y };
+            result = this.getPathTo( p );
+        }
+    }
+    
     if(result.length > 0){
         //get next position a* thinks we should go
         var rx = result[0].x;
