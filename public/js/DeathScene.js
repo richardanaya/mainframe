@@ -8,7 +8,7 @@ var DeathScene = function(game,music){
     this.time = 0;
     var _this = this;
 
-    window.setTimeout(function(){_this.enable = true},3000);
+    window.setTimeout(function(){_this.enable = true},1000);
     var quotes = [ '"Mess with best, die like the rest."','"Time To Die"','"If this were a virus, you\'d be dead now."'];
     this.q = quotes[Math.floor(Math.random()*quotes.length)]
 };

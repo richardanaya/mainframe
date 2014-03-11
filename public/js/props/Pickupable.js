@@ -139,7 +139,7 @@ Pickupable.Items = {
         description: "A trusty gun",
         read_on_pickup: true,
         damage: 3,
-        tags: ["ranged","weapon"],
+        tags: ["ranged","weapon","bullet"],
         actions: ["equip"],
         equip_slot: "ranged",
         image : "gun",
@@ -195,7 +195,7 @@ Pickupable.Items = {
     },
     "lab_note_400" : {
         name: "Lab Note",
-        description: "[CASCORP - Cybernetic and Artificial Systems Corporation] \n[To] Akimoto Nara, System Administrator\n[Sent] 3/5/36 10:23\n[Subject] Mainframe Access\n[Contents]\nAkimoto-san,\nThe recently implemented Mainframe-AI is requesting access to Research Department. Normally only the scientists directly involved with projects are given direct access, but with the new Mainframe I am unsure whether an exception should be made. I will await your reply before taking any action.\nSincerely,\n	Kei Kitao",
+        description: "[CASCORP - Cybernetic and Artificial Systems Corporation] \n[To] Akimoto Nara, System Administrator\n[Sent] 3/5/36 10:23\n[Subject] Mainframe Access\n[Contents]\nAkimoto-san,\nThe recently implemented Mainframe-AI is requesting access to the Research Department. Normally only the scientists directly involved with projects are given direct access, but with the new Mainframe I am unsure whether an exception should be made. I will await your reply before taking any action.\nSincerely,\n	Kei Kitao",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",

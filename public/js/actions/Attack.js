@@ -23,6 +23,10 @@ Attack.prototype.process = function(complete){
                 volume:.2
             }).play();
         }
+        if(this.weapon.hasTag("bullet")){
+
+            this.attacker.level.scene.effects.push(new GunFireEffect(this.attacker.level.scene,this.attacker,this.defender,"yellow","bullet"));
+        }
     }
     else {
         new Howl({
@@ -30,6 +34,8 @@ Attack.prototype.process = function(complete){
             volume:.2
         }).play();
     }
+
+
 
 
     var damage = this.attacker.getDamage(this.weapon);
