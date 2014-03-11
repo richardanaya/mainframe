@@ -1,7 +1,13 @@
 var DeathScene = function(game,music){
     this.game = game;
     this.music = music;
+    this.music = new Howl({
+        urls: ['sounds/GameOver.ogg','sounds/GameOver.mp3'],
+    }).play();
     this.time = 0;
+    var _this = this;
+
+    window.setTimeout(function(){_this.enable = true},3000);
 };
 
 DeathScene.prototype = Object.create(Scene.prototype);
@@ -9,7 +15,7 @@ DeathScene.prototype = Object.create(Scene.prototype);
 DeathScene.prototype.update = function(delta){
     this.time += delta;
 
-    var bg = Resources.getImage("terminal_background");
+    var bg = Resources.getImage("terminal_background_black");
     this.ctx.drawImage(bg,0,0,window.innerWidth,window.innerHeight);
 
     function wrapText(context, text, x, y, maxWidth, lineHeight) {
@@ -35,18 +41,26 @@ DeathScene.prototype.update = function(delta){
     this.ctx.font = "36px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
     this.ctx.globalAlpha = .2;
-    this.ctx.fillText("YOU DIED", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2-15, this.height/2-15);
+    this.ctx.fillText("YOU DIED", (this.width-this.ctx.measureText("YOU DIED").width)/2-15, this.height/2-15);
     this.ctx.globalAlpha = 1;
-    this.ctx.fillText("YOU DIED", (this.width-this.ctx.measureText("Mainframe Loves You").width)/2, this.height/2);
+    this.ctx.fillText("YOU DIED", (this.width-this.ctx.measureText("YOU DIED").width)/2, this.height/2);
+
+    this.ctx.font = "14px 'Press Start 2P'";
+    var quotes = [ '"Mess with best, die like the rest."'];
+    var q = quotes[Math.floor(Math.random()*quotes.length)]
+    this.ctx.globalAlpha = 1;
+    this.ctx.fillText(q, (this.width-this.ctx.measureText(q).width)/2, this.height/2+50);
 
 };
 
 DeathScene.prototype.onKeyDown = function(key){
+    if(!this.enable){return;}
     this.music.fade(1,0,1000);
     this.game.changeScene(new StartScene(this.game));
 };
 
 DeathScene.prototype.onTap = function(x,y){
+    if(!this.enable){return;}
     this.music.fade(1,0,1000);
     this.game.changeScene(new StartScene(this.game));
 };
