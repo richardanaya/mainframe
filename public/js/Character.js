@@ -19,6 +19,8 @@ var Character = function(){
     this.canCamo = false;
     this.canSeeThroughStealth = false;
     this.camoCount = 0;
+
+    this.stunCount = 0;
 }
 
 Character.prototype = Object.create(GameObject.prototype);

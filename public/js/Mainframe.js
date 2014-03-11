@@ -50,7 +50,8 @@ Mainframe.prototype.GetLevel = function(height){
         level.addObjectTo(8,1,de);
         de.image = Resources.getImage("stairs");
 
-        level.addObjectTo(3,3,Monster.load('ninja'));
+        level.addObjectTo(1,1,Monster.load('ninja'));
+        level.addObjectTo(4,4,Pickupable.load('pulse_laser'));
         level.addObjectTo(7,7,Pickupable.load('janitors_note'));
         level.addObjectTo(8,8,Pickupable.load('hackable_safe'));
         /*
