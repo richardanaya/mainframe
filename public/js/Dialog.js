@@ -32,23 +32,28 @@ Dialog.prototype.render = function(){
 
         this.scene.ctx.font = "16px 'Press Start 2P'";
         function wrapText(context, text, x, y, maxWidth, lineHeight) {
-            var words = text.split(' ');
-            var line = '';
+            var paragraphs = text.split('\n');
+            for(var i = 0; i < paragraphs.length; i++){
+                text = paragraphs[i];
+                var words = text.split(' ');
+                var line = '';
 
-            for(var n = 0; n < words.length; n++) {
-                var testLine = line + words[n] + ' ';
-                var metrics = context.measureText(testLine);
-                var testWidth = metrics.width;
-                if (testWidth > maxWidth && n > 0) {
-                    context.fillText(line, x, y);
-                    line = words[n] + ' ';
-                    y += lineHeight;
+                for(var n = 0; n < words.length; n++) {
+                    var testLine = line + words[n] + ' ';
+                    var metrics = context.measureText(testLine);
+                    var testWidth = metrics.width;
+                    if (testWidth > maxWidth && n > 0) {
+                        context.fillText(line, x, y);
+                        line = words[n] + ' ';
+                        y += lineHeight;
+                    }
+                    else {
+                        line = testLine;
+                    }
                 }
-                else {
-                    line = testLine;
-                }
+                context.fillText(line, x, y);
+                y+=lineHeight
             }
-            context.fillText(line, x, y);
         }
         if(this.image){
             if(this.time%2<1){
