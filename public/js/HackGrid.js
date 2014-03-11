@@ -130,7 +130,7 @@ HackGrid.prototype.getRandomNeutralNode = function()
 
 HackGrid.prototype.getRandomNodeDelegate = function( delegate, maxFailures )
 {
-    if( maxFailures == undefined ) var maxFailures = 500;
+    if( maxFailures == undefined ) var maxFailures = 5000;
     var randNode = null;
     for( var i = 0; i < maxFailures; ++i )
     {
