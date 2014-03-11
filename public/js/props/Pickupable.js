@@ -125,6 +125,7 @@ Pickupable.Items = {
         tags: ["melee","weapon"],
         actions: ["equip"],
         equip_slot: "melee",
+        damage: 2,
         image : "bat",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
@@ -132,6 +133,7 @@ Pickupable.Items = {
         name: "Gun",
         description: "A trusty gun",
         read_on_pickup: true,
+        damage: 3,
         tags: ["ranged","weapon"],
         actions: ["equip"],
         equip_slot: "ranged",
@@ -401,6 +403,7 @@ Pickupable.load = function(name){
     p.read_on_pickup = pi.read_on_pickup;
     if(pi.tags){ p.tags = p.tags.concat(pi.tags); }
     if(pi.actions){ p.actions = pi.actions; }
+    if(pi.damage) {p.damage = pi.damage; }
     p.image = Resources.getImage(pi.image);
     return p;
 }

@@ -50,6 +50,10 @@ Character.prototype.onDie = function(){
     this.level.removeObject(this);
 };
 
+Character.prototype.attack = function(o,w){
+    this.moves.push(new Attack(this,o,w));
+}
+
 Character.prototype.move = function(x,y){
     if(this.level.isPointWithin(x,y)){
         var t = this.level.getTileAt(x,y);
@@ -94,8 +98,13 @@ Character.prototype.getDefence = function(){
     return this.defence - this.getArmor();
 };
 
-Character.prototype.getDamage = function(){
-    return this.damage;
+Character.prototype.getDamage = function(weapon){
+    if(weapon){
+        return this.damage+weapon.damage;
+    }
+    else {
+        return this.damage;
+    }
 };
 
 Character.prototype.getArmor = function(){

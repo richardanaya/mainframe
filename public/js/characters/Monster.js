@@ -23,9 +23,10 @@ Monster.List = {
         strength : 10,
         accuracy : 0,
         mind : 0,
-        defence : 6,
+        defence : 2,
         armor : 1,
         damage : 1,
+        health: 5,
         image_0 : "robot_1",
         image_1 : "robot_2",
         levels: [900,800,700,600,500,400,300,200,100,0]
@@ -35,6 +36,7 @@ Monster.List = {
         strength : 10,
         accuracy : 0,
         mind : 0,
+        health: 2,
         defence : 6,
         armor : 1,
         damage : 1,
@@ -47,6 +49,7 @@ Monster.List = {
         strength : 10,
         accuracy : 0,
         mind : 0,
+        health: 5,
         defence : 6,
         armor : 1,
         damage : 1,
@@ -66,6 +69,7 @@ Monster.load = function(name){
     p.accuracy = pi.accuracy;
     p.mind = pi.mind;
     p.defence = pi.defence;
+    p.health = pi.health;
     p.armor = pi.armor;
     p.damage = pi.damage;
     p.image_idle_0 = Resources.getImage(pi.image_0);
@@ -74,23 +78,28 @@ Monster.load = function(name){
 }
 
 Monster.prototype.think = function(){
-    var r = Math.random();
 
-    if(r<.25){
-        this.moveLeft();
-    }
-    else if(r<.5){
-        this.moveUp();
-    }
-    else if(r<.75){
-        this.moveRight();
-    }
-    else {
-        this.moveDown();
+    var p = this.level.scene.player;
+    var start = this.level.scene.graph.nodes[this.x][this.y];
+    var end = this.level.scene.graph.nodes[p.x][p.y];
+    var result = astar.search(this.level.scene.graph.nodes, start, end);
+    /*var xOffset = (this.autoMoveX-this.x);
+     if(xOffset != 0){ xOffset /= Math.abs(this.autoMoveX-this.x);}
+     var yOffset = (this.autoMoveY-this.y);
+     if(yOffset != 0){ yOffset /= Math.abs(this.autoMoveY-this.y);}*/
+
+    /*
+     */
+    var rx = result[0].x;
+    var ry = result[0].y;
+    if(result.length > 0){
+        if(rx == p.x && ry == p.y){
+            this.attack(p,null);
+        }
+        else {
+            this.move(result[0].x,result[0].y);
+        }
     }
 
-
-    var moves = this.moves;
-    this.moves = [];
-    return moves;
+    return this.moves;
 }

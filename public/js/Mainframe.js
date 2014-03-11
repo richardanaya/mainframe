@@ -57,7 +57,7 @@ Mainframe.prototype.GetLevel = function(height){
         level.addObjectTo(4,1,Pickupable.load("program_2"));
         level.addObjectTo(5,1,Pickupable.load("program_3"));
         level.addObjectTo(6,1,Pickupable.load("program_4"));
-
+        level.addObjectTo(3,3,Monster.load("robot"));
 
         generator.postProcess( level );
 

@@ -32,7 +32,7 @@ Attack.prototype.process = function(complete){
     }
 
 
-    var damage = this.attacker.getDamage();
+    var damage = this.attacker.getDamage(this.weapon);
     var offense = this.attacker.getOffense();
     var defence = this.defender.getDefence();
     var armor = this.defender.getArmor();
@@ -83,5 +83,5 @@ Attack.prototype.process = function(complete){
     }
 
 
-    window.setTimeout(complete,3000)
+    complete();
 };

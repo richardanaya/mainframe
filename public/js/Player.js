@@ -120,10 +120,6 @@ Player.prototype.getInventoryWithTag = function(t){
     return j;
 }
 
-Player.prototype.attack = function(o,w){
-    this.moves.push(new Attack(this,o,w));
-}
-
 Player.prototype.pickup = function(o){
     this.moves.push(new Pickup(this,o));
 }
