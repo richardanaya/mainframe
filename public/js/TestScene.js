@@ -220,12 +220,15 @@ TestScene.prototype.update = function(delta){
                 }
                 else if(this.currentHeight == 1000){
                     if(x == 0 && y ==0){
-                        if((this.time%2)/2<.5){
+                        if((this.time%2)/2<.333){
                             this.ctx.drawImage(Resources.getImage("roof"),x*this.size ,y*this.size,this.size*13 ,this.size*15 );
+                        }
+                        else if((this.time%2)/2<.6666){
+                            this.ctx.drawImage(Resources.getImage("roof2"),x*this.size ,y*this.size,this.size*13 ,this.size*15 );
                         }
                         else
                         {
-                            this.ctx.drawImage(Resources.getImage("roof2"),x*this.size ,y*this.size,this.size*13 ,this.size*15 );
+                            this.ctx.drawImage(Resources.getImage("roof3"),x*this.size ,y*this.size,this.size*13 ,this.size*15 );
                         }
                     }
                 }
