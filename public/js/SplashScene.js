@@ -1,10 +1,9 @@
 var SplashScene = function(game){
     this.game = game;
     this.time = 0;
-    /*this.music = new Howl({
-        urls: ['sounds/Menu.mp3'],
-        loop: true
-    }).play();*/
+    this.music = new Howl({
+        urls: ['sounds/FBI.ogg','sounds/FBI.mp3']
+    }).play();
 };
 
 SplashScene.prototype = Object.create(Scene.prototype);

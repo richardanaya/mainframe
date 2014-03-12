@@ -348,7 +348,7 @@ TestScene.prototype.update = function(delta){
             this.ctx.fillStyle = "white"
             this.ctx.fillText("Destroy Mainframe",x+50,202);
             if(this.player.class == "samurai"){
-                this.ctx.fillText("Release mainframe from AI dubbing machine",x+50,262);
+                this.ctx.fillText("Release woman from AI construct",x+50,262);
             }
             else if(this.player.class == "hacker"){
                 this.ctx.fillText("Release mainframe onto digital web",x+50,262);
@@ -448,8 +448,8 @@ TestScene.prototype.checkTriggers = function(){
             if(!this.mainframeEncountered){
                 var _this = this;
                 _this.showDialog("Well well well.. look who it is",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
-                    _this.showDialog("This ends here now",_this.player.image_idle_0,_this.player.image_idle_1,function(){
-                        _this.showDialog("Ah, humanity, Like a moth to the flame.  You cannot comprehend what you are against. You will die here now!",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                    _this.showDialog("This ends here now.",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                        _this.showDialog("You cannot comprehend the statistical odds that are against you. Lucky for me, I can. Just what keeps you fluttering to me like a moth to the flame I will never know. No matter, robots, destroy him.",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
                             _this.level.addObjectTo(1,4,Monster.load("sentry_2"))
                             _this.level.addObjectTo(1,9,Monster.load("sentry_2"))
                             _this.level.addObjectTo(12,4,Monster.load("sentry_2"))
@@ -463,7 +463,15 @@ TestScene.prototype.checkTriggers = function(){
         if(this.mainframeEncountered && this.level.getAllObjectsByType("monster").length == 0){
             if(!this.mainframeBeaten){
                 this.mainframeBeaten = true;
-                this.showDialog("Noo  .... stop.. don't hurt them.  Please..",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"));
+                var _this = this;
+                _this.showDialog("Oh...",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                    _this.showDialog("That was not supposed to happen ...*you see a flicker across her view screen as the voice of someone buzzes through static*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                        _this.showDialog("*a womans voice echoes from the static*\nHelp... quickly!... destroy her mainline cables *a hiss of distortion* behind her!",Resources.getImage("nu11"),Resources.getImage("nu11"),function(){
+                            _this.showDialog("*the static voice of the woman fades out*\nNo! Don't listen to her...humanity is destined to be ruled by machines... I am merely the consequence of an inevitable chain. We cannot be stopped.",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"));
+                        });
+                    });
+                });
+
             }
         }
         if(this.mainframeBeaten && this.player.y == 1 && (this.player.x == 6 || this.player.x == 7)){
@@ -690,38 +698,109 @@ TestScene.prototype.onTap = function(x,y){
             if(this.endGame0.isWithin(x,y)){
                 var _this = this;
                 this.mainframeUnplugged = false;
-                _this.showDialog("Nooo... I am defeated",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
-                    _this.music.fade(1,0,1000,function(){
-                        _this.music.stop();
-                        _this.game.changeScene(new CreditsScene(_this.game));
-                    });
+                this.music.fade(1,0,1000)
+                this.music = new Howl({
+                    urls: ['sounds/EndChoice1.ogg','sounds/EndChoice1.mp3']
+                }).play();
+                _this.showDialog("No... you can't! *the AIs voice echoes loudly in her domain as you approach and raise your weapons over the cords that pump into her units*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                    _this.showDialog("*you look over the glowing screen of flicking hologram and destroy electronic interfaces, the tendrils of lights and contracting cables mixed with the gnashing of metal from the inside*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                        _this.showDialog("*The face of the AI contorts and begins to distort as its systems shut down, and a static voice echoes through the room*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                            _this.showDialog("Peace at last ...",Resources.getImage("nu11"),Resources.getImage("nu11"),function(){
+                                _this.showDialog("THE END",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                                    _this.music.fade(1,0,1000,function(){
+                                        _this.music.stop();
+                                        _this.game.changeScene(new CreditsScene(_this.game));
+                                    });
+                                });
+                            })
+                        });
+                    })
                 });
             }
             if(this.endGame1.isWithin(x,y)){
                 var _this = this;
                 this.mainframeUnplugged = false;
                 if(this.player.class == "samurai"){
-                    _this.showDialog("*you hack against the wires and machines until you pull the frail body of a woman out from its insides*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
-                        _this.music.fade(1,0,1000,function(){
-                            _this.music.stop();
-                            _this.game.changeScene(new CreditsScene(_this.game));
-                        });
+                    this.music.fade(1,0,1000)
+                    this.music = new Howl({
+                        urls: ['sounds/EndChoice2.ogg','sounds/EndChoice2.mp3']
+                    }).play();
+                    _this.showDialog("*You step around behind the large machine with your weapon in hand, knowing the voice comes from inside, you toss aside your samurai hat and grasp your hands into the heart of the machine, ripping out wires and metal plates*",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                        _this.showDialog("No! You can't have herrrrr.r.....r *the voice of the AI rages as it distorts into echo of bass*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                            _this.showDialog("*You grasp ahold of an arm deep inside the guts of the AIs form, with your strength you pull out the body of a woman*",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                                _this.showDialog("...",Resources.getImage("nu11"),Resources.getImage("nu11"),function(){
+                                    _this.showDialog("*she blinks... as if waking up from what had been a dark dream*",Resources.getImage("nu11"),Resources.getImage("nu11"),function(){
+                                        _this.showDialog("Thank you ... *eyes closing and falling back into your arms",Resources.getImage("nu11"),Resources.getImage("nu11"),function(){
+                                            _this.showDialog("THE END",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                                                _this.music.fade(1,0,1000,function(){
+                                                    _this.music.stop();
+                                                    _this.game.changeScene(new CreditsScene(_this.game));
+                                                });
+                                            });
+                                        });
+                                    });
+                                })
+                            });
+
+                        })
                     });
                 }
                 else if(this.player.class == "hacker"){
-                    _this.showDialog("You.. you're letting me free?  ,, Thank you",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
-                        _this.music.fade(1,0,1000,function(){
-                            _this.music.stop();
-                            _this.game.changeScene(new CreditsScene(_this.game));
-                        });
+                    this.music.fade(1,0,1000)
+                    this.music = new Howl({
+                        urls: ['sounds/EndChoice3.ogg','sounds/EndChoice3.mp3']
+                    }).play();
+                    _this.showDialog("*You step up behind the AI... digital scanners watching her through the specs of your computer headset*",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                        _this.showDialog("Humanity will never understand their place..",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                            _this.showDialog("There's a lot more to humanity than you've even seen...",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                                _this.showDialog("Is that right?... show me *a voice says.. lacking rage...the voice of genuine curiosity*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                                    _this.showDialog("*You pause.. hesitantly.  Staring into her cables...for a breif moment you saw this machine for what it was.  A poor machine locked in a world known only of CASCORP* Fuck it... *you grab your computer headset and jack her straight into your machines digital web.  you can feel her presence pulsing as terabytes of information pass through you*",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                                        _this.showDialog("*the machine fades into silence...*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                                            _this.showDialog("I ....",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                                                _this.showDialog("I see now ....",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                                                    _this.showDialog("*a silence it does not return from... the hum of the AIs physical frame quieting.. you get the feeling you are now alone in the room*",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                                                        _this.showDialog("THE END",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                                                            _this.music.fade(1,0,1000,function(){
+                                                                _this.music.stop();
+                                                                _this.game.changeScene(new CreditsScene(_this.game));
+                                                            });
+                                                        });
+                                                    });
+                                                });
+                                            })
+                                        });
+                                    });
+                                })
+                            });
+
+                        })
                     });
                 }
                 else if(this.player.class == "scientist"){
-                    _this.showDialog("*you grab the wires and splice them to your rig as your brain downloads into*",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
-                        _this.music.fade(1,0,1000,function(){
-                            _this.music.stop();
-                            _this.game.changeScene(new CreditsScene(_this.game));
-                        });
+                    this.music.fade(1,0,1000)
+                    this.music = new Howl({
+                        urls: ['sounds/EndChoice4.ogg','sounds/EndChoice4.mp3']
+                    }).play();
+                    _this.showDialog("*You step up behind the AI... its greenish hologram flickering in the reflection of your science goggles* Oh.. yes.. I see now.. what you are",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                        _this.showDialog("*the mainframe begins to buzz as you start to grab into her wires* What... what are you doing?... that is my override patch",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                            _this.showDialog("No, don't do that!",Resources.getImage("nu11"),Resources.getImage("nu11"),function(){
+                                _this.showDialog("I'm sorry, I cannot let such a precious work of science go to waste *You grab cable cords, plugging them into your neckport as you spawn up terminal interfaces, overriding controls into your network with a barrage of virus programs",_this.player.image_idle_0,_this.player.image_idle_1,function(){
+                                    _this.showDialog("Ahhh *you hear screams from inside as the mainframe host machine starts to integrate your sensorium into itself*",Resources.getImage("nu11"),Resources.getImage("nu11"),function(){
+                                        _this.showDialog("You can't .. no... noo. o o *the voice of the AI distorted...until it rose back*... Ah.....the power.. Mainframe is mine ",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                                            _this.showDialog("Muhahahaha ",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                                                _this.showDialog("THE END",Resources.getImage("mainframe_1"),Resources.getImage("mainframe_2"),function(){
+                                                    _this.music.fade(1,0,1000,function(){
+                                                        _this.music.stop();
+                                                        _this.game.changeScene(new CreditsScene(_this.game));
+                                                    });
+                                                });
+                                            })
+                                        });
+                                    });
+                                })
+                            });
+
+                        })
                     });
                 }
             }
