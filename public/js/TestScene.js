@@ -949,7 +949,7 @@ TestScene.prototype.onDie = function(){
         song.stop();
     });
 
-
+    ga('send', 'death');
     this.game.changeScene(new DeathScene(this.game));
     this.mode = "dead";
 }

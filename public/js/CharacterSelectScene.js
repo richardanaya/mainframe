@@ -161,12 +161,15 @@ CharacterSelectScene.prototype.onTap = function(x,y){
         var p = new Player();
         if(this.character == 0){
             p.setupSamurai();
+            ga('send', 'samurai');
         }
         if(this.character == 1){
             p.setupHacker();
+            ga('send', 'hacker');
         }
         if(this.character == 2){
             p.setupScientist();
+            ga('send', 'scientist');
         }
         new Howl({
             urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
