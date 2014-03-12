@@ -55,14 +55,11 @@ Mainframe.prototype.GetLevel = function(height){
         level.addObjectTo(7,7,Pickupable.load('janitors_note'));
         level.addObjectTo(8,8,Pickupable.load('hackable_safe'));
 
-        level.addObjectTo(1,1,Pickupable.load('juice_0'));
-        level.addObjectTo(2,1,Pickupable.load('juice_1'));
-        level.addObjectTo(3,1,Pickupable.load('juice_2'));
-        level.addObjectTo(4,1,Pickupable.load('juice_3'));
-        level.addObjectTo(1,2,Pickupable.load('juice_0'));
-        level.addObjectTo(2,2,Pickupable.load('juice_1'));
-        level.addObjectTo(3,2,Pickupable.load('juice_2'));
-        level.addObjectTo(4,2,Pickupable.load('juice_3'));
+        level.addObjectTo(1,1,Pickupable.load('data_chip_atk'));
+        level.addObjectTo(2,1,Pickupable.load('data_chip_arm'));
+        level.addObjectTo(3,1,Pickupable.load('data_chip_acc'));
+        level.addObjectTo(4,1,Pickupable.load('data_chip_eva'));
+        level.addObjectTo(5,1,Pickupable.load('data_chip_id'));
         /*
 
          level.addObjectTo(7,7,Pickupable.Items('hackable_save'));*/

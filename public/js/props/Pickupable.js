@@ -86,9 +86,24 @@ Pickupable.prototype.onAction = function(action){
             this.player.accuracy += 1;
             this.level.scene.showInfoText("Your accuracy is now "+this.player.accuracy);
         }
-        else if(this.id == "data_chip_0"){
-            this.level.scene.showDialog("You plug the data chip into your neckport and feel a rush of new knowledge.",this.image);
-            
+        else if(this.id == "data_chip_atk"){
+            this.level.scene.showInfoText("Your strikes will be as precise as they are merciless.");
+            this.player.damage += 1;
+        }
+        else if(this.id == "data_chip_arm"){
+            this.level.scene.showInfoText("They will break themselves upon you.");
+            this.player.armor += 1;
+        }
+        else if(this.id == "data_chip_acc"){
+            this.level.scene.showInfoText("Nothing will escape once you've set your sights in.");
+            this.player.strength += 1;
+        }
+        else if(this.id == "data_chip_eva"){
+            this.level.scene.showInfoText("You will see it coming a mile away...");
+            this.player.defense += 1;
+        }
+        else if(this.id == "data_chip_id"){
+            this.level.scene.showInfoText("Hmm... it appears the developer didn't complete this feature.");
         }
         this.player.level.scene.processAllMoves();
         this.level.scene.player.removeInventory(this);
@@ -489,6 +504,7 @@ Pickupable.Items = {
         read_on_pickup: true,
         description: "A keycard that looks like it can be used at corporate level.  Perhaps this can open something?"
     },
+
     "juice_0" : {
         name: "Blue Potion",
         image : "potion_1",
@@ -517,52 +533,53 @@ Pickupable.Items = {
         description: "An unnaturaly green substance contained in a laboratory beaker.  Who knows what it'll do?",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
+
     "data_chip_0" : {
         name: "Juice",
         image : "data_chip_0",
-        actions: ["data"],
+        actions: ["use","look at"],
         description: "A data chip",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "data_chip_0" : {
-        name: "Data Chip",
+    "data_chip_atk" : {
+        name: "Neural Stabilization Firmware Upgrade",
         image : "scroll_0",
-        actions: ["use"],
-        description: "scroll_0",
+        actions: ["use","look at"],
+        description: "This data chip contains a new firmware for your hand/eye module. It improves general steadiness and coordination of your limbs, granting a permanent attack boost.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "data_chip_1" : {
-        name: "Information Overload",
+    "data_chip_arm" : {
+        name: "Nanoweave Pattern Optimization",
         image : "scroll_1",
-        actions: ["use"],
-        description: "This data chip contains a library of data directly compatible with your nueral systems.",
+        actions: ["use","look at"],
+        description: "This chip contains an improved nanoweave fiber pattern for your skin, granting a permanent armor boost.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "data_chip_2" : {
-        name: "Data Chip",
+    "data_chip_acc" : {
+        name: "Optics Diagnostic with Unit Tests",
         image : "scroll_2",
-        actions: ["use"],
-        description: "A data chip",
+        actions: ["use","look at"],
+        description: "A data chip containing an open source optical recalibration sequence, with unit tests so you know it's good.  It grants a permanent accuracy boost.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "data_chip_3" : {
-        name: "Data Chip",
+    "data_chip_eva" : {
+        name: "Avoidance Algorithm",
         image : "scroll_3",
-        actions: ["use"],
-        description: "A data chip",
+        actions: ["use","look at"],
+        description: "A data chip with a faster and more reliable evasion algorithm.  Improves a permanent evasion boost. ",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "data_chip_4" : {
-        name: "Data Chip",
+    "data_chip_id" : {
+        name: "Photo Spetrometer",
         image : "scroll_4",
-        actions: ["use"],
-        description: "A data chip",
+        actions: ["use","look at"],
+        description: "Used to identify the compounds within a substance giving insight into even the most complicated checmical brew.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "ecig" : {
         name: "Electric Cigarette",
         image : "ecig",
-        actions: ["use"],
+        actions: ["use","look at"],
         description: "An electric cigarette. A smoke break would be nice right now.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
