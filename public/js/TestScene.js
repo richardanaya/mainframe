@@ -51,9 +51,9 @@ var TestScene = function(game,player){
         _this.viewTranslateY = _this.viewTranslateStartY+e.gesture.deltaY;
     });
 
-    this.pickupButton = new Button(this,0,100);
+    this.pickupButton = new Button(this,0,10);
     this.pickupButton.visible = false;
-    this.attackButton = new Button(this,0,330,"red");
+    this.attackButton = new Button(this,0,115,"red");
     this.attackButton.visible = false;
     this.attackButton.render();
     this.specialAttackButton = new Button(this,0,330);
@@ -287,8 +287,10 @@ TestScene.prototype.update = function(delta){
     this.pickupButton.render();
     this.pickupButton.x = this.width-this.attackButton.width-10;
     this.attackButton.update(delta);
-    this.attackButton.render();
+
     this.attackButton.x = this.width-this.attackButton.width-10;
+    this.attackButton.y = 130;
+    this.attackButton.render();
     if(this.mindHack){
         this.specialAttackButton.x = this.width-this.attackButton.width-10-50-20;
         this.specialAttackButton.y = this.attackButton.y+ 105;
@@ -618,6 +620,7 @@ TestScene.prototype.onTap = function(x,y){
         if(this.attack_target){
             if(this.attackButton.isWithin(x,y)){
                 this.attackNearestTarget();
+                this.processAllMoves();
                 return;
             }
             if(this.mindHack && this.specialAttackButton.isWithin(x,y)){

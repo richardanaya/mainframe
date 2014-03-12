@@ -230,8 +230,10 @@ requestAnimFrame(animloop);
 _this.update();
 })();
 
-$(document).keydown(function(e){_this.onKeyDown(e.keyCode);});
+$(document).keydown(function(e){_this.onKeyDown(e.keyCode);
+    e.preventDefault();});
     Hammer(this.ctx.canvas).on("tap", function(e) {
         _this.onTap(e);
     });
+
 };
