@@ -52,16 +52,16 @@ Mainframe.prototype.GetLevel = function(height){
 
         //level.addObjectTo(1,1,Monster.load('businessman'));
         //level.addObjectTo(4,4,Pickupable.load('taser'));
-        //level.addObjectTo(7,7,Pickupable.load('janitors_note'));
+        level.addObjectTo(7,7,Pickupable.load('janitors_note'));
         //level.addObjectTo(8,8,Pickupable.load('hackable_safe'));
 
         //level.addObjectTo(4,3,Pickupable.load('mirror_shades'));
         
         /*  level.addObjectTo(7,7,Pickupable.Items('hackable_save'));*/
         //spawn all items
-        for(var p in Pickupable.Items){
+        /*for(var p in Pickupable.Items){
             level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(p));
-        }
+        }*/
 
         generator.postProcess( level );
 

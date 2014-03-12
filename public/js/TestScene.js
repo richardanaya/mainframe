@@ -558,6 +558,34 @@ TestScene.prototype.onKeyDown = function(key){
         if(key == 72){
           this.game.changeScene(new HackScene(this.game, this.scene, 1, []));
         }
+        else if(key == 73){
+            new Howl({
+                urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+                volume:.5
+            }).play();
+            this.mode = "inventory";
+            this.inventoryDialog.show();
+            return;
+            return;
+        }
+        else if(key == 107 || key == 189){
+            this.viewScaleX /= 2;
+            this.viewScaleY /= 2;
+            this.centerViewAroundPlayer();
+            return;
+        }
+        else if(key == 109 || key == 187){
+            this.viewScaleX *= 2;
+            this.viewScaleY *= 2;
+            this.centerViewAroundPlayer();
+            return;
+        }
+        else if(key == 48){
+            this.viewScaleX = 1;
+            this.viewScaleY = 1;
+            this.centerViewAroundPlayer();
+            return;
+        }
         else if(key == 37 || key == 65){
             this.player.moveLeft();
         }
