@@ -177,11 +177,23 @@ Pickupable.prototype.onAction = function(action){
         if(Pickupable.Items[this.id].equip_slot == "melee"){
             this.player.useMelee(this);
         }
+        if(Pickupable.Items[this.id].equip_slot == "face"){
+            this.player.faceItem = this;
+        }
         this.player.level.scene.inventoryDialog.show();
     }
 }
 
 Pickupable.Items = {
+    "mirror_shades" : {
+        name: "Mirrored Shades",
+        description: "Theses intimidating sunglasses give a whole new meaning to 'dressed to kill'.",
+        tags: ["glasses"],
+        actions: ["equip","look at"],
+        equip_slot: "face",
+        image: "mirror_shades",
+        levels: [900,800,700,600,500,400,300,200,100,0],
+    },
     "bat" : {
         name: "Bat",
         description: "A long bat that looks ready to give a beating",
