@@ -59,22 +59,17 @@ Mainframe.prototype.GetLevel = function(height){
         
         /*  level.addObjectTo(7,7,Pickupable.Items('hackable_save'));*/
         //spawn all items
-<<<<<<< HEAD
         /*
         for(var p in Pickupable.Items){
-=======
         /*for(var p in Pickupable.Items){
->>>>>>> 6f9e5d13648af42a84c95ac821daa2d84da9d83b
             level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(p));
         }*/
 
+        /*
         for(var p in Monster.List){
             level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Monster.load(p));
         }
         */
-
-        level.addObjectTo(1,1,Monster.load('crab_bot'));
-        level.addObjectTo(8,8,Monster.load('rat'));
 
         generator.postProcess( level );
 
