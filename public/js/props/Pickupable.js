@@ -188,6 +188,7 @@ Pickupable.Items = {
     "mirror_shades" : {
         name: "Mirrored Shades",
         description: "Mirror Shades\n[GLASSES]\nTheses intimidating sunglasses give a whole new meaning to 'dressed to kill'.",
+        read_on_pickup: true,
         tags: ["glasses"],
         actions: ["equip","look at"],
         equip_slot: "face",
@@ -254,7 +255,7 @@ Pickupable.Items = {
     ,
     "butterfly_knife" : {
         name: "Butterfly Knife",
-        description: "Butterfly Knife\n[DMG:2][MELEE][BLEED]\nThe favored weapon of coordinated dancing street gangs, causes bleeding wounds to unarmed targets.",
+        description: "Butterfly Knife\n[DMG:2][MELEE][BLEED]\nThe favored weapon of coordinated dancing street gangs, causes bleeding wounds to unarmored targets.",
         read_on_pickup: true,
         tags: ["melee","weapon","fleshflayer"],
         actions: ["equip","look at"],
@@ -262,9 +263,7 @@ Pickupable.Items = {
         damage: 2,
         image : "item_butterfly_knife",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-
-    ,
+    },
     "cobra" : {
         name: "Cobra",
         description: "Cobra\n[DMG:2][MELEE][STUN:30%]\nAn extendable baton with an electrode on the end, compact and especially effective against college students and protestors.",
@@ -290,9 +289,7 @@ Pickupable.Items = {
         stunChance: 0.4,
         image : "item_boxing_gloves",
         levels: [900,800,700,600,500,400,300,200,100,0]
-    }
-
-    ,
+    },
     "chain" : {
         name: "Chain",
         description: "Chain\n[DMG:2][MELEE][STUN:20%]\nEven when not riding on your lightbike, this series of connected metal rings still makes a simple but fearsome weapon.",
@@ -328,10 +325,10 @@ Pickupable.Items = {
         image : "gun",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-
     "shotgun" : {
         name: "Shotgun",
         description: "Shotgun\n[DMG:3][RNG]\nFires a havey slug useful against armored and unarmored foes alike.",
+        read_on_pickup: true,
         damage: 2,
         tags: ["ranged","weapon","spread"],
         actions: ["equip","look at"],
@@ -342,6 +339,7 @@ Pickupable.Items = {
     "pulse_laser" : {
         name: "Pulse Laser",
         description: "Pulse Laser\n[DMG:4][RNG][MALFUNCTION]\nA complicated prototype laser weapon that emits EMF which can cause malfunctions in nearby machinery.  Due to it's prototypical nature, it can only be fully utilized by those with a PhD in Advanced Physics.",
+        read_on_pickup: true,
         damage: 4,
         tags: ["ranged","weapon","laser","scientist","robokiller"],
         actions: ["equip", "look at"],
@@ -349,10 +347,10 @@ Pickupable.Items = {
         image : "item_pulse_laser",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-
     "flachette_gun" : {
         name: "Flachette Gun",
         description: "Flachette Gun\n[DMG:2][RNG][BLEED]\nA favored weapon of the stealthy, this weapon fires projectiles with silent bursts of air, and the needle sharp projectiles can cause lasting internal injuries if left untreated.",
+        read_on_pickup: true,
         damage: 2,
         tags: ["ranged","weapon","bullet","hacker","fleshflayer"],
         actions: ["equip", "look at"],
@@ -363,6 +361,7 @@ Pickupable.Items = {
     "uzi" : {
         name: "Uzi",
         description: "Uzi\n[DMG:3][RNG][BLEED]\nWhile difficult to aim even with small calibur bullets, when it connects this weapon often leaves it's targets looking like swiss cheese.",
+        read_on_pickup: true,
         damage: 3,
         tags: ["ranged","weapon","spread","fleshflayer"],
         actions: ["equip", "look at"],
@@ -373,6 +372,7 @@ Pickupable.Items = {
     "mini_gun" : {
         name: "Mini Gun",
         description: "Mini Gun\n[DAM:5][RNG][BLEED][EPIC]\nWhether dealing with lightly armored vehicles or looking for a fun but expensive way to clear some forest, this heavy hand held fully automatic cannon is a fearsome weapon.",
+        read_on_pickup: true,
         damage: 5,
         tags: ["ranged","weapon","spread","epic","fleshflayer"],
         actions: ["equip","look at"],
@@ -383,6 +383,7 @@ Pickupable.Items = {
     "plasma_lance" : {
         name: "Plasma Lance",
         description: "Plasma Lance\n[DMG:6][RNG][EPIC]\nThis prototype plasma lance was originally developed for offworld deep core mining, but it cuts through bodies just as well.  Someone with an intimate understanding of particle physics might get more out of this gun.",
+        read_on_pickup: true,
         damage: 6,
         tags: ["ranged","weapon","plasma","scientist","epic"],
         actions: ["equip", "look at"],
@@ -403,7 +404,7 @@ Pickupable.Items = {
     },
     "laser_whip" : {
         name: "Laser Whip",
-        description: "Laser Whip\n[DMG:6][MELEE][MALFUNCTION][EPIC]\nDiscovered by accident by a hacker improving on their netsecurity, this weapon functions using the same principles of hack backtrace feedback damage.",
+        description: "Laser Whip\n[DMG:6][MELEE][MALFUNCTION][EPIC]\nDiscovered on accident by a hacker improving on their netsecurity, this weapon functions using the same principles of hack backtrace feedback damage.",
         read_on_pickup: true,
         tags: ["melee","weapon","robokiller","hacker","epic"],
         actions: ["equip", "look at"],
@@ -543,14 +544,6 @@ Pickupable.Items = {
         image : "potion_4",
         actions: ["use","look at"],
         description: "An unnaturaly green substance contained in a laboratory beaker.  Who knows what it'll do?",
-        levels: [900,800,700,600,500,400,300,200,100,0]
-    },
-
-    "data_chip_0" : {
-        name: "Juice",
-        image : "data_chip_0",
-        actions: ["use","look at"],
-        description: "A data chip",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "data_chip_atk" : {

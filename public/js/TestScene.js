@@ -233,7 +233,14 @@ TestScene.prototype.update = function(delta){
             	        this.ctx.translate(this.size* o.x,this.size* o.y);
             	        this.ctx.scale(this.size,this.size);
             	    }
-            	    this.ctx.drawImage(o.image,0,0,1,1);
+
+                    try {
+            	       this.ctx.drawImage(o.image,0,0,1,1);
+                    } 
+                    catch( e ) {
+                        debugger;
+                    }
+
             	    this.ctx.restore();
 
                     this.ctx.globalAlpha = 1;
