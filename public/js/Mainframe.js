@@ -59,6 +59,10 @@ Mainframe.prototype.GetLevel = function(height){
         level.addObjectTo(2,1,Pickupable.load('juice_1'));
         level.addObjectTo(3,1,Pickupable.load('juice_2'));
         level.addObjectTo(4,1,Pickupable.load('juice_3'));
+        level.addObjectTo(1,2,Pickupable.load('juice_0'));
+        level.addObjectTo(2,2,Pickupable.load('juice_1'));
+        level.addObjectTo(3,2,Pickupable.load('juice_2'));
+        level.addObjectTo(4,2,Pickupable.load('juice_3'));
         /*
 
          level.addObjectTo(7,7,Pickupable.Items('hackable_save'));*/

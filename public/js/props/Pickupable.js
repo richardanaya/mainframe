@@ -11,21 +11,34 @@ var Pickupable = function(){
 var randomizedPotionList = {};
 Pickupable.randomizePotionList = function() {
     var effects = [
-        function( player ) {
+        { effect: function( player ) {
             player.health = player.maxHealth;
             player.level.scene.showInfoText("You feel warm and tingly inside.");
+          },
+          description: "A rejuvination mixture of herbs and spices that tastes like gummy bears and tang.  Fully restores health",
+          used: false,
+        
         },
-        function( player ) {
+        { effect: function( player ) {
             player.poisonCount = 10;
             player.level.scene.showInfoText("It tastes like mayonaise left out in the sun..");
+          } ,
+          description: "A foul smelling chemical substrate that boils your inside, causes life threatening dysentery.",
+          used: false,
         },
-        function( player ) {
+        { effect: function( player ) {
             player.camoCount = 200;
             player.level.scene.showInfoText(this.name+" becomes one with the matrix.");
+          },
+          description: "A mind altering nano drug that not only changes your perception but that of those around you.  Grants active stealth camoflauge for a period of time.",
+          used: false,
         },
-        function( player ) {
+        { effect: function( player ) {
             player.strength += Utilities.randRangeInt( 0, 3 );
             player.level.scene.showInfoText("Breakfast of champions!");
+          } ,
+          description: "A fortifying blend of whole grain oats and caffine.  Permanently improves strength.",
+          used: false,
         },
     ];
 
@@ -45,7 +58,12 @@ Pickupable.prototype.onAction = function(action){
     var _this = this;
     if(action == "look at"){
         if( this.level == null || this.level == undefined ) this.level = this.player.level;
-        this.level.scene.showDialog(this.description,this.image);
+        if( randomizedPotionList[ this.id ] == undefined || randomizedPotionList[ this.id ].used == false ) {
+            this.level.scene.showDialog(this.description,this.image);
+        }
+        else {
+            this.level.scene.showDialog( randomizedPotionList[ this.id ].description,this.image);
+        }
     }
     if(action == "trash"){
         this.player.removeInventory(this);
@@ -60,7 +78,8 @@ Pickupable.prototype.onAction = function(action){
     }
     if(action == "use"){
         if( randomizedPotionList[ this.id ] != undefined ) {
-            randomizedPotionList[ this.id ]( this.player );
+            randomizedPotionList[ this.id ].effect( this.player );
+            randomizedPotionList[ this.id ].used = true;
         }
         else if(this.id == "ecig"){
             this.level.scene.showDialog("You pause a moment to take a smoke break and feel a bit sharper.",this.image);
@@ -473,29 +492,29 @@ Pickupable.Items = {
     "juice_0" : {
         name: "Blue Potion",
         image : "potion_1",
-        actions: ["use"],
-        description: "This potion is a devastating steroid cocktail of muscle fiber inducing nanites.",
+        actions: ["use","look at"],
+        description: "A strange smelling blue concoction contained in a laboratory beaker.  Who knows what it'll do?",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_1" : {
         name: "Yellow Potion",
         image : "potion_2",
-        actions: ["use","throw"],
-        description: "A juice",
+        actions: ["use","look at"],
+        description: "A strange smelling yellow brew contained in a laboratory beaker.  Who knows what it'll do?",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_2" : {
         name: "Red Potion",
         image : "potion_3",
-        actions: ["use","throw"],
-        description: "A juice",
+        actions: ["use","look at"],
+        description: "A red liquid contained in a laboratory beaker.  It looks carbonated. Who knows what it'll do?",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_3" : {
         name: "Green Potion",
         image : "potion_4",
-        actions: ["use","throw"],
-        description: "A juice",
+        actions: ["use","look at"],
+        description: "An unnaturaly green substance contained in a laboratory beaker.  Who knows what it'll do?",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "data_chip_0" : {
