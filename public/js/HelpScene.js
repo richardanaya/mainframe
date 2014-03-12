@@ -39,15 +39,7 @@ HelpScene.prototype.update = function(delta){
 
     this.ctx.font = "16px 'Press Start 2P'";
     this.ctx.fillStyle = "white";
-    var concantString = "Welcome CASCORP employee! Hacking can be initiated by standing on any valid terminal tile. These ";
-    concantString += "appear as yellow-screen computers, sitting on small table safes. Standing on a terminal tile ";
-    concantString += "will make an interactable button appear on the right side of the screen, which looks ";
-    concantString += "just like the terminal tile itself. Clicking on this button will initiate the hack.";
-    concantString += "Your objective while hacking is straightforward: To find which Data Cache hides the ";
-    concantString += "encryption key that will open the digitally guarded safe.\n\n";
-    concantString += "To get in touch with us, or to send us feedback and encouragement, you can contact ";
-    concantString += "us at teampanthermoderns@gmail.com.\n\n";
-    concantString += "Thank you for playing!";
+    var concantString = "Welcome CASCORP employee! Full help docs can be found at http://panthermoderns.itch.io/mainframe-loves-you";
     wrapText(this.ctx, concantString,30,40,window.innerWidth-60,30)
 
 };
