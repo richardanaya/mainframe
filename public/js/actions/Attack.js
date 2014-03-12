@@ -59,6 +59,8 @@ Attack.prototype.process = function(complete){
         this.defender.image = this.attacker.level.tileset.smashedProp[0];
     }
     else if( this.attacker.stunCount <= 0 ) {
+        if( this.defender.getDefence == undefined ) { complete(); return; }
+
         var damage = this.attacker.getDamage(this.weapon);
         var offense = this.attacker.getOffense();
         var defence = this.defender.getDefence();

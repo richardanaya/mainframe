@@ -702,6 +702,9 @@ TestScene.prototype.onTap = function(x,y){
                 this.player.level.scene.game.changeScene(new HackScene(this.game, this.scene, 1, programs, function(result){
                     if(result.foundCache && !result.backtraced){
                         _this.showInfoText(_this.attack_target.name+" was mindhacked!");
+                        if( _this.attack_target.tags == undefined || _this.attack_target.tags == null ) {
+                             _this.attack_target.tags = [];
+                        }
                         _this.attack_target.tags.push( "ally" );
                         _this.attack_target.moves = [];
                     }
