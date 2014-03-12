@@ -8,6 +8,32 @@ var Pickupable = function(){
     this.actions = [];
 }
 
+var randomizedPotionList = {};
+Pickupable.randomizePotionList = function() {
+    var effects = [
+        function( player ) {
+            player.health = player.maxHealth;
+            player.level.scene.showInfoText("You feel warm and tingly inside.");
+        },
+        function( player ) {
+            player.poisonCount = 10;
+            player.level.scene.showInfoText("It tastes like mayonaise left out in the sun..");
+        },
+        function( player ) {
+            player.camoCount = 200;
+            player.level.scene.showInfoText(this.name+" becomes one with the matrix.");
+        },
+        function( player ) {
+            player.strength += Utilities.randRangeInt( 0, 3 );
+            player.level.scene.showInfoText("Breakfast of champions!");
+        },
+    ];
+
+    var randomized = Utilities.shuffleArray( effects );
+    for( var i = 0; i < randomized.length; ++i ) {
+        randomizedPotionList[ 'juice_'+i.toString() ] = randomized[i];
+    }
+}
 
 Pickupable.prototype = Object.create(GameObject.prototype);
 
@@ -33,10 +59,8 @@ Pickupable.prototype.onAction = function(action){
         })
     }
     if(action == "use"){
-        if(this.id == "juice_0"){
-            this.level.scene.showDialog("You gulp down the nanite infused liquid and feel stronger.",this.image);
-            this.player.strength += 1;
-            this.level.scene.showInfoText("Your strength is now "+this.player.strength)
+        if( randomizedPotionList[ this.id ] != undefined ) {
+            randomizedPotionList[ this.id ]( this.player );
         }
         else if(this.id == "ecig"){
             this.level.scene.showDialog("You pause a moment to take a smoke break and feel a bit sharper.",this.image);
@@ -45,8 +69,7 @@ Pickupable.prototype.onAction = function(action){
         }
         else if(this.id == "data_chip_0"){
             this.level.scene.showDialog("You plug the data chip into your neckport and feel a rush of new knowledge.",this.image);
-            this.player.mind += 1;
-            this.level.scene.showInfoText("Your mind is now "+this.player.mind);
+            
         }
         this.player.level.scene.processAllMoves();
         this.level.scene.player.removeInventory(this);
@@ -448,28 +471,28 @@ Pickupable.Items = {
         description: "A keycard that looks like it can be used at corporate level.  Perhaps this can open something?"
     },
     "juice_0" : {
-        name: "MuscleBoost",
+        name: "Blue Potion",
         image : "potion_1",
-        actions: ["use","throw"],
+        actions: ["use"],
         description: "This potion is a devastating steroid cocktail of muscle fiber inducing nanites.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_1" : {
-        name: "Juice",
+        name: "Yellow Potion",
         image : "potion_2",
         actions: ["use","throw"],
         description: "A juice",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_2" : {
-        name: "Juice",
+        name: "Red Potion",
         image : "potion_3",
         actions: ["use","throw"],
         description: "A juice",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_3" : {
-        name: "Juice",
+        name: "Green Potion",
         image : "potion_4",
         actions: ["use","throw"],
         description: "A juice",

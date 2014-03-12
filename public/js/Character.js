@@ -19,6 +19,7 @@ var Character = function(){
     this.canCamo = false;
     this.canSeeThroughStealth = false;
     this.camoCount = 0;
+    this.poisonCount = 0;
 
     this.stunCount = 0;
 }

@@ -54,6 +54,11 @@ Mainframe.prototype.GetLevel = function(height){
         //level.addObjectTo(4,4,Pickupable.load('taser'));
         level.addObjectTo(7,7,Pickupable.load('janitors_note'));
         level.addObjectTo(8,8,Pickupable.load('hackable_safe'));
+
+        level.addObjectTo(1,1,Pickupable.load('juice_0'));
+        level.addObjectTo(2,1,Pickupable.load('juice_1'));
+        level.addObjectTo(3,1,Pickupable.load('juice_2'));
+        level.addObjectTo(4,1,Pickupable.load('juice_3'));
         /*
 
          level.addObjectTo(7,7,Pickupable.Items('hackable_save'));*/
@@ -71,6 +76,8 @@ Mainframe.prototype.GetLevel = function(height){
                 }
             }
         }
+
+        Pickupable.randomizePotionList();
 
         return level;
     }
