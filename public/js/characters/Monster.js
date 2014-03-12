@@ -261,6 +261,8 @@ Monster.load = function(name){
 }
 
 Monster.prototype.getPathTo = function( target ) {
+    if( target == null || target == undefined ) return [];
+
     var start = this.level.scene.graph.nodes[this.x][this.y];
     var end = this.level.scene.graph.nodes[target.x][target.y];
     return astar.search(this.level.scene.graph.nodes, start, end);
