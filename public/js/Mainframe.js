@@ -29,7 +29,7 @@ Mainframe.prototype.GetLevel = function(height){
     if(height == 1000){
         var level = new Level();
         var width = 13;
-        var height = 13;
+        var height = 15;
         level.width = width;
         level.height = height;
         level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
@@ -40,23 +40,34 @@ Mainframe.prototype.GetLevel = function(height){
        for(var x = 1; x< width-1; x++ ){
             for(var y = 1; y< height-1; y++ ){
                 level.tiles[ Utilities.positionToIndex(x,y,level.width) ] = generator.createTile( Level.Types.Floor, level.tileset.floors[0], x, y );
-                if(x >= 2 && x<=3&& y>=9 &&y<=10){
+                if(y == 4){
+                    level.tiles[ Utilities.positionToIndex(x,y,level.width) ].type = Level.Types.Wall;
+                }
+                if(y == 13){
+                    level.tiles[ Utilities.positionToIndex(x,y,level.width) ].type = Level.Types.Wall;
+                }
+                if(x >= 2 && x<=3&& y>=11 &&y<=12){
                     level.tiles[ Utilities.positionToIndex(x,y,level.width) ].type = Level.Types.Wall;
                 }
 
-                if(x >= 5 && x<=7&& y>=2 &&y<=3){
+                if(x >= 9 && x<=10&& y>=11 &&y<=12){
                     level.tiles[ Utilities.positionToIndex(x,y,level.width) ].type = Level.Types.Wall;
                 }
+
+                if(x >= 5 && x<=7&& y>=4 &&y<=5){
+                    level.tiles[ Utilities.positionToIndex(x,y,level.width) ].type = Level.Types.Wall;
+                }
+
 
                 //level.tiles[ Utilities.positionToIndex(x,y,level.width) ].image = Resources.getImage("Floor3Purple");
             }
         }
-        level.tiles[ Utilities.positionToIndex(6,3,level.width) ].type = Level.Types.Floor;
+        level.tiles[ Utilities.positionToIndex(6,5,level.width) ].type = Level.Types.Floor;
 
 
         //spawn elevator
         var de = new DownElevator();
-        level.addObjectTo(6,3,de);
+        level.addObjectTo(6,5,de);
         //de.image = Resources.getImage("stairs");
 
         //level.addObjectTo(1,1,Monster.load('businessman'));

@@ -220,7 +220,13 @@ TestScene.prototype.update = function(delta){
                 }
                 else if(this.currentHeight == 1000){
                     if(x == 0 && y ==0){
-                        this.ctx.drawImage(Resources.getImage("roof"),x*this.size ,y*this.size,this.size*13 ,this.size*13  );
+                        if((this.time%2)/2<.5){
+                            this.ctx.drawImage(Resources.getImage("roof"),x*this.size ,y*this.size,this.size*13 ,this.size*15 );
+                        }
+                        else
+                        {
+                            this.ctx.drawImage(Resources.getImage("roof2"),x*this.size ,y*this.size,this.size*13 ,this.size*15 );
+                        }
                     }
                 }
                 else {
