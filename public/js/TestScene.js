@@ -213,17 +213,22 @@ TestScene.prototype.update = function(delta){
         for(var y = 0; y < this.level.width; y++){
             var t = this.level.tiles[this.level.width*y+x];
 			if( t != null && t != undefined && t.image != undefined && t.image != null && (t.explored||this.player.god) ) {
-                if(this.currentHeight != -100){
-                    this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
-                }
-                else {
+                if(this.currentHeight == -100){
                     if(x == 0 && y ==0){
                         this.ctx.drawImage(Resources.getImage("final_boss_room"),x*this.size ,y*this.size,this.size*14 ,this.size*12  );
                     }
                 }
+                else if(this.currentHeight == 1000){
+                    if(x == 0 && y ==0){
+                        this.ctx.drawImage(Resources.getImage("roof"),x*this.size ,y*this.size,this.size*13 ,this.size*13  );
+                    }
+                }
+                else {
+                    this.ctx.drawImage(t.image,x*this.size ,y*this.size,this.size ,this.size  );
+                }
 
                 this.ctx.globalAlpha = Math.max( 0.7-t.brightness, 0.3 );
-                if(!this.player.god && this.currentHeight != -100){
+                if(!this.player.god && this.currentHeight != -100 && this.currentHeight != 1000){
                     this.ctx.drawImage(Resources.getImage('fowoverlay'),x*this.size ,y*this.size,this.size ,this.size  );
                 }
 

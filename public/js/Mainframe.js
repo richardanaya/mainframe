@@ -40,19 +40,28 @@ Mainframe.prototype.GetLevel = function(height){
        for(var x = 1; x< width-1; x++ ){
             for(var y = 1; y< height-1; y++ ){
                 level.tiles[ Utilities.positionToIndex(x,y,level.width) ] = generator.createTile( Level.Types.Floor, level.tileset.floors[0], x, y );
+                if(x >= 2 && x<=3&& y>=9 &&y<=10){
+                    level.tiles[ Utilities.positionToIndex(x,y,level.width) ].type = Level.Types.Wall;
+                }
+
+                if(x >= 5 && x<=7&& y>=2 &&y<=3){
+                    level.tiles[ Utilities.positionToIndex(x,y,level.width) ].type = Level.Types.Wall;
+                }
+
                 //level.tiles[ Utilities.positionToIndex(x,y,level.width) ].image = Resources.getImage("Floor3Purple");
             }
         }
+        level.tiles[ Utilities.positionToIndex(6,3,level.width) ].type = Level.Types.Floor;
 
 
         //spawn elevator
         var de = new DownElevator();
-        level.addObjectTo(8,1,de);
-        de.image = Resources.getImage("stairs");
+        level.addObjectTo(6,3,de);
+        //de.image = Resources.getImage("stairs");
 
         //level.addObjectTo(1,1,Monster.load('businessman'));
         //level.addObjectTo(4,4,Pickupable.load('taser'));
-        level.addObjectTo(7,7,Pickupable.load('janitors_note'));
+        level.addObjectTo(9,9,Pickupable.load('janitors_note'));
         //level.addObjectTo(8,8,Pickupable.load('hackable_safe'));
 
         //level.addObjectTo(4,3,Pickupable.load('mirror_shades'));
