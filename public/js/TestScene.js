@@ -613,6 +613,26 @@ TestScene.prototype.onKeyDown = function(key){
         else if(key == 40 || key == 83){
             this.player.moveDown();
         }
+        else if(key == 73){
+            if(this.inventoryDialog.visible){
+                new Howl({
+                    urls: ["sounds/sfx_ui/sfx_ui_popdown.mp3"],
+                    volume:.5
+                }).play();
+                this.inventoryDialog.hide();
+                this.mode = "play";
+                return;
+            }
+            else {
+                new Howl({
+                    urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+                    volume:.5
+                }).play();
+                this.mode = "inventory";
+                this.inventoryDialog.show();
+                return;
+            }
+        }
         else if(key == 32){
             if (this.attack_target){
                 this.attackNearestTarget();
@@ -682,7 +702,8 @@ TestScene.prototype.onTap = function(x,y){
                 this.player.level.scene.game.changeScene(new HackScene(this.game, this.scene, 1, programs, function(result){
                     if(result.foundCache && !result.backtraced){
                         _this.showInfoText(_this.attack_target.name+" was mindhacked!");
-                        _this.attack_target.stunCount = 5;
+                        _this.attack_target.tags.push( "ally" );
+                        _this.attack_target.moves = [];
                     }
                     if(result.backtraced){
                         _this.showInfoText("You feel woozy from fried neurons");
@@ -691,6 +712,8 @@ TestScene.prototype.onTap = function(x,y){
                     music.play();
                     music.fade(0,1,3000);
                     _this.player.level.scene.game.changeScene(_this.player.level.scene);
+                    _this.player.moves = [];
+                    _this.processAllMoves();
                 }));
             }
         }
