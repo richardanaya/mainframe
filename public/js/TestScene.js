@@ -136,6 +136,12 @@ TestScene.prototype.loadLevel = function(height){
                     loop: true,
                 }).play();
             }
+            else if(height == 400) {
+                _this.music = new Howl({
+                    urls: ['sounds/Shop.ogg','sounds/Shop.mp3'],
+                    loop: true
+                }).play();
+            }
             else if(Level.isLabHeight(height)) {
                 _this.music = new Howl({
                     urls: ['sounds/Laboratory.ogg','sounds/Laboratory.mp3'],
