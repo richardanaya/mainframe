@@ -246,6 +246,9 @@ Monster.load = function(name){
     if(pi.tags) { 
         p.tags = p.tags.concat(pi.tags);
     }
+    if(name == "sop13"){
+        p.tags.splice(p.tags.indexOf("monster"),1);
+    }
     p.armor = pi.armor;
     p.damage = pi.damage;
     p.image_idle_0 = Resources.getImage(pi.image_0);
