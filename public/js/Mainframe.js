@@ -28,8 +28,8 @@ Mainframe.prototype.update = function(){
 Mainframe.prototype.GetLevel = function(height){
     if(height == 1000){
         var level = new Level();
-        var width = 10;
-        var height = 10;
+        var width = 13;
+        var height = 13;
         level.width = width;
         level.height = height;
         level.center = { x: Math.floor( width/2), y: Math.floor( height/2 ) };
