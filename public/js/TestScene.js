@@ -29,6 +29,9 @@ var TestScene = function(game,player){
             var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewScaleX *= scaleStep;
             _this.viewScaleY *= scaleStep;
+
+            _this.viewScaleX = Math.max(Math.min(_this.viewScaleX,7.5),.2);
+            _this.viewScaleY = Math.max(Math.min(_this.viewScaleY,7.5),.2);
             var mxpost = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
             var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
@@ -39,6 +42,8 @@ var TestScene = function(game,player){
             var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewScaleX /=scaleStep;
             _this.viewScaleY /=scaleStep;
+            _this.viewScaleX = Math.max(Math.min(_this.viewScaleX,7.5),.2);
+            _this.viewScaleY = Math.max(Math.min(_this.viewScaleY,7.5),.2);
             var mxpost = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
             var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
@@ -577,12 +582,16 @@ TestScene.prototype.onKeyDown = function(key){
         else if(key == 107 || key == 189){
             this.viewScaleX /= 2;
             this.viewScaleY /= 2;
+            this.viewScaleX = Math.max(Math.min(this.viewScaleX,7.5),.2);
+            this.viewScaleY = Math.max(Math.min(this.viewScaleY,7.5),.2);
             this.centerViewAroundPlayer();
             return;
         }
         else if(key == 109 || key == 187){
             this.viewScaleX *= 2;
             this.viewScaleY *= 2;
+            this.viewScaleX = Math.max(Math.min(this.viewScaleX,7.5),.2);
+            this.viewScaleY = Math.max(Math.min(this.viewScaleY,7.5),.2);
             this.centerViewAroundPlayer();
             return;
         }

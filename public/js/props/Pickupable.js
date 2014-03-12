@@ -415,12 +415,12 @@ Pickupable.Items = {
     },
 
     "janitors_note" : {
-        name: "Lab Note",
-        description: "[CASCORP - Cybernetic and Artificial Systems Corporation]\n[Janitorial Staff]\,\nNotice to janitorial crew. Bioenhancment liquids have been placed in the safe for worker use.  You all know the code. Be sure not to drink too much, you all remember what happened last time. I don't want to be sending anyone down to lab to pump their guts.\n Has anyone noticed how quiet the building has been today?\nSahe",
+        name: "Stray Piece of Newspaper",
+        description: "A piece of newspaper is crumpled and dirty from having sat on the roof\n[HEADLINES]\nCASCORP announces new shipments of android models to outer colonies...\nRioters strike for 3rd day in row downtown Chiba over human augmentation ...\nPresident and his first wife unit X-10 scheduled to make speech appearance at united colonies banquet",
         read_on_pickup: true,
         actions: ["look at"],
         image : "lab_note",
-        floor_name : "scrap of paper"
+        floor_name : "scrap of newspaper"
     },
     "lab_note_1000" : {
         name: "Lab Note",
