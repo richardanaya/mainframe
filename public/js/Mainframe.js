@@ -50,19 +50,14 @@ Mainframe.prototype.GetLevel = function(height){
         level.addObjectTo(8,1,de);
         de.image = Resources.getImage("stairs");
 
-        //level.addObjectTo(1,1,Monster.load('cyborg'));
+        //level.addObjectTo(1,1,Monster.load('businessman'));
         //level.addObjectTo(4,4,Pickupable.load('taser'));
         level.addObjectTo(7,7,Pickupable.load('janitors_note'));
         level.addObjectTo(8,8,Pickupable.load('hackable_safe'));
 
-        level.addObjectTo(1,1,Pickupable.load('data_chip_atk'));
-        level.addObjectTo(2,1,Pickupable.load('data_chip_arm'));
-        level.addObjectTo(3,1,Pickupable.load('data_chip_acc'));
-        level.addObjectTo(4,1,Pickupable.load('data_chip_eva'));
-        level.addObjectTo(5,1,Pickupable.load('data_chip_id'));
-        /*
-
-         level.addObjectTo(7,7,Pickupable.Items('hackable_save'));*/
+        //level.addObjectTo(4,3,Pickupable.load('mirror_shades'));
+        
+        /*  level.addObjectTo(7,7,Pickupable.Items('hackable_save'));*/
         //spawn all items
         /*for(var p in Pickupable.Items){
             level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(p));
@@ -193,6 +188,7 @@ Mainframe.prototype.start = function(){
     Resources.addImage("sop13_1","images/SOP13_1.png");
     Resources.addImage("sop13_2","images/SOP13_2.png");
     Resources.addImage("masamune","images/item_masamume.png");
+    Resources.addImage("mirror_shades", "images/mirror_shades.png");
 
     for(var i = 1 ; i <= 30; i++){
         var s = i+"";

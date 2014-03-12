@@ -551,21 +551,20 @@ HackScene.prototype.onTap = function(x,y)
             _this.music.stop();
         });
 
-        if (this.hackingFullyBacktraced == false)
+        if (this.goalFound == true)
         {
-            var hackEnd = new HackEndStatus(false, false);
+            var hackEnd = new HackEndStatus(true, false);
             this.endHackCallBack(hackEnd);
-        }
+        } 
         else if (this.hackingFullyBacktraced == true)
         {
             var hackEnd = new HackEndStatus(false, true);
             this.endHackCallBack(hackEnd);
         }
-        else if (this.goalFound == true)
-        {
-            var hackEnd = new HackEndStatus(true, false);
+        else {
+            var hackEnd = new HackEndStatus(false, false);
             this.endHackCallBack(hackEnd);
-        } 
+        }
     }
 
     
