@@ -568,6 +568,26 @@ TestScene.prototype.onKeyDown = function(key){
         else if(key == 40 || key == 83){
             this.player.moveDown();
         }
+        else if(key == 73){
+            if(this.inventoryDialog.visible){
+                new Howl({
+                    urls: ["sounds/sfx_ui/sfx_ui_popdown.mp3"],
+                    volume:.5
+                }).play();
+                this.inventoryDialog.hide();
+                this.mode = "play";
+                return;
+            }
+            else {
+                new Howl({
+                    urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+                    volume:.5
+                }).play();
+                this.mode = "inventory";
+                this.inventoryDialog.show();
+                return;
+            }
+        }
         else if(key == 32){
             if (this.attack_target){
                 this.attackNearestTarget();

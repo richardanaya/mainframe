@@ -63,6 +63,10 @@ Mainframe.prototype.GetLevel = function(height){
             level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Pickupable.load(p));
         }
 
+        for(var p in Monster.List){
+            level.addObjectTo(Utilities.randRangeInt(1,8),Utilities.randRangeInt(1,8),Monster.load(p));
+        }
+
         generator.postProcess( level );
 
         for(var x = 0; x< width; x++ ){
