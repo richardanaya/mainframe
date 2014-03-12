@@ -29,6 +29,9 @@ var TestScene = function(game,player){
             var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewScaleX *= scaleStep;
             _this.viewScaleY *= scaleStep;
+
+            _this.viewScaleX = Math.max(Math.min(_this.viewScaleX,7.5),.2);
+            _this.viewScaleY = Math.max(Math.min(_this.viewScaleY,7.5),.2);
             var mxpost = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
             var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
@@ -39,6 +42,8 @@ var TestScene = function(game,player){
             var my = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewScaleX /=scaleStep;
             _this.viewScaleY /=scaleStep;
+            _this.viewScaleX = Math.max(Math.min(_this.viewScaleX,7.5),.2);
+            _this.viewScaleY = Math.max(Math.min(_this.viewScaleY,7.5),.2);
             var mxpost = Math.floor((x-_this.viewTranslateX)/_this.viewScaleX);
             var mypost = Math.floor((y-_this.viewTranslateY)/_this.viewScaleY);
             _this.viewTranslateX -= (mx-mxpost)*_this.viewScaleX;
@@ -51,9 +56,9 @@ var TestScene = function(game,player){
         _this.viewTranslateY = _this.viewTranslateStartY+e.gesture.deltaY;
     });
 
-    this.pickupButton = new Button(this,0,100);
+    this.pickupButton = new Button(this,0,10);
     this.pickupButton.visible = false;
-    this.attackButton = new Button(this,0,330,"red");
+    this.attackButton = new Button(this,0,115,"red");
     this.attackButton.visible = false;
     this.attackButton.render();
     this.specialAttackButton = new Button(this,0,330);
@@ -134,6 +139,12 @@ TestScene.prototype.loadLevel = function(height){
                 _this.music = new Howl({
                     urls: ['sounds/Corporate.ogg','sounds/Corporate.mp3'],
                     loop: true,
+                }).play();
+            }
+            else if(height == 400) {
+                _this.music = new Howl({
+                    urls: ['sounds/Shop.ogg','sounds/Shop.mp3'],
+                    loop: true
                 }).play();
             }
             else if(Level.isLabHeight(height)) {
@@ -287,8 +298,10 @@ TestScene.prototype.update = function(delta){
     this.pickupButton.render();
     this.pickupButton.x = this.width-this.attackButton.width-10;
     this.attackButton.update(delta);
-    this.attackButton.render();
+
     this.attackButton.x = this.width-this.attackButton.width-10;
+    this.attackButton.y = 130;
+    this.attackButton.render();
     if(this.mindHack){
         this.specialAttackButton.x = this.width-this.attackButton.width-10-50-20;
         this.specialAttackButton.y = this.attackButton.y+ 105;
@@ -556,6 +569,38 @@ TestScene.prototype.onKeyDown = function(key){
         if(key == 72){
           this.game.changeScene(new HackScene(this.game, this.scene, 1, []));
         }
+        else if(key == 73){
+            new Howl({
+                urls: ["sounds/sfx_ui/sfx_ui_popup.mp3"],
+                volume:.5
+            }).play();
+            this.mode = "inventory";
+            this.inventoryDialog.show();
+            return;
+            return;
+        }
+        else if(key == 107 || key == 189){
+            this.viewScaleX /= 2;
+            this.viewScaleY /= 2;
+            this.viewScaleX = Math.max(Math.min(this.viewScaleX,7.5),.2);
+            this.viewScaleY = Math.max(Math.min(this.viewScaleY,7.5),.2);
+            this.centerViewAroundPlayer();
+            return;
+        }
+        else if(key == 109 || key == 187){
+            this.viewScaleX *= 2;
+            this.viewScaleY *= 2;
+            this.viewScaleX = Math.max(Math.min(this.viewScaleX,7.5),.2);
+            this.viewScaleY = Math.max(Math.min(this.viewScaleY,7.5),.2);
+            this.centerViewAroundPlayer();
+            return;
+        }
+        else if(key == 48){
+            this.viewScaleX = 1;
+            this.viewScaleY = 1;
+            this.centerViewAroundPlayer();
+            return;
+        }
         else if(key == 37 || key == 65){
             this.player.moveLeft();
         }
@@ -638,6 +683,7 @@ TestScene.prototype.onTap = function(x,y){
         if(this.attack_target){
             if(this.attackButton.isWithin(x,y)){
                 this.attackNearestTarget();
+                this.processAllMoves();
                 return;
             }
             if(this.mindHack && this.specialAttackButton.isWithin(x,y)){
