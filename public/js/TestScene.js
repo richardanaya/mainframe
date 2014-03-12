@@ -656,7 +656,8 @@ TestScene.prototype.onTap = function(x,y){
                 this.player.level.scene.game.changeScene(new HackScene(this.game, this.scene, 1, programs, function(result){
                     if(result.foundCache && !result.backtraced){
                         _this.showInfoText(_this.attack_target.name+" was mindhacked!");
-                        _this.attack_target.stunCount = 5;
+                        _this.attack_target.tags.push( "ally" );
+                        _this.attack_target.moves = [];
                     }
                     if(result.backtraced){
                         _this.showInfoText("You feel woozy from fried neurons");
@@ -665,6 +666,8 @@ TestScene.prototype.onTap = function(x,y){
                     music.play();
                     music.fade(0,1,3000);
                     _this.player.level.scene.game.changeScene(_this.player.level.scene);
+                    _this.player.moves = [];
+                    _this.processAllMoves();
                 }));
             }
         }
