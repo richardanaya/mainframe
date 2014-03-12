@@ -81,6 +81,17 @@ HackGrid.prototype.updateNodeConnectionLines = function(delta)
 	}
 };
 
+HackGrid.prototype.updateNodeHackedConnectionLines = function(delta)
+{
+    for (i=0; i<this.nodeCount;i++)
+    {
+        this.nodes[i].drawHackedConnectorLines(delta);
+    }
+
+    this.scene.updateHackingLines();
+};
+
+
 HackGrid.prototype.createNewNode = function(x, y, type)
 {
     var result = new HackNode( x, y, type, this.scene );
