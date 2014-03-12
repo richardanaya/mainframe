@@ -184,6 +184,7 @@ HackScene.prototype.update = function(delta){
         this.grid.hackingSimulationUpdate(delta);
         this.grid.updateBacktraceHighlights(delta);
         this.grid.updateNodeConnectionLines(delta);
+        this.grid.updateNodeHackedConnectionLines(delta);
         this.grid.update(delta);
 
         this.drawBox(10,10,this.upLeftGridCornerX - 20,this.height - 20);
@@ -550,21 +551,20 @@ HackScene.prototype.onTap = function(x,y)
             _this.music.stop();
         });
 
-        if (this.hackingFullyBacktraced == false)
+        if (this.goalFound == true)
         {
-            var hackEnd = new HackEndStatus(false, false);
+            var hackEnd = new HackEndStatus(true, false);
             this.endHackCallBack(hackEnd);
-        }
+        } 
         else if (this.hackingFullyBacktraced == true)
         {
             var hackEnd = new HackEndStatus(false, true);
             this.endHackCallBack(hackEnd);
         }
-        else if (this.goalFound == true)
-        {
-            var hackEnd = new HackEndStatus(true, false);
+        else {
+            var hackEnd = new HackEndStatus(false, false);
             this.endHackCallBack(hackEnd);
-        } 
+        }
     }
 
     
@@ -647,6 +647,21 @@ HackScene.prototype.lineConnectTwoGridObjects = function(x1,y1, x2, y2)
     this.ctx.globalAlpha = 1;
 };
 
+HackScene.prototype.lineConnectTwoHackedGridObjects = function(x1,y1, x2, y2)
+{
+    this.ctx.globalAlpha = 1.0;
+    this.ctx.strokeStyle = "green";
+    this.ctx.lineWidth = 10;
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.upLeftGridCornerX + (x1 * this.squareSize) + (0.5 * this.squareSize), 
+                            this.upLeftGridCornerY + (y1 * this.squareSize) + (0.5 * this.squareSize));
+    this.ctx.lineTo(this.upLeftGridCornerX + (x2 * this.squareSize) + (0.5 * this.squareSize), 
+                            this.upLeftGridCornerY + (y2 * this.squareSize) + (0.5 * this.squareSize));
+    this.ctx.stroke();
+    this.ctx.globalAlpha = 1;
+};
+
 HackScene.prototype.drawBacktraceLines = function( node1, node2, nodeFullyBacktraced)
 {
     this.ctx.globalAlpha = 0.4;
@@ -685,9 +700,30 @@ HackScene.prototype.updateHackingLines = function() {
     for( var i = 0; i < this.lastHackAttemptNode.connectedTo.length; ++i ) {
         var connode = this.lastHackAttemptNode.connectedTo[i];
         if( connode.hacked ) {
-            this.drawTraceLine( connode, this.lastHackAttemptNode, "green", perc );
+            this.drawHackTraceLine( connode, this.lastHackAttemptNode, "green", perc );
         }
     }
+}
+
+HackScene.prototype.drawHackTraceLine = function( node1, node2, color, perc ) {
+    this.ctx.globalAlpha = 1.0;
+    this.ctx.lineWidth = 10;
+    
+    var x1 = node1.gridXPos * this.squareSize;
+    var y1 = node1.gridYPos * this.squareSize;
+    var x2 = node2.gridXPos * this.squareSize;
+    var y2 = node2.gridYPos * this.squareSize;
+
+    x2 = Utilities.lerp( x1, x2, perc );
+    y2 = Utilities.lerp( y1, y2, perc );        
+
+    this.ctx.strokeStyle = color;
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.upLeftGridCornerX + (x1) + (0.5 * this.squareSize), 
+                            this.upLeftGridCornerY + (y1) + (0.5 * this.squareSize));
+    this.ctx.lineTo(this.upLeftGridCornerX + (x2) + (0.5 * this.squareSize), 
+                            this.upLeftGridCornerY + (y2) + (0.5 * this.squareSize));
+    this.ctx.stroke();
 }
 
 HackScene.prototype.drawTraceLine = function( node1, node2, color, perc ) {

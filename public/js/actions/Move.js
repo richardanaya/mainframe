@@ -20,13 +20,18 @@ Move.prototype.process = function(complete){
         this.obj.level.refreshLights( [this.obj.light] );
     }
 
-    if( this.obj.passiveRegen > 0 && this.obj.health < this.obj.maxHealth) {
+    if( this.obj.passiveRegen > 0 && this.obj.health < this.obj.maxHealth && Math.random() < 0.1 ) {
         this.obj.onHeal( this.obj.passiveRegen );
     }
 
     if( this.obj.bleeding ) {
         this.obj.level.scene.showInfoText( this.obj.name + ' is bleeding.' );
         this.obj.onDamage( 2 );
+    }
+
+    if( --this.obj.poisonCount > 0 ) {
+        this.obj.level.scene.showInfoText( this.obj.name + ' is poisoned.' );
+        this.obj.onDamage( Utilities.randRangeInt(1,2) );
     }
 
     this.obj.camoCount = Math.max( 0, this.obj.camoCount );

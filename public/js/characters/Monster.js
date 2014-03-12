@@ -306,15 +306,24 @@ Monster.prototype.think = function(){
 
     if( --this.stunCount > 0 ) {
         this.level.scene.showInfoText( this.name + ' is stunned!' );
+        this.moves = [];
+        return result;
+    }
+
+    if( p.faceItem != undefined && p.faceItem != null && Math.random() < 0.25 && this.tags != undefined && this.tags.indexOf( "fleshy" ) != -1 ) {
+        this.level.scene.showInfoText( this.name + " is intimidated by your fearsome specs." );
+        this.moves = [];
         return result;
     }
 
     if( p.camoCount > 0  && !this.canSeeThroughStealth ) {
         this.lastKnownPlayerLocation = null;
+        this.moves = [];
         return result;
     }
     // if we're not standing a on a valid tile, or it hasn't been explored yet sleep
-    else if( curTile != null && curTile != undefined && curTile.explored ) {
+    
+    if( curTile != null && curTile != undefined && curTile.explored ) {
        if( curTile.room != p.getCurrentTile().room ) {
             if( p.aggro == this ) p.aggro = false;
             // if we've seen the player before, try and find them at that location
@@ -327,6 +336,7 @@ Monster.prototype.think = function(){
                 // if we are at the last known location, and we still can't see the player, go back to sleep.    
                 if( this.x == this.lastKnownPlayerLocation.x && this.y == this.lastKnownPlayerLocation.y ) {
                     this.lastKnownPlayerLocation = null;
+                    this.moves = [];
                     return result;
                 }
                 else { // if we can't see the player, but we know where we last saw them, move towards that
@@ -335,6 +345,7 @@ Monster.prototype.think = function(){
             }
             else
             {
+                this.moves = [];
                 return result;
             }
         }

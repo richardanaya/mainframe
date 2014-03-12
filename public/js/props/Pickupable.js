@@ -8,6 +8,45 @@ var Pickupable = function(){
     this.actions = [];
 }
 
+var randomizedPotionList = {};
+Pickupable.randomizePotionList = function() {
+    var effects = [
+        { effect: function( player ) {
+            player.health = player.maxHealth;
+            player.level.scene.showInfoText("You feel warm and tingly inside.");
+          },
+          description: "A rejuvination mixture of herbs and spices that tastes like gummy bears and tang.  Fully restores health",
+          used: false,
+        
+        },
+        { effect: function( player ) {
+            player.poisonCount = 10;
+            player.level.scene.showInfoText("It tastes like mayonaise left out in the sun..");
+          } ,
+          description: "A foul smelling chemical substrate that boils your inside, causes life threatening dysentery.",
+          used: false,
+        },
+        { effect: function( player ) {
+            player.camoCount = 200;
+            player.level.scene.showInfoText(this.name+" becomes one with the matrix.");
+          },
+          description: "A mind altering nano drug that not only changes your perception but that of those around you.  Grants active stealth camoflauge for a period of time.",
+          used: false,
+        },
+        { effect: function( player ) {
+            player.strength += Utilities.randRangeInt( 0, 3 );
+            player.level.scene.showInfoText("Breakfast of champions!");
+          } ,
+          description: "A fortifying blend of whole grain oats and caffine.  Permanently improves strength.",
+          used: false,
+        },
+    ];
+
+    var randomized = Utilities.shuffleArray( effects );
+    for( var i = 0; i < randomized.length; ++i ) {
+        randomizedPotionList[ 'juice_'+i.toString() ] = randomized[i];
+    }
+}
 
 Pickupable.prototype = Object.create(GameObject.prototype);
 
@@ -19,7 +58,12 @@ Pickupable.prototype.onAction = function(action){
     var _this = this;
     if(action == "look at"){
         if( this.level == null || this.level == undefined ) this.level = this.player.level;
-        this.level.scene.showDialog(this.description,this.image);
+        if( randomizedPotionList[ this.id ] == undefined || randomizedPotionList[ this.id ].used == false ) {
+            this.level.scene.showDialog(this.description,this.image);
+        }
+        else {
+            this.level.scene.showDialog( randomizedPotionList[ this.id ].description,this.image);
+        }
     }
     if(action == "trash"){
         this.player.removeInventory(this);
@@ -33,20 +77,33 @@ Pickupable.prototype.onAction = function(action){
         })
     }
     if(action == "use"){
-        if(this.id == "juice_0"){
-            this.level.scene.showDialog("You gulp down the nanite infused liquid and feel stronger.",this.image);
-            this.player.strength += 1;
-            this.level.scene.showInfoText("Your strength is now "+this.player.strength)
+        if( randomizedPotionList[ this.id ] != undefined ) {
+            randomizedPotionList[ this.id ].effect( this.player );
+            randomizedPotionList[ this.id ].used = true;
         }
         else if(this.id == "ecig"){
             this.level.scene.showDialog("You pause a moment to take a smoke break and feel a bit sharper.",this.image);
             this.player.accuracy += 1;
             this.level.scene.showInfoText("Your accuracy is now "+this.player.accuracy);
         }
-        else if(this.id == "data_chip_0"){
-            this.level.scene.showDialog("You plug the data chip into your neckport and feel a rush of new knowledge.",this.image);
-            this.player.mind += 1;
-            this.level.scene.showInfoText("Your mind is now "+this.player.mind);
+        else if(this.id == "data_chip_atk"){
+            this.level.scene.showInfoText("Your strikes will be as precise as they are merciless.");
+            this.player.damage += 1;
+        }
+        else if(this.id == "data_chip_arm"){
+            this.level.scene.showInfoText("They will break themselves upon you.");
+            this.player.armor += 1;
+        }
+        else if(this.id == "data_chip_acc"){
+            this.level.scene.showInfoText("Nothing will escape once you've set your sights in.");
+            this.player.strength += 1;
+        }
+        else if(this.id == "data_chip_eva"){
+            this.level.scene.showInfoText("You will see it coming a mile away...");
+            this.player.defense += 1;
+        }
+        else if(this.id == "data_chip_id"){
+            this.level.scene.showInfoText("Hmm... it appears the developer didn't complete this feature.");
         }
         this.player.level.scene.processAllMoves();
         this.level.scene.player.removeInventory(this);
@@ -120,11 +177,23 @@ Pickupable.prototype.onAction = function(action){
         if(Pickupable.Items[this.id].equip_slot == "melee"){
             this.player.useMelee(this);
         }
+        if(Pickupable.Items[this.id].equip_slot == "face"){
+            this.player.faceItem = this;
+        }
         this.player.level.scene.inventoryDialog.show();
     }
 }
 
 Pickupable.Items = {
+    "mirror_shades" : {
+        name: "Mirrored Shades",
+        description: "Theses intimidating sunglasses give a whole new meaning to 'dressed to kill'.",
+        tags: ["glasses"],
+        actions: ["equip","look at"],
+        equip_slot: "face",
+        image: "mirror_shades",
+        levels: [900,800,700,600,500,400,300,200,100,0],
+    },
     "bat" : {
         name: "Bat",
         description: "A long bat that looks ready to give a beating",
@@ -447,80 +516,82 @@ Pickupable.Items = {
         read_on_pickup: true,
         description: "A keycard that looks like it can be used at corporate level.  Perhaps this can open something?"
     },
+
     "juice_0" : {
-        name: "MuscleBoost",
+        name: "Blue Potion",
         image : "potion_1",
-        actions: ["use","throw"],
-        description: "This potion is a devastating steroid cocktail of muscle fiber inducing nanites.",
+        actions: ["use","look at"],
+        description: "A strange smelling blue concoction contained in a laboratory beaker.  Who knows what it'll do?",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_1" : {
-        name: "Juice",
+        name: "Yellow Potion",
         image : "potion_2",
-        actions: ["use","throw"],
-        description: "A juice",
+        actions: ["use","look at"],
+        description: "A strange smelling yellow brew contained in a laboratory beaker.  Who knows what it'll do?",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_2" : {
-        name: "Juice",
+        name: "Red Potion",
         image : "potion_3",
-        actions: ["use","throw"],
-        description: "A juice",
+        actions: ["use","look at"],
+        description: "A red liquid contained in a laboratory beaker.  It looks carbonated. Who knows what it'll do?",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "juice_3" : {
-        name: "Juice",
+        name: "Green Potion",
         image : "potion_4",
-        actions: ["use","throw"],
-        description: "A juice",
+        actions: ["use","look at"],
+        description: "An unnaturaly green substance contained in a laboratory beaker.  Who knows what it'll do?",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
+
     "data_chip_0" : {
         name: "Juice",
         image : "data_chip_0",
-        actions: ["data"],
+        actions: ["use","look at"],
         description: "A data chip",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "data_chip_0" : {
-        name: "Data Chip",
+    "data_chip_atk" : {
+        name: "Neural Stabilization Firmware Upgrade",
         image : "scroll_0",
-        actions: ["use"],
-        description: "scroll_0",
+        actions: ["use","look at"],
+        description: "This data chip contains a new firmware for your hand/eye module. It improves general steadiness and coordination of your limbs, granting a permanent attack boost.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "data_chip_1" : {
-        name: "Information Overload",
+    "data_chip_arm" : {
+        name: "Nanoweave Pattern Optimization",
         image : "scroll_1",
-        actions: ["use"],
-        description: "This data chip contains a library of data directly compatible with your nueral systems.",
+        actions: ["use","look at"],
+        description: "This chip contains an improved nanoweave fiber pattern for your skin, granting a permanent armor boost.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "data_chip_2" : {
-        name: "Data Chip",
+    "data_chip_acc" : {
+        name: "Optics Diagnostic with Unit Tests",
         image : "scroll_2",
-        actions: ["use"],
-        description: "A data chip",
+        actions: ["use","look at"],
+        description: "A data chip containing an open source optical recalibration sequence, with unit tests so you know it's good.  It grants a permanent accuracy boost.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "data_chip_3" : {
-        name: "Data Chip",
+    "data_chip_eva" : {
+        name: "Avoidance Algorithm",
         image : "scroll_3",
-        actions: ["use"],
-        description: "A data chip",
+        actions: ["use","look at"],
+        description: "A data chip with a faster and more reliable evasion algorithm.  Improves a permanent evasion boost. ",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
-    "data_chip_4" : {
-        name: "Data Chip",
+    "data_chip_id" : {
+        name: "Photo Spetrometer",
         image : "scroll_4",
-        actions: ["use"],
-        description: "A data chip",
+        actions: ["use","look at"],
+        description: "Used to identify the compounds within a substance giving insight into even the most complicated checmical brew.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
     "ecig" : {
         name: "Electric Cigarette",
         image : "ecig",
-        actions: ["use"],
+        actions: ["use","look at"],
         description: "An electric cigarette. A smoke break would be nice right now.",
         levels: [900,800,700,600,500,400,300,200,100,0]
     },
@@ -673,5 +744,7 @@ Pickupable.getEpicItems = function() {
 
 Pickupable.loadRandomEpicLootItem = function() {
     var epicItems = Pickupable.getEpicItems();
-    return Pickupable.load( epicItems[ Utilities.randRangeInt(0,epicItems.length) ] );
+    var randIndex = Utilities.randRangeInt(0,epicItems.length);
+    var randItemKey = epicItems[ randIndex ];
+    return Pickupable.load( randItemKey );
 }

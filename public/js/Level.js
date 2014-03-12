@@ -306,6 +306,8 @@ Level.prototype.designRooms = function(height) {
         this.placeItemInRandomSpot(Monster.load(monstersForLevel[Math.floor(Math.random()*monstersForLevel.length)]));
     }
     this.placeItemInRandomSpot(Pickupable.load("lab_note_"+this.levelDepth));
+
+    this.placeItemInRandomSpot(Pickupable.load('hackable_safe'));
 }
 
 Level.prototype.placeItemInRandomSpot = function(item){

@@ -208,7 +208,20 @@ HackNode.prototype.drawConnectorLines = function(delta)
 													this.connectedTo[i].gridXPos,
 													this.connectedTo[i].gridYPos);
 	}
+};
 
+HackNode.prototype.drawHackedConnectorLines = function(delta)
+{
+	for (var i = 0; i < this.connectedTo.length; i++)
+	{
+		if ((this.hacked == true) && (this.connectedTo[i].hacked == true))
+		{
+			this.hackingScene.lineConnectTwoHackedGridObjects(this.gridXPos,
+														this.gridYPos,
+														this.connectedTo[i].gridXPos,
+														this.connectedTo[i].gridYPos);	
+		}
+	}
 };
 
 HackNode.prototype.addConnection = function(connection)

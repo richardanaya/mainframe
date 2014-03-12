@@ -66,6 +66,7 @@ InventoryDialog.prototype.render = function(){
         }
 
         if(this.mode == "action"){
+            this.scene.fillStyle = "white";
             for(var i = 0 ; i < this.actionButtons.length; i++){
                 var b = this.actionButtons[i];
                 b.render();
